@@ -34,6 +34,7 @@ const TIME_SLOTS = [
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showInteractiveMenu, setShowInteractiveMenu] = useState(false);
 
   const [form, setForm] = useState({
     nombre: '',
@@ -86,6 +87,11 @@ export default function App() {
               <motion.a 
                 key={link.name} 
                 href={link.href} 
+                onClick={() => {
+                  if (link.name === 'Menú') {
+                    setShowInteractiveMenu(true);
+                  }
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="text-sm uppercase tracking-widest font-bold hover:text-weekend-neon transition-all duration-500"
@@ -95,17 +101,38 @@ export default function App() {
             ))}
           </nav>
 
-          <button 
-            className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-weekend-purple' : 'text-white'}`}
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <motion.div
-              animate={isOpen ? { rotate: 90 } : { rotate: 0 }}
-              transition={{ duration: 0.3 }}
+          <div className="flex items-center gap-3">
+            <button 
+              type="button"
+              data-action="open-search"
+              className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 flex items-center justify-center rounded-xl bg-zinc-900/80 border border-white/10 hover:border-weekend-neon"
+              title="Buscar en la carta"
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
-            </motion.div>
-          </button>
+              <span className="material-symbols-outlined text-[20px]">search</span>
+            </button>
+
+            <button 
+              type="button"
+              data-action="open-cart"
+              className="text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs uppercase"
+              title="Ver Carrito"
+            >
+              <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
+              <span className="hidden sm:inline">Carrito</span>
+            </button>
+
+            <button 
+              className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-weekend-purple' : 'text-white'}`}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <motion.div
+                animate={isOpen ? { rotate: 90 } : { rotate: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {isOpen ? <X size={28} /> : <Menu size={28} />}
+              </motion.div>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -138,7 +165,12 @@ export default function App() {
                   href={link.href} 
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    if (link.name === 'Menú') {
+                      setShowInteractiveMenu(true);
+                    }
+                    setIsOpen(false);
+                  }}
                   className="text-xl landscape:text-lg uppercase tracking-widest font-bold hover:text-weekend-neon transition-colors duration-500"
                 >
                   {link.name}
@@ -215,18 +247,18 @@ export default function App() {
         </div>
       </section>
 
-      <section id="menu" className="relative py-24 overflow-hidden min-h-[80vh] flex items-center">
+      <section id="menu" className="relative py-24 overflow-hidden min-h-[80vh] flex flex-col items-center justify-center">
         <div className="absolute inset-0 z-0">
           <video 
             autoPlay 
             muted 
             loop 
             playsInline 
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover opacity-50 pointer-events-none"
           >
             <source src={MENU_VID} type="video/webm" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
@@ -234,11 +266,11 @@ export default function App() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-12"
+            className="mb-8"
           >
             <h2 className="text-weekend-fuchsia text-sm font-bold tracking-[0.3em] uppercase mb-4">Nuestra Propuesta</h2>
             <h3 className="text-4xl md:text-6xl font-black uppercase mb-6">La Carta</h3>
-            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed mb-8">
               Alitas en más de 20 salsas artesanales, piqueos criollos, hamburguesas gourmet, pastas y makis maridados con coctelería de autor.
             </p>
           </motion.div>
@@ -249,16 +281,40 @@ export default function App() {
             viewport={{ once: true }}
             className="flex justify-center"
           >
-            <a 
-              href={CARTA_PDF} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-transparent border-2 border-weekend-neon text-weekend-neon font-black uppercase tracking-widest rounded-full hover:bg-black hover:text-weekend-neon transition-all duration-500 animate-pulse-neon"
+            <button 
+              type="button"
+              onClick={() => {
+                setShowInteractiveMenu(true);
+                setTimeout(() => {
+                  document.getElementById('carta-digital')?.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+              }}
+              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-full hover:bg-weekend-purple transition-all duration-500 shadow-[0_0_30px_rgba(191,227,83,0.4)] cursor-pointer active:scale-95"
             >
-              <span className="relative z-10">Ver Menú Completo (PDF)</span>
+              <span className="relative z-10 text-base">Ver Carta Digital</span>
               <ChevronRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
-            </a>
+            </button>
           </motion.div>
+        </div>
+
+        {/* Dynamic Hexagonal Carta Container */}
+        <div 
+          id="carta-digital" 
+          className={`w-full max-w-7xl mx-auto px-4 mt-12 transition-all duration-700 ${
+            showInteractiveMenu ? 'block opacity-100' : 'hidden opacity-0'
+          }`}
+        >
+          {/* Sticky Category Chips Nav */}
+          <div className="overflow-x-auto no-scrollbar py-sm sticky top-16 z-40 bg-zinc-950/95 backdrop-blur-md border border-white/10 mb-6 rounded-2xl p-2 shadow-2xl">
+            <div id="category-chips-nav" className="flex space-x-2 w-max px-2">
+              {/* Injected dynamically by MenuController */}
+            </div>
+          </div>
+
+          {/* Dynamic Menu Sections Container */}
+          <div id="menu-sections-container" className="text-left">
+            {/* Injected dynamically by MenuController */}
+          </div>
         </div>
       </section>
 
