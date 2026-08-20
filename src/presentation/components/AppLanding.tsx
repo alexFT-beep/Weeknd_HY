@@ -107,7 +107,7 @@ export default function App() {
             <button 
               type="button"
               onClick={goToLanding}
-              className="flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 shadow-[0_0_15px_rgba(191,227,83,0.2)]"
+              className="flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 shadow-[0_0_15px_rgba(10,204,128,0.2)]"
             >
               <ArrowLeft size={18} />
               <span>Volver al Inicio</span>
@@ -137,7 +137,7 @@ export default function App() {
               <button 
                 type="button"
                 data-action="open-cart"
-                className="text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-4 py-2 rounded-xl flex items-center gap-2 text-xs uppercase shadow-[0_0_15px_rgba(191,227,83,0.4)]"
+                className="text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-4 py-2 rounded-xl flex items-center gap-2 text-xs uppercase shadow-[0_0_15px_rgba(10,204,128,0.4)]"
                 title="Ver Carrito"
               >
                 <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
@@ -382,7 +382,7 @@ export default function App() {
             </button>
             <button 
               onClick={goToDashboard}
-              className="w-full sm:w-auto px-8 py-4 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full hover:bg-weekend-purple hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(191,227,83,0.4)]"
+              className="w-full sm:w-auto px-8 py-4 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full hover:bg-weekend-purple hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(10,204,128,0.4)]"
             >
               Ver Menú Virtual
             </button>
@@ -437,7 +437,7 @@ export default function App() {
             <button 
               type="button"
               onClick={goToDashboard}
-              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-full hover:bg-weekend-purple hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(191,227,83,0.5)] cursor-pointer active:scale-95 z-30"
+              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-full hover:bg-weekend-purple hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(10,204,128,0.5)] cursor-pointer active:scale-95 z-30"
             >
               <span className="relative z-10 text-base">Abrir Dashboard de la Carta</span>
               <ChevronRight className="relative z-10 group-hover:translate-x-1 transition-transform" />

@@ -343,7 +343,7 @@ export class CartDrawerComponent {
             <button 
               type="button" 
               data-action="submit-whatsapp-order"
-              class="w-full bg-primary hover:bg-primary-container text-black font-label-bold uppercase py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(191,227,83,0.4)] hover:shadow-[0_0_30px_rgba(191,227,83,0.6)] active:scale-[0.98] transition-all font-extrabold text-sm tracking-wider"
+              class="w-full bg-primary hover:bg-primary-container text-black font-label-bold uppercase py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(10,204,128,0.4)] hover:shadow-[0_0_30px_rgba(10,204,128,0.6)] active:scale-[0.98] transition-all font-extrabold text-sm tracking-wider"
             >
               <span class="material-symbols-outlined text-2xl">chat</span>
               <span>Enviar Pedido a WhatsApp</span>

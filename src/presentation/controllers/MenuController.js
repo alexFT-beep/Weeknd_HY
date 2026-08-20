@@ -41,7 +41,7 @@ export class MenuController {
         type="button"
         id="chip-btn-${cat.id}"
         data-category-id="${cat.id}"
-        class="category-chip px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 ${cat.id === this.activeCategoryId ? 'bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(191,227,83,0.4)] scale-105' : 'bg-surface-container-low text-on-surface border-outline-variant hover:bg-surface-variant'}"
+        class="category-chip px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 ${cat.id === this.activeCategoryId ? 'bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(10,204,128,0.4)] scale-105' : 'bg-surface-container-low text-on-surface border-outline-variant hover:bg-surface-variant'}"
       >
         <span class="material-symbols-outlined text-[16px]">${cat.icon || 'restaurant_menu'}</span>
         <span>${cat.name}</span>
@@ -83,7 +83,7 @@ export class MenuController {
     this.activeCategoryId = categoryId;
     document.querySelectorAll('.category-chip').forEach(btn => {
       if (btn.dataset.categoryId === categoryId) {
-        btn.className = 'category-chip px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(191,227,83,0.4)] scale-105';
+        btn.className = 'category-chip px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(10,204,128,0.4)] scale-105';
         if (centerInView) {
           btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
         }

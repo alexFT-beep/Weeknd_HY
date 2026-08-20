@@ -34,7 +34,7 @@ export class CombosVoladoresComponent {
           ${combos.map(item => `
             <div 
               id="item-card-${item.id}"
-              class="menu-card relative bg-surface-container-low border ${item.id === 'combo-ronda' ? 'border-primary/60 shadow-[0_0_20px_rgba(164,198,57,0.25)]' : 'border-outline-variant'} rounded-2xl p-5 flex flex-col justify-between text-left group overflow-hidden transition-all hover:border-primary"
+              class="menu-card relative bg-surface-container-low border ${item.id === 'combo-ronda' ? 'border-primary/60 shadow-[0_0_20px_rgba(10,204,128,0.25)]' : 'border-outline-variant'} rounded-2xl p-5 flex flex-col justify-between text-left group overflow-hidden transition-all hover:border-primary"
               data-item-id="${item.id}"
             >
               <div class="relative z-10">
@@ -44,7 +44,7 @@ export class CombosVoladoresComponent {
                   </div>
                   <button 
                     type="button"
-                    class="btn-add-item flex items-center justify-center w-9 h-9 rounded-lg bg-primary text-black font-bold hover:scale-105 transition-all shadow-[0_0_12px_rgba(191,227,83,0.6)] active:scale-95"
+                    class="btn-add-item flex items-center justify-center w-9 h-9 rounded-lg bg-primary text-black font-bold hover:scale-105 transition-all shadow-[0_0_12px_rgba(10,204,128,0.6)] active:scale-95"
                     title="Añadir ${item.name} al carrito"
                     data-action="add-to-cart"
                     data-item-id="${item.id}"
@@ -63,7 +63,7 @@ export class CombosVoladoresComponent {
                   <div class="combo-image-box h-44 w-full flex items-center justify-center overflow-hidden rounded-xl bg-surface-container/50 p-2 my-2">
                     <img 
                       alt="${item.name}" 
-                      class="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(164,198,57,0.5)] transform group-hover:scale-105 transition-transform duration-300" 
+                      class="w-full h-full object-contain drop-shadow-[0_0_20px_rgba(10,204,128,0.5)] transform group-hover:scale-105 transition-transform duration-300" 
                       src="${item.image}"
                     />
                   </div>
