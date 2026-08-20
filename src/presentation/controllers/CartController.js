@@ -242,7 +242,7 @@ export class CartController {
   triggerFlyingParticle(sourceElement) {
     if (!sourceElement) return;
     const sourceRect = sourceElement.getBoundingClientRect();
-    const targetElement = document.getElementById('cart-floating-btn') || document.getElementById('cart-icon-btn');
+    const targetElement = document.querySelector('[data-action="open-cart"]') || document.getElementById('cart-floating-btn');
     if (!targetElement) return;
 
     const targetRect = targetElement.getBoundingClientRect();
@@ -271,10 +271,10 @@ export class CartController {
   }
 
   animateCartIcons() {
-    const bottomCartIcon = document.getElementById('cart-icon-btn');
+    const cartButtons = document.querySelectorAll('[data-action="open-cart"]');
     const floatingCart = document.getElementById('cart-floating-pill');
 
-    [bottomCartIcon, floatingCart].forEach(el => {
+    [...cartButtons, floatingCart].forEach(el => {
       if (el) {
         el.classList.remove('animate-heartbeat');
         void el.offsetWidth;
@@ -308,16 +308,16 @@ export class CartController {
       }
     }
 
-    // Update Mobile Bottom Bar Badge
-    const mobileBadge = document.getElementById('mobile-cart-badge');
-    if (mobileBadge) {
+    // Update Header Badges
+    const headerBadges = document.querySelectorAll('.header-cart-badge, #mobile-cart-badge');
+    headerBadges.forEach(badge => {
       if (totals.itemCount > 0) {
-        mobileBadge.textContent = totals.itemCount;
-        mobileBadge.classList.remove('hidden');
+        badge.textContent = totals.itemCount;
+        badge.classList.remove('hidden');
       } else {
-        mobileBadge.classList.add('hidden');
+        badge.classList.add('hidden');
       }
-    }
+    });
   }
 
   async openCart() {

@@ -137,11 +137,14 @@ export default function App() {
               <button 
                 type="button"
                 data-action="open-cart"
-                className="text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-4 py-2 rounded-xl flex items-center gap-2 text-xs uppercase shadow-[0_0_15px_rgba(10,204,128,0.4)]"
+                className="relative text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-3.5 py-2 rounded-xl flex items-center gap-1.5 text-xs uppercase shadow-[0_0_15px_rgba(10,204,128,0.4)]"
                 title="Ver Carrito"
               >
                 <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
                 <span>Carrito</span>
+                <span className="header-cart-badge min-w-[18px] h-[18px] px-1 bg-black text-weekend-neon font-extrabold text-[10px] rounded-full flex items-center justify-center hidden">
+                  0
+                </span>
               </button>
             </div>
           </div>
@@ -256,11 +259,14 @@ export default function App() {
             <button 
               type="button"
               data-action="open-cart"
-              className="text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs uppercase"
+              className="relative text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs uppercase"
               title="Ver Carrito"
             >
               <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
               <span className="hidden sm:inline">Carrito</span>
+              <span className="header-cart-badge min-w-[18px] h-[18px] px-1 bg-black text-weekend-neon font-extrabold text-[10px] rounded-full flex items-center justify-center hidden">
+                0
+              </span>
             </button>
 
             <button 
