@@ -1,10 +1,9 @@
-import { ProductCardComponent } from "../components/ProductCardComponent.js";
+import { ProductCardComponent, SECTION_THEMES } from "../components/ProductCardComponent.js";
 import { PAYMENT_INFO } from "../../infrastructure/data/fullMenuData.js";
 
 /**
  * Presentation Controller: MenuController
- * Manages category navigation, intersection observers, search, and full menu rendering.
- * Optimized for mobile performance with zero dead code and lightweight DOM.
+ * Manages category navigation, intersection observers, search, and full neon menu rendering.
  */
 export class MenuController {
   /**
@@ -38,14 +37,13 @@ export class MenuController {
 
     navContainer.innerHTML = this.categories.map(cat => {
       const isActive = cat.id === this.activeCategoryId;
-      const isAmber = cat.id === "cocteles-licores";
-      let activeClass = "";
+      const theme = SECTION_THEMES[cat.id] || { hex: "#0ACC80", rgb: "10, 204, 128" };
+
+      let chipStyle = "";
       if (isActive) {
-        activeClass = isAmber
-          ? "bg-amber-400 text-black border-amber-400 font-extrabold shadow-[0_0_15px_rgba(245,158,11,0.5)] scale-105"
-          : "bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(10,204,128,0.4)] scale-105";
+        chipStyle = `background-color: ${theme.hex}; color: #000; border-color: ${theme.hex}; box-shadow: 0 0 16px rgba(${theme.rgb}, 0.65); font-weight: 900; transform: scale(1.04);`;
       } else {
-        activeClass = "bg-surface-container-low text-on-surface border-outline-variant/60 hover:bg-surface-variant";
+        chipStyle = `background-color: rgba(22, 22, 22, 0.85); color: #e5e5e5; border-color: rgba(${theme.rgb}, 0.35);`;
       }
 
       return `
@@ -53,7 +51,8 @@ export class MenuController {
           type="button"
           id="chip-btn-${cat.id}"
           data-category-id="${cat.id}"
-          class="category-chip px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 ${activeClass}"
+          style="${chipStyle}"
+          class="category-chip px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs whitespace-nowrap border transition-all duration-150 flex items-center gap-1.5 active:scale-95"
         >
           <span class="text-sm">${cat.emoji || "🍽️"}</span>
           <span>${cat.name}</span>
@@ -91,20 +90,18 @@ export class MenuController {
 
   setActiveChip(categoryId, centerInView = false) {
     this.activeCategoryId = categoryId;
-    const isAmberCategory = categoryId === "cocteles-licores";
 
     document.querySelectorAll(".category-chip").forEach(btn => {
       const catId = btn.dataset.categoryId;
+      const theme = SECTION_THEMES[catId] || { hex: "#0ACC80", rgb: "10, 204, 128" };
+
       if (catId === categoryId) {
-        const activeClass = isAmberCategory
-          ? "category-chip px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-amber-400 text-black border-amber-400 font-extrabold shadow-[0_0_15px_rgba(245,158,11,0.5)] scale-105"
-          : "category-chip px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(10,204,128,0.4)] scale-105";
-        btn.className = activeClass;
+        btn.style.cssText = `background-color: ${theme.hex}; color: #000; border-color: ${theme.hex}; box-shadow: 0 0 16px rgba(${theme.rgb}, 0.65); font-weight: 900; transform: scale(1.04);`;
         if (centerInView) {
           btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
         }
       } else {
-        btn.className = "category-chip px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-surface-container-low text-on-surface border-outline-variant/60 hover:bg-surface-variant";
+        btn.style.cssText = `background-color: rgba(22, 22, 22, 0.85); color: #e5e5e5; border-color: rgba(${theme.rgb}, 0.35);`;
       }
     });
   }
@@ -140,7 +137,7 @@ export class MenuController {
     const searchInput = document.getElementById("menu-search-input");
     const searchModal = document.getElementById("search-modal");
     const searchResults = document.getElementById("search-results-list");
-    const openSearchBtns = document.querySelectorAll('[data-action="open-search"]');
+    const openSearchBtns = document.querySelectorAll("[data-action='open-search']");
     const closeSearchBtn = document.getElementById("close-search-btn");
 
     openSearchBtns.forEach(btn => {
@@ -194,7 +191,7 @@ export class MenuController {
     // 1. DELIVERY & PACKAGING NOTICE
     html += this.renderDeliveryNoticeSection();
 
-    // 2. Loop through each of the 10 consolidated categories
+    // 2. Loop through each of the 16 neon categories
     this.categories.forEach(cat => {
       const categoryItems = items.filter(i => i.category === cat.id);
 
@@ -205,26 +202,33 @@ export class MenuController {
 
       if (categoryItems.length === 0) return;
 
-      const isAmber = cat.id === "cocteles-licores";
-      const titleColor = isAmber ? "text-amber-400" : "text-primary";
-      const iconBoxBg = isAmber ? "bg-amber-400/20 text-amber-400" : "bg-primary/20 text-primary";
+      const theme = SECTION_THEMES[cat.id] || { hex: "#0ACC80", rgb: "10, 204, 128" };
 
       html += `
         <section class="mb-12 pt-4" id="${cat.id}" style="scroll-margin-top: 70px;">
-          <!-- Category Main Header -->
+          <!-- Category Main Header with Neon Accent -->
           <div class="flex items-center justify-between mb-5 pb-2 border-b border-outline-variant/60">
             <div class="flex items-center gap-2.5">
-              <div class="w-9 h-9 rounded-xl ${iconBoxBg} flex items-center justify-center text-lg shadow-sm">
+              <div 
+                class="w-9 h-9 rounded-xl flex items-center justify-center text-lg shadow-sm"
+                style="background-color: rgba(${theme.rgb}, 0.18); border: 1px solid rgba(${theme.rgb}, 0.5); box-shadow: 0 0 12px rgba(${theme.rgb}, 0.25);"
+              >
                 ${cat.emoji || "🍽️"}
               </div>
               <div>
-                <h2 class="text-headline-lg font-headline-lg ${titleColor} tracking-tight uppercase text-lg sm:text-xl font-black">
+                <h2 
+                  class="tracking-tight uppercase text-lg sm:text-xl font-black"
+                  style="color: ${theme.hex}; text-shadow: 0 0 12px rgba(${theme.rgb}, 0.3);"
+                >
                   ${cat.name}
                 </h2>
                 ${cat.description ? `<p class="text-xs text-on-surface-variant mt-0.5">${cat.description}</p>` : ""}
               </div>
             </div>
-            <div class="h-px bg-outline-variant flex-1 ml-4 hidden sm:block"></div>
+            <div 
+              class="h-0.5 flex-1 ml-4 hidden sm:block rounded-full"
+              style="background: linear-gradient(to right, rgba(${theme.rgb}, 0.6), transparent);"
+            ></div>
           </div>
       `;
 
@@ -270,12 +274,6 @@ export class MenuController {
 
         html += `
           <div class="mb-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-base">🍔🔥</span>
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide">
-                Hamburguesas Artesanales a la Brasa
-              </h3>
-            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
               ${burgers.map(item => ProductCardComponent.renderCard(item)).join("")}
             </div>
@@ -285,7 +283,7 @@ export class MenuController {
         if (adicionals.length > 0) {
           html += `
             <div class="mt-6 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-3.5 sm:p-4">
-              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+              <h4 class="text-xs sm:text-sm font-bold uppercase tracking-wider mb-2.5 flex items-center gap-1.5" style="color: ${theme.hex};">
                 <span>🧀➕</span> Adicionales para tu Hamburguesa
               </h4>
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
@@ -294,28 +292,22 @@ export class MenuController {
             </div>
           `;
         }
-      } else if (cat.id === "broaster-salchipapas") {
+      } else if (cat.id === "broaster") {
         const broaster = categoryItems.filter(i => i.subcategory === "broaster");
-        const salchipapas = categoryItems.filter(i => i.subcategory === "salchipapas");
         const agregadosBroaster = categoryItems.filter(i => i.subcategory === "agregados-broaster");
 
         if (broaster.length > 0) {
           html += `
-            <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🍗✨</span> Sabrosos Broaster &amp; Mostritos
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${broaster.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 mb-6">
+              ${broaster.map(item => ProductCardComponent.renderCard(item)).join("")}
             </div>
           `;
         }
 
         if (agregadosBroaster.length > 0) {
           html += `
-            <div class="mb-8 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-3.5 sm:p-4">
-              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+            <div class="mb-6 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-3.5 sm:p-4">
+              <h4 class="text-xs sm:text-sm font-bold uppercase tracking-wider mb-2.5 flex items-center gap-1.5" style="color: ${theme.hex};">
                 <span>➕✨</span> Agregados para tu Broaster
               </h4>
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
@@ -324,30 +316,13 @@ export class MenuController {
             </div>
           `;
         }
-
-        if (salchipapas.length > 0) {
-          html += `
-            <div class="mb-6">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🍟🔥</span> Salchipapas Weekend
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${salchipapas.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-      } else if (cat.id === "parrillas-piqueos") {
+      } else if (cat.id === "parrillas") {
         const parrillas = categoryItems.filter(i => i.subcategory === "parrillas");
         const combosParr = categoryItems.filter(i => i.subcategory === "combos-parrilleros");
-        const piqueos = categoryItems.filter(i => i.subcategory === "piqueos");
 
         if (parrillas.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🥩🔥</span> Parrillas Weekend (Cortes &amp; Anticuchos)
-              </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
                 ${parrillas.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
@@ -357,8 +332,8 @@ export class MenuController {
 
         if (combosParr.length > 0) {
           html += `
-            <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+            <div class="mb-6">
+              <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wide mb-3 flex items-center gap-2" style="color: ${theme.hex};">
                 <span>👑🔥</span> Combos Parrilleros &amp; Mega Banquete
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
@@ -367,60 +342,14 @@ export class MenuController {
             </div>
           `;
         }
-
-        if (piqueos.length > 0) {
-          html += `
-            <div class="mb-6">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🍢✨</span> Piqueos (Brochetas, Tequeños &amp; Nuggets)
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${piqueos.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-      } else if (cat.id === "a-la-carta-chifa") {
-        const aLaCarta = categoryItems.filter(i => i.subcategory === "a-la-carta");
-        const barrioChino = categoryItems.filter(i => i.subcategory === "barrio-chino");
+      } else if (cat.id === "pastas") {
         const pastas = categoryItems.filter(i => i.subcategory === "pastas");
         const acompanaPastas = categoryItems.filter(i => i.subcategory === "acompana-pastas");
 
-        if (aLaCarta.length > 0) {
-          html += `
-            <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🥢🔥</span> Weekend A la Carta (Chaufas, Aeropuertos &amp; Saltados)
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${aLaCarta.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-
-        if (barrioChino.length > 0) {
-          html += `
-            <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🥡✨</span> Barrio Chino Weekend (Especialidades Chifa)
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${barrioChino.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-
         if (pastas.length > 0) {
           html += `
-            <div class="mb-6">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🍝✨</span> Pastas &amp; Fetuccinis
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${pastas.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 mb-6">
+              ${pastas.map(item => ProductCardComponent.renderCard(item)).join("")}
             </div>
           `;
         }
@@ -428,7 +357,7 @@ export class MenuController {
         if (acompanaPastas.length > 0) {
           html += `
             <div class="mt-4 mb-6 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-3.5 sm:p-4">
-              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+              <h4 class="text-xs sm:text-sm font-bold uppercase tracking-wider mb-2.5 flex items-center gap-1.5" style="color: ${theme.hex};">
                 <span>➕🍽️</span> Acompaña tus Pastas
               </h4>
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
@@ -437,123 +366,8 @@ export class MenuController {
             </div>
           `;
         }
-      } else if (cat.id === "makis-ensaladas") {
-        const ensaladas = categoryItems.filter(i => i.subcategory === "ensaladas");
-        const makis = categoryItems.filter(i => i.subcategory === "makis");
-
-        if (ensaladas.length > 0) {
-          html += `
-            <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🥗🌿</span> Ensaladas Weekend
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${ensaladas.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-
-        if (makis.length > 0) {
-          html += `
-            <div class="mb-6">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🍱🍣</span> Makis Nikkei Fusión
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${makis.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-      } else if (cat.id === "bebidas-jugos") {
-        const smoothies = categoryItems.filter(i => i.subcategory === "smoothies-bubble-tea");
-        const jugos = categoryItems.filter(i => i.subcategory === "bebidas-jugos-frappes");
-        const refrescos = categoryItems.filter(i => i.subcategory === "refrescos-calientes");
-
-        if (smoothies.length > 0) {
-          html += `
-            <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🥤🍓</span> Smoothies 100% Natural &amp; Bubble Tea 🧋
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${smoothies.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-
-        if (jugos.length > 0) {
-          html += `
-            <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🍹🍧</span> Jugos de Fruta Natural, Frappes &amp; Milkshakes
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${jugos.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-
-        if (refrescos.length > 0) {
-          html += `
-            <div class="mb-6">
-              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🧊☕</span> Jarras de Refrescos (1L y 1/2L), Gaseosas &amp; Calientes
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${refrescos.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-      } else if (cat.id === "cocteles-licores") {
-        const drinks = categoryItems.filter(i => i.subcategory === "drinks");
-        const botellas = categoryItems.filter(i => i.subcategory === "botellas");
-        const cervezas = categoryItems.filter(i => i.subcategory === "cervezas");
-
-        if (drinks.length > 0) {
-          html += `
-            <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🍸🍹</span> Drinks &amp; Coctelería de Autor (Chilcanos, Sours, Mojitos, Tragos)
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${drinks.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-
-        if (botellas.length > 0) {
-          html += `
-            <div class="mb-8">
-              <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🍾🥂</span> Botellas de Licores (Con insumos de cortesía)
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${botellas.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
-
-        if (cervezas.length > 0) {
-          html += `
-            <div class="mb-6">
-              <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wide mb-3 flex items-center gap-2">
-                <span>🍺🍻</span> Cervezas Nacionales e Importadas
-              </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                ${cervezas.map(item => ProductCardComponent.renderCard(item)).join("")}
-              </div>
-            </div>
-          `;
-        }
       } else {
-        // Standard category rendering
+        // All other categories (salchipapas, piqueos, a-la-carta, chifa, ensaladas, makis, jugos, bubble-tea, refrescos, cocteles, cervezas, guarniciones)
         html += `
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 mb-6">
             ${categoryItems.map(item => ProductCardComponent.renderCard(item)).join("")}
