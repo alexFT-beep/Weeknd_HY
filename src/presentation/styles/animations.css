@@ -78,7 +78,7 @@
 /* Toast Notification Animation */
 @keyframes toastIn {
   from {
-    transform: translateY(100%) scale(0.9);
+    transform: translateY(20px) scale(0.95);
     opacity: 0;
   }
   to {
@@ -93,17 +93,17 @@
     opacity: 1;
   }
   to {
-    transform: translateY(100%) scale(0.9);
+    transform: translateY(20px) scale(0.95);
     opacity: 0;
   }
 }
 
 .toast-enter {
-  animation: toastIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .toast-exit {
-  animation: toastOut 0.3s cubic-bezier(0.7, 0, 0.84, 0) forwards;
+  animation: toastOut 0.25s cubic-bezier(0.7, 0, 0.84, 0) forwards;
 }
 
 /* Drawer Transitions */

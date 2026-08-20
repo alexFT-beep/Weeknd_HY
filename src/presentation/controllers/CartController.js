@@ -335,6 +335,10 @@ export class CartController {
   }
 
   async renderDrawer() {
+    // 1. Preserve current scroll position before re-rendering
+    const scrollBody = document.querySelector('#cart-drawer-panel .overflow-y-auto') || document.querySelector('#cart-drawer-panel .custom-scrollbar');
+    const savedScrollTop = scrollBody ? scrollBody.scrollTop : 0;
+
     const items = this.cartUseCases.getItems();
     const [deliveryZones, packagingOptions] = await Promise.all([
       this.menuRepository.getDeliveryZones(),
@@ -359,6 +363,14 @@ export class CartController {
     });
 
     this.restoreFormData();
+
+    // 2. Restore scroll position instantly so the user is never pushed to the top
+    if (savedScrollTop > 0) {
+      const newScrollBody = document.querySelector('#cart-drawer-panel .overflow-y-auto') || document.querySelector('#cart-drawer-panel .custom-scrollbar');
+      if (newScrollBody) {
+        newScrollBody.scrollTop = savedScrollTop;
+      }
+    }
 
     if (this.isOpen) {
       const backdrop = document.getElementById('cart-backdrop');
