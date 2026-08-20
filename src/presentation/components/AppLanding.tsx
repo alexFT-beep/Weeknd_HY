@@ -44,6 +44,29 @@ export default function App() {
     motivo: ''
   });
 
+  const handleOpenMenu = () => {
+    setShowInteractiveMenu(true);
+    setTimeout(() => {
+      if (typeof (window as any).initHexagonalApp === 'function') {
+        (window as any).initHexagonalApp();
+      }
+      const el = document.getElementById('carta-digital');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 50);
+  };
+
+  useEffect(() => {
+    if (showInteractiveMenu) {
+      setTimeout(() => {
+        if (typeof (window as any).initHexagonalApp === 'function') {
+          (window as any).initHexagonalApp();
+        }
+      }, 50);
+    }
+  }, [showInteractiveMenu]);
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -283,13 +306,8 @@ export default function App() {
           >
             <button 
               type="button"
-              onClick={() => {
-                setShowInteractiveMenu(true);
-                setTimeout(() => {
-                  document.getElementById('carta-digital')?.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-              }}
-              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-full hover:bg-weekend-purple transition-all duration-500 shadow-[0_0_30px_rgba(191,227,83,0.4)] cursor-pointer active:scale-95"
+              onClick={handleOpenMenu}
+              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-full hover:bg-weekend-purple transition-all duration-500 shadow-[0_0_30px_rgba(191,227,83,0.4)] cursor-pointer active:scale-95 z-30"
             >
               <span className="relative z-10 text-base">Ver Carta Digital</span>
               <ChevronRight className="relative z-10 group-hover:translate-x-1 transition-transform" />

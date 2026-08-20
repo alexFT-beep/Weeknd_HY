@@ -12,7 +12,7 @@ import { CartController } from './controllers/CartController.js';
 /**
  * Hexagonal Composition Root & Application Bootstrapper
  */
-async function bootApp() {
+export async function bootApp() {
   try {
     // 1. Instantiate Infrastructure Layer (Adapters & Repositories)
     const menuRepository = new InMemoryMenuRepository();
@@ -45,6 +45,10 @@ async function bootApp() {
   } catch (error) {
     console.error('Error al inicializar la aplicación Weekend Carta:', error);
   }
+}
+
+if (typeof window !== 'undefined') {
+  window.initHexagonalApp = bootApp;
 }
 
 if (document.readyState === 'loading') {
