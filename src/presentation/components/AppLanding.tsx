@@ -34,6 +34,7 @@ const TIME_SLOTS = [
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showInteractiveMenu, setShowInteractiveMenu] = useState(false);
 
   const [form, setForm] = useState({
     nombre: '',
@@ -86,6 +87,11 @@ export default function App() {
               <motion.a 
                 key={link.name} 
                 href={link.href} 
+                onClick={() => {
+                  if (link.name === 'Menú') {
+                    setShowInteractiveMenu(true);
+                  }
+                }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="text-sm uppercase tracking-widest font-bold hover:text-weekend-neon transition-all duration-500"
@@ -159,7 +165,12 @@ export default function App() {
                   href={link.href} 
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    if (link.name === 'Menú') {
+                      setShowInteractiveMenu(true);
+                    }
+                    setIsOpen(false);
+                  }}
                   className="text-xl landscape:text-lg uppercase tracking-widest font-bold hover:text-weekend-neon transition-colors duration-500"
                 >
                   {link.name}
@@ -236,47 +247,73 @@ export default function App() {
         </div>
       </section>
 
-      <section id="menu" className="relative py-16 overflow-hidden min-h-screen">
+      <section id="menu" className="relative py-24 overflow-hidden min-h-[80vh] flex flex-col items-center justify-center">
         <div className="absolute inset-0 z-0">
           <video 
             autoPlay 
             muted 
             loop 
             playsInline 
-            className="w-full h-full object-cover opacity-20 pointer-events-none"
+            className="w-full h-full object-cover opacity-50 pointer-events-none"
           >
             <source src={MENU_VID} type="video/webm" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-8 text-center"
+            className="mb-8"
           >
-            <h2 className="text-weekend-fuchsia text-sm font-bold tracking-[0.3em] uppercase mb-2">Nuestra Propuesta</h2>
-            <h3 className="text-4xl md:text-6xl font-black uppercase mb-4">La Carta</h3>
-            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+            <h2 className="text-weekend-fuchsia text-sm font-bold tracking-[0.3em] uppercase mb-4">Nuestra Propuesta</h2>
+            <h3 className="text-4xl md:text-6xl font-black uppercase mb-6">La Carta</h3>
+            <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed mb-8">
               Alitas en más de 20 salsas artesanales, piqueos criollos, hamburguesas gourmet, pastas y makis maridados con coctelería de autor.
             </p>
           </motion.div>
 
-          {/* Hexagonal Interactive Carta Container */}
-          <div className="w-full mt-6 text-left">
-            {/* Sticky Category Chips Nav */}
-            <div className="overflow-x-auto no-scrollbar py-sm sticky top-16 z-40 bg-zinc-950/90 backdrop-blur-md border-b border-white/10 mb-6 rounded-2xl p-2">
-              <div id="category-chips-nav" className="flex space-x-2 w-max px-2">
-                {/* Injected dynamically by MenuController */}
-              </div>
-            </div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="flex justify-center"
+          >
+            <button 
+              type="button"
+              onClick={() => {
+                setShowInteractiveMenu(true);
+                setTimeout(() => {
+                  document.getElementById('carta-digital')?.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+              }}
+              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-full hover:bg-weekend-purple transition-all duration-500 shadow-[0_0_30px_rgba(191,227,83,0.4)] cursor-pointer active:scale-95"
+            >
+              <span className="relative z-10 text-base">Ver Carta Digital</span>
+              <ChevronRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </motion.div>
+        </div>
 
-            {/* Dynamic Menu Sections Container */}
-            <div id="menu-sections-container">
+        {/* Dynamic Hexagonal Carta Container */}
+        <div 
+          id="carta-digital" 
+          className={`w-full max-w-7xl mx-auto px-4 mt-12 transition-all duration-700 ${
+            showInteractiveMenu ? 'block opacity-100' : 'hidden opacity-0'
+          }`}
+        >
+          {/* Sticky Category Chips Nav */}
+          <div className="overflow-x-auto no-scrollbar py-sm sticky top-16 z-40 bg-zinc-950/95 backdrop-blur-md border border-white/10 mb-6 rounded-2xl p-2 shadow-2xl">
+            <div id="category-chips-nav" className="flex space-x-2 w-max px-2">
               {/* Injected dynamically by MenuController */}
             </div>
+          </div>
+
+          {/* Dynamic Menu Sections Container */}
+          <div id="menu-sections-container" className="text-left">
+            {/* Injected dynamically by MenuController */}
           </div>
         </div>
       </section>
