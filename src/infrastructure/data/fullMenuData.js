@@ -21,8 +21,7 @@ export const MENU_CATEGORIES = [
   { id: "refrescos", name: "Refrescos & Bebidas", emoji: "🧊", color: "#00E5FF", rgb: "0, 229, 255", description: "Jarras de refresco (1L y 1/2L), gaseosas y bebidas calientes" },
   { id: "cocteles", name: "Cocteles & Licores", emoji: "🍸", color: "#2979FF", rgb: "41, 121, 255", description: "Chilcanos, Sours, Mojitos, Tragos de Autor y botellas" },
   { id: "cervezas", name: "Cervezas", emoji: "🍺", color: "#FFD600", rgb: "255, 214, 0", description: "Cervezas nacionales e importadas bien heladas" },
-  { id: "guarniciones", name: "Guarniciones & Extras", emoji: "🥔", color: "#A0AEC0", rgb: "160, 174, 192", description: "Porciones adicionales de papas, arroz, ensaladas y complementos" },
-  { id: "pago", name: "Escanea y Paga", emoji: "💳", color: "#0ACC80", rgb: "10, 204, 128", description: "Información de pagos digitales mediante Yape y Plin" }
+  { id: "guarniciones", name: "Guarniciones & Extras", emoji: "🥔", color: "#A0AEC0", rgb: "160, 174, 192", description: "Porciones adicionales de papas, arroz, ensaladas y complementos" }
 ];
 
 export const DELIVERY_ZONES = [

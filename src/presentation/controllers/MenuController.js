@@ -1,5 +1,4 @@
 import { ProductCardComponent, SECTION_THEMES } from "../components/ProductCardComponent.js";
-import { PAYMENT_INFO } from "../../infrastructure/data/fullMenuData.js";
 
 /**
  * Presentation Controller: MenuController
@@ -194,12 +193,6 @@ export class MenuController {
     // 2. Loop through each of the 16 neon categories
     this.categories.forEach(cat => {
       const categoryItems = items.filter(i => i.category === cat.id);
-
-      if (cat.id === "pago") {
-        html += this.renderPaymentSection();
-        return;
-      }
-
       if (categoryItems.length === 0) return;
 
       const theme = SECTION_THEMES[cat.id] || { hex: "#0ACC80", rgb: "10, 204, 128" };
@@ -432,87 +425,5 @@ export class MenuController {
       </section>
     `;
   }
-
-  renderPaymentSection() {
-    return `
-      <!-- Payment & QR Section -->
-      <section class="mb-12 pt-4" id="pago" style="scroll-margin-top: 70px;">
-        <div class="flex items-center gap-2.5 mb-5 pb-2 border-b border-outline-variant/60">
-          <div class="w-9 h-9 rounded-xl bg-primary/20 flex items-center justify-center text-lg shadow-sm">
-            💳
-          </div>
-          <div>
-            <h2 class="text-primary tracking-tight uppercase text-lg sm:text-xl font-black">
-              Escanea y Paga
-            </h2>
-            <p class="text-xs text-on-surface-variant mt-0.5">Pagos directos y seguros vía Yape o Plin</p>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
-          <!-- QR Card -->
-          <div class="bg-surface-container-low border border-primary/40 rounded-2xl p-5 flex flex-col items-center text-center shadow-lg">
-            <h3 class="text-base font-bold text-on-surface uppercase mb-3 flex items-center gap-2">
-              <span>📱</span> Código QR Yape / Plin
-            </h3>
-            <div class="w-48 h-48 bg-white p-3 rounded-2xl shadow-inner flex items-center justify-center mb-3">
-              <img 
-                src="${PAYMENT_INFO.qrImage}" 
-                alt="QR de Pago Weekend"
-                class="w-full h-full object-contain"
-                loading="lazy"
-                onerror="this.src='https://placehold.co/200x200/0acc80/000?text=QR+Weekend'"
-              />
-            </div>
-            <span class="text-xs font-bold text-primary uppercase tracking-wider">${PAYMENT_INFO.accountName}</span>
-            <p class="text-[11px] text-on-surface-variant mt-1">Escanea desde tu app bancaria favorita</p>
-          </div>
-
-          <!-- Account Info Card -->
-          <div class="bg-surface-container-low border border-outline-variant rounded-2xl p-5 flex flex-col justify-between shadow-sm">
-            <div>
-              <h3 class="text-base font-bold text-on-surface uppercase mb-3 flex items-center gap-2">
-                <span>📍</span> Datos de Contacto y Local
-              </h3>
-              <div class="space-y-3 text-xs text-on-surface-variant">
-                <div class="flex items-start gap-2">
-                  <span class="text-sm">🏢</span>
-                  <div>
-                    <strong class="text-on-surface block">Razón Social:</strong>
-                    <span>${PAYMENT_INFO.accountName}</span>
-                  </div>
-                </div>
-                <div class="flex items-start gap-2">
-                  <span class="text-sm">📍</span>
-                  <div>
-                    <strong class="text-on-surface block">Dirección:</strong>
-                    <span>${PAYMENT_INFO.address}</span>
-                  </div>
-                </div>
-                <div class="flex items-start gap-2">
-                  <span class="text-sm">📞</span>
-                  <div>
-                    <strong class="text-on-surface block">Central Telefónica / WhatsApp:</strong>
-                    <span class="text-primary font-bold">961 336 674</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-4 pt-3 border-t border-outline-variant/40">
-              <a 
-                href="https://wa.me/51961336674" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="w-full py-2.5 px-4 bg-primary text-black font-bold text-xs uppercase rounded-xl flex items-center justify-center gap-2 hover:bg-primary-container transition-all active:scale-95 shadow-md"
-              >
-                <span>💬</span>
-                <span>Contactar por WhatsApp</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-    `;
-  }
 }
+

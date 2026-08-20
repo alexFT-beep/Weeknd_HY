@@ -15,8 +15,7 @@ export const SECTION_THEMES = {
   'refrescos': { hex: '#00E5FF', rgb: '0, 229, 255' },
   'cocteles': { hex: '#2979FF', rgb: '41, 121, 255' },
   'cervezas': { hex: '#FFD600', rgb: '255, 214, 0' },
-  'guarniciones': { hex: '#A0AEC0', rgb: '160, 174, 192' },
-  'pago': { hex: '#0ACC80', rgb: '10, 204, 128' }
+  'guarniciones': { hex: '#A0AEC0', rgb: '160, 174, 192' }
 };
 
 /**
