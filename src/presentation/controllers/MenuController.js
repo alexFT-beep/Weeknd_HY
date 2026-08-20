@@ -1,5 +1,4 @@
 import { ProductCardComponent } from '../components/ProductCardComponent.js';
-import { CombosVoladoresComponent } from '../components/CombosVoladoresComponent.js';
 import { PAYMENT_INFO } from '../../infrastructure/data/fullMenuData.js';
 
 /**
@@ -210,11 +209,23 @@ export class MenuController {
 
       // Render category-specific sub-blocks
       if (cat.id === 'alitas') {
-        const barcoItems = categoryItems.filter(i => i.subcategory === 'barcos');
-        const regularAlitas = categoryItems.filter(i => i.subcategory !== 'barcos');
+        const rondas = categoryItems.filter(i => i.subcategory === 'rondas-alitas');
+        const regularAlitas = categoryItems.filter(i => i.subcategory !== 'rondas-alitas');
 
-        if (barcoItems.length > 0) {
-          html += CombosVoladoresComponent.renderBlock(barcoItems);
+        if (rondas.length > 0) {
+          html += `
+            <div class="mb-8">
+              <div class="flex items-center gap-2 mb-4">
+                <span class="material-symbols-outlined text-primary text-base">military_tech</span>
+                <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide">
+                  Rondas y Combinaciones de Alitas (Las Más Pedidas)
+                </h3>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                ${rondas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              </div>
+            </div>
+          `;
         }
 
         if (regularAlitas.length > 0) {
@@ -223,7 +234,7 @@ export class MenuController {
               <div class="flex items-center gap-2 mb-4">
                 <span class="material-symbols-outlined text-primary text-base">local_fire_department</span>
                 <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide">
-                  Festín de Alitas - 31 Salsas Artesanales (08 unidades + papa + ensalada)
+                  El Bravo D' Casa..! Alitas Festín de Sabores (08 unidades + papas fritas + ensalada)
                 </h3>
               </div>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -257,15 +268,29 @@ export class MenuController {
       } else if (cat.id === 'broaster-salchipapas') {
         const broaster = categoryItems.filter(i => i.subcategory === 'broaster');
         const salchipapas = categoryItems.filter(i => i.subcategory === 'salchipapas');
+        const agregadosBroaster = categoryItems.filter(i => i.subcategory === 'agregados-broaster');
 
         if (broaster.length > 0) {
           html += `
             <div class="mb-8">
               <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">dinner_dining</span> Pollo Broaster &amp; Mostritos
+                <span class="material-symbols-outlined text-primary">dinner_dining</span> Sabrosos Broaster &amp; Mostritos
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 ${broaster.map(item => ProductCardComponent.renderCard(item)).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        if (agregadosBroaster.length > 0) {
+          html += `
+            <div class="mb-8 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-4 sm:p-5">
+              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-base">add_circle</span> Agregados para tu Broaster
+              </h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                ${agregadosBroaster.map(item => ProductCardComponent.renderRow(item)).join('')}
               </div>
             </div>
           `;
@@ -285,16 +310,30 @@ export class MenuController {
         }
       } else if (cat.id === 'parrillas-piqueos') {
         const parrillas = categoryItems.filter(i => i.subcategory === 'parrillas');
+        const combosParr = categoryItems.filter(i => i.subcategory === 'combos-parrilleros');
         const piqueos = categoryItems.filter(i => i.subcategory === 'piqueos');
 
         if (parrillas.length > 0) {
           html += `
             <div class="mb-8">
               <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">outdoor_grill</span> Cortes a la Parrilla &amp; Combos Parrilleros
+                <span class="material-symbols-outlined text-primary">outdoor_grill</span> Parrillas Weekend (Cortes &amp; Anticuchos)
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 ${parrillas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        if (combosParr.length > 0) {
+          html += `
+            <div class="mb-8">
+              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">military_tech</span> Combos Parrilleros &amp; Mega Banquete
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                ${combosParr.map(item => ProductCardComponent.renderCard(item)).join('')}
               </div>
             </div>
           `;
@@ -304,7 +343,7 @@ export class MenuController {
           html += `
             <div class="mb-6">
               <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">tapas</span> Brochetas a la Parrilla, Tequeños &amp; Nuggets
+                <span class="material-symbols-outlined text-primary">tapas</span> Piqueos (Brochetas, Tequeños &amp; Nuggets)
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 ${piqueos.map(item => ProductCardComponent.renderCard(item)).join('')}
@@ -316,6 +355,7 @@ export class MenuController {
         const aLaCarta = categoryItems.filter(i => i.subcategory === 'a-la-carta');
         const barrioChino = categoryItems.filter(i => i.subcategory === 'barrio-chino');
         const pastas = categoryItems.filter(i => i.subcategory === 'pastas');
+        const acompanaPastas = categoryItems.filter(i => i.subcategory === 'acompana-pastas');
 
         if (aLaCarta.length > 0) {
           html += `
@@ -347,10 +387,52 @@ export class MenuController {
           html += `
             <div class="mb-6">
               <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">restaurant_menu</span> Pastas &amp; Fetuccinis en Salsas Artesanales
+                <span class="material-symbols-outlined text-primary">restaurant_menu</span> Pastas &amp; Fetuccinis
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 ${pastas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        if (acompanaPastas.length > 0) {
+          html += `
+            <div class="mt-4 mb-6 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-4 sm:p-5">
+              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-base">add_circle</span> Acompaña tus Pastas
+              </h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                ${acompanaPastas.map(item => ProductCardComponent.renderRow(item)).join('')}
+              </div>
+            </div>
+          `;
+        }
+      } else if (cat.id === 'makis-ensaladas') {
+        const ensaladas = categoryItems.filter(i => i.subcategory === 'ensaladas');
+        const makis = categoryItems.filter(i => i.subcategory === 'makis');
+
+        if (ensaladas.length > 0) {
+          html += `
+            <div class="mb-8">
+              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">nutrition</span> Ensaladas Weekend
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                ${ensaladas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        if (makis.length > 0) {
+          html += `
+            <div class="mb-6">
+              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">set_meal</span> Makis Nikkei Fusión
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                ${makis.map(item => ProductCardComponent.renderCard(item)).join('')}
               </div>
             </div>
           `;

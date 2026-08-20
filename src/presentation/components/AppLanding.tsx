@@ -162,12 +162,12 @@ export default function App() {
                 La Carta Digital - <span className="text-weekend-neon">The Weekend!</span>
               </h2>
               <p className="text-white/70 text-sm md:text-base leading-relaxed mb-5">
-                Alitas en más de 20 salsas artesanales, piqueos criollos, hamburguesas gourmet, combos voladores y coctelería de autor. Selecciona tus favoritos y haz tu pedido por WhatsApp con delivery en todo Huarmey.
+                Alitas en 31 salsas artesanales, rondas festival, hamburguesas, sabrosos broaster, salchipapas, parrillas, chifas, pastas y coctelería de autor. Selecciona tus favoritos y haz tu pedido por WhatsApp con delivery en todo Huarmey.
               </p>
               <div className="flex flex-wrap gap-2 text-xs font-semibold">
-                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🔥 Alitas & 20+ Salsas</span>
-                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🍔 Hamburguesas Gourmet</span>
-                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🍣 Makis & Cocteles</span>
+                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🔥 31 Salsas de Alitas</span>
+                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🍔 Hamburguesas & Broaster</span>
+                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🥩 Parrillas & Pastas</span>
                 <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🛵 Delivery Huarmey</span>
               </div>
             </div>
