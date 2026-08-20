@@ -7,7 +7,11 @@ export class CombosVoladoresComponent {
    * @param {import('../../domain/models/MenuItem.js').MenuItem[]} comboItems
    * @returns {string} HTML string
    */
-  static renderSection(comboItems) {
+  /**
+   * @param {import('../../domain/models/MenuItem.js').MenuItem[]} comboItems
+   * @returns {string} HTML string
+   */
+  static renderBlock(comboItems) {
     const duo = comboItems.find(c => c.id === 'combo-duo');
     const trio = comboItems.find(c => c.id === 'combo-trio');
     const ruleta = comboItems.find(c => c.id === 'combo-ruleta');
@@ -18,18 +22,12 @@ export class CombosVoladoresComponent {
     const combos = [duo, trio, ruleta, carrusel, ronda].filter(Boolean);
 
     return `
-      <section class="mb-xl px-2 sm:px-margin-mobile relative overflow-hidden py-lg pt-20" id="combos-voladores">
-        <div class="flex items-center justify-between mb-lg">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary text-3xl">military_tech</span>
-            <div>
-              <h2 class="text-headline-lg font-headline-lg text-primary tracking-tight uppercase text-2xl sm:text-3xl font-extrabold">
-                Barcos &amp; Rondas de Alitas
-              </h2>
-              <p class="text-xs text-on-surface-variant mt-0.5">Las más pedidas...! Grandes barcos y combinaciones con papas y ensalada</p>
-            </div>
-          </div>
-          <div class="h-px bg-outline-variant flex-1 ml-md hidden sm:block"></div>
+      <div class="mb-10">
+        <div class="flex items-center gap-2 mb-4 pb-2 border-b border-outline-variant/30">
+          <span class="material-symbols-outlined text-primary text-xl">military_tech</span>
+          <h3 class="text-base sm:text-lg font-bold text-on-surface uppercase tracking-wide">
+            Barcos &amp; Rondas de Alitas (Para Compartir)
+          </h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -118,7 +116,7 @@ export class CombosVoladoresComponent {
             </div>
           </div>
         ` : ''}
-      </section>
+      </div>
     `;
   }
 }

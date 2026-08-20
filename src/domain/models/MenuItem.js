@@ -13,13 +13,15 @@ export class MenuItem {
    * @param {string} [params.image]
    * @param {string} [params.badge]
    * @param {boolean} [params.isFeatured]
+   * @param {string} [params.subcategory]
    * @param {string[]} [params.options]
    */
-  constructor({ id, name, price, category, description = '', image = '', badge = '', isFeatured = false, options = [] }) {
+  constructor({ id, name, price, category, subcategory = '', description = '', image = '', badge = '', isFeatured = false, options = [] }) {
     this.id = id;
     this.name = name;
     this.price = Number(price);
     this.category = category;
+    this.subcategory = subcategory;
     this.description = description;
     this.image = image;
     this.badge = badge;

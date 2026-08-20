@@ -14,12 +14,44 @@ export class CartUseCases {
     this.items = [];
     this.selectedDeliveryZoneId = null;
     this.packagingSelections = {}; // { tupper: 1, bolsa: 1, vaso: 0 }
+    this.orderSubmittedAt = null;
+    this.expiryTimer = null;
+    this.listeners = [];
+  }
+
+  subscribe(listener) {
+    if (typeof listener === 'function') {
+      this.listeners.push(listener);
+    }
+  }
+
+  notifyListeners() {
+    this.listeners.forEach(fn => {
+      try {
+        fn(this);
+      } catch (err) {
+        console.error('Error notifying cart listener:', err);
+      }
+    });
   }
 
   async initialize() {
     const rawCart = this.cartRepository.loadCart();
     this.selectedDeliveryZoneId = rawCart.deliveryZoneId || null;
     this.packagingSelections = rawCart.packaging || {};
+    this.orderSubmittedAt = rawCart.orderSubmittedAt || null;
+
+    if (this.orderSubmittedAt) {
+      const elapsed = Date.now() - this.orderSubmittedAt;
+      if (elapsed >= 5 * 60 * 1000) {
+        this.clear();
+        return;
+      } else {
+        // Set timeout for remaining time
+        const remaining = (5 * 60 * 1000) - elapsed;
+        this.scheduleAutoClear(remaining);
+      }
+    }
 
     if (Array.isArray(rawCart.items) && rawCart.items.length > 0) {
       const loadedItems = [];
@@ -39,6 +71,23 @@ export class CartUseCases {
     } else {
       this.items = [];
     }
+    this.notifyListeners();
+  }
+
+  scheduleAutoClear(delayMs = 5 * 60 * 1000) {
+    if (this.expiryTimer) {
+      clearTimeout(this.expiryTimer);
+    }
+    this.expiryTimer = setTimeout(() => {
+      this.clear();
+      console.log('Weekend Cart: 5-minute post-order cache expiry completed. Cart reset.');
+    }, Math.max(1000, delayMs));
+  }
+
+  markOrderSubmitted() {
+    this.orderSubmittedAt = Date.now();
+    this._persist();
+    this.scheduleAutoClear(5 * 60 * 1000);
   }
 
   getItems() {
@@ -54,6 +103,13 @@ export class CartUseCases {
   }
 
   addItem(menuItem, quantity = 1, notes = '', selectedOption = '') {
+    // Reset orderSubmittedAt if customer adds items again
+    this.orderSubmittedAt = null;
+    if (this.expiryTimer) {
+      clearTimeout(this.expiryTimer);
+      this.expiryTimer = null;
+    }
+
     const existingIndex = this.items.findIndex(
       ci => ci.item.id === menuItem.id && ci.notes === notes && ci.selectedOption === selectedOption
     );
@@ -72,6 +128,7 @@ export class CartUseCases {
     }
 
     this._persist();
+    this.notifyListeners();
     return this.items;
   }
 
@@ -84,6 +141,7 @@ export class CartUseCases {
         this.items[index].quantity = newQuantity;
       }
       this._persist();
+      this.notifyListeners();
     }
     return this.items;
   }
@@ -91,6 +149,7 @@ export class CartUseCases {
   removeItem(cartItemId) {
     this.items = this.items.filter(ci => ci.id !== cartItemId && ci.item.id !== cartItemId);
     this._persist();
+    this.notifyListeners();
     return this.items;
   }
 
@@ -98,13 +157,20 @@ export class CartUseCases {
     this.items = [];
     this.packagingSelections = {};
     this.selectedDeliveryZoneId = null;
+    this.orderSubmittedAt = null;
+    if (this.expiryTimer) {
+      clearTimeout(this.expiryTimer);
+      this.expiryTimer = null;
+    }
     this.cartRepository.clearCart();
+    this.notifyListeners();
     return this.items;
   }
 
   setDeliveryZone(zoneId) {
     this.selectedDeliveryZoneId = zoneId;
     this._persist();
+    this.notifyListeners();
   }
 
   getDeliveryZoneId() {
@@ -118,6 +184,7 @@ export class CartUseCases {
       this.packagingSelections[optionId] = qty;
     }
     this._persist();
+    this.notifyListeners();
   }
 
   getPackagingSelections() {
@@ -134,7 +201,8 @@ export class CartUseCases {
         selectedOption: ci.selectedOption
       })),
       deliveryZoneId: this.selectedDeliveryZoneId,
-      packaging: this.packagingSelections
+      packaging: this.packagingSelections,
+      orderSubmittedAt: this.orderSubmittedAt
     };
     this.cartRepository.saveCart(payload);
   }

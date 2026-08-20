@@ -9,37 +9,51 @@ import { WhatsAppOrderUseCase } from '../application/usecases/WhatsAppOrderUseCa
 import { MenuController } from './controllers/MenuController.js';
 import { CartController } from './controllers/CartController.js';
 
+let appInstance = null;
+
 /**
  * Hexagonal Composition Root & Application Bootstrapper
  */
 export async function bootApp() {
   try {
-    // 1. Instantiate Infrastructure Layer (Adapters & Repositories)
-    const menuRepository = new InMemoryMenuRepository();
-    const cartRepository = new LocalStorageCartRepository();
-    const whatsAppAdapter = new WhatsAppAdapter(PAYMENT_INFO.whatsappNumber); // Número oficial Weekend!
+    if (!appInstance) {
+      // 1. Instantiate Infrastructure Layer (Adapters & Repositories)
+      const menuRepository = new InMemoryMenuRepository();
+      const cartRepository = new LocalStorageCartRepository();
+      const whatsAppAdapter = new WhatsAppAdapter(PAYMENT_INFO.whatsappNumber);
 
-    // 2. Instantiate Application Layer (Use Cases)
-    const getMenuUseCase = new GetMenuUseCase(menuRepository);
-    const cartUseCases = new CartUseCases(cartRepository, menuRepository);
-    const calculateTotalsUseCase = new CalculateTotalsUseCase(menuRepository);
-    const whatsAppOrderUseCase = new WhatsAppOrderUseCase(calculateTotalsUseCase, whatsAppAdapter);
+      // 2. Instantiate Application Layer (Use Cases)
+      const getMenuUseCase = new GetMenuUseCase(menuRepository);
+      const cartUseCases = new CartUseCases(cartRepository, menuRepository);
+      const calculateTotalsUseCase = new CalculateTotalsUseCase(menuRepository);
+      const whatsAppOrderUseCase = new WhatsAppOrderUseCase(calculateTotalsUseCase, whatsAppAdapter);
 
-    // 3. Instantiate Presentation Layer (Controllers)
-    const cartController = new CartController({
-      cartUseCases,
-      calculateTotalsUseCase,
-      whatsAppOrderUseCase,
-      menuRepository
-    });
+      // 3. Instantiate Presentation Layer (Controllers)
+      const cartController = new CartController({
+        cartUseCases,
+        calculateTotalsUseCase,
+        whatsAppOrderUseCase,
+        menuRepository
+      });
 
-    const menuController = new MenuController({
-      getMenuUseCase
-    });
+      const menuController = new MenuController({
+        getMenuUseCase
+      });
 
-    // 4. Initialize Controllers
-    await cartController.init();
-    await menuController.init();
+      appInstance = {
+        menuRepository,
+        cartRepository,
+        cartUseCases,
+        cartController,
+        menuController
+      };
+
+      await cartController.init();
+    }
+
+    // Always re-run menuController init so DOM elements in React views are populated
+    await appInstance.menuController.init();
+    await appInstance.cartController.updateCartWidgets();
 
     console.log('🍽️ WEEKEND! Lounge & Restaurant - Carta Digital iniciada correctamente con Arquitectura Hexagonal.');
   } catch (error) {

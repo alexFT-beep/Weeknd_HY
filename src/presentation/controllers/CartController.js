@@ -21,6 +21,16 @@ export class CartController {
     this.toast = new ToastComponent();
     this.orderType = 'delivery';
     this.isOpen = false;
+    this.eventsBound = false;
+
+    this.formData = {
+      customerName: '',
+      address: '',
+      reference: '',
+      tableNumber: '',
+      paymentMethod: 'Yape',
+      notes: ''
+    };
 
     this.drawerHostElement = document.getElementById('cart-drawer-container');
     if (!this.drawerHostElement) {
@@ -32,11 +42,23 @@ export class CartController {
 
   async init() {
     await this.cartUseCases.initialize();
+    
+    // Subscribe to cart changes for automatic reactive UI updates
+    this.cartUseCases.subscribe(async () => {
+      await this.updateCartWidgets();
+      if (this.isOpen) {
+        await this.renderDrawer();
+      }
+    });
+
     this.bindGlobalEvents();
     await this.updateCartWidgets();
   }
 
   bindGlobalEvents() {
+    if (this.eventsBound) return;
+    this.eventsBound = true;
+
     // Delegated click listeners
     document.addEventListener('click', async (e) => {
       const button = e.target.closest('[data-action]');
@@ -58,6 +80,7 @@ export class CartController {
           this.closeCart();
           break;
         case 'set-order-type': {
+          this.saveCurrentFormData();
           this.orderType = button.dataset.type || 'delivery';
           await this.renderDrawer();
           break;
@@ -66,6 +89,7 @@ export class CartController {
           const cartItemId = button.dataset.cartItemId;
           const currentItem = this.cartUseCases.getItems().find(i => i.id === cartItemId || i.item.id === cartItemId);
           if (currentItem) {
+            this.saveCurrentFormData();
             this.cartUseCases.updateQuantity(cartItemId, currentItem.quantity + 1);
             await this.updateCartWidgets();
             await this.renderDrawer();
@@ -76,6 +100,7 @@ export class CartController {
           const cartItemId = button.dataset.cartItemId;
           const currentItem = this.cartUseCases.getItems().find(i => i.id === cartItemId || i.item.id === cartItemId);
           if (currentItem) {
+            this.saveCurrentFormData();
             this.cartUseCases.updateQuantity(cartItemId, currentItem.quantity - 1);
             await this.updateCartWidgets();
             await this.renderDrawer();
@@ -89,6 +114,7 @@ export class CartController {
           this.toast.show('Se vació el carrito', 'info');
           break;
         case 'select-delivery-zone': {
+          this.saveCurrentFormData();
           const zoneId = button.dataset.zoneId;
           this.cartUseCases.setDeliveryZone(zoneId);
           await this.updateCartWidgets();
@@ -96,6 +122,7 @@ export class CartController {
           break;
         }
         case 'packaging-qty': {
+          this.saveCurrentFormData();
           const pkgId = button.dataset.pkgId;
           const val = Math.max(0, parseInt(button.dataset.val, 10) || 0);
           this.cartUseCases.setPackagingQuantity(pkgId, val);
@@ -127,6 +154,46 @@ export class CartController {
         this.closeCart();
       }
     });
+  }
+
+  saveCurrentFormData() {
+    const nameInput = document.getElementById('order-customer-name');
+    if (nameInput) this.formData.customerName = nameInput.value;
+
+    const addressInput = document.getElementById('order-address');
+    if (addressInput) this.formData.address = addressInput.value;
+
+    const refInput = document.getElementById('order-reference');
+    if (refInput) this.formData.reference = refInput.value;
+
+    const tableInput = document.getElementById('order-table-number');
+    if (tableInput) this.formData.tableNumber = tableInput.value;
+
+    const paymentSelect = document.getElementById('order-payment-method');
+    if (paymentSelect) this.formData.paymentMethod = paymentSelect.value;
+
+    const notesTextarea = document.getElementById('order-general-notes');
+    if (notesTextarea) this.formData.notes = notesTextarea.value;
+  }
+
+  restoreFormData() {
+    const nameInput = document.getElementById('order-customer-name');
+    if (nameInput && this.formData.customerName) nameInput.value = this.formData.customerName;
+
+    const addressInput = document.getElementById('order-address');
+    if (addressInput && this.formData.address) addressInput.value = this.formData.address;
+
+    const refInput = document.getElementById('order-reference');
+    if (refInput && this.formData.reference) refInput.value = this.formData.reference;
+
+    const tableInput = document.getElementById('order-table-number');
+    if (tableInput && this.formData.tableNumber) tableInput.value = this.formData.tableNumber;
+
+    const paymentSelect = document.getElementById('order-payment-method');
+    if (paymentSelect && this.formData.paymentMethod) paymentSelect.value = this.formData.paymentMethod;
+
+    const notesTextarea = document.getElementById('order-general-notes');
+    if (notesTextarea && this.formData.notes) notesTextarea.value = this.formData.notes;
   }
 
   /**
@@ -307,6 +374,8 @@ export class CartController {
       orderType: this.orderType
     });
 
+    this.restoreFormData();
+
     if (this.isOpen) {
       const backdrop = document.getElementById('cart-backdrop');
       const panel = document.getElementById('cart-drawer-panel');
@@ -360,7 +429,7 @@ export class CartController {
     }
 
     const paymentSelect = document.getElementById('order-payment-method');
-    const paymentMethod = paymentSelect ? paymentSelect.value : 'Efectivo';
+    const paymentMethod = paymentSelect ? paymentSelect.value : 'Yape';
 
     const notesTextarea = document.getElementById('order-general-notes');
     const notes = notesTextarea ? notesTextarea.value.trim() : '';
@@ -378,7 +447,16 @@ export class CartController {
       packagingSelections: this.cartUseCases.getPackagingSelections()
     });
 
-    this.toast.show('Abriendo WhatsApp para enviar tu pedido...', 'success');
+    // Mark order as submitted for 5-minute cache expiry
+    this.cartUseCases.markOrderSubmitted();
+
+    this.toast.show('¡Pedido enviado! Abriendo WhatsApp... El carrito se restablecerá en 5 minutos.', 'success');
+    
+    // Open official WhatsApp link
     window.open(orderResult.link, '_blank');
+
+    setTimeout(() => {
+      this.closeCart();
+    }, 1200);
   }
 }

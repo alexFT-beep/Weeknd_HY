@@ -35,7 +35,6 @@ export class WhatsAppAdapter {
 
     let text = `🍹 *¡NUEVO PEDIDO - WEEKEND! Lounge & Restaurant* 🍗\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━\n`;
-    text += `👤 *Cliente:* ${customerName}\n`;
     text += `📋 *Tipo:* ${orderType === 'delivery' ? '🛵 Delivery' : `🍽️ En Salón / Mesa ${tableNumber || 'N/A'}`}\n`;
     
     if (orderType === 'delivery') {
@@ -74,14 +73,11 @@ export class WhatsAppAdapter {
     }
     text += `⭐ *TOTAL A PAGAR: S/ ${Number(grandTotal).toFixed(2)}*\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━\n`;
-
-    if (notes) {
-      text += `📝 *Observaciones:* ${notes}\n`;
-    }
-
+    text += `📝 *Observaciones:* ${notes || 'sin observaciones'}\n`;
+    text += `👤 *Cliente:* ${customerName}\n`;
     text += `\n_¡Muchas gracias por su preferencia!_ 🎉`;
 
     const encodedText = encodeURIComponent(text);
-    return `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodedText}`;
+    return `https://api.whatsapp.com/send/?phone=${phoneNumber}&text=${encodedText}&type=phone_number&app_absent=0`;
   }
 }
