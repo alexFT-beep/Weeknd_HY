@@ -95,17 +95,38 @@ export default function App() {
             ))}
           </nav>
 
-          <button 
-            className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-weekend-purple' : 'text-white'}`}
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <motion.div
-              animate={isOpen ? { rotate: 90 } : { rotate: 0 }}
-              transition={{ duration: 0.3 }}
+          <div className="flex items-center gap-3">
+            <button 
+              type="button"
+              data-action="open-search"
+              className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 flex items-center justify-center rounded-xl bg-zinc-900/80 border border-white/10 hover:border-weekend-neon"
+              title="Buscar en la carta"
             >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
-            </motion.div>
-          </button>
+              <span className="material-symbols-outlined text-[20px]">search</span>
+            </button>
+
+            <button 
+              type="button"
+              data-action="open-cart"
+              className="text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs uppercase"
+              title="Ver Carrito"
+            >
+              <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
+              <span className="hidden sm:inline">Carrito</span>
+            </button>
+
+            <button 
+              className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-weekend-purple' : 'text-white'}`}
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <motion.div
+                animate={isOpen ? { rotate: 90 } : { rotate: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {isOpen ? <X size={28} /> : <Menu size={28} />}
+              </motion.div>
+            </button>
+          </div>
         </div>
       </header>
 
@@ -215,50 +236,48 @@ export default function App() {
         </div>
       </section>
 
-      <section id="menu" className="relative py-24 overflow-hidden min-h-[80vh] flex items-center">
+      <section id="menu" className="relative py-16 overflow-hidden min-h-screen">
         <div className="absolute inset-0 z-0">
           <video 
             autoPlay 
             muted 
             loop 
             playsInline 
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover opacity-20 pointer-events-none"
           >
             <source src={MENU_VID} type="video/webm" />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black"></div>
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-12"
+            className="mb-8 text-center"
           >
-            <h2 className="text-weekend-fuchsia text-sm font-bold tracking-[0.3em] uppercase mb-4">Nuestra Propuesta</h2>
-            <h3 className="text-4xl md:text-6xl font-black uppercase mb-6">La Carta</h3>
+            <h2 className="text-weekend-fuchsia text-sm font-bold tracking-[0.3em] uppercase mb-2">Nuestra Propuesta</h2>
+            <h3 className="text-4xl md:text-6xl font-black uppercase mb-4">La Carta</h3>
             <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
               Alitas en más de 20 salsas artesanales, piqueos criollos, hamburguesas gourmet, pastas y makis maridados con coctelería de autor.
             </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="flex justify-center"
-          >
-            <a 
-              href={CARTA_PDF} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-transparent border-2 border-weekend-neon text-weekend-neon font-black uppercase tracking-widest rounded-full hover:bg-black hover:text-weekend-neon transition-all duration-500 animate-pulse-neon"
-            >
-              <span className="relative z-10">Ver Menú Completo (PDF)</span>
-              <ChevronRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
-            </a>
-          </motion.div>
+          {/* Hexagonal Interactive Carta Container */}
+          <div className="w-full mt-6 text-left">
+            {/* Sticky Category Chips Nav */}
+            <div className="overflow-x-auto no-scrollbar py-sm sticky top-16 z-40 bg-zinc-950/90 backdrop-blur-md border-b border-white/10 mb-6 rounded-2xl p-2">
+              <div id="category-chips-nav" className="flex space-x-2 w-max px-2">
+                {/* Injected dynamically by MenuController */}
+              </div>
+            </div>
+
+            {/* Dynamic Menu Sections Container */}
+            <div id="menu-sections-container">
+              {/* Injected dynamically by MenuController */}
+            </div>
+          </div>
         </div>
       </section>
 

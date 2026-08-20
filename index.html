@@ -68,7 +68,10 @@
             "inverse-surface": "#e2e2e2",
             "surface-container-highest": "#353535",
             "surface": "#131313",
-            "on-secondary-fixed": "#1a1c1c"
+            "on-secondary-fixed": "#1a1c1c",
+            "weekend-neon": "#bfe353",
+            "weekend-purple": "#a4c639",
+            "weekend-fuchsia": "#d7d4d4"
           },
           "borderRadius": {
             "DEFAULT": "0.25rem",
@@ -118,64 +121,8 @@
 </head>
 
 <body class="bg-background text-on-surface font-body-md antialiased pb-32">
-  <!-- TopAppBar -->
-  <header class="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-margin-mobile py-base shadow-sm">
-    <div class="flex items-center gap-2">
-      <button 
-        type="button"
-        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
-        class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 flex items-center justify-center rounded-lg"
-        title="Inicio"
-      >
-        <span class="material-symbols-outlined text-[26px]">restaurant_menu</span>
-      </button>
-      <div>
-        <h1 class="text-headline-lg-mobile font-headline-lg-mobile tracking-tighter text-primary font-black flex items-center gap-1">
-          WEEKEND!
-        </h1>
-        <span class="text-[10px] text-on-surface-variant font-bold tracking-widest block uppercase -mt-1">
-          Lounge &amp; Restaurant
-        </span>
-      </div>
-    </div>
-
-    <div class="flex items-center gap-2">
-      <!-- Search Trigger Button -->
-      <button 
-        type="button"
-        data-action="open-search"
-        class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 flex items-center justify-center rounded-lg bg-surface-container border border-outline-variant/60 hover:border-primary"
-        title="Buscar platos y bebidas"
-      >
-        <span class="material-symbols-outlined text-[22px]">search</span>
-      </button>
-
-      <!-- Cart Trigger in Top Bar (Desktop & Mobile) -->
-      <button 
-        type="button"
-        data-action="open-cart"
-        class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 flex items-center justify-center rounded-lg bg-primary/10 border border-primary/40 hover:border-primary"
-        title="Ver Carrito"
-      >
-        <span class="material-symbols-outlined text-[22px]">shopping_cart</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- Sticky Category Chips Navigation -->
-  <section class="overflow-x-auto no-scrollbar py-sm sticky top-16 z-40 bg-background/90 backdrop-blur-md border-b border-outline-variant/30">
-    <div id="category-chips-nav" class="flex space-x-2 w-max px-margin-mobile">
-      <!-- Injected dynamically by MenuController -->
-    </div>
-  </section>
-
-  <!-- Main Canvas -->
-  <main class="px-margin-mobile max-w-7xl mx-auto">
-    <!-- Dynamic Menu Sections Container -->
-    <div id="menu-sections-container">
-      <!-- Injected dynamically by MenuController -->
-    </div>
-  </main>
+  <!-- React App Container -->
+  <div id="root"></div>
 
   <!-- Search Modal -->
   <div 
@@ -239,19 +186,19 @@
     </button>
     <button 
       type="button"
-      onclick="document.getElementById('alitas')?.scrollIntoView({behavior: 'smooth'})"
+      onclick="document.getElementById('menu')?.scrollIntoView({behavior: 'smooth'})"
       class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:text-primary transition-colors active:scale-95"
     >
       <span class="material-symbols-outlined text-[24px] mb-0.5">lunch_dining</span>
-      <span class="text-label-bold font-label-bold text-[10px] uppercase">Alitas</span>
+      <span class="text-label-bold font-label-bold text-[10px] uppercase">Carta</span>
     </button>
     <button 
       type="button"
-      onclick="document.getElementById('combos-voladores')?.scrollIntoView({behavior: 'smooth'})"
+      onclick="document.getElementById('reserva')?.scrollIntoView({behavior: 'smooth'})"
       class="flex flex-col items-center justify-center text-on-surface-variant px-3 py-1.5 hover:text-primary transition-colors active:scale-95"
     >
-      <span class="material-symbols-outlined text-[24px] mb-0.5">military_tech</span>
-      <span class="text-label-bold font-label-bold text-[10px] uppercase">Combos</span>
+      <span class="material-symbols-outlined text-[24px] mb-0.5">calendar_month</span>
+      <span class="text-label-bold font-label-bold text-[10px] uppercase">Reserva</span>
     </button>
     <button 
       type="button"
@@ -266,9 +213,6 @@
       <span class="text-label-bold font-label-bold text-[10px] uppercase">Carrito</span>
     </button>
   </nav>
-
-  <!-- React Container (Optional fallback) -->
-  <div id="root"></div>
 
   <!-- Main Composition Root Module -->
   <script type="module" src="/src/main.tsx"></script>
