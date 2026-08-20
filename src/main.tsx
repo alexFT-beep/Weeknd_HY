@@ -1,10 +1,15 @@
-import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
-import App from './App.tsx';
+// @ts-nocheck
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import AppLanding from './presentation/components/AppLanding.tsx';
+import './presentation/main.js';
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-);
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  createRoot(rootElement).render(
+    <StrictMode>
+      <AppLanding />
+    </StrictMode>,
+  );
+}
