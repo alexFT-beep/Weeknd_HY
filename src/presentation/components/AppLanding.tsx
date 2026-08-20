@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import { 
-  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, Calendar
+  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, Calendar, ArrowLeft, Search, ShoppingCart
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -13,7 +13,6 @@ const DELIVERY_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q
 const RESERVA_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774381246/reserva_dxdyyt.webp";
 const FOOTER_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774380038/piepag_lni8ko.webp";
 const MOBILE_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380798/hambur2_lhdl97.webm";
-const CARTA_PDF = "https://res.cloudinary.com/dwlzez9mr/image/upload/v1771786883/WEKEEND_CARTA_2026_aew47m.pdf";
 
 const NAV_LINKS = [
   { name: 'Inicio', href: '#inicio' },
@@ -34,7 +33,7 @@ const TIME_SLOTS = [
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showInteractiveMenu, setShowInteractiveMenu] = useState(false);
+  const [currentView, setCurrentView] = useState<'landing' | 'dashboard'>('landing');
 
   const [form, setForm] = useState({
     nombre: '',
@@ -44,28 +43,39 @@ export default function App() {
     motivo: ''
   });
 
-  const handleOpenMenu = () => {
-    setShowInteractiveMenu(true);
-    setTimeout(() => {
-      if (typeof (window as any).initHexagonalApp === 'function') {
-        (window as any).initHexagonalApp();
-      }
-      const el = document.getElementById('carta-digital');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 50);
+  const goToDashboard = () => {
+    setCurrentView('dashboard');
+    window.location.hash = 'carta-digital';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const goToLanding = () => {
+    setCurrentView('landing');
+    window.location.hash = 'inicio';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   useEffect(() => {
-    if (showInteractiveMenu) {
+    const handleHash = () => {
+      if (window.location.hash === '#carta-digital' || window.location.hash === '#menu-virtual' || window.location.hash === '#carta') {
+        setCurrentView('dashboard');
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  useEffect(() => {
+    if (currentView === 'dashboard') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
       setTimeout(() => {
         if (typeof (window as any).initHexagonalApp === 'function') {
           (window as any).initHexagonalApp();
         }
-      }, 50);
+      }, 60);
     }
-  }, [showInteractiveMenu]);
+  }, [currentView]);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -85,6 +95,114 @@ export default function App() {
     window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
+  // ----------------------------------------------------
+  // DASHBOARD VIEW (Dedicada a la Carta Digital)
+  // ----------------------------------------------------
+  if (currentView === 'dashboard') {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-white font-sans selection:bg-weekend-neon selection:text-black">
+        {/* Fixed Dashboard Header */}
+        <header className="fixed top-0 left-0 w-full z-50 bg-black/95 backdrop-blur-md border-b border-white/10 py-3 px-4 shadow-xl">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <button 
+              type="button"
+              onClick={goToLanding}
+              className="flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 shadow-[0_0_15px_rgba(191,227,83,0.2)]"
+            >
+              <ArrowLeft size={18} />
+              <span>Volver al Inicio</span>
+            </button>
+
+            <div className="flex items-center gap-3">
+              <img 
+                src={LOGO_URL} 
+                alt="Logo" 
+                className="h-9 w-9 rounded-full object-cover border border-weekend-purple"
+              />
+              <h1 className="text-white font-black tracking-tight text-sm sm:text-base uppercase hidden sm:block">
+                Menú Virtual <span className="text-weekend-neon">Dashboard</span>
+              </h1>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button 
+                type="button"
+                data-action="open-search"
+                className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon"
+                title="Buscar en el menú"
+              >
+                <span className="material-symbols-outlined text-[20px]">search</span>
+              </button>
+
+              <button 
+                type="button"
+                data-action="open-cart"
+                className="text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-4 py-2 rounded-xl flex items-center gap-2 text-xs uppercase shadow-[0_0_15px_rgba(191,227,83,0.4)]"
+                title="Ver Carrito"
+              >
+                <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
+                <span>Carrito</span>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Dashboard Content Container */}
+        <main className="pt-24 pb-16 max-w-7xl mx-auto px-4">
+          {/* Hero Banner */}
+          <div className="relative rounded-3xl overflow-hidden mb-8 border border-white/10 p-6 md:p-10 bg-gradient-to-r from-zinc-900 via-purple-950/40 to-zinc-900 shadow-2xl">
+            <div className="relative z-10 max-w-3xl">
+              <span className="inline-block px-3 py-1 bg-weekend-purple/30 text-weekend-fuchsia text-xs font-bold uppercase tracking-widest rounded-full mb-3 border border-weekend-fuchsia/40">
+                Menú Virtual Interactivo
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black uppercase text-white mb-3 tracking-tight">
+                La Carta Digital - <span className="text-weekend-neon">The Weekend!</span>
+              </h2>
+              <p className="text-white/70 text-sm md:text-base leading-relaxed mb-5">
+                Alitas en más de 20 salsas artesanales, piqueos criollos, hamburguesas gourmet, combos voladores y coctelería de autor. Selecciona tus favoritos y haz tu pedido por WhatsApp con delivery en todo Huarmey.
+              </p>
+              <div className="flex flex-wrap gap-2 text-xs font-semibold">
+                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🔥 Alitas & 20+ Salsas</span>
+                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🍔 Hamburguesas Gourmet</span>
+                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🍣 Makis & Cocteles</span>
+                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🛵 Delivery Huarmey</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Sticky Category Chips Navigation Bar */}
+          <div className="overflow-x-auto no-scrollbar py-sm sticky top-16 z-40 bg-zinc-950/95 backdrop-blur-md border border-white/10 mb-8 rounded-2xl p-2 shadow-2xl">
+            <div id="category-chips-nav" className="flex space-x-2 w-max px-2">
+              {/* Injected dynamically by MenuController */}
+            </div>
+          </div>
+
+          {/* Dynamic Hexagonal Menu Sections Container */}
+          <div id="menu-sections-container">
+            {/* Injected dynamically by MenuController */}
+          </div>
+        </main>
+
+        {/* Dashboard Footer */}
+        <footer className="border-t border-white/10 py-8 bg-black text-center text-xs text-white/50">
+          <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>&copy; {new Date().getFullYear()} The Weekend Lounge & Restaurant - Huarmey.</p>
+            <button 
+              type="button" 
+              onClick={goToLanding} 
+              className="text-weekend-neon hover:underline font-bold uppercase tracking-wider"
+            >
+              Volver a la Página Principal
+            </button>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
+  // ----------------------------------------------------
+  // LANDING PAGE VIEW (Página Principal)
+  // ----------------------------------------------------
   return (
     <div className="min-h-screen font-sans selection:bg-weekend-neon selection:text-black">
       <header 
@@ -110,9 +228,10 @@ export default function App() {
               <motion.a 
                 key={link.name} 
                 href={link.href} 
-                onClick={() => {
+                onClick={(e) => {
                   if (link.name === 'Menú') {
-                    setShowInteractiveMenu(true);
+                    e.preventDefault();
+                    goToDashboard();
                   }
                 }}
                 whileHover={{ scale: 1.05 }}
@@ -188,9 +307,10 @@ export default function App() {
                   href={link.href} 
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => {
+                  onClick={(e) => {
                     if (link.name === 'Menú') {
-                      setShowInteractiveMenu(true);
+                      e.preventDefault();
+                      goToDashboard();
                     }
                     setIsOpen(false);
                   }}
@@ -214,18 +334,28 @@ export default function App() {
           <img 
             src={HERO_IMG} 
             alt="Hero" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-60 scale-105 animate-pulse"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black"></div>
         </div>
 
-        <div className="relative z-10 max-w-4xl px-4 text-center">
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
+        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-7xl font-black uppercase tracking-tighter mb-6 leading-none"
+          >
+            <h2 className="text-weekend-neon font-bold tracking-[0.3em] uppercase text-sm md:text-base mb-4 drop-shadow-md">
+              Restobar & Lounge - Huarmey
+            </h2>
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="text-5xl md:text-8xl font-black uppercase tracking-tight text-white mb-6 drop-shadow-2xl"
           >
             Donde la noche <span className="text-weekend-neon">cobra vida</span>
           </motion.h1>
@@ -251,10 +381,10 @@ export default function App() {
               Reservar Ahora
             </button>
             <button 
-              onClick={() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })}
-              className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300"
+              onClick={goToDashboard}
+              className="w-full sm:w-auto px-8 py-4 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full hover:bg-weekend-purple hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(191,227,83,0.4)]"
             >
-              Ver Menú
+              Ver Menú Virtual
             </button>
             <button 
               onClick={handleDelivery}
@@ -270,7 +400,7 @@ export default function App() {
         </div>
       </section>
 
-      <section id="menu" className="relative py-24 overflow-hidden min-h-[80vh] flex flex-col items-center justify-center">
+      <section id="menu" className="relative py-24 overflow-hidden min-h-[70vh] flex flex-col items-center justify-center">
         <div className="absolute inset-0 z-0">
           <video 
             autoPlay 
@@ -306,33 +436,13 @@ export default function App() {
           >
             <button 
               type="button"
-              onClick={handleOpenMenu}
-              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-full hover:bg-weekend-purple transition-all duration-500 shadow-[0_0_30px_rgba(191,227,83,0.4)] cursor-pointer active:scale-95 z-30"
+              onClick={goToDashboard}
+              className="group relative inline-flex items-center gap-3 px-10 py-5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-full hover:bg-weekend-purple hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(191,227,83,0.5)] cursor-pointer active:scale-95 z-30"
             >
-              <span className="relative z-10 text-base">Ver Carta Digital</span>
+              <span className="relative z-10 text-base">Abrir Dashboard de la Carta</span>
               <ChevronRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
             </button>
           </motion.div>
-        </div>
-
-        {/* Dynamic Hexagonal Carta Container */}
-        <div 
-          id="carta-digital" 
-          className={`w-full max-w-7xl mx-auto px-4 mt-12 transition-all duration-700 ${
-            showInteractiveMenu ? 'block opacity-100' : 'hidden opacity-0'
-          }`}
-        >
-          {/* Sticky Category Chips Nav */}
-          <div className="overflow-x-auto no-scrollbar py-sm sticky top-16 z-40 bg-zinc-950/95 backdrop-blur-md border border-white/10 mb-6 rounded-2xl p-2 shadow-2xl">
-            <div id="category-chips-nav" className="flex space-x-2 w-max px-2">
-              {/* Injected dynamically by MenuController */}
-            </div>
-          </div>
-
-          {/* Dynamic Menu Sections Container */}
-          <div id="menu-sections-container" className="text-left">
-            {/* Injected dynamically by MenuController */}
-          </div>
         </div>
       </section>
 
