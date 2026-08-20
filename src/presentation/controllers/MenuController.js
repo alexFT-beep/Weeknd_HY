@@ -1,20 +1,21 @@
-import { ProductCardComponent } from '../components/ProductCardComponent.js';
-import { PAYMENT_INFO } from '../../infrastructure/data/fullMenuData.js';
+import { ProductCardComponent } from "../components/ProductCardComponent.js";
+import { PAYMENT_INFO } from "../../infrastructure/data/fullMenuData.js";
 
 /**
  * Presentation Controller: MenuController
  * Manages category navigation, intersection observers, search, and full menu rendering.
+ * Optimized for mobile performance with zero dead code and lightweight DOM.
  */
 export class MenuController {
   /**
    * @param {Object} params
-   * @param {import('../../application/usecases/GetMenuUseCase.js').GetMenuUseCase} params.getMenuUseCase
+   * @param {import("../../application/usecases/GetMenuUseCase.js").GetMenuUseCase} params.getMenuUseCase
    */
   constructor({ getMenuUseCase }) {
     this.getMenuUseCase = getMenuUseCase;
     this.categories = [];
     this.items = [];
-    this.activeCategoryId = 'alitas';
+    this.activeCategoryId = "alitas";
     this.isManualScrolling = false;
     this.scrollTimeout = null;
     this.observer = null;
@@ -32,28 +33,38 @@ export class MenuController {
   }
 
   renderCategoryChips() {
-    const navContainer = document.getElementById('category-chips-nav');
+    const navContainer = document.getElementById("category-chips-nav");
     if (!navContainer) return;
 
-    navContainer.innerHTML = this.categories.map(cat => `
-      <button 
-        type="button"
-        id="chip-btn-${cat.id}"
-        data-category-id="${cat.id}"
-        class="category-chip px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 ${cat.id === this.activeCategoryId ? 'bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(10,204,128,0.4)] scale-105' : 'bg-surface-container-low text-on-surface border-outline-variant hover:bg-surface-variant'}"
-      >
-        <span class="material-symbols-outlined text-[16px]">${cat.icon || 'restaurant_menu'}</span>
-        <span>${cat.name}</span>
-      </button>
-    `).join('');
+    navContainer.innerHTML = this.categories.map(cat => {
+      const isActive = cat.id === this.activeCategoryId;
+      const isAmber = cat.id === "cocteles-licores";
+      let activeClass = "";
+      if (isActive) {
+        activeClass = isAmber
+          ? "bg-amber-400 text-black border-amber-400 font-extrabold shadow-[0_0_15px_rgba(245,158,11,0.5)] scale-105"
+          : "bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(10,204,128,0.4)] scale-105";
+      } else {
+        activeClass = "bg-surface-container-low text-on-surface border-outline-variant/60 hover:bg-surface-variant";
+      }
 
-    // Chip click event (Delegated)
+      return `
+        <button 
+          type="button"
+          id="chip-btn-${cat.id}"
+          data-category-id="${cat.id}"
+          class="category-chip px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 ${activeClass}"
+        >
+          <span class="text-sm">${cat.emoji || "🍽️"}</span>
+          <span>${cat.name}</span>
+        </button>
+      `;
+    }).join("");
+
     navContainer.onclick = (e) => {
-      const btn = e.target.closest('[data-category-id]');
+      const btn = e.target.closest("[data-category-id]");
       if (!btn) return;
-
-      const catId = btn.dataset.categoryId;
-      this.scrollToCategory(catId);
+      this.scrollToCategory(btn.dataset.categoryId);
     };
   }
 
@@ -64,30 +75,36 @@ export class MenuController {
     this.isManualScrolling = true;
     this.setActiveChip(categoryId, true);
 
-    const topOffset = 135; // Header + Sticky Category Bar height
+    const topOffset = 65; // Height of sticky category bar
     const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - topOffset;
     
     window.scrollTo({
       top: targetPosition,
-      behavior: 'smooth'
+      behavior: "smooth"
     });
 
     if (this.scrollTimeout) clearTimeout(this.scrollTimeout);
     this.scrollTimeout = setTimeout(() => {
       this.isManualScrolling = false;
-    }, 850);
+    }, 600);
   }
 
   setActiveChip(categoryId, centerInView = false) {
     this.activeCategoryId = categoryId;
-    document.querySelectorAll('.category-chip').forEach(btn => {
-      if (btn.dataset.categoryId === categoryId) {
-        btn.className = 'category-chip px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(10,204,128,0.4)] scale-105';
+    const isAmberCategory = categoryId === "cocteles-licores";
+
+    document.querySelectorAll(".category-chip").forEach(btn => {
+      const catId = btn.dataset.categoryId;
+      if (catId === categoryId) {
+        const activeClass = isAmberCategory
+          ? "category-chip px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-amber-400 text-black border-amber-400 font-extrabold shadow-[0_0_15px_rgba(245,158,11,0.5)] scale-105"
+          : "category-chip px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-primary text-black border-primary font-extrabold shadow-[0_0_15px_rgba(10,204,128,0.4)] scale-105";
+        btn.className = activeClass;
         if (centerInView) {
-          btn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          btn.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
         }
       } else {
-        btn.className = 'category-chip px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-surface-container-low text-on-surface border-outline-variant hover:bg-surface-variant';
+        btn.className = "category-chip px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full font-label-bold text-xs whitespace-nowrap border transition-all duration-200 flex items-center gap-1.5 bg-surface-container-low text-on-surface border-outline-variant/60 hover:bg-surface-variant";
       }
     });
   }
@@ -99,7 +116,7 @@ export class MenuController {
 
     const options = {
       root: null,
-      rootMargin: '-140px 0px -60% 0px',
+      rootMargin: "-70px 0px -70% 0px",
       threshold: 0
     };
 
@@ -120,23 +137,23 @@ export class MenuController {
   }
 
   bindSearchEvent() {
-    const searchInput = document.getElementById('menu-search-input');
-    const searchModal = document.getElementById('search-modal');
-    const searchResults = document.getElementById('search-results-list');
+    const searchInput = document.getElementById("menu-search-input");
+    const searchModal = document.getElementById("search-modal");
+    const searchResults = document.getElementById("search-results-list");
     const openSearchBtns = document.querySelectorAll('[data-action="open-search"]');
-    const closeSearchBtn = document.getElementById('close-search-btn');
+    const closeSearchBtn = document.getElementById("close-search-btn");
 
     openSearchBtns.forEach(btn => {
       btn.onclick = () => {
         if (searchModal) {
-          searchModal.classList.remove('hidden');
-          searchModal.classList.add('flex');
+          searchModal.classList.remove("hidden");
+          searchModal.classList.add("flex");
           if (searchInput) {
-            searchInput.value = '';
+            searchInput.value = "";
             searchInput.focus();
           }
           if (searchResults) {
-            searchResults.innerHTML = '<p class="text-center text-xs text-on-surface-variant py-8">Escribe el nombre de un plato o ingrediente...</p>';
+            searchResults.innerHTML = '<p class="text-center text-xs text-on-surface-variant py-8">🔍 Escribe el nombre de un plato o ingrediente...</p>';
           }
         }
       };
@@ -144,8 +161,8 @@ export class MenuController {
 
     if (closeSearchBtn && searchModal) {
       closeSearchBtn.onclick = () => {
-        searchModal.classList.add('hidden');
-        searchModal.classList.remove('flex');
+        searchModal.classList.add("hidden");
+        searchModal.classList.remove("flex");
       };
     }
 
@@ -153,76 +170,80 @@ export class MenuController {
       searchInput.oninput = async (e) => {
         const q = e.target.value;
         if (!q.trim()) {
-          searchResults.innerHTML = '<p class="text-center text-xs text-on-surface-variant py-8">Escribe el nombre de un plato o ingrediente...</p>';
+          searchResults.innerHTML = '<p class="text-center text-xs text-on-surface-variant py-8">🔍 Escribe el nombre de un plato o ingrediente...</p>';
           return;
         }
 
         const filtered = await this.getMenuUseCase.searchItems(q);
         if (filtered.length === 0) {
-          searchResults.innerHTML = '<p class="text-center text-xs text-on-surface-variant py-8">No encontramos platos con ese nombre.</p>';
+          searchResults.innerHTML = '<p class="text-center text-xs text-on-surface-variant py-8">❌ No encontramos platos con ese nombre.</p>';
           return;
         }
 
-        searchResults.innerHTML = filtered.map(item => ProductCardComponent.renderCard(item)).join('');
+        searchResults.innerHTML = filtered.map(item => ProductCardComponent.renderCard(item)).join("");
       };
     }
   }
 
   renderMenuSections(items) {
-    const mainContainer = document.getElementById('menu-sections-container');
+    const mainContainer = document.getElementById("menu-sections-container");
     if (!mainContainer) return;
 
-    let html = '';
+    let html = "";
 
-    // 1. DELIVERY & PACKAGING NOTICE (PAGE 1)
+    // 1. DELIVERY & PACKAGING NOTICE
     html += this.renderDeliveryNoticeSection();
 
     // 2. Loop through each of the 10 consolidated categories
     this.categories.forEach(cat => {
       const categoryItems = items.filter(i => i.category === cat.id);
 
-      if (cat.id === 'pago') {
+      if (cat.id === "pago") {
         html += this.renderPaymentSection();
         return;
       }
 
       if (categoryItems.length === 0) return;
 
+      const isAmber = cat.id === "cocteles-licores";
+      const titleColor = isAmber ? "text-amber-400" : "text-primary";
+      const iconBoxBg = isAmber ? "bg-amber-400/20 text-amber-400" : "bg-primary/20 text-primary";
+
       html += `
-        <section class="mb-14 pt-8" id="${cat.id}" style="scroll-margin-top: 140px;">
+        <section class="mb-12 pt-4" id="${cat.id}" style="scroll-margin-top: 70px;">
           <!-- Category Main Header -->
-          <div class="flex items-center justify-between mb-6 pb-2 border-b border-outline-variant/60">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary shadow-sm">
-                <span class="material-symbols-outlined text-2xl">${cat.icon || 'restaurant_menu'}</span>
+          <div class="flex items-center justify-between mb-5 pb-2 border-b border-outline-variant/60">
+            <div class="flex items-center gap-2.5">
+              <div class="w-9 h-9 rounded-xl ${iconBoxBg} flex items-center justify-center text-lg shadow-sm">
+                ${cat.emoji || "🍽️"}
               </div>
               <div>
-                <h2 class="text-headline-lg font-headline-lg text-primary tracking-tight uppercase text-xl sm:text-2xl font-extrabold">
+                <h2 class="text-headline-lg font-headline-lg ${titleColor} tracking-tight uppercase text-lg sm:text-xl font-black">
                   ${cat.name}
                 </h2>
-                ${cat.description ? `<p class="text-xs text-on-surface-variant mt-0.5">${cat.description}</p>` : ''}
+                ${cat.description ? `<p class="text-xs text-on-surface-variant mt-0.5">${cat.description}</p>` : ""}
               </div>
             </div>
-            <div class="h-px bg-outline-variant flex-1 ml-md hidden sm:block"></div>
+            <div class="h-px bg-outline-variant flex-1 ml-4 hidden sm:block"></div>
           </div>
       `;
 
       // Render category-specific sub-blocks
-      if (cat.id === 'alitas') {
-        const rondas = categoryItems.filter(i => i.subcategory === 'rondas-alitas');
-        const regularAlitas = categoryItems.filter(i => i.subcategory !== 'rondas-alitas');
+      if (cat.id === "alitas") {
+        const rondas = categoryItems.filter(i => i.subcategory === "rondas-alitas");
+        const regularAlitas = categoryItems.filter(i => i.subcategory !== "rondas-alitas");
 
         if (rondas.length > 0) {
           html += `
             <div class="mb-8">
-              <div class="flex items-center gap-2 mb-4">
-                <span class="material-symbols-outlined text-primary text-base">military_tech</span>
-                <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide">
-                  Rondas y Combinaciones de Alitas (Las Más Pedidas)
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-base">🔥👑</span>
+                <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide">
+                  Rondas y Combinaciones de Alitas (¡Las Más Pedidas!)
                 </h3>
               </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${rondas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${rondas.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -231,53 +252,61 @@ export class MenuController {
         if (regularAlitas.length > 0) {
           html += `
             <div class="mb-6">
-              <div class="flex items-center gap-2 mb-4">
-                <span class="material-symbols-outlined text-primary text-base">local_fire_department</span>
-                <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide">
-                  El Bravo D' Casa..! Alitas Festín de Sabores (08 unidades + papas fritas + ensalada)
+              <div class="flex items-center gap-2 mb-3">
+                <span class="text-base">🍗🔥</span>
+                <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide">
+                  El Bravo D' Casa..! Alitas Festín de Sabores (08 Und + Papas + Ensalada)
                 </h3>
               </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${regularAlitas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${regularAlitas.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
         }
-      } else if (cat.id === 'hamburguesas') {
-        const burgers = categoryItems.filter(i => !i.id.startsWith('adic-'));
-        const adicionals = categoryItems.filter(i => i.id.startsWith('adic-'));
+      } else if (cat.id === "hamburguesas") {
+        const burgers = categoryItems.filter(i => !i.id.startsWith("adic-"));
+        const adicionals = categoryItems.filter(i => i.id.startsWith("adic-"));
 
         html += `
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            ${burgers.map(item => ProductCardComponent.renderCard(item)).join('')}
+          <div class="mb-6">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-base">🍔🔥</span>
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide">
+                Hamburguesas Artesanales a la Brasa
+              </h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+              ${burgers.map(item => ProductCardComponent.renderCard(item)).join("")}
+            </div>
           </div>
         `;
 
         if (adicionals.length > 0) {
           html += `
-            <div class="mt-8 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-4 sm:p-5">
-              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-base">add_circle</span> Adicionales para tu Hamburguesa
+            <div class="mt-6 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-3.5 sm:p-4">
+              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                <span>🧀➕</span> Adicionales para tu Hamburguesa
               </h4>
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                ${adicionals.map(item => ProductCardComponent.renderRow(item)).join('')}
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                ${adicionals.map(item => ProductCardComponent.renderRow(item)).join("")}
               </div>
             </div>
           `;
         }
-      } else if (cat.id === 'broaster-salchipapas') {
-        const broaster = categoryItems.filter(i => i.subcategory === 'broaster');
-        const salchipapas = categoryItems.filter(i => i.subcategory === 'salchipapas');
-        const agregadosBroaster = categoryItems.filter(i => i.subcategory === 'agregados-broaster');
+      } else if (cat.id === "broaster-salchipapas") {
+        const broaster = categoryItems.filter(i => i.subcategory === "broaster");
+        const salchipapas = categoryItems.filter(i => i.subcategory === "salchipapas");
+        const agregadosBroaster = categoryItems.filter(i => i.subcategory === "agregados-broaster");
 
         if (broaster.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">dinner_dining</span> Sabrosos Broaster &amp; Mostritos
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🍗✨</span> Sabrosos Broaster &amp; Mostritos
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${broaster.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${broaster.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -285,12 +314,12 @@ export class MenuController {
 
         if (agregadosBroaster.length > 0) {
           html += `
-            <div class="mb-8 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-4 sm:p-5">
-              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-base">add_circle</span> Agregados para tu Broaster
+            <div class="mb-8 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-3.5 sm:p-4">
+              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                <span>➕✨</span> Agregados para tu Broaster
               </h4>
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                ${agregadosBroaster.map(item => ProductCardComponent.renderRow(item)).join('')}
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                ${agregadosBroaster.map(item => ProductCardComponent.renderRow(item)).join("")}
               </div>
             </div>
           `;
@@ -299,28 +328,28 @@ export class MenuController {
         if (salchipapas.length > 0) {
           html += `
             <div class="mb-6">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">fastfood</span> Salchipapas Weekend
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🍟🔥</span> Salchipapas Weekend
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${salchipapas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${salchipapas.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
         }
-      } else if (cat.id === 'parrillas-piqueos') {
-        const parrillas = categoryItems.filter(i => i.subcategory === 'parrillas');
-        const combosParr = categoryItems.filter(i => i.subcategory === 'combos-parrilleros');
-        const piqueos = categoryItems.filter(i => i.subcategory === 'piqueos');
+      } else if (cat.id === "parrillas-piqueos") {
+        const parrillas = categoryItems.filter(i => i.subcategory === "parrillas");
+        const combosParr = categoryItems.filter(i => i.subcategory === "combos-parrilleros");
+        const piqueos = categoryItems.filter(i => i.subcategory === "piqueos");
 
         if (parrillas.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">outdoor_grill</span> Parrillas Weekend (Cortes &amp; Anticuchos)
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🥩🔥</span> Parrillas Weekend (Cortes &amp; Anticuchos)
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${parrillas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${parrillas.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -329,11 +358,11 @@ export class MenuController {
         if (combosParr.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">military_tech</span> Combos Parrilleros &amp; Mega Banquete
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>👑🔥</span> Combos Parrilleros &amp; Mega Banquete
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${combosParr.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${combosParr.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -342,29 +371,29 @@ export class MenuController {
         if (piqueos.length > 0) {
           html += `
             <div class="mb-6">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">tapas</span> Piqueos (Brochetas, Tequeños &amp; Nuggets)
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🍢✨</span> Piqueos (Brochetas, Tequeños &amp; Nuggets)
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${piqueos.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${piqueos.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
         }
-      } else if (cat.id === 'a-la-carta-chifa') {
-        const aLaCarta = categoryItems.filter(i => i.subcategory === 'a-la-carta');
-        const barrioChino = categoryItems.filter(i => i.subcategory === 'barrio-chino');
-        const pastas = categoryItems.filter(i => i.subcategory === 'pastas');
-        const acompanaPastas = categoryItems.filter(i => i.subcategory === 'acompana-pastas');
+      } else if (cat.id === "a-la-carta-chifa") {
+        const aLaCarta = categoryItems.filter(i => i.subcategory === "a-la-carta");
+        const barrioChino = categoryItems.filter(i => i.subcategory === "barrio-chino");
+        const pastas = categoryItems.filter(i => i.subcategory === "pastas");
+        const acompanaPastas = categoryItems.filter(i => i.subcategory === "acompana-pastas");
 
         if (aLaCarta.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">restaurant</span> Weekend A la Carta (Chaufas, Aeropuertos &amp; Saltados)
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🥢🔥</span> Weekend A la Carta (Chaufas, Aeropuertos &amp; Saltados)
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${aLaCarta.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${aLaCarta.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -373,11 +402,11 @@ export class MenuController {
         if (barrioChino.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">ramen_dining</span> Barrio Chino Weekend (Especialidades Chifa)
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🥡✨</span> Barrio Chino Weekend (Especialidades Chifa)
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${barrioChino.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${barrioChino.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -386,11 +415,11 @@ export class MenuController {
         if (pastas.length > 0) {
           html += `
             <div class="mb-6">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">restaurant_menu</span> Pastas &amp; Fetuccinis
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🍝✨</span> Pastas &amp; Fetuccinis
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${pastas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${pastas.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -398,28 +427,28 @@ export class MenuController {
 
         if (acompanaPastas.length > 0) {
           html += `
-            <div class="mt-4 mb-6 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-4 sm:p-5">
-              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-base">add_circle</span> Acompaña tus Pastas
+            <div class="mt-4 mb-6 bg-surface-container-low/80 border border-outline-variant/50 rounded-2xl p-3.5 sm:p-4">
+              <h4 class="text-xs sm:text-sm font-bold text-primary uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                <span>➕🍽️</span> Acompaña tus Pastas
               </h4>
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                ${acompanaPastas.map(item => ProductCardComponent.renderRow(item)).join('')}
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+                ${acompanaPastas.map(item => ProductCardComponent.renderRow(item)).join("")}
               </div>
             </div>
           `;
         }
-      } else if (cat.id === 'makis-ensaladas') {
-        const ensaladas = categoryItems.filter(i => i.subcategory === 'ensaladas');
-        const makis = categoryItems.filter(i => i.subcategory === 'makis');
+      } else if (cat.id === "makis-ensaladas") {
+        const ensaladas = categoryItems.filter(i => i.subcategory === "ensaladas");
+        const makis = categoryItems.filter(i => i.subcategory === "makis");
 
         if (ensaladas.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">nutrition</span> Ensaladas Weekend
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🥗🌿</span> Ensaladas Weekend
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${ensaladas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${ensaladas.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -428,28 +457,28 @@ export class MenuController {
         if (makis.length > 0) {
           html += `
             <div class="mb-6">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">set_meal</span> Makis Nikkei Fusión
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🍱🍣</span> Makis Nikkei Fusión
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${makis.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${makis.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
         }
-      } else if (cat.id === 'bebidas-jugos') {
-        const smoothies = categoryItems.filter(i => i.subcategory === 'smoothies-bubble-tea');
-        const jugos = categoryItems.filter(i => i.subcategory === 'bebidas-jugos-frappes');
-        const refrescos = categoryItems.filter(i => i.subcategory === 'refrescos-calientes');
+      } else if (cat.id === "bebidas-jugos") {
+        const smoothies = categoryItems.filter(i => i.subcategory === "smoothies-bubble-tea");
+        const jugos = categoryItems.filter(i => i.subcategory === "bebidas-jugos-frappes");
+        const refrescos = categoryItems.filter(i => i.subcategory === "refrescos-calientes");
 
         if (smoothies.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">local_cafe</span> Smoothies 100% Natural &amp; Bubble Tea
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🥤🍓</span> Smoothies 100% Natural &amp; Bubble Tea 🧋
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${smoothies.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${smoothies.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -458,11 +487,11 @@ export class MenuController {
         if (jugos.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">icecream</span> Jugos de Fruta Natural, Frappes &amp; Milkshakes
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🍹🍧</span> Jugos de Fruta Natural, Frappes &amp; Milkshakes
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${jugos.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${jugos.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -471,28 +500,28 @@ export class MenuController {
         if (refrescos.length > 0) {
           html += `
             <div class="mb-6">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">local_bar</span> Jarras de Refrescos (1L y 1/2L), Gaseosas &amp; Calientes
+              <h3 class="text-xs sm:text-sm font-bold text-on-surface uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🧊☕</span> Jarras de Refrescos (1L y 1/2L), Gaseosas &amp; Calientes
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${refrescos.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${refrescos.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
         }
-      } else if (cat.id === 'cocteles-licores') {
-        const drinks = categoryItems.filter(i => i.subcategory === 'drinks');
-        const botellas = categoryItems.filter(i => i.subcategory === 'botellas');
-        const cervezas = categoryItems.filter(i => i.subcategory === 'cervezas');
+      } else if (cat.id === "cocteles-licores") {
+        const drinks = categoryItems.filter(i => i.subcategory === "drinks");
+        const botellas = categoryItems.filter(i => i.subcategory === "botellas");
+        const cervezas = categoryItems.filter(i => i.subcategory === "cervezas");
 
         if (drinks.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">cocktail</span> Drinks &amp; Coctelería de Autor (Chilcanos, Sours, Mojitos, Tragos)
+              <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🍸🍹</span> Drinks &amp; Coctelería de Autor (Chilcanos, Sours, Mojitos, Tragos)
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${drinks.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${drinks.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -501,11 +530,11 @@ export class MenuController {
         if (botellas.length > 0) {
           html += `
             <div class="mb-8">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">liquor</span> Botellas &amp; Licores (Con insumos de cortesía)
+              <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🍾🥂</span> Botellas de Licores (Con insumos de cortesía)
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${botellas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${botellas.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -514,11 +543,11 @@ export class MenuController {
         if (cervezas.length > 0) {
           html += `
             <div class="mb-6">
-              <h3 class="text-sm sm:text-base font-bold text-on-surface uppercase tracking-wide mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">sports_bar</span> Cervezas Nacionales e Importadas
+              <h3 class="text-xs sm:text-sm font-bold text-amber-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <span>🍺🍻</span> Cervezas Nacionales e Importadas
               </h3>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                ${cervezas.map(item => ProductCardComponent.renderCard(item)).join('')}
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                ${cervezas.map(item => ProductCardComponent.renderCard(item)).join("")}
               </div>
             </div>
           `;
@@ -526,8 +555,8 @@ export class MenuController {
       } else {
         // Standard category rendering
         html += `
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            ${categoryItems.map(item => ProductCardComponent.renderCard(item)).join('')}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 mb-6">
+            ${categoryItems.map(item => ProductCardComponent.renderCard(item)).join("")}
           </div>
         `;
       }
@@ -540,74 +569,51 @@ export class MenuController {
 
   renderDeliveryNoticeSection() {
     return `
-      <!-- Delivery & Notice Section (PDF Page 1) -->
-      <section class="mb-12 grid grid-cols-1 md:grid-cols-2 gap-gutter" id="nota-delivery" style="scroll-margin-top: 140px;">
+      <!-- Delivery & Notice Section -->
+      <section class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-3.5" id="nota-delivery" style="scroll-margin-top: 70px;">
         <!-- Notice Card -->
-        <div class="bg-surface-container-low border border-primary/30 rounded-2xl p-6 flex flex-col justify-between shadow-sm">
+        <div class="bg-surface-container-low border border-primary/30 rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-sm">
           <div>
-            <h2 class="text-headline-md font-headline-md text-primary mb-3 flex items-center gap-2 font-bold text-lg">
-              <span class="material-symbols-outlined text-primary">info</span> ¡NOTA IMPORTANTE!
+            <h2 class="text-primary mb-2 flex items-center gap-2 font-bold text-base">
+              <span>ℹ️</span> ¡NOTA IMPORTANTE!
             </h2>
-            <p class="text-on-surface-variant text-xs sm:text-sm mb-4 leading-relaxed">
+            <p class="text-on-surface-variant text-xs mb-3 leading-relaxed">
               *PARA LOS DESPACHOS DE DELIVERY, SE AÑADIRÁ UN CARGO POR PEDIDO SEGÚN SE REQUIERA.
             </p>
-            <ul class="space-y-2.5 text-xs sm:text-sm text-on-surface font-medium">
-              <li class="flex justify-between items-center border-b border-dashed border-outline-variant/40 pb-1.5">
-                <span>• TUPPER DESCARTABLE</span>
-                <span class="font-price-display text-primary font-bold">S/ 1.00</span>
-              </li>
-              <li class="flex justify-between items-center border-b border-dashed border-outline-variant/40 pb-1.5">
-                <span>• BOLSA BIODEGRADABLE</span>
-                <span class="font-price-display text-primary font-bold">S/ 1.00</span>
-              </li>
-              <li class="flex justify-between items-center border-b border-dashed border-outline-variant/40 pb-1.5">
-                <span>• VASO BIODEGRADABLE</span>
-                <span class="font-price-display text-primary font-bold">S/ 1.00</span>
-              </li>
-            </ul>
+            <p class="text-[11px] text-on-surface-variant leading-relaxed">
+              *A partir de las 11:30 PM no incluye papas fritas en los platos que aplique.
+            </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-outline-variant/40 text-[11px] text-primary flex items-center gap-1.5">
-            <span class="material-symbols-outlined text-sm">eco</span>
-            <span>Empaques ecológicos y biodegradables</span>
+          <div class="mt-3 pt-2 border-t border-outline-variant/40 flex items-center gap-2">
+            <span class="text-xs">🛵</span>
+            <span class="text-xs font-bold text-primary">Delivery rápido y seguro en todo Huarmey</span>
           </div>
         </div>
 
-        <!-- Delivery Rates Card -->
-        <div class="bg-surface-container-low border border-primary/30 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+        <!-- Packaging Options Card -->
+        <div class="bg-surface-container-low border border-outline-variant rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-sm">
           <div>
-            <h2 class="text-headline-md font-headline-md text-primary mb-3 flex items-center gap-2 font-bold text-lg">
-              <span class="material-symbols-outlined text-primary">two_wheeler</span> CUOTAS DELIVERY (HUARMEY)
-            </h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-              <div class="flex justify-between items-center p-2.5 border border-outline-variant/60 bg-surface-container rounded-lg">
-                <span class="font-semibold text-on-surface">CASCO URBANO</span>
-                <span class="font-price-display text-primary font-bold">S/ 2.00</span>
-              </div>
-              <div class="flex justify-between items-center p-2.5 border border-outline-variant/60 bg-surface-container rounded-lg">
-                <span class="font-semibold text-on-surface">SANTO DOMINGO</span>
-                <span class="font-price-display text-primary font-bold">S/ 4.00</span>
-              </div>
-              <div class="flex justify-between items-center p-2.5 border border-outline-variant/60 bg-surface-container rounded-lg">
-                <span class="font-semibold text-on-surface">LA VICTORIA</span>
-                <span class="font-price-display text-primary font-bold">S/ 4.00</span>
-              </div>
-              <div class="flex justify-between items-center p-2.5 border border-outline-variant/60 bg-surface-container rounded-lg">
-                <span class="font-semibold text-on-surface">BUENA VILLA</span>
-                <span class="font-price-display text-primary font-bold">S/ 8.00</span>
-              </div>
-              <div class="flex justify-between items-center p-2.5 border border-outline-variant/60 bg-surface-container rounded-lg">
-                <span class="font-semibold text-on-surface">PUERTO HUARMEY</span>
-                <span class="font-price-display text-primary font-bold">S/ 10.00</span>
-              </div>
-              <div class="flex justify-between items-center p-2.5 border border-outline-variant/60 bg-surface-container rounded-lg">
-                <span class="font-semibold text-on-surface">9 DE OCTUBRE</span>
-                <span class="font-price-display text-primary font-bold">S/ 10.00</span>
-              </div>
+            <h3 class="text-on-surface mb-2 font-bold text-sm uppercase flex items-center gap-2">
+              <span>🥡</span> Empaques y Envases Descartables
+            </h3>
+            <p class="text-xs text-on-surface-variant mb-3">
+              Selecciona tus envases ecológicos directamente al armar tu pedido en el carrito.
+            </p>
+            <div class="flex flex-wrap gap-2 text-[11px]">
+              <span class="px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant text-on-surface flex items-center gap-1">
+                <span>🍱</span> Tupper: S/ 1.00
+              </span>
+              <span class="px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant text-on-surface flex items-center gap-1">
+                <span>🛍️</span> Bolsa: S/ 1.00
+              </span>
+              <span class="px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant text-on-surface flex items-center gap-1">
+                <span>🥤</span> Vaso: S/ 1.00
+              </span>
             </div>
           </div>
-          <p class="text-[11px] text-on-surface-variant mt-3">
-            *Selecciona tu zona directamente en el carrito para calcular tu costo total.
-          </p>
+          <div class="mt-3 pt-2 border-t border-outline-variant/40 text-[11px] text-on-surface-variant">
+            🌱 Ayúdanos a cuidar el medio ambiente
+          </div>
         </div>
       </section>
     `;
@@ -615,42 +621,80 @@ export class MenuController {
 
   renderPaymentSection() {
     return `
-      <!-- Escanea y Paga Section (PDF Page 16) -->
-      <section class="mb-14 pt-8" id="pago" style="scroll-margin-top: 140px;">
-        <div class="flex items-center justify-center mb-6">
-          <h2 class="text-headline-lg font-headline-lg text-primary tracking-tight uppercase text-2xl font-extrabold flex items-center gap-2">
-            <span class="material-symbols-outlined text-3xl">qr_code_2</span> ESCANEA y PAGA
-          </h2>
-        </div>
-        <div class="flex flex-col items-center justify-center max-w-lg mx-auto bg-surface-container-low border border-primary/40 rounded-2xl p-6 shadow-2xl space-y-4">
-          <p class="text-xs text-on-surface-variant text-center">
-            Paga rápido y sin comisiones escaneando nuestro código QR de <strong>Yape</strong> o <strong>Plin</strong>:
-          </p>
-          <div class="p-2 bg-white rounded-2xl shadow-lg border-2 border-primary">
-            <img 
-              alt="QR Yape y Plin Weekend" 
-              class="max-w-xs w-full object-contain rounded-xl" 
-              src="${PAYMENT_INFO.qrImage}"
-            />
+      <!-- Payment & QR Section -->
+      <section class="mb-12 pt-4" id="pago" style="scroll-margin-top: 70px;">
+        <div class="flex items-center gap-2.5 mb-5 pb-2 border-b border-outline-variant/60">
+          <div class="w-9 h-9 rounded-xl bg-primary/20 flex items-center justify-center text-lg shadow-sm">
+            💳
           </div>
-          <div class="w-full text-center bg-surface-container border border-outline-variant/50 px-4 py-2.5 rounded-xl">
-            <span class="text-[11px] text-primary font-semibold block uppercase">Titular de la Cuenta:</span>
-            <p class="text-on-surface font-bold text-sm tracking-wide">${PAYMENT_INFO.accountName}</p>
+          <div>
+            <h2 class="text-primary tracking-tight uppercase text-lg sm:text-xl font-black">
+              Escanea y Paga
+            </h2>
+            <p class="text-xs text-on-surface-variant mt-0.5">Pagos directos y seguros vía Yape o Plin</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+          <!-- QR Card -->
+          <div class="bg-surface-container-low border border-primary/40 rounded-2xl p-5 flex flex-col items-center text-center shadow-lg">
+            <h3 class="text-base font-bold text-on-surface uppercase mb-3 flex items-center gap-2">
+              <span>📱</span> Código QR Yape / Plin
+            </h3>
+            <div class="w-48 h-48 bg-white p-3 rounded-2xl shadow-inner flex items-center justify-center mb-3">
+              <img 
+                src="${PAYMENT_INFO.qrImage}" 
+                alt="QR de Pago Weekend"
+                class="w-full h-full object-contain"
+                loading="lazy"
+                onerror="this.src='https://placehold.co/200x200/0acc80/000?text=QR+Weekend'"
+              />
+            </div>
+            <span class="text-xs font-bold text-primary uppercase tracking-wider">${PAYMENT_INFO.accountName}</span>
+            <p class="text-[11px] text-on-surface-variant mt-1">Escanea desde tu app bancaria favorita</p>
           </div>
 
-          <!-- Official Contact & Location Card -->
-          <div class="w-full bg-surface-container border border-outline-variant/50 p-4 rounded-xl space-y-2 text-xs">
-            <div class="flex items-center gap-2 text-on-surface">
-              <span class="material-symbols-outlined text-primary text-base">location_on</span>
-              <span class="font-medium">${PAYMENT_INFO.address || 'Av. Cabo Alberto Reyes #140'}</span>
+          <!-- Account Info Card -->
+          <div class="bg-surface-container-low border border-outline-variant rounded-2xl p-5 flex flex-col justify-between shadow-sm">
+            <div>
+              <h3 class="text-base font-bold text-on-surface uppercase mb-3 flex items-center gap-2">
+                <span>📍</span> Datos de Contacto y Local
+              </h3>
+              <div class="space-y-3 text-xs text-on-surface-variant">
+                <div class="flex items-start gap-2">
+                  <span class="text-sm">🏢</span>
+                  <div>
+                    <strong class="text-on-surface block">Razón Social:</strong>
+                    <span>${PAYMENT_INFO.accountName}</span>
+                  </div>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-sm">📍</span>
+                  <div>
+                    <strong class="text-on-surface block">Dirección:</strong>
+                    <span>${PAYMENT_INFO.address}</span>
+                  </div>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-sm">📞</span>
+                  <div>
+                    <strong class="text-on-surface block">Central Telefónica / WhatsApp:</strong>
+                    <span class="text-primary font-bold">961 336 674</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="flex items-center gap-2 text-on-surface">
-              <span class="material-symbols-outlined text-primary text-base">chat</span>
-              <span>WhatsApp de Pedidos: <strong class="text-primary font-bold">961 336 674</strong></span>
-            </div>
-            <div class="flex items-center gap-2 text-on-surface">
-              <span class="material-symbols-outlined text-primary text-base">public</span>
-              <span>Instagram / Facebook: <strong class="text-primary">@weekendrestobar</strong></span>
+
+            <div class="mt-4 pt-3 border-t border-outline-variant/40">
+              <a 
+                href="https://wa.me/51961336674" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="w-full py-2.5 px-4 bg-primary text-black font-bold text-xs uppercase rounded-xl flex items-center justify-center gap-2 hover:bg-primary-container transition-all active:scale-95 shadow-md"
+              >
+                <span>💬</span>
+                <span>Contactar por WhatsApp</span>
+              </a>
             </div>
           </div>
         </div>

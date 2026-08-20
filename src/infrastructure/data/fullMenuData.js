@@ -5,16 +5,16 @@
  */
 
 export const MENU_CATEGORIES = [
-  { id: "alitas", name: "Alitas & Rondas", icon: "local_fire_department", description: "31 salsas artesanales y combinaciones para compartir" },
-  { id: "hamburguesas", name: "Hamburguesas", icon: "lunch_dining", description: "Hamburguesas con carne artesanal a la parrilla, filete de pollo y adiciones" },
-  { id: "broaster-salchipapas", name: "Broaster & Salchipapas", icon: "fastfood", description: "Pollo broaster crocante, contundentes mostritos y salchipapas Weekend" },
-  { id: "parrillas-piqueos", name: "Parrillas & Piqueos", icon: "outdoor_grill", description: "Cortes a la brasa, anticuchos, combos parrilleros, brochetas, tequeños y nuggets" },
-  { id: "a-la-carta-chifa", name: "A la Carta, Chifa & Pastas", icon: "restaurant", description: "Chaufas, aeropuertos al wok, Barrio Chino y fetuccinis artesanales" },
-  { id: "makis-ensaladas", name: "Makis & Ensaladas", icon: "set_meal", description: "Makis nikkei y ensaladas frescas Weekend" },
-  { id: "bebidas-jugos", name: "Jugos & Bebidas", icon: "local_cafe", description: "Smoothies 100% natural, Bubble Tea, jugos de fruta, frappes, milkshakes y jarras" },
-  { id: "cocteles-licores", name: "Coctelería & Licores", icon: "cocktail", description: "Chilcanos, Sours, Mojitos, Tragos de Autor, botellas con complementos y cervezas" },
-  { id: "guarniciones", name: "Guarniciones & Extras", icon: "tapas", description: "Porciones adicionales de papas, arroz, ensaladas y complementos" },
-  { id: "pago", name: "Escanea y Paga", icon: "qr_code_2", description: "Información de pagos digitales mediante Yape y Plin, ubicación y contacto" }
+  { id: "alitas", name: "Alitas & Rondas", emoji: "🍗", icon: "local_fire_department", description: "31 salsas artesanales y combinaciones para compartir" },
+  { id: "hamburguesas", name: "Hamburguesas", emoji: "🍔", icon: "lunch_dining", description: "Carne artesanal a la parrilla, filete de pollo y adiciones" },
+  { id: "broaster-salchipapas", name: "Broaster & Salchipapas", emoji: "🍟", icon: "fastfood", description: "Pollo broaster crocante, mostritos y salchipapas Weekend" },
+  { id: "parrillas-piqueos", name: "Parrillas & Piqueos", emoji: "🥩", icon: "outdoor_grill", description: "Cortes a la brasa, anticuchos, combos parrilleros, brochetas, tequeños y nuggets" },
+  { id: "a-la-carta-chifa", name: "A la Carta & Chifa", emoji: "🥢", icon: "restaurant", description: "Chaufas, aeropuertos al wok, Barrio Chino y fetuccinis artesanales" },
+  { id: "makis-ensaladas", name: "Makis & Ensaladas", emoji: "🍱", icon: "set_meal", description: "Makis nikkei y ensaladas frescas Weekend" },
+  { id: "bebidas-jugos", name: "Bebidas & Jugos", emoji: "🥤", icon: "local_cafe", description: "Smoothies 100% natural, Bubble Tea, jugos, frappes, milkshakes y jarras" },
+  { id: "cocteles-licores", name: "Coctelería & Licores", emoji: "🍸", icon: "local_bar", description: "Chilcanos, Sours, Mojitos, Tragos de Autor, botellas y cervezas" },
+  { id: "guarniciones", name: "Guarniciones & Extras", emoji: "🥔", icon: "dinner_dining", description: "Porciones adicionales de papas, arroz, ensaladas y complementos" },
+  { id: "pago", name: "Escanea y Paga", emoji: "💳", icon: "qr_code_2", description: "Información de pagos digitales mediante Yape y Plin, ubicación y contacto" }
 ];
 
 export const DELIVERY_ZONES = [

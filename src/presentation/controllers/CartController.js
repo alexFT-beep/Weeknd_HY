@@ -242,7 +242,7 @@ export class CartController {
   triggerFlyingParticle(sourceElement) {
     if (!sourceElement) return;
     const sourceRect = sourceElement.getBoundingClientRect();
-    const targetElement = document.querySelector('[data-action="open-cart"]') || document.getElementById('cart-floating-btn');
+    const targetElement = document.getElementById('cart-floating-fab') || document.querySelector('[data-action="open-cart"]');
     if (!targetElement) return;
 
     const targetRect = targetElement.getBoundingClientRect();
@@ -271,10 +271,10 @@ export class CartController {
   }
 
   animateCartIcons() {
-    const cartButtons = document.querySelectorAll('[data-action="open-cart"]');
-    const floatingCart = document.getElementById('cart-floating-pill');
+    const fabButton = document.getElementById('cart-floating-fab');
+    const otherCartButtons = document.querySelectorAll('[data-action="open-cart"]');
 
-    [...cartButtons, floatingCart].forEach(el => {
+    [fabButton, ...otherCartButtons].forEach(el => {
       if (el) {
         el.classList.remove('animate-heartbeat');
         void el.offsetWidth;
@@ -292,25 +292,9 @@ export class CartController {
       orderType: this.orderType
     });
 
-    // Update Floating widget in desktop
-    const floatingTotal = document.getElementById('floating-cart-total');
-    if (floatingTotal) {
-      floatingTotal.textContent = `S/ ${totals.grandTotal.toFixed(2)}`;
-    }
-    const floatingWidget = document.getElementById('floating-cart-widget');
-    if (floatingWidget) {
-      if (totals.itemCount > 0) {
-        floatingWidget.classList.remove('hidden');
-        floatingWidget.classList.add('md:flex');
-      } else {
-        floatingWidget.classList.add('hidden');
-        floatingWidget.classList.remove('md:flex');
-      }
-    }
-
-    // Update Header Badges
-    const headerBadges = document.querySelectorAll('.header-cart-badge, #mobile-cart-badge');
-    headerBadges.forEach(badge => {
+    // Update Floating Circular FAB Badge & any other badges
+    const badges = document.querySelectorAll('#floating-cart-badge, .header-cart-badge, #mobile-cart-badge');
+    badges.forEach(badge => {
       if (totals.itemCount > 0) {
         badge.textContent = totals.itemCount;
         badge.classList.remove('hidden');

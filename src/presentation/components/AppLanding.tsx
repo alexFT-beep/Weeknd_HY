@@ -100,87 +100,51 @@ export default function App() {
   // ----------------------------------------------------
   if (currentView === 'dashboard') {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white font-sans selection:bg-weekend-neon selection:text-black">
-        {/* Fixed Dashboard Header */}
-        <header className="fixed top-0 left-0 w-full z-50 bg-black/95 backdrop-blur-md border-b border-white/10 py-3 px-4 shadow-xl">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="min-h-screen bg-black text-white font-sans selection:bg-weekend-neon selection:text-black">
+        {/* Main Menu Container */}
+        <main className="pt-3 pb-24 max-w-7xl mx-auto px-3 sm:px-4">
+          
+          {/* Sleek Minimalist Top Navigation Row */}
+          <div className="flex items-center justify-between gap-3 mb-3 py-2 border-b border-white/10">
             <button 
               type="button"
               onClick={goToLanding}
-              className="flex items-center gap-2 px-4 py-2 bg-zinc-900 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 active:scale-95 shadow-[0_0_15px_rgba(10,204,128,0.2)]"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm"
+              title="Volver a la portada principal"
             >
-              <ArrowLeft size={18} />
-              <span>Volver al Inicio</span>
+              <ArrowLeft size={16} />
+              <span>Inicio</span>
             </button>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <img 
                 src={LOGO_URL} 
-                alt="Logo" 
-                className="h-9 w-9 rounded-full object-cover border border-weekend-purple"
+                alt="Logo Weekend" 
+                className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
               />
-              <h1 className="text-white font-black tracking-tight text-sm sm:text-base uppercase hidden sm:block">
-                Menú Virtual <span className="text-weekend-neon">Dashboard</span>
-              </h1>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button 
-                type="button"
-                data-action="open-search"
-                className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 duration-150 p-2 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon"
-                title="Buscar en el menú"
-              >
-                <span className="material-symbols-outlined text-[20px]">search</span>
-              </button>
-
-              <button 
-                type="button"
-                data-action="open-cart"
-                className="relative text-black font-bold bg-weekend-neon hover:bg-weekend-purple transition-all active:scale-95 duration-150 px-3.5 py-2 rounded-xl flex items-center gap-1.5 text-xs uppercase shadow-[0_0_15px_rgba(10,204,128,0.4)]"
-                title="Ver Carrito"
-              >
-                <span className="material-symbols-outlined text-[18px]">shopping_cart</span>
-                <span>Carrito</span>
-                <span className="header-cart-badge min-w-[18px] h-[18px] px-1 bg-black text-weekend-neon font-extrabold text-[10px] rounded-full flex items-center justify-center hidden">
-                  0
-                </span>
-              </button>
-            </div>
-          </div>
-        </header>
-
-        {/* Dashboard Content Container */}
-        <main className="pt-24 pb-16 max-w-7xl mx-auto px-4">
-          {/* Hero Banner */}
-          <div className="relative rounded-3xl overflow-hidden mb-8 border border-white/10 p-6 md:p-10 bg-gradient-to-r from-zinc-900 via-purple-950/40 to-zinc-900 shadow-2xl">
-            <div className="relative z-10 max-w-3xl">
-              <span className="inline-block px-3 py-1 bg-weekend-purple/30 text-weekend-fuchsia text-xs font-bold uppercase tracking-widest rounded-full mb-3 border border-weekend-fuchsia/40">
-                Menú Virtual Interactivo
+              <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase">
+                Carta <span className="text-weekend-neon">Weekend</span>
               </span>
-              <h2 className="text-3xl md:text-5xl font-black uppercase text-white mb-3 tracking-tight">
-                La Carta Digital - <span className="text-weekend-neon">The Weekend!</span>
-              </h2>
-              <p className="text-white/70 text-sm md:text-base leading-relaxed mb-5">
-                Alitas en 31 salsas artesanales, rondas festival, hamburguesas, sabrosos broaster, salchipapas, parrillas, chifas, pastas y coctelería de autor. Selecciona tus favoritos y haz tu pedido por WhatsApp con delivery en todo Huarmey.
-              </p>
-              <div className="flex flex-wrap gap-2 text-xs font-semibold">
-                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🔥 31 Salsas de Alitas</span>
-                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🍔 Hamburguesas & Broaster</span>
-                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🥩 Parrillas & Pastas</span>
-                <span className="px-3 py-1 bg-zinc-900/80 text-weekend-neon rounded-lg border border-white/10">🛵 Delivery Huarmey</span>
-              </div>
             </div>
+
+            <button 
+              type="button"
+              data-action="open-search"
+              className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 p-1.5 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon shadow-sm"
+              title="Buscar en la carta"
+            >
+              <span className="material-symbols-outlined text-[20px]">search</span>
+            </button>
           </div>
 
-          {/* Sticky Category Chips Navigation Bar */}
-          <div className="overflow-x-auto no-scrollbar py-sm sticky top-16 z-40 bg-zinc-950/95 backdrop-blur-md border border-white/10 mb-8 rounded-2xl p-2 shadow-2xl">
-            <div id="category-chips-nav" className="flex space-x-2 w-max px-2">
+          {/* Sticky Category Chips Navigation Bar (Directly at top-0) */}
+          <div className="overflow-x-auto no-scrollbar sticky top-0 z-30 bg-black/95 backdrop-blur-md border-b border-white/10 py-2.5 mb-5 -mx-3 px-3 sm:-mx-4 sm:px-4">
+            <div id="category-chips-nav" className="flex space-x-2 w-max">
               {/* Injected dynamically by MenuController */}
             </div>
           </div>
 
-          {/* Dynamic Hexagonal Menu Sections Container */}
+          {/* Dynamic Menu Sections Container */}
           <div id="menu-sections-container">
             {/* Injected dynamically by MenuController */}
           </div>
