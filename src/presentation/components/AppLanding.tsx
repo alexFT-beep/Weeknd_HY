@@ -4,6 +4,7 @@ import {
   Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, Calendar, ArrowLeft, Search, ShoppingCart, Music2, Play, ArrowUpRight
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { DigitalMenuView } from './DigitalMenuView';
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774383788/LOGO_wgvqfj.webp";
@@ -586,6 +587,13 @@ export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard'>('landing');
 
+  // Declara los hooks de Framer Motion al inicio para cumplir estrictamente con las reglas de Hooks de React
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const heroCapyY = useTransform(heroProgress, [0, 1], [0, 140]);
+  const heroCapyRotate = useTransform(heroProgress, [0, 1], [0, 12]);
+  const heroCapyOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
+
   const [form, setForm] = useState({
     nombre: '',
     fecha: '',
@@ -731,23 +739,17 @@ export default function App() {
             </button>
           </div>
 
-          {/* Sticky Category Chips Navigation Bar (Directly at top-0) */}
-          <div className="overflow-x-auto no-scrollbar sticky top-0 z-30 bg-black/95 backdrop-blur-md border-b border-white/10 py-2.5 mb-5 -mx-3 px-3 sm:-mx-4 sm:px-4">
-            <div id="category-chips-nav" className="flex space-x-2 w-max">
-              {/* Injected dynamically by MenuController */}
-            </div>
-          </div>
-
-          {/* Dynamic Menu Sections Container */}
-          <div id="menu-sections-container">
-            {/* Injected dynamically by MenuController */}
-          </div>
+          {/* Componente Nativo React de la Carta Digital */}
+          <DigitalMenuView onSearchClick={() => {
+            const searchModal = document.getElementById('search-modal');
+            if (searchModal) searchModal.classList.remove('hidden');
+          }} />
         </main>
 
         {/* Dashboard Footer */}
         <footer className="border-t border-white/10 py-8 bg-black text-center text-xs text-white/50">
           <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; {new Date().getFullYear()} The Weekend Lounge & Restaurant - Huarmey.</p>
+            <p>&copy; {new Date().getFullYear()} The Weekend Lounge &amp; Restaurant - Huarmey.</p>
             <button
               type="button"
               onClick={goToLanding}
@@ -764,12 +766,6 @@ export default function App() {
   // ----------------------------------------------------
   // LANDING PAGE VIEW (Página Principal)
   // ----------------------------------------------------
-  // Ref para parallax del capibara heroico (superior)
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-  const heroCapyY = useTransform(heroProgress, [0, 1], [0, 140]);
-  const heroCapyRotate = useTransform(heroProgress, [0, 1], [0, 12]);
-  const heroCapyOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
 
   const handleNavClick = (e: React.MouseEvent, link: typeof NAV_LINKS[number]) => {
     // Módulo VER CARTA DIGITAL: redirección intacta
