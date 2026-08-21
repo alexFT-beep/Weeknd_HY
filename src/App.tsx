@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, Calendar
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 const CONTACT_WA = "51961336674";
-const LOGO_URL = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774383788/LOGO_wgvqfj.webp";
+const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
 const HERO_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774380039/logo2_vyasrd.webp";
 const MENU_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380723/alitas2_upllif.webm";
 const DELIVERY_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1771715674/makis-weekend_fxfha7.jpg";
@@ -62,16 +62,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen font-sans selection:bg-weekend-neon selection:text-black">
-      <header 
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-black/90 backdrop-blur-md py-2 border-b border-white/10' : 'bg-transparent py-4'
-        }`}
+      <header
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-black/90 backdrop-blur-md py-2 border-b border-white/10' : 'bg-transparent py-4'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img 
-              src={LOGO_URL} 
-              alt="Logo" 
+            <img
+              src={LOGO_URL}
+              alt="Logo"
               className="h-12 w-12 rounded-full object-cover border border-weekend-purple"
               referrerPolicy="no-referrer"
             />
@@ -82,9 +81,9 @@ export default function App() {
 
           <nav className="hidden lg:flex items-center gap-8">
             {NAV_LINKS.map((link) => (
-              <motion.a 
-                key={link.name} 
-                href={link.href} 
+              <motion.a
+                key={link.name}
+                href={link.href}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="text-sm uppercase tracking-widest font-bold hover:text-weekend-neon transition-all duration-500"
@@ -94,7 +93,7 @@ export default function App() {
             ))}
           </nav>
 
-          <button 
+          <button
             className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-weekend-purple' : 'text-white'}`}
             onClick={() => setIsOpen(!isOpen)}
           >
@@ -110,7 +109,7 @@ export default function App() {
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
@@ -118,11 +117,11 @@ export default function App() {
             className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-6 landscape:gap-4 md:hidden overflow-y-auto"
           >
             <div className="absolute inset-0 z-0">
-              <video 
-                autoPlay 
-                muted 
-                loop 
-                playsInline 
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
                 className="w-full h-full object-cover opacity-60"
               >
                 <source src={MOBILE_VID} type="video/webm" />
@@ -132,9 +131,9 @@ export default function App() {
 
             <div className="relative z-10 flex flex-col items-center gap-6 landscape:gap-3 py-10">
               {NAV_LINKS.map((link) => (
-                <motion.a 
-                  key={link.name} 
-                  href={link.href} 
+                <motion.a
+                  key={link.name}
+                  href={link.href}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setIsOpen(false)}
@@ -155,9 +154,9 @@ export default function App() {
 
       <section id="inicio" className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src={HERO_IMG} 
-            alt="Hero" 
+          <img
+            src={HERO_IMG}
+            alt="Hero"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -165,7 +164,7 @@ export default function App() {
         </div>
 
         <div className="relative z-10 max-w-4xl px-4 text-center">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -173,7 +172,7 @@ export default function App() {
           >
             Donde la noche <span className="text-weekend-neon">cobra vida</span>
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -181,26 +180,26 @@ export default function App() {
           >
             Tu fin de semana empieza aquí, llegaste al lugar donde lo sofisticado se quita la corbata y se deja llevar por el ambiente casual de una noche fina pero divertida.
           </motion.p>
-          
-          <motion.div 
+
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4"
           >
-            <button 
+            <button
               onClick={() => document.getElementById('reserva')?.scrollIntoView({ behavior: 'smooth' })}
               className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300 neon-glow"
             >
               Reservar Ahora
             </button>
-            <button 
+            <button
               onClick={() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })}
               className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300"
             >
               Ver Menú
             </button>
-            <button 
+            <button
               onClick={handleDelivery}
               className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300"
             >
@@ -216,11 +215,11 @@ export default function App() {
 
       <section id="menu" className="relative py-24 overflow-hidden min-h-[80vh] flex items-center">
         <div className="absolute inset-0 z-0">
-          <video 
-            autoPlay 
-            muted 
-            loop 
-            playsInline 
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
             className="w-full h-full object-cover opacity-60"
           >
             <source src={MENU_VID} type="video/webm" />
@@ -248,9 +247,9 @@ export default function App() {
             viewport={{ once: true }}
             className="flex justify-center"
           >
-            <a 
-              href={CARTA_PDF} 
-              target="_blank" 
+            <a
+              href={CARTA_PDF}
+              target="_blank"
               rel="noopener noreferrer"
               className="group relative inline-flex items-center gap-3 px-10 py-5 bg-transparent border-2 border-weekend-neon text-weekend-neon font-black uppercase tracking-widest rounded-full hover:bg-black hover:text-weekend-neon transition-all duration-500 animate-pulse-neon"
             >
@@ -263,9 +262,9 @@ export default function App() {
 
       <section id="reserva" className="relative py-24">
         <div className="absolute inset-0 z-0">
-          <img 
-            src={RESERVA_IMG} 
-            alt="Reserva" 
+          <img
+            src={RESERVA_IMG}
+            alt="Reserva"
             className="w-full h-full object-cover opacity-70"
             referrerPolicy="no-referrer"
           />
@@ -284,7 +283,7 @@ export default function App() {
               <p className="text-white/60 text-base md:text-lg mb-8 leading-relaxed">
                 Vive la experiencia completa en The Weekend. Ya sea para un cumpleaños, una cita o una salida con amigos, reserva con anticipación y déjanos encargarnos del resto.
               </p>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-weekend-purple/20 rounded-xl text-weekend-purple shrink-0">
@@ -314,44 +313,44 @@ export default function App() {
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Nombre</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       required
                       placeholder="Tu nombre"
                       className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-weekend-purple transition-colors"
                       value={form.nombre}
-                      onChange={(e) => setForm({...form, nombre: e.target.value})}
+                      onChange={(e) => setForm({ ...form, nombre: e.target.value })}
                     />
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Fecha</label>
-                    <input 
-                      type="date" 
+                    <input
+                      type="date"
                       required
                       className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-weekend-purple transition-colors"
                       value={form.fecha}
-                      onChange={(e) => setForm({...form, fecha: e.target.value})}
+                      onChange={(e) => setForm({ ...form, fecha: e.target.value })}
                     />
                   </div>
                 </div>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Personas</label>
-                    <input 
-                      type="number" 
+                    <input
+                      type="number"
                       required
                       placeholder="Cantidad"
                       className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-weekend-purple transition-colors"
                       value={form.personas}
-                      onChange={(e) => setForm({...form, personas: e.target.value})}
+                      onChange={(e) => setForm({ ...form, personas: e.target.value })}
                     />
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
-                    <select 
+                    <select
                       className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-weekend-purple transition-colors appearance-none cursor-pointer"
                       value={form.hora}
-                      onChange={(e) => setForm({...form, hora: e.target.value})}
+                      onChange={(e) => setForm({ ...form, hora: e.target.value })}
                     >
                       {TIME_SLOTS.map((t) => (
                         <option key={t} value={t}>{t}</option>
@@ -361,10 +360,10 @@ export default function App() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Motivo</label>
-                  <select 
+                  <select
                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-weekend-purple transition-colors appearance-none"
                     value={form.motivo}
-                    onChange={(e) => setForm({...form, motivo: e.target.value})}
+                    onChange={(e) => setForm({ ...form, motivo: e.target.value })}
                   >
                     <option value="">Seleccionar</option>
                     <option value="Cena Casual">Cena Casual</option>
@@ -375,7 +374,7 @@ export default function App() {
                   </select>
                 </div>
 
-                <button 
+                <button
                   type="submit"
                   className="w-full py-4 bg-weekend-purple text-white font-black uppercase tracking-[0.2em] rounded-xl hover:bg-weekend-purple/80 transition-all flex items-center justify-center gap-3"
                 >
@@ -389,9 +388,9 @@ export default function App() {
 
       <section id="delivery" className="relative py-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src={DELIVERY_IMG} 
-            alt="Delivery" 
+          <img
+            src={DELIVERY_IMG}
+            alt="Delivery"
             className="w-full h-full object-cover opacity-70"
             referrerPolicy="no-referrer"
           />
@@ -408,7 +407,7 @@ export default function App() {
             <Smartphone className="text-weekend-neon mb-6" size={48} />
             <h3 className="text-3xl md:text-5xl font-black uppercase mb-4">¿Prefieres quedarte en casa?</h3>
             <p className="text-white/60 mb-10 max-w-xl">Llevamos el sabor de The Weekend directo a tu puerta. Rápido, seguro y delicioso.</p>
-            <button 
+            <button
               onClick={handleDelivery}
               className="px-12 py-5 border-2 border-weekend-neon text-weekend-neon font-black uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300 flex items-center gap-3"
             >
@@ -429,13 +428,13 @@ export default function App() {
             </div>
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="relative rounded-3xl overflow-hidden border border-weekend-neon/30 neon-glow h-[500px]"
           >
-            <iframe 
+            <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245.6409801721048!2d-78.15328299958676!3d-10.068675181619353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91aa17e1bee947c9%3A0xda6d1058bd817a98!2sWeekend%20Huarmey!5e0!3m2!1ses!2spe!4v1772137403381!5m2!1ses!2spe"
               className="w-full h-full border-0 dark-map"
               allowFullScreen
@@ -447,9 +446,9 @@ export default function App() {
 
       <footer id="contacto" className="relative pt-24 pb-12 overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src={FOOTER_IMG} 
-            alt="Footer" 
+          <img
+            src={FOOTER_IMG}
+            alt="Footer"
             className="w-full h-full object-cover opacity-70"
             referrerPolicy="no-referrer"
           />
@@ -460,9 +459,9 @@ export default function App() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
             <div className="col-span-1 lg:col-span-1">
               <div className="flex items-center gap-3 mb-6">
-                <img 
-                  src={LOGO_URL} 
-                  alt="Logo" 
+                <img
+                  src={LOGO_URL}
+                  alt="Logo"
                   className="h-10 w-10 rounded-full object-cover border border-weekend-purple"
                   referrerPolicy="no-referrer"
                 />
