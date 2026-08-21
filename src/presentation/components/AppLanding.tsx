@@ -185,16 +185,16 @@ function SocialEmbedCard({ platform, url, index }: { platform: typeof PLATFORMS[
 
   if (data.name === 'TikTok') {
     return (
-      <div className="flex-shrink-0 w-[280px] sm:w-[320px] bg-[#131313] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-2 shadow-lg">
+      <div className="flex-shrink-0 w-[300px] sm:w-[325px] bg-[#0d0d0d] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-2 shadow-2xl transition-transform hover:-translate-y-1 duration-300">
         <blockquote
           className="tiktok-embed"
           cite={url}
           data-video-id={url.split('/').filter(Boolean).pop()}
-          style={{ maxWidth: '100%', minWidth: '260px', margin: 0 }}
+          style={{ maxWidth: '100%', minWidth: '280px', margin: 0, borderRadius: '20px' }}
         >
           <section>
-            <a target="_blank" title={`@${data.handle}`} href={url}>
-              {url}
+            <a target="_blank" title={`@${data.handle}`} href={url} className="text-xs text-white/50 p-4 block text-center">
+              🎵 Ver video de TikTok @{data.handle}
             </a>
           </section>
         </blockquote>
@@ -204,30 +204,31 @@ function SocialEmbedCard({ platform, url, index }: { platform: typeof PLATFORMS[
 
   if (data.name === 'Instagram') {
     return (
-      <div className="flex-shrink-0 w-[280px] sm:w-[320px] bg-[#131313] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-2 shadow-lg">
+      <div className="flex-shrink-0 w-[300px] sm:w-[330px] bg-black border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-1.5 shadow-2xl transition-transform hover:-translate-y-1 duration-300">
         <blockquote
           className="instagram-media"
           data-instgrm-permalink={url}
           data-instgrm-version="14"
+          data-instgrm-captioned="false"
           style={{
-            background: '#131313',
+            background: '#000000',
             border: 0,
-            borderRadius: '20px',
+            borderRadius: '24px',
             margin: '0px',
             maxWidth: '100%',
-            minWidth: '260px',
+            minWidth: '280px',
             padding: 0,
             width: '100%',
           }}
         >
-          <div style={{ padding: '8px' }}>
+          <div style={{ padding: '12px', background: '#000000' }}>
             <a
               href={url}
-              style={{ background: '#FFFFFF', lineHeight: 0, padding: '0 0', textAlign: 'center', textDecoration: 'none', width: '100%' }}
+              style={{ background: '#000000', color: '#0acc80', lineHeight: 1.5, padding: '10px 0', textAlign: 'center', textDecoration: 'none', width: '100%', display: 'block', fontSize: '12px', fontWeight: 'bold' }}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Ver publicación en Instagram
+              📸 Ver publicación en Instagram
             </a>
           </div>
         </blockquote>
@@ -238,16 +239,18 @@ function SocialEmbedCard({ platform, url, index }: { platform: typeof PLATFORMS[
   if (data.name === 'Facebook') {
     const isVideo = url.includes('/r/') || url.includes('video');
     return (
-      <div className="flex-shrink-0 w-[280px] sm:w-[320px] bg-[#131313] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-3 shadow-lg">
+      <div className="flex-shrink-0 w-[300px] sm:w-[330px] bg-[#0d0d0d] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-3 shadow-2xl transition-transform hover:-translate-y-1 duration-300">
         <div
           className={isVideo ? "fb-video" : "fb-post"}
           data-href={url}
-          data-width="300"
+          data-width="310"
           data-show-text="true"
-          style={{ width: '100%', overflow: 'hidden' }}
+          style={{ width: '100%', overflow: 'hidden', minHeight: '380px' }}
         >
           <blockquote cite={url} className="fb-xfbml-parse-ignore">
-            <a href={url}>Ver en Facebook</a>
+            <a href={url} className="text-xs text-white/50 block p-4 text-center">
+              🔵 Ver post en Facebook
+            </a>
           </blockquote>
         </div>
       </div>
@@ -378,14 +381,16 @@ function SocialSection() {
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[#0acc80]/8 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10">
-        {/* Encabezado */}
+        {/* Encabezado con Emojis y Color */}
         <div className="text-center mb-10 px-4 md:px-12">
-          <p className="text-[#0acc80] text-xs tracking-[0.4em] uppercase font-display mb-3">Síguenos</p>
+          <p className="text-[#0acc80] text-xs tracking-[0.4em] uppercase font-display mb-3 flex items-center justify-center gap-2">
+            <span>✨</span> <span>Nuestras Redes Oficiales</span> <span>🔥</span>
+          </p>
           <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-3 neon-flicker" style={{ textShadow: '0 0 40px rgba(10,204,128,0.3)' }}>
-            @weekend_huarmey
+            📸 @weekend_huarmey 🎵
           </h2>
-          <p className="text-[#888] font-body text-sm max-w-md mx-auto">
-            Vive la experiencia antes de llegar. Arrastra para explorar cada publicación.
+          <p className="text-zinc-400 font-body text-xs sm:text-sm max-w-md mx-auto">
+            🍹 Vive la experiencia antes de llegar. Arrastra los videos y publicaciones en tiempo real 🎬✨
           </p>
         </div>
 

@@ -83,3 +83,25 @@
   will-change: transform;
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
 }
+
+/* Dark Mode Social Media Embed Adapters */
+.instagram-media,
+.instagram-media iframe {
+  background: #000000 !important;
+  border-radius: 20px !important;
+  border: none !important;
+  margin: 0 auto !important;
+  box-shadow: none !important;
+}
+
+.tiktok-embed,
+.tiktok-embed iframe {
+  margin: 0 auto !important;
+  border-radius: 20px !important;
+}
+
+.fb-post, .fb-video,
+.fb-post iframe, .fb-video iframe {
+  border-radius: 20px !important;
+  max-width: 100% !important;
+}
