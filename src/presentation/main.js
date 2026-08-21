@@ -1,4 +1,4 @@
-import { InMemoryMenuRepository } from '../infrastructure/repositories/InMemoryMenuRepository.js';
+import { GraphQLMenuRepository } from '../infrastructure/repositories/GraphQLMenuRepository.js';
 import { LocalStorageCartRepository } from '../infrastructure/repositories/LocalStorageCartRepository.js';
 import { WhatsAppAdapter } from '../infrastructure/adapters/WhatsAppAdapter.js';
 import { PAYMENT_INFO } from '../infrastructure/data/fullMenuData.js';
@@ -18,9 +18,12 @@ export async function bootApp() {
   try {
     if (!appInstance) {
       // 1. Instantiate Infrastructure Layer (Adapters & Repositories)
-      const menuRepository = new InMemoryMenuRepository();
+      // Supports Vercel Environment Variables & Contentful CMS with automatic local fallback
+      const menuRepository = new GraphQLMenuRepository();
       const cartRepository = new LocalStorageCartRepository();
-      const whatsAppAdapter = new WhatsAppAdapter(PAYMENT_INFO.whatsappNumber);
+      
+      const whatsappNumber = import.meta.env.VITE_WHATSAPP_NUMBER || PAYMENT_INFO.whatsappNumber;
+      const whatsAppAdapter = new WhatsAppAdapter(whatsappNumber);
 
       // 2. Instantiate Application Layer (Use Cases)
       const getMenuUseCase = new GetMenuUseCase(menuRepository);
