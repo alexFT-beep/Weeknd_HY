@@ -16,9 +16,9 @@ const MOBILE_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_a
 
 // --- Assets locales de capibaras (animación scroll-driven) ---
 // Orden vertical estricto: Superior (heroic) -> Central (kamehameha) -> Inferior (superhero)
-import CAPY_HEROIC from '../../assets/capybaras/heroic_capybara_mascot.png';
-import CAPY_KAME from '../../assets/capybaras/capybara_kamehameha_pose.png';
-import CAPY_HERO from '../../assets/capybaras/superhero_capibara_landing.png';
+import CAPY_HEROIC from '../../assets/capybaras/heroic_capybara_mascot_VECTOR.png';
+import CAPY_KAME from '../../assets/capybaras/capybara_kamehameha_pose_VECTOR.png';
+import CAPY_HERO from '../../assets/capybaras/superhero_capibara_landing_VECTOR.png';
 
 const NAV_LINKS = [
   { name: 'Inicio', href: '#inicio' },
@@ -170,12 +170,148 @@ function CapybaraBand({
   );
 }
 
+function SocialEmbedCard({ platform, url, index }: { platform: typeof PLATFORMS[number]; url: string; index: number }) {
+  const { data, badge, icon, hover, accent } = platform;
+
+  useEffect(() => {
+    // Process embeds on mount
+    if (data.name === 'Instagram' && typeof (window as any).instgrm?.Embeds?.process === 'function') {
+      (window as any).instgrm.Embeds.process();
+    }
+    if (data.name === 'Facebook' && typeof (window as any).FB?.XFBML?.parse === 'function') {
+      (window as any).FB.XFBML.parse();
+    }
+  }, [url, data.name]);
+
+  if (data.name === 'TikTok') {
+    return (
+      <div className="flex-shrink-0 w-[280px] sm:w-[320px] bg-[#131313] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-2 shadow-lg">
+        <blockquote
+          className="tiktok-embed"
+          cite={url}
+          data-video-id={url.split('/').filter(Boolean).pop()}
+          style={{ maxWidth: '100%', minWidth: '260px', margin: 0 }}
+        >
+          <section>
+            <a target="_blank" title={`@${data.handle}`} href={url}>
+              {url}
+            </a>
+          </section>
+        </blockquote>
+      </div>
+    );
+  }
+
+  if (data.name === 'Instagram') {
+    return (
+      <div className="flex-shrink-0 w-[280px] sm:w-[320px] bg-[#131313] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-2 shadow-lg">
+        <blockquote
+          className="instagram-media"
+          data-instgrm-permalink={url}
+          data-instgrm-version="14"
+          style={{
+            background: '#131313',
+            border: 0,
+            borderRadius: '20px',
+            margin: '0px',
+            maxWidth: '100%',
+            minWidth: '260px',
+            padding: 0,
+            width: '100%',
+          }}
+        >
+          <div style={{ padding: '8px' }}>
+            <a
+              href={url}
+              style={{ background: '#FFFFFF', lineHeight: 0, padding: '0 0', textAlign: 'center', textDecoration: 'none', width: '100%' }}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ver publicación en Instagram
+            </a>
+          </div>
+        </blockquote>
+      </div>
+    );
+  }
+
+  if (data.name === 'Facebook') {
+    const isVideo = url.includes('/r/') || url.includes('video');
+    return (
+      <div className="flex-shrink-0 w-[280px] sm:w-[320px] bg-[#131313] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-3 shadow-lg">
+        <div
+          className={isVideo ? "fb-video" : "fb-post"}
+          data-href={url}
+          data-width="300"
+          data-show-text="true"
+          style={{ width: '100%', overflow: 'hidden' }}
+        >
+          <blockquote cite={url} className="fb-xfbml-parse-ignore">
+            <a href={url}>Ver en Facebook</a>
+          </blockquote>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <a
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`group flex-shrink-0 w-60 bg-[#131313] border border-white/10 rounded-[28px] overflow-hidden ${hover} hover:-translate-y-1 transition-all duration-300 flex flex-col`}
+    >
+      <div className="flex items-center gap-2.5 px-3.5 py-3 border-b border-white/5">
+        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white" style={{ background: badge }}>
+          <span className="font-display font-bold text-[9px]">TW</span>
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="font-display text-[11px] font-bold text-white truncate">{data.handle}</div>
+          <div className="text-[#888] text-[10px]">Publicación #{index + 1}</div>
+        </div>
+        <div className="w-5 h-5 flex-shrink-0 text-white/70" style={{ background: badge, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {icon('w-3 h-3')}
+        </div>
+      </div>
+      <div className="relative w-full aspect-square overflow-hidden bg-[#1a1a1a] flex items-center justify-center rounded-[20px]">
+        <div className="absolute inset-0 opacity-30" style={{ background: badge }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-black/60" />
+        <div className="relative z-10 flex flex-col items-center gap-2.5 text-white/90">
+          {icon('w-10 h-10')}
+          <span className="font-display text-[10px] uppercase tracking-widest">Ver en {data.name}</span>
+        </div>
+        <div className="absolute top-2.5 right-2.5 z-20 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-[9px] font-display font-bold text-white border border-white/10">
+          #{index + 1}
+        </div>
+      </div>
+      <div className="px-3.5 py-3 flex items-center justify-between">
+        <span className="text-[#888] text-[10px] font-display truncate">Abrir publicación</span>
+        <span className="flex items-center gap-1 text-[11px] font-display font-bold" style={{ color: accent }}>
+          Ver <ArrowUpRight size={13} />
+        </span>
+      </div>
+    </a>
+  );
+}
+
 // =========================================================
 //  COMPONENTE: Feed de red social (carrusel drag-scroll)
 // =========================================================
 function SocialFeed({ platform }: { platform: typeof PLATFORMS[number] }) {
   const drag = useDragScroll();
-  const { data, badge, icon, hover, cta, accent } = platform;
+  const { data, badge, icon, cta } = platform;
+
+  useEffect(() => {
+    // Trigger global SDK parses after mount
+    setTimeout(() => {
+      if (typeof (window as any).instgrm?.Embeds?.process === 'function') {
+        (window as any).instgrm.Embeds.process();
+      }
+      if (typeof (window as any).FB?.XFBML?.parse === 'function') {
+        (window as any).FB.XFBML.parse();
+      }
+    }, 500);
+  }, []);
 
   return (
     <div className="mb-16">
@@ -207,53 +343,17 @@ function SocialFeed({ platform }: { platform: typeof PLATFORMS[number] }) {
         ref={drag.ref}
         onMouseDown={drag.onMouseDown} onMouseUp={drag.onMouseUp} onMouseLeave={drag.onMouseLeave}
         onMouseMove={drag.onMouseMove} onTouchStart={drag.onTouchStart} onTouchMove={drag.onTouchMove}
-        className="flex gap-4 overflow-x-auto no-carousel-scrollbar pb-4 px-4 md:px-12 select-none"
+        className="flex gap-5 overflow-x-auto no-carousel-scrollbar pb-4 px-4 md:px-12 select-none items-stretch"
         style={{ cursor: 'grab' }}
       >
         {data.posts.map((url, i) => (
-          <a
-            key={i} href={url} target="_blank" rel="noopener noreferrer"
-            className={`group flex-shrink-0 w-52 bg-[#131313] border border-white/10 rounded-[28px] overflow-hidden ${hover} hover:-translate-y-1 transition-all duration-300 flex flex-col`}
-          >
-            {/* Cabecera de post */}
-            <div className="flex items-center gap-2.5 px-3.5 py-3 border-b border-white/5">
-              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white" style={{ background: badge }}>
-                <span className="font-display font-bold text-[9px]">TW</span>
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-display text-[11px] font-bold text-white truncate">{data.handle}</div>
-                <div className="text-[#888] text-[10px]">Publicación #{i + 1}</div>
-              </div>
-              <div className="w-5 h-5 flex-shrink-0 text-white/70" style={{ background: badge, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {icon('w-3 h-3')}
-              </div>
-            </div>
-            {/* Cuerpo visual — imagen de publicación reducida */}
-            <div className="relative w-full aspect-square overflow-hidden bg-[#1a1a1a] flex items-center justify-center rounded-[20px]">
-              <div className="absolute inset-0 opacity-30" style={{ background: badge }} />
-              <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-black/60" />
-              <div className="relative z-10 flex flex-col items-center gap-2.5 text-white/90">
-                {icon('w-10 h-10')}
-                <span className="font-display text-[10px] uppercase tracking-widest">Ver en {data.name}</span>
-              </div>
-              <div className="absolute top-2.5 right-2.5 z-20 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-[9px] font-display font-bold text-white border border-white/10">
-                #{i + 1}
-              </div>
-            </div>
-            {/* Pie / CTA */}
-            <div className="px-3.5 py-3 flex items-center justify-between">
-              <span className="text-[#888] text-[10px] font-display truncate">Abrir publicación</span>
-              <span className="flex items-center gap-1 text-[11px] font-display font-bold" style={{ color: accent }}>
-                Ver <ArrowUpRight size={13} />
-              </span>
-            </div>
-          </a>
+          <SocialEmbedCard key={i} platform={platform} url={url} index={i} />
         ))}
 
         {/* Card CTA al perfil */}
         <a
           href={data.profile} target="_blank" rel="noopener noreferrer"
-          className="flex-shrink-0 w-52 border border-dashed border-weekend-neon/30 rounded-[28px] flex flex-col items-center justify-center gap-3 p-6 hover:border-weekend-neon/70 hover:bg-weekend-neon/5 transition-all duration-300"
+          className="flex-shrink-0 w-60 border border-dashed border-weekend-neon/30 rounded-[28px] flex flex-col items-center justify-center gap-3 p-6 hover:border-weekend-neon/70 hover:bg-weekend-neon/5 transition-all duration-300 min-h-[300px]"
         >
           <div className="w-12 h-12 rounded-[14px] flex items-center justify-center text-white" style={{ background: badge }}>
             {icon('w-6 h-6')}
@@ -674,91 +774,112 @@ export default function App() {
         </div>
       </section>
 
-      {/* ============ CORREDOR DE CAPIBARAS (scroll-driven) ============ */}
-      <section id="capibaras" className="relative bg-black border-y border-white/5 overflow-hidden">
+      {/* ============ RESERVA + CAPIBARAS FLANQUEANDO (sin espacios, integrados) ============ */}
+      <section id="reserva" className="relative py-12 bg-black overflow-hidden border-t border-white/5">
         <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-weekend-neon/30 to-transparent scan-line pointer-events-none" />
 
-        {/* Central: Pose Kamehameha (Lado Izquierdo) */}
-        <CapybaraBand
-          src={CAPY_KAME}
-          alt="Capibara pose kamehameha"
-          align="left"
-        />
+        <div className="relative z-10 max-w-6xl mx-auto px-4">
+          <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
+            {/* Capibara Izquierda (Kamehameha) */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mb-8 lg:mb-0 z-20 pointer-events-none"
+            >
+              <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
+              <img
+                src={CAPY_KAME}
+                alt="Capibara pose kamehameha"
+                className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
+              />
+            </motion.div>
 
-        {/* Inferior: Súper Héroe Aterriza (Lado Derecho) */}
-        <CapybaraBand
-          src={CAPY_HERO}
-          alt="Capibara superhéroe aterrizando"
-          align="right"
-        />
-      </section>
-
-      {/* ============ RESERVA (módulo compacto + políticas) ============ */}
-      <section id="reserva" className="relative py-20 bg-black">
-        <div className="relative z-10 max-w-3xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="bg-zinc-900/50 backdrop-blur-xl p-6 md:p-10 rounded-[32px] border border-white/10 neon-glow-purple"
-          >
-            <div className="text-center mb-6">
-              <h2 className="text-weekend-neon text-xs font-bold tracking-[0.3em] uppercase mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
-              <h3 className="text-3xl md:text-5xl font-black uppercase mb-3 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Reserva tu <span className="text-weekend-neon">Mesa</span></h3>
-              <p className="text-white/50 text-sm md:text-base">Reserva con anticipación y déjanos encargarnos del resto.</p>
-            </div>
-
-            <form onSubmit={handleReserve} className="space-y-5">
-              <div className="grid md:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Nombre</label>
-                  <input type="text" required placeholder="Tu nombre" className="w-full bg-black/50 border border-white/10 rounded-2xl px-4 py-3 focus:outline-none focus:border-weekend-neon transition-colors" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Fecha</label>
-                  <input type="date" required className="w-full bg-black/50 border border-white/10 rounded-2xl px-4 py-3 focus:outline-none focus:border-weekend-neon transition-colors" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
-                </div>
+            {/* Módulo de Reserva en el Centro */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="w-full max-w-xl bg-zinc-900/80 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-white/10 neon-glow-purple shadow-2xl relative z-10"
+            >
+              <div className="text-center mb-6">
+                <h2 className="text-weekend-neon text-xs font-bold tracking-[0.3em] uppercase mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
+                <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Reserva tu <span className="text-weekend-neon">Mesa</span></h3>
+                <p className="text-white/50 text-xs sm:text-sm">Reserva con anticipación y déjanos encargarnos del resto.</p>
               </div>
-              <div className="grid md:grid-cols-2 gap-5">
-                <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Personas</label>
-                  <input type="number" required placeholder="Cantidad" className="w-full bg-black/50 border border-white/10 rounded-2xl px-4 py-3 focus:outline-none focus:border-weekend-neon transition-colors" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
+
+              <form onSubmit={handleReserve} className="space-y-4 text-xs">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Nombre</label>
+                    <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Fecha</label>
+                    <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
-                  <select className="w-full bg-black/50 border border-white/10 rounded-2xl px-4 py-3 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
-                    {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Personas</label>
+                    <input type="number" required placeholder="Cantidad" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
+                    <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
+                      {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Motivo</label>
+                  <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
+                    <option value="">Seleccionar</option>
+                    <option value="Cena Casual">Cena Casual</option>
+                    <option value="Cumpleaños">Cumpleaños</option>
+                    <option value="Aniversario">Aniversario</option>
+                    <option value="Evento Corporativo">Evento Corporativo</option>
+                    <option value="Otro">Otro</option>
                   </select>
                 </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs uppercase tracking-widest text-white/40 font-bold">Motivo</label>
-                <select className="w-full bg-black/50 border border-white/10 rounded-2xl px-4 py-3 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
-                  <option value="">Seleccionar</option>
-                  <option value="Cena Casual">Cena Casual</option>
-                  <option value="Cumpleaños">Cumpleaños</option>
-                  <option value="Aniversario">Aniversario</option>
-                  <option value="Evento Corporativo">Evento Corporativo</option>
-                  <option value="Otro">Otro</option>
-                </select>
-              </div>
 
-              {/* Políticas del servicio */}
-              <div className="rounded-[24px] border border-white/10 bg-black/40 p-4 space-y-2">
-                <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.3em] mb-1" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
-                <p className="text-white/50 text-xs leading-relaxed flex items-start gap-2">
-                  <span className="text-weekend-neon mt-0.5">•</span>
-                  <span><span className="text-white/80 font-semibold">Tolerancia:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa quedará disponible.</span>
-                </p>
-                <p className="text-white/50 text-xs leading-relaxed flex items-start gap-2">
-                  <span className="text-weekend-neon mt-0.5">•</span>
-                  <span><span className="text-white/80 font-semibold">Restricción:</span> No se permite el ingreso de alimentos o bebidas externos.</span>
-                </p>
-              </div>
+                {/* Políticas del servicio */}
+                <div className="rounded-2xl border border-white/10 bg-black/50 p-3.5 space-y-1.5">
+                  <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
+                  <p className="text-white/50 text-[11px] leading-relaxed flex items-start gap-1.5">
+                    <span className="text-weekend-neon mt-0.5">•</span>
+                    <span><span className="text-white/80 font-semibold">Tolerancia:</span> 10 a 15 min; luego la mesa queda disponible.</span>
+                  </p>
+                  <p className="text-white/50 text-[11px] leading-relaxed flex items-start gap-1.5">
+                    <span className="text-weekend-neon mt-0.5">•</span>
+                    <span><span className="text-white/80 font-semibold">Restricción:</span> No se permite el ingreso de alimentos o bebidas externos.</span>
+                  </p>
+                </div>
 
-              <button type="submit" className="w-full py-4 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-white transition-all flex items-center justify-center gap-3 active:scale-95">
-                Reservar por WhatsApp <Send size={20} />
-              </button>
-            </form>
-          </motion.div>
+                <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs">
+                  Reservar por WhatsApp <Send size={16} />
+                </button>
+              </form>
+            </motion.div>
+
+            {/* Capibara Derecha (Superhéroe) */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mt-8 lg:mt-0 z-20 pointer-events-none"
+            >
+              <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
+              <img
+                src={CAPY_HERO}
+                alt="Capibara superhéroe aterrizando"
+                className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
 
