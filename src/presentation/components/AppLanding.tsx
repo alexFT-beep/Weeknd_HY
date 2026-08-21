@@ -1116,13 +1116,13 @@ export default function App() {
               <div className="space-y-4">
                 <p className="text-weekend-neon font-bold uppercase tracking-widest text-xs" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>¡Síguenos!</p>
                 <div className="flex items-center gap-4">
-                  <a href={TIKTOK.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="TikTok">
+                  <a href={TIKTOK_DATA.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="TikTok">
                     {TIKTOK_ICON('w-5 h-5')}
                   </a>
-                  <a href={INSTAGRAM.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Instagram">
+                  <a href={INSTAGRAM_DATA.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Instagram">
                     <Instagram size={20} />
                   </a>
-                  <a href={FACEBOOK.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Facebook">
+                  <a href={FACEBOOK_DATA.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Facebook">
                     <Facebook size={20} />
                   </a>
                 </div>
