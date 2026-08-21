@@ -11,7 +11,6 @@ interface VideoPost {
   subtitle: string;
   category: string;
   videoSrc: string;
-  posterSrc: string;
   views: number;
   likes: number;
   tag: string;
@@ -25,8 +24,7 @@ const VIDEO_POSTS: VideoPost[] = [
     title: '🍗 Metele turbo mami',
     subtitle: '576 x 1024 • Video Oficial',
     category: 'Humor / Meseros',
-    videoSrc: '/videos/video_turbo_mami.webm',
-    posterSrc: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&h=750&fit=crop&auto=format',
+    videoSrc: '/videos/video_turbo_mami.webm#t=0.1',
     views: 1420,
     likes: 86,
     tag: '🔥 Tendencia',
@@ -38,8 +36,7 @@ const VIDEO_POSTS: VideoPost[] = [
     title: '🎂 Oe como es? Pide nomás',
     subtitle: '576 x 1024 • Delivery & Fiesta',
     category: 'Humor / Delivery',
-    videoSrc: '/videos/video_oe_como_es.webm',
-    posterSrc: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=750&fit=crop&auto=format',
+    videoSrc: '/videos/video_oe_como_es.webm#t=0.1',
     views: 3180,
     likes: 142,
     tag: '🎉 Fiesta',
@@ -51,8 +48,7 @@ const VIDEO_POSTS: VideoPost[] = [
     title: '🍸 Coctelería de Autor',
     subtitle: '1080 x 1920 • Bar & Drinks',
     category: 'Tragos / Bar',
-    videoSrc: '/videos/video_cocteleria.webm',
-    posterSrc: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&h=750&fit=crop&auto=format',
+    videoSrc: '/videos/video_cocteleria.webm#t=0.1',
     views: 890,
     likes: 54,
     tag: '🍹 Barra',
@@ -64,8 +60,7 @@ const VIDEO_POSTS: VideoPost[] = [
     title: '🍗 Broaster & Alitas Weekend',
     subtitle: '1080 x 1920 • Crujientes',
     category: 'Carta / Gastronomía',
-    videoSrc: '/videos/video_alitas.webm',
-    posterSrc: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=750&fit=crop&auto=format',
+    videoSrc: '/videos/video_alitas.webm#t=0.1',
     views: 2150,
     likes: 98,
     tag: '✨ Delicioso',
@@ -77,8 +72,7 @@ const VIDEO_POSTS: VideoPost[] = [
     title: '🥤 Frappés & Promociones',
     subtitle: '1080 x 1920 • Refrescos',
     category: 'Promos / Verano',
-    videoSrc: '/videos/video_promo.webm',
-    posterSrc: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&h=750&fit=crop&auto=format',
+    videoSrc: '/videos/video_promo.webm#t=0.1',
     views: 1890,
     likes: 112,
     tag: '⚡ Promo',
@@ -90,8 +84,7 @@ const VIDEO_POSTS: VideoPost[] = [
     title: '🌌 Ambiente & Música Weekend',
     subtitle: '1080 x 1920 • Noches Weekend',
     category: 'Experiencia / Nightlife',
-    videoSrc: '/videos/video_noche.webm',
-    posterSrc: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=750&fit=crop&auto=format',
+    videoSrc: '/videos/video_noche.webm#t=0.1',
     views: 2540,
     likes: 165,
     tag: '🥂 Noche',
@@ -103,8 +96,7 @@ const VIDEO_POSTS: VideoPost[] = [
     title: '🎂 Celebración de Cumpleaños',
     subtitle: '1080 x 1920 • Show & Sorpresas',
     category: 'Cumpleaños / Reservas',
-    videoSrc: '/videos/video_cumple.webm',
-    posterSrc: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=750&fit=crop&auto=format',
+    videoSrc: '/videos/video_cumple.webm#t=0.1',
     views: 3410,
     likes: 210,
     tag: '🎁 Especial',
@@ -120,7 +112,7 @@ interface SocialGalleryViewProps {
 
 export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryViewProps) {
   const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
+  const [mutedState, setMutedState] = useState<{ [key: string]: boolean }>({});
   const [likesState, setLikesState] = useState<{ [key: string]: { count: number; liked: boolean } }>(() => {
     const initial: { [key: string]: { count: number; liked: boolean } } = {};
     VIDEO_POSTS.forEach(v => {
@@ -143,21 +135,34 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
       if (playingVideoId && videoRefs.current[playingVideoId]) {
         videoRefs.current[playingVideoId]?.pause();
       }
+
+      // Check audio status
+      const isMuted = mutedState[id] ?? false;
+      videoEl.muted = isMuted;
+      videoEl.volume = 1.0;
+
       videoEl.play().then(() => {
         setPlayingVideoId(id);
       }).catch(err => {
-        console.warn('Playback error:', err);
+        console.warn('Playback with audio blocked, attempting muted fallback:', err);
+        videoEl.muted = true;
+        setMutedState(prev => ({ ...prev, [id]: true }));
+        videoEl.play().then(() => setPlayingVideoId(id));
       });
     }
   };
 
-  const handleToggleMute = (e: React.MouseEvent) => {
+  const handleToggleMuteVideo = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    const nextMuted = !isMuted;
-    setIsMuted(nextMuted);
-    Object.values(videoRefs.current).forEach(videoEl => {
-      if (videoEl) videoEl.muted = nextMuted;
-    });
+    const videoEl = videoRefs.current[id];
+    if (!videoEl) return;
+
+    const currentMuted = mutedState[id] ?? false;
+    const nextMuted = !currentMuted;
+
+    videoEl.muted = nextMuted;
+    videoEl.volume = 1.0;
+    setMutedState(prev => ({ ...prev, [id]: nextMuted }));
   };
 
   const handleLike = (e: React.MouseEvent, id: string) => {
@@ -175,195 +180,203 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-[#fcfcfc] font-['Sora',sans-serif] py-10 px-4 sm:px-6 lg:px-8 flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-[#050505] text-[#fcfcfc] font-['Sora',sans-serif] flex flex-col relative overflow-x-hidden">
       {/* Background Radial Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-[#00ff88]/10 to-transparent blur-3xl pointer-events-none" />
 
-      {/* Top Navigation Bar */}
-      <div className="max-w-7xl mx-auto w-full flex items-center justify-between mb-8 relative z-20">
-        <button 
-          onClick={onBackToHome}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-white transition-all hover:scale-105 active:scale-95"
-        >
-          <ChevronLeft className="w-4 h-4 text-[#00ff88]" />
-          <span>Volver al Inicio</span>
-        </button>
-
-        <div className="flex items-center gap-3">
+      {/* Main Content Wrap */}
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 pb-4 flex-grow relative z-10">
+        {/* Top Navigation Bar */}
+        <div className="flex items-center justify-between mb-8 relative z-20">
           <button 
-            onClick={onOpenMenu}
-            className="px-5 py-2 rounded-full bg-[#00ff88] text-black font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all shadow-[0_0_20px_rgba(0,255,136,0.4)] active:scale-95"
+            onClick={onBackToHome}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-white transition-all hover:scale-105 active:scale-95"
           >
-            📋 Ver Carta Digital
+            <ChevronLeft className="w-4 h-4 text-[#00ff88]" />
+            <span>Volver al Inicio</span>
           </button>
+
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={onOpenMenu}
+              className="px-5 py-2 rounded-full bg-[#00ff88] text-black font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all shadow-[0_0_20px_rgba(0,255,136,0.4)] active:scale-95"
+            >
+              📋 Ver Carta Digital
+            </button>
+          </div>
+        </div>
+
+        {/* HEADER SECTION */}
+        <header className="text-center mb-10 space-y-4">
+          {/* Super Header Badge */}
+          <div className="inline-flex items-center justify-center gap-3 px-4 py-1.5 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/20 text-[11px] font-bold tracking-[0.2em] text-[#00ff88] uppercase">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Nuestras Redes Oficiales</span>
+            <Flame className="w-3.5 h-3.5 text-amber-400" />
+          </div>
+
+          {/* Main Title */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold flex items-center justify-center gap-3 flex-wrap tracking-tight text-white">
+            <span className="drop-shadow-lg">📸</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-100 to-zinc-400">
+              @weekend_huarmey
+            </span>
+            <span className="drop-shadow-lg">🎵</span>
+          </h1>
+
+          {/* Subtext */}
+          <p className="text-[#888888] max-w-2xl mx-auto text-xs sm:text-sm font-light tracking-wide leading-relaxed">
+            Vive la experiencia antes de llegar. Toca el <span className="text-white font-bold">🤍</span> para sincronizar
+            likes y explorar nuestros momentos virales <span className="text-white">🎬✨</span>
+          </p>
+        </header>
+
+        {/* MAIN GALLERY CONTENT */}
+        <div className="w-full">
+          {/* TikTok Profile Bar */}
+          <div className="flex items-center justify-between mb-8 px-4 bg-zinc-900/40 backdrop-blur-md p-4 rounded-2xl border border-white/5">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#69C9D0] via-[#EE1D52] to-black p-[2px] shadow-lg shadow-[#EE1D52]/20">
+                <div className="w-full h-full bg-[#111] rounded-full flex items-center justify-center text-white text-[10px] font-bold uppercase tracking-wider">
+                  TikTok
+                </div>
+              </div>
+              <div>
+                <h2 className="font-bold text-lg leading-tight text-white tracking-tight flex items-center gap-2">
+                  TikTok Oficial <span className="text-xs px-2 py-0.5 rounded-full bg-[#EE1D52]/20 text-[#EE1D52] font-semibold">@weekendhuarmey</span>
+                </h2>
+                <p className="text-xs text-[#888888] font-medium mt-0.5">
+                  Videos exclusivos, platos en acción y buena vibra
+                </p>
+              </div>
+            </div>
+
+            <a 
+              href="https://www.tiktok.com/@weekendhuarmey" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="group text-[#00ff88] text-xs font-bold uppercase tracking-[0.15em] hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-xl bg-[#00ff88]/10 hover:bg-[#00ff88] hover:text-black border border-[#00ff88]/30"
+            >
+              <span>Ver Perfil</span>
+              <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </a>
+          </div>
+
+          {/* Gallery Horizontal Scroll Grid */}
+          <div className="flex overflow-x-auto hide-scroll pb-10 gap-6 px-2 snap-x snap-mandatory">
+            {VIDEO_POSTS.map((video) => {
+              const isPlaying = playingVideoId === video.id;
+              const isMuted = mutedState[video.id] ?? false;
+              const likeData = likesState[video.id] || { count: video.likes, liked: false };
+
+              return (
+                <article 
+                  key={video.id}
+                  onClick={() => handleTogglePlay(video.id)}
+                  className="glass-card flex-none w-[300px] sm:w-[330px] h-[570px] flex flex-col overflow-hidden relative group snap-center cursor-pointer bg-zinc-900/60 backdrop-blur-xl border border-white/10 rounded-[22px] transition-all duration-300 hover:border-[#00ff88]/40 hover:-translate-y-1 shadow-2xl"
+                >
+                  {/* Top Badge & Sound Action Overlay */}
+                  <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start z-30 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
+                    <div className="flex items-center gap-1.5 text-[11px] font-medium text-white/90 drop-shadow-md backdrop-blur-md bg-black/40 px-3 py-1 rounded-full border border-white/10">
+                      <span className="text-[#69C9D0] text-[10px]">🎵</span>
+                      <span className="font-semibold">@weekendhuarmey</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      {/* Individual Audio Mute Toggle Button */}
+                      <button 
+                        type="button"
+                        onClick={(e) => handleToggleMuteVideo(e, video.id)}
+                        className="p-2 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white hover:text-[#00ff88] hover:border-[#00ff88]/50 transition-all shadow-lg active:scale-95"
+                        title={isMuted ? 'Activar Sonido' : 'Silenciar Audio'}
+                        aria-label={isMuted ? 'Activar Sonido' : 'Silenciar Audio'}
+                      >
+                        {isMuted ? <VolumeX className="w-4 h-4 text-amber-400" /> : <Volume2 className="w-4 h-4 text-[#00ff88]" />}
+                      </button>
+
+                      <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border backdrop-blur-md uppercase tracking-wider ${video.tagColor}`}>
+                        {video.tag}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Video / Media Player Container */}
+                  <div className="flex-1 bg-black relative overflow-hidden">
+                    <video
+                      ref={(el) => { videoRefs.current[video.id] = el; }}
+                      src={video.videoSrc}
+                      preload="metadata"
+                      loop
+                      playsInline
+                      muted={isMuted}
+                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                    />
+
+                    {/* Center Play Button Overlay */}
+                    {!isPlaying && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[2px]">
+                        <div className="w-16 h-16 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-[#00ff88] group-hover:text-black transition-all duration-300 shadow-2xl">
+                          <Play className="w-7 h-7 ml-1 fill-current" />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Gradient Overlay for Text Visibility */}
+                    <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
+                  </div>
+
+                  {/* Title & Subtitle Info */}
+                  <div className="absolute bottom-20 left-0 right-0 p-4 z-10">
+                    <h3 className="font-extrabold text-base mb-1 flex items-center gap-2 text-white group-hover:text-[#00ff88] transition-colors truncate">
+                      {video.title}
+                    </h3>
+                    <p className="text-[11px] text-[#888888] font-medium tracking-wide">
+                      {video.subtitle}
+                    </p>
+                  </div>
+
+                  {/* Footer Metrics & Actions Bar */}
+                  <div className="h-20 px-4 flex items-center justify-between border-t border-white/10 bg-black/70 backdrop-blur-md z-20">
+                    <div className="flex gap-5 text-xs text-[#bbb] font-semibold">
+                      <div className="flex items-center gap-1.5 hover:text-white transition-colors">
+                        <Eye className="w-4 h-4 text-zinc-400" />
+                        <span>{video.views}</span>
+                      </div>
+
+                      <button 
+                        type="button"
+                        onClick={(e) => handleLike(e, video.id)}
+                        className={`flex items-center gap-1.5 transition-all ${likeData.liked ? 'text-rose-500 scale-110' : 'hover:text-[#00ff88]'}`}
+                      >
+                        <Heart className={`w-4 h-4 ${likeData.liked ? 'fill-current' : ''}`} />
+                        <span>{likeData.count}</span>
+                      </button>
+                    </div>
+
+                    <a 
+                      href="https://www.tiktok.com/@weekendhuarmey"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="px-4 py-2 rounded-full bg-white/10 hover:bg-[#00ff88] hover:text-black text-[10px] font-extrabold tracking-[0.1em] transition-all border border-white/15 flex items-center gap-1.5 text-white"
+                    >
+                      <span>VER</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      {/* HEADER SECTION */}
-      <header className="max-w-7xl mx-auto text-center mb-14 space-y-5 relative z-10">
-        {/* Super Header Badge */}
-        <div className="inline-flex items-center justify-center gap-3 px-4 py-1.5 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/20 text-[11px] font-bold tracking-[0.2em] text-[#00ff88] uppercase">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Nuestras Redes Oficiales</span>
-          <Flame className="w-3.5 h-3.5 text-amber-400" />
-        </div>
-
-        {/* Main Title */}
-        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold flex items-center justify-center gap-3 flex-wrap tracking-tight text-white">
-          <span className="drop-shadow-lg">📸</span>
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-100 to-zinc-400">
-            @weekend_huarmey
-          </span>
-          <span className="drop-shadow-lg">🎵</span>
-        </h1>
-
-        {/* Subtext */}
-        <p className="text-[#888888] max-w-2xl mx-auto text-xs sm:text-sm font-light tracking-wide leading-relaxed">
-          Vive la experiencia antes de llegar. Toca el <span className="text-white font-bold">🤍</span> para sincronizar
-          likes y explorar nuestros momentos virales <span class="text-white">🎬✨</span>
-        </p>
-
-        {/* Global Mute Toggle Floating Action */}
-        <div className="pt-2 flex justify-center">
-          <button 
-            onClick={handleToggleMute}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/90 border border-zinc-800 text-xs font-semibold text-zinc-300 hover:text-white hover:border-[#00ff88]/40 transition-all shadow-lg"
-          >
-            {isMuted ? <VolumeX className="w-4 h-4 text-amber-400" /> : <Volume2 className="w-4 h-4 text-[#00ff88]" />}
-            <span>{isMuted ? 'Audio Silenciado (Clic para activar sonido)' : 'Sonido Activado'}</span>
-          </button>
-        </div>
-      </header>
-
-      {/* MAIN GALLERY CONTENT */}
-      <main className="max-w-7xl mx-auto flex-grow w-full relative z-10">
-        {/* TikTok Profile Bar */}
-        <div className="flex items-center justify-between mb-8 px-4 bg-zinc-900/40 backdrop-blur-md p-4 rounded-2xl border border-white/5">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#69C9D0] via-[#EE1D52] to-black p-[2px] shadow-lg shadow-[#EE1D52]/20">
-              <div className="w-full h-full bg-[#111] rounded-full flex items-center justify-center text-white text-[10px] font-bold uppercase tracking-wider">
-                TikTok
-              </div>
-            </div>
-            <div>
-              <h2 className="font-bold text-lg leading-tight text-white tracking-tight flex items-center gap-2">
-                TikTok Oficial <span className="text-xs px-2 py-0.5 rounded-full bg-[#EE1D52]/20 text-[#EE1D52] font-semibold">@weekendhuarmey</span>
-              </h2>
-              <p className="text-xs text-[#888888] font-medium mt-0.5">
-                Videos exclusivos, platos en acción y buena vibra
-              </p>
-            </div>
-          </div>
-
-          <a 
-            href="https://www.tiktok.com/@weekendhuarmey" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="group text-[#00ff88] text-xs font-bold uppercase tracking-[0.15em] hover:text-white transition-colors flex items-center gap-2 px-4 py-2 rounded-xl bg-[#00ff88]/10 hover:bg-[#00ff88] hover:text-black border border-[#00ff88]/30"
-          >
-            <span>Ver Perfil</span>
-            <ArrowUpRight className="w-4 h-4 transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </a>
-        </div>
-
-        {/* Gallery Horizontal Scroll Grid */}
-        <div className="flex overflow-x-auto hide-scroll pb-10 gap-6 px-2 snap-x snap-mandatory">
-          {VIDEO_POSTS.map((video) => {
-            const isPlaying = playingVideoId === video.id;
-            const likeData = likesState[video.id] || { count: video.likes, liked: false };
-
-            return (
-              <article 
-                key={video.id}
-                onClick={() => handleTogglePlay(video.id)}
-                className="glass-card flex-none w-[300px] sm:w-[330px] h-[570px] flex flex-col overflow-hidden relative group snap-center cursor-pointer bg-zinc-900/60 backdrop-blur-xl border border-white/10 rounded-[22px] transition-all duration-300 hover:border-[#00ff88]/40 hover:-translate-y-1 shadow-2xl"
-              >
-                {/* Top Badge Overlay */}
-                <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-start z-20 bg-gradient-to-b from-black/80 via-black/40 to-transparent">
-                  <div className="flex items-center gap-1.5 text-[11px] font-medium text-white/90 drop-shadow-md backdrop-blur-md bg-black/40 px-3 py-1 rounded-full border border-white/10">
-                    <span className="text-[#69C9D0] text-[10px]">🎵</span>
-                    <span className="font-semibold">@weekendhuarmey</span>
-                  </div>
-                  <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold border backdrop-blur-md uppercase tracking-wider ${video.tagColor}`}>
-                    {video.tag}
-                  </span>
-                </div>
-
-                {/* Video / Media Player Container */}
-                <div className="flex-1 bg-black relative overflow-hidden">
-                  <video
-                    ref={(el) => { videoRefs.current[video.id] = el; }}
-                    src={video.videoSrc}
-                    poster={video.posterSrc}
-                    loop
-                    playsInline
-                    muted={isMuted}
-                    className="w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-                  />
-
-                  {/* Center Play Button Overlay */}
-                  {!isPlaying && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[2px]">
-                      <div className="w-16 h-16 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-[#00ff88] group-hover:text-black transition-all duration-300 shadow-2xl">
-                        <Play className="w-7 h-7 ml-1 fill-current" />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Gradient Overlay for Text Visibility */}
-                  <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black via-black/70 to-transparent pointer-events-none" />
-                </div>
-
-                {/* Title & Subtitle Info */}
-                <div className="absolute bottom-20 left-0 right-0 p-4 z-10">
-                  <h3 className="font-extrabold text-base mb-1 flex items-center gap-2 text-white group-hover:text-[#00ff88] transition-colors truncate">
-                    {video.title}
-                  </h3>
-                  <p className="text-[11px] text-[#888888] font-medium tracking-wide">
-                    {video.subtitle}
-                  </p>
-                </div>
-
-                {/* Footer Metrics & Actions Bar */}
-                <div className="h-20 px-4 flex items-center justify-between border-t border-white/10 bg-black/70 backdrop-blur-md z-20">
-                  <div className="flex gap-5 text-xs text-[#bbb] font-semibold">
-                    <div className="flex items-center gap-1.5 hover:text-white transition-colors">
-                      <Eye className="w-4 h-4 text-zinc-400" />
-                      <span>{video.views}</span>
-                    </div>
-
-                    <button 
-                      onClick={(e) => handleLike(e, video.id)}
-                      className={`flex items-center gap-1.5 transition-all ${likeData.liked ? 'text-rose-500 scale-110' : 'hover:text-[#00ff88]'}`}
-                    >
-                      <Heart className={`w-4 h-4 ${likeData.liked ? 'fill-current' : ''}`} />
-                      <span>{likeData.count}</span>
-                    </button>
-                  </div>
-
-                  <a 
-                    href="https://www.tiktok.com/@weekendhuarmey"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={(e) => e.stopPropagation()}
-                    className="px-4 py-2 rounded-full bg-white/10 hover:bg-[#00ff88] hover:text-black text-[10px] font-extrabold tracking-[0.1em] transition-all border border-white/15 flex items-center gap-1.5 text-white"
-                  >
-                    <span>VER</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-      </main>
-
-      {/* FOOTER SECTION */}
-      <footer className="relative mt-16 border-t border-white/10 bg-[#030303] text-white font-['Sora'] overflow-hidden rounded-3xl">
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-14">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-12">
+      {/* FOOTER SECTION - Seamless full width to prevent gap */}
+      <footer className="relative mt-8 border-t border-white/10 bg-[#030303] text-white font-['Sora'] w-full">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10">
             {/* Column 1: Brand */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full border border-[#00ff88]/50 flex items-center justify-center bg-[#00ff88]/10 shadow-[0_0_20px_rgba(0,255,136,0.2)]">
                   <span className="text-2xl font-bold text-[#00ff88]">W</span>
@@ -376,7 +389,7 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
               <p className="text-[#888] text-xs leading-relaxed max-w-xs font-light">
                 El espacio donde la alta cocina se encuentra con el ritmo más sofisticado de la ciudad.
               </p>
-              <div className="space-y-3 pt-2">
+              <div className="space-y-2 pt-1">
                 <p className="text-[#00ff88] font-semibold text-[10px] tracking-[0.2em] uppercase">¡SÍGUENOS EN REDES!</p>
                 <div className="flex gap-3">
                   <a 
@@ -442,7 +455,7 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
             </div>
           </div>
 
-          <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[#555] text-[10px] uppercase font-semibold">
+          <div className="mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[#555] text-[10px] uppercase font-semibold">
             <p>© 2026 THE WEEKEND LOUNGE & RESTAURANT.</p>
             <div className="flex gap-4">
               <a href="#" className="hover:text-white transition-colors">Privacidad</a>

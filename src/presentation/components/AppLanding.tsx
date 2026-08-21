@@ -1122,37 +1122,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* ============ BANNER DE REDES SOCIALES & GALERÍA DE VIDEOS ============ */}
-      <section id="redes" className="py-16 relative overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black border-t border-b border-white/10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-weekend-neon/10 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="relative z-10 max-w-5xl mx-auto px-4 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-weekend-neon/10 border border-weekend-neon/30 text-weekend-neon text-xs font-bold uppercase tracking-widest">
-            <Music2 size={14} />
-            <span>Nuestra Comunidad Viral</span>
-          </div>
 
-          <h2 className="text-3xl sm:text-5xl font-black uppercase text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            📸 @weekend_huarmey 🎵
-          </h2>
-
-          <p className="text-zinc-400 text-sm max-w-xl mx-auto font-light leading-relaxed">
-            Explora nuestros videos exclusivos, ambiente en vivo, cócteles artesanales y eventos imperdibles en la nueva Galería de Redes Sociales.
-          </p>
-
-          <div className="pt-2">
-            <button
-              onClick={goToSocial}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(10,204,128,0.4)] active:scale-95 text-xs sm:text-sm"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-            >
-              <Play size={18} className="fill-current" />
-              <span>Ver Galería de Videos de Redes Sociales</span>
-              <ArrowUpRight size={18} />
-            </button>
-          </div>
-        </div>
-      </section>
 
       {/* ============ FOOTER ============ */}
       <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden">
