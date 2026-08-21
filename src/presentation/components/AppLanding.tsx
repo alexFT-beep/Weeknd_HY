@@ -16,9 +16,9 @@ const MOBILE_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_a
 
 // --- Assets locales de capibaras (animación scroll-driven) ---
 // Orden vertical estricto: Superior (heroic) -> Central (kamehameha) -> Inferior (superhero)
-const CAPY_HEROIC = "/capybaras/heroic_capybara_mascot.png";
-const CAPY_KAME = "/capybaras/capybara_kamehameha_pose.png";
-const CAPY_HERO = "/capybaras/superhero_capibara_landing.png";
+import CAPY_HEROIC from '../../assets/capybaras/heroic_capybara_mascot.png';
+import CAPY_KAME from '../../assets/capybaras/capybara_kamehameha_pose.png';
+import CAPY_HERO from '../../assets/capybaras/superhero_capibara_landing.png';
 
 const NAV_LINKS = [
   { name: 'Inicio', href: '#inicio' },
@@ -151,20 +151,13 @@ function CapybaraBand({
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pulse-glow" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/5" />
       </div>
-      <div className={`relative z-10 max-w-6xl mx-auto px-4 w-full flex flex-col gap-8 items-center ${reverse ? 'lg:flex-row-reverse' : 'lg:flex-row'}`}>
-        <motion.div style={{ y, scale, opacity }} className="relative flex-shrink-0 w-full max-w-sm">
+      <div className={`relative z-10 max-w-6xl mx-auto px-4 w-full flex flex-col items-center justify-center`}>
+        <motion.div style={{ y, scale, opacity }} className="relative flex-shrink-0 w-full max-w-md">
           <div className="absolute -inset-6 rounded-[32px] bg-weekend-neon/10 blur-3xl pulse-glow" />
           <img
             src={src} alt={alt} loading="lazy"
             className="relative w-full drop-shadow-[0_0_45px_rgba(10,204,128,0.35)] float-anim"
           />
-        </motion.div>
-        <motion.div style={{ y: textY, opacity }} className="flex-1 text-center lg:text-left">
-          <p className="text-weekend-neon text-xs tracking-[0.4em] uppercase font-display mb-4">{eyebrow}</p>
-          <h3 className="text-3xl md:text-5xl font-black uppercase mb-5 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            {title}
-          </h3>
-          <p className="text-white/60 text-base md:text-lg leading-relaxed max-w-xl mx-auto lg:mx-0">{desc}</p>
         </motion.div>
       </div>
     </div>
@@ -336,11 +329,16 @@ export default function App() {
   useEffect(() => {
     if (currentView === 'dashboard') {
       window.scrollTo({ top: 0, behavior: 'instant' });
+      // Use a longer timeout and requestAnimationFrame to ensure the DOM nodes
+      // #category-chips-nav and #menu-sections-container are fully mounted
+      // before the Hexagonal Vanilla JS app tries to initialize them.
       setTimeout(() => {
-        if (typeof (window as any).initHexagonalApp === 'function') {
-          (window as any).initHexagonalApp();
-        }
-      }, 60);
+        requestAnimationFrame(() => {
+          if (typeof (window as any).initHexagonalApp === 'function') {
+            (window as any).initHexagonalApp();
+          }
+        });
+      }, 300);
     }
   }, [currentView]);
 
@@ -687,18 +685,12 @@ export default function App() {
         <CapybaraBand
           src={CAPY_KAME}
           alt="Capibara pose kamehameha"
-          eyebrow="Energía en vivo"
-          title="Pose Kamehameha"
-          desc="Cuando la fiesta alcanza su punto máximo, la capibara concentra toda su energía para impulsar la noche entera. El poder del Weekend en su máxima expresión."
         />
 
         {/* Inferior: Súper Héroe Aterriza */}
         <CapybaraBand
           src={CAPY_HERO}
           alt="Capibara superhéroe aterrizando"
-          eyebrow="El aterrizaje"
-          title="Capibara Súper Héroe"
-          desc="Cierra la noche aterrizando con estilo. El héroe que lleva el sabor, la música y la buena vibra del Weekend directo a tu mesa. Huarmey, la diversión tiene dueño."
           reverse
         />
       </section>
