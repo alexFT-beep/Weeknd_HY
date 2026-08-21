@@ -138,15 +138,20 @@ export class CartDrawerComponent {
               </div>
 
               <div class="space-y-2.5">
-                ${items.map(ci => `
+                ${items.map(ci => {
+                  if (!ci || !ci.item) return "";
+                  const itemName = ci.item.name || "Plato";
+                  const itemPriceStr = ci.item.formattedPrice || (typeof ci.item.price === 'number' ? `S/ ${ci.item.price.toFixed(2)}` : "S/ 0.00");
+                  const itemSubtotalStr = ci.formattedSubtotal || (typeof ci.subtotal === 'number' ? `S/ ${ci.subtotal.toFixed(2)}` : "S/ 0.00");
+                  return `
                   <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-3 flex flex-col gap-2">
                     <div class="flex justify-between items-start">
                       <div class="flex-1 pr-2">
-                        <h4 class="text-xs sm:text-sm font-bold text-white uppercase leading-snug">${ci.item.name}</h4>
-                        <span class="text-[11px] text-primary font-bold mt-0.5 block">${ci.item.formattedPrice} c/u</span>
+                        <h4 class="text-xs sm:text-sm font-bold text-white uppercase leading-snug">${itemName}</h4>
+                        <span class="text-[11px] text-primary font-bold mt-0.5 block">${itemPriceStr} c/u</span>
                       </div>
                       <span class="text-xs sm:text-sm font-price-display font-bold text-white">
-                        ${ci.formattedSubtotal}
+                        ${itemSubtotalStr}
                       </span>
                     </div>
 
@@ -190,7 +195,8 @@ export class CartDrawerComponent {
                       </div>
                     </div>
                   </div>
-                `).join("")}
+                  `;
+                }).join("")}
               </div>
             </div>
 

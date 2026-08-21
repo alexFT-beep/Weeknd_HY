@@ -369,9 +369,11 @@ export class CartController {
     this.isOpen = false;
     const backdrop = document.getElementById('cart-backdrop');
     const panel = document.getElementById('cart-drawer-panel');
-    if (backdrop && panel) {
+    if (backdrop) {
       backdrop.classList.remove('opacity-100', 'pointer-events-auto');
       backdrop.classList.add('opacity-0', 'pointer-events-none');
+    }
+    if (panel) {
       panel.classList.remove('translate-x-0');
       panel.classList.add('translate-x-full');
     }
@@ -383,6 +385,16 @@ export class CartController {
     this.isRenderingDrawer = true;
 
     try {
+      // 0. Ensure drawerHostElement exists and is attached to DOM
+      if (!this.drawerHostElement || !document.body.contains(this.drawerHostElement)) {
+        this.drawerHostElement = document.getElementById('cart-drawer-container');
+        if (!this.drawerHostElement) {
+          this.drawerHostElement = document.createElement('div');
+          this.drawerHostElement.id = 'cart-drawer-container';
+          document.body.appendChild(this.drawerHostElement);
+        }
+      }
+
       // 1. Preserve current scroll position before re-rendering
       const scrollBody = document.querySelector('#cart-drawer-panel .overflow-y-auto') || document.querySelector('#cart-drawer-panel .custom-scrollbar');
       const savedScrollTop = scrollBody ? scrollBody.scrollTop : 0;
@@ -424,9 +436,11 @@ export class CartController {
       if (this.isOpen) {
         const backdrop = document.getElementById('cart-backdrop');
         const panel = document.getElementById('cart-drawer-panel');
-        if (backdrop && panel) {
+        if (backdrop) {
           backdrop.classList.remove('opacity-0', 'pointer-events-none');
           backdrop.classList.add('opacity-100', 'pointer-events-auto');
+        }
+        if (panel) {
           panel.classList.remove('translate-x-full');
           panel.classList.add('translate-x-0');
         }
@@ -439,6 +453,8 @@ export class CartController {
       }
     } catch (err) {
       console.error('Error rendering drawer:', err);
+      // Fallback: If drawer rendering encounters an error, safely close cart to avoid black screen overlay
+      this.closeCart();
     } finally {
       this.isRenderingDrawer = false;
     }
