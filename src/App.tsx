@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'motion/react';
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
-const HERO_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774380039/logo2_vyasrd.webp";
+const HERO_IMG = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
 const MENU_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380723/alitas2_upllif.webm";
 const DELIVERY_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1771715674/makis-weekend_fxfha7.jpg";
 const RESERVA_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774381246/reserva_dxdyyt.webp";
