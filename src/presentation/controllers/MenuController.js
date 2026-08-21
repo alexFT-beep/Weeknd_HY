@@ -20,6 +20,19 @@ export class MenuController {
   }
 
   async init() {
+    const navContainer = document.getElementById("category-chips-nav");
+    const sectionsContainer = document.getElementById("menu-sections-container");
+
+    if (!navContainer || !sectionsContainer) {
+      if (!this._retryCount) this._retryCount = 0;
+      if (this._retryCount < 15) {
+        this._retryCount++;
+        setTimeout(() => this.init(), 100);
+        return;
+      }
+    }
+    this._retryCount = 0;
+
     const fullMenu = await this.getMenuUseCase.getFullMenu();
     this.categories = fullMenu.categories;
     this.items = fullMenu.items;
