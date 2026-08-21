@@ -582,30 +582,7 @@ function SocialSection() {
 }
 
 export default function App() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard'>('landing');
-
-  const [form, setForm] = useState({
-    nombre: '',
-    fecha: '',
-    hora: '05:00 PM',
-    personas: '',
-    motivo: ''
-  });
-
-  // --- Módulo intacto: VER CARTA DIGITAL (redirección a la carta) ---
-  const goToDashboard = () => {
-    setCurrentView('dashboard');
-    window.location.hash = 'carta-digital';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const goToLanding = () => {
-    setCurrentView('landing');
-    window.location.hash = 'inicio';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   useEffect(() => {
     const handleHash = () => {
@@ -620,70 +597,47 @@ export default function App() {
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
-  useEffect(() => {
-    if (currentView === 'dashboard') {
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      // Use a longer timeout and requestAnimationFrame to ensure the DOM nodes
-      // #category-chips-nav and #menu-sections-container are fully mounted
-      // before the Hexagonal Vanilla JS app tries to initialize them.
-      setTimeout(() => {
-        requestAnimationFrame(() => {
-          if (typeof (window as any).initHexagonalApp === 'function') {
-            (window as any).initHexagonalApp();
-          }
-        });
-      }, 300);
-    }
-  }, [currentView]);
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // Manejar tecla Escape para cerrar menú móvil
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        setIsOpen(false);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-
-    // Pausar animaciones cuando la página no está visible
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        // Pausar animaciones CSS
-        document.body.classList.add('animations-paused');
-      } else {
-        // Reanudar animaciones CSS
-        document.body.classList.remove('animations-paused');
-      }
-    };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [isOpen]);
-
-  const handleReserve = (e: React.FormEvent) => {
-    e.preventDefault();
-    const { nombre, fecha, hora, personas, motivo } = form;
-    const message = `Hola The Weekend! Deseo una reserva: Nombre: ${nombre}, Fecha: ${fecha}, Hora: ${hora}, Personas: ${personas}, Motivo: ${motivo}`;
-    window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
+  // --- Módulo intacto: VER CARTA DIGITAL (redirección a la carta) ---
+  const goToDashboard = () => {
+    setCurrentView('dashboard');
+    window.location.hash = 'carta-digital';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleDelivery = () => {
-    const message = "Hola! Deseo hacer un pedido de delivery.";
-    window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
+  const goToLanding = () => {
+    setCurrentView('landing');
+    window.location.hash = 'inicio';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // ----------------------------------------------------
-  // DASHBOARD VIEW (Dedicada a la Carta Digital)
-  // ----------------------------------------------------
   if (currentView === 'dashboard') {
-    return (
+    return <DashboardView goToLanding={goToLanding} />;
+  }
+
+  return <LandingView goToDashboard={goToDashboard} />;
+}
+
+// =========================================================
+//  VISTA: CARTA DIGITAL (Dashboard)
+//  Componente aislado para que sus hooks se monten/desmonten
+//  limpiamente al entrar/salir de la carta, sin cambiar el
+//  número de hooks de App (evita React error #300).
+// =========================================================
+function DashboardView({ goToLanding }: { goToLanding: () => void }) {
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    // Tras el commit de React los contenedores #category-chips-nav y
+    // #menu-sections-container ya existen; rAF asegura el pintado antes de
+    // inicializar la app Hexagonal Vanilla JS (MenuController además sondea).
+    requestAnimationFrame(() => {
+      if (typeof (window as any).initHexagonalApp === 'function') {
+        (window as any).initHexagonalApp();
+      }
+    });
+  }, []);
+
+  return (
+
       <div className="min-h-screen bg-black text-white font-sans selection:bg-weekend-neon selection:text-black">
         {/* Main Menu Container */}
         <main className="pt-3 pb-24 max-w-7xl mx-auto px-3 sm:px-4">
@@ -749,18 +703,75 @@ export default function App() {
           </div>
         </footer>
       </div>
-    );
-  }
+  );
+}
 
-  // ----------------------------------------------------
-  // LANDING PAGE VIEW (Página Principal)
-  // ----------------------------------------------------
+// =========================================================
+//  VISTA: LANDING (Página Principal)
+//  Todos sus hooks viven aquí: al ser un componente propio,
+//  el orden de hooks es estable en cada montaje.
+// =========================================================
+function LandingView({ goToDashboard }: { goToDashboard: () => void }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  const [form, setForm] = useState({
+    nombre: '',
+    fecha: '',
+    hora: '05:00 PM',
+    personas: '',
+    motivo: ''
+  });
+
   // Ref para parallax del capibara heroico (superior)
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const heroCapyY = useTransform(heroProgress, [0, 1], [0, 140]);
   const heroCapyRotate = useTransform(heroProgress, [0, 1], [0, 12]);
   const heroCapyOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Manejar tecla Escape para cerrar menú móvil
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Pausar animaciones cuando la página no está visible
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // Pausar animaciones CSS
+        document.body.classList.add('animations-paused');
+      } else {
+        // Reanudar animaciones CSS
+        document.body.classList.remove('animations-paused');
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [isOpen]);
+
+  const handleReserve = (e: React.FormEvent) => {
+    e.preventDefault();
+    const { nombre, fecha, hora, personas, motivo } = form;
+    const message = `Hola The Weekend! Deseo una reserva: Nombre: ${nombre}, Fecha: ${fecha}, Hora: ${hora}, Personas: ${personas}, Motivo: ${motivo}`;
+    window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
+  };
+
+  const handleDelivery = () => {
+    const message = "Hola! Deseo hacer un pedido de delivery.";
+    window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
+  };
 
   const handleNavClick = (e: React.MouseEvent, link: typeof NAV_LINKS[number]) => {
     // Módulo VER CARTA DIGITAL: redirección intacta
