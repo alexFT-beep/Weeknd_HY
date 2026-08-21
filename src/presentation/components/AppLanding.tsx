@@ -611,6 +611,8 @@ export default function App() {
     const handleHash = () => {
       if (window.location.hash === '#carta-digital' || window.location.hash === '#menu-virtual' || window.location.hash === '#carta') {
         setCurrentView('dashboard');
+      } else {
+        setCurrentView('landing');
       }
     };
     handleHash();
