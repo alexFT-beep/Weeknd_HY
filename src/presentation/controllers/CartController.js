@@ -251,14 +251,11 @@ export class CartController {
     // 1. Add to cart use case
     this.cartUseCases.addItem(menuItem, 1);
 
-    // 2. Micro-animation on the button (+ pop and temporary checkmark)
+    // 2. Micro-animation on the button (+ pop without touching innerHTML to preserve React DOM)
     if (buttonElement) {
       buttonElement.classList.add('animate-pop');
-      const originalHtml = buttonElement.innerHTML;
-      buttonElement.innerHTML = '<span class="material-symbols-outlined text-[20px] text-black">check</span>';
       setTimeout(() => {
         buttonElement.classList.remove('animate-pop');
-        buttonElement.innerHTML = originalHtml;
       }, 700);
     }
 
