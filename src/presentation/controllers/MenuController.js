@@ -20,6 +20,19 @@ export class MenuController {
   }
 
   async init() {
+    const navContainer = document.getElementById("category-chips-nav");
+    const sectionsContainer = document.getElementById("menu-sections-container");
+
+    if (!navContainer || !sectionsContainer) {
+      if (!this._retryCount) this._retryCount = 0;
+      if (this._retryCount < 15) {
+        this._retryCount++;
+        setTimeout(() => this.init(), 100);
+        return;
+      }
+    }
+    this._retryCount = 0;
+
     const fullMenu = await this.getMenuUseCase.getFullMenu();
     this.categories = fullMenu.categories;
     this.items = fullMenu.items;
@@ -377,9 +390,9 @@ export class MenuController {
   renderDeliveryNoticeSection() {
     return `
       <!-- Delivery & Notice Section -->
-      <section class="mb-8 grid grid-cols-1 md:grid-cols-2 gap-3.5" id="nota-delivery" style="scroll-margin-top: 70px;">
-        <!-- Notice Card -->
-        <div class="bg-surface-container-low border border-primary/30 rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-sm">
+      <section class="mb-8" id="nota-delivery" style="scroll-margin-top: 70px;">
+        <!-- Notice Card (módulo de empaques eliminado) -->
+        <div class="bg-surface-container-low border border-primary/30 rounded-[28px] p-5 sm:p-6 flex flex-col gap-3 shadow-sm">
           <div>
             <h2 class="text-primary mb-2 flex items-center gap-2 font-bold text-base">
               <span>ℹ️</span> ¡NOTA IMPORTANTE!
@@ -391,35 +404,9 @@ export class MenuController {
               *A partir de las 11:30 PM no incluye papas fritas en los platos que aplique.
             </p>
           </div>
-          <div class="mt-3 pt-2 border-t border-outline-variant/40 flex items-center gap-2">
+          <div class="pt-2 border-t border-outline-variant/40 flex items-center gap-2">
             <span class="text-xs">🛵</span>
             <span class="text-xs font-bold text-primary">Delivery rápido y seguro en todo Huarmey</span>
-          </div>
-        </div>
-
-        <!-- Packaging Options Card -->
-        <div class="bg-surface-container-low border border-outline-variant rounded-2xl p-4 sm:p-5 flex flex-col justify-between shadow-sm">
-          <div>
-            <h3 class="text-on-surface mb-2 font-bold text-sm uppercase flex items-center gap-2">
-              <span>🥡</span> Empaques y Envases Descartables
-            </h3>
-            <p class="text-xs text-on-surface-variant mb-3">
-              Selecciona tus envases ecológicos directamente al armar tu pedido en el carrito.
-            </p>
-            <div class="flex flex-wrap gap-2 text-[11px]">
-              <span class="px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant text-on-surface flex items-center gap-1">
-                <span>🍱</span> Tupper: S/ 1.00
-              </span>
-              <span class="px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant text-on-surface flex items-center gap-1">
-                <span>🛍️</span> Bolsa: S/ 1.00
-              </span>
-              <span class="px-2.5 py-1 rounded-lg bg-surface-container border border-outline-variant text-on-surface flex items-center gap-1">
-                <span>🥤</span> Vaso: S/ 1.00
-              </span>
-            </div>
-          </div>
-          <div class="mt-3 pt-2 border-t border-outline-variant/40 text-[11px] text-on-surface-variant">
-            🌱 Ayúdanos a cuidar el medio ambiente
           </div>
         </div>
       </section>

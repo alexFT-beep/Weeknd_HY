@@ -54,11 +54,12 @@ export class CartDrawerComponent {
               </span>
             </div>
           </div>
-          <button 
-            type="button" 
+          <button
+            type="button"
             class="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
             data-action="close-cart"
             title="Cerrar Carrito"
+            aria-label="Cerrar Carrito"
           >
             <span class="material-symbols-outlined text-2xl">close</span>
           </button>
@@ -73,10 +74,11 @@ export class CartDrawerComponent {
               </div>
               <h3 class="text-base font-bold text-white mb-1">Tu carrito está vacío</h3>
               <p class="text-xs text-zinc-400 max-w-xs mb-6">Explora nuestra carta y añade tus platos favoritos con el botón (+).</p>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 class="bg-primary text-black font-extrabold text-xs uppercase px-6 py-3 rounded-xl hover:bg-primary-container transition-all active:scale-95 shadow-md"
                 data-action="close-cart"
+                aria-label="Ver la Carta"
               >
                 Ver la Carta
               </button>
@@ -88,19 +90,21 @@ export class CartDrawerComponent {
                 📋 Modalidad de Atención
               </label>
               <div class="grid grid-cols-2 gap-2">
-                <button 
+                <button
                   type="button"
                   data-action="set-order-type"
                   data-type="delivery"
                   class="py-2.5 px-3 rounded-lg text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 ${orderType === "delivery" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
+                  aria-label="Seleccionar Delivery"
                 >
                   <span>🛵 Delivery</span>
                 </button>
-                <button 
+                <button
                   type="button"
                   data-action="set-order-type"
                   data-type="salon"
                   class="py-2.5 px-3 rounded-lg text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 ${orderType === "salon" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
+                  aria-label="Seleccionar En Salón"
                 >
                   <span>🍽️ En Salón / Mesa</span>
                 </button>
@@ -113,10 +117,11 @@ export class CartDrawerComponent {
                 <span class="text-xs font-bold text-zinc-400 uppercase tracking-wide">
                   🛒 Platos Seleccionados (${totals.itemCount})
                 </span>
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   data-action="clear-cart"
                   class="text-[11px] text-red-400 hover:underline flex items-center gap-1 font-semibold"
+                  aria-label="Vaciar carrito"
                 >
                   <span class="material-symbols-outlined text-xs">delete_sweep</span> Vaciar
                 </button>
@@ -147,12 +152,13 @@ export class CartDrawerComponent {
 
                       <!-- Quantity Stepper -->
                       <div class="flex items-center gap-1 bg-zinc-900 border border-zinc-800 rounded-lg p-0.5 shrink-0">
-                        <button 
+                        <button
                           type="button"
                           data-action="decrease-qty"
                           data-cart-item-id="${ci.id}"
                           class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-red-400 transition-colors"
                           title="Disminuir"
+                          aria-label="Disminuir cantidad"
                         >
                           <span class="material-symbols-outlined text-[16px]">
                             ${ci.quantity === 1 ? "delete" : "remove"}
@@ -161,12 +167,13 @@ export class CartDrawerComponent {
                         <span class="text-xs font-bold min-w-[18px] text-center font-price-display text-white">
                           ${ci.quantity}
                         </span>
-                        <button 
+                        <button
                           type="button"
                           data-action="increase-qty"
                           data-cart-item-id="${ci.id}"
                           class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-primary transition-colors"
                           title="Aumentar"
+                          aria-label="Aumentar cantidad"
                         >
                           <span class="material-symbols-outlined text-[16px]">add</span>
                         </button>
@@ -201,54 +208,6 @@ export class CartDrawerComponent {
                           + S/ ${zone.fee.toFixed(2)}
                         </span>
                       </button>
-                    `;
-                  }).join("")}
-                </div>
-              </div>
-            ` : ""}
-
-            <!-- Packaging Charges (Clean, Compact) -->
-            ${orderType === "delivery" ? `
-              <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-3.5 space-y-2.5">
-                <div class="flex items-center justify-between">
-                  <label class="text-xs font-bold text-white uppercase tracking-wide flex items-center gap-1.5">
-                    <span>🥡 Empaques y Envases</span>
-                  </label>
-                  <span class="text-[10px] text-zinc-400">*Según requerimiento</span>
-                </div>
-                <div class="space-y-2">
-                  ${packagingOptions.map(opt => {
-                    const qty = packagingSelections[opt.id] || 0;
-                    return `
-                      <div class="flex items-center justify-between p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-xs">
-                        <div class="flex flex-col">
-                          <span class="font-bold text-white text-[11px]">${opt.name}</span>
-                          <span class="text-[10px] text-zinc-400 font-price-display">
-                            S/ ${opt.price.toFixed(2)} c/u
-                          </span>
-                        </div>
-                        <div class="flex items-center gap-1 bg-[#121214] border border-zinc-800 rounded-lg p-0.5">
-                          <button 
-                            type="button"
-                            data-action="packaging-qty"
-                            data-pkg-id="${opt.id}"
-                            data-val="${qty - 1}"
-                            class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-red-400 transition-colors"
-                          >
-                            <span class="material-symbols-outlined text-xs">remove</span>
-                          </button>
-                          <span class="text-xs font-bold font-price-display px-1.5 text-white">${qty}</span>
-                          <button 
-                            type="button"
-                            data-action="packaging-qty"
-                            data-pkg-id="${opt.id}"
-                            data-val="${qty + 1}"
-                            class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-primary transition-colors"
-                          >
-                            <span class="material-symbols-outlined text-xs">add</span>
-                          </button>
-                        </div>
-                      </div>
                     `;
                   }).join("")}
                 </div>
@@ -336,12 +295,6 @@ export class CartDrawerComponent {
                   <span class="font-price-display text-primary font-bold">+ S/ ${totals.deliveryFee.toFixed(2)}</span>
                 </div>
               ` : ""}
-              ${totals.packagingFee > 0 ? `
-                <div class="flex justify-between text-zinc-400">
-                  <span>Empaques:</span>
-                  <span class="font-price-display text-primary font-bold">+ S/ ${totals.packagingFee.toFixed(2)}</span>
-                </div>
-              ` : ""}
               <div class="flex justify-between items-center pt-2 border-t border-zinc-800 text-sm sm:text-base font-black">
                 <span class="text-white uppercase tracking-tight">Total a Pagar:</span>
                 <span class="font-price-display text-primary text-xl sm:text-2xl font-black">
@@ -351,10 +304,11 @@ export class CartDrawerComponent {
             </div>
 
             <!-- WhatsApp Checkout Button -->
-            <button 
-              type="button" 
+            <button
+              type="button"
               data-action="submit-whatsapp-order"
               class="w-full bg-primary hover:bg-primary-container text-black font-black uppercase py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(10,204,128,0.4)] active:scale-[0.98] transition-all text-xs sm:text-sm tracking-wider"
+              aria-label="Enviar pedido por WhatsApp"
             >
               <span class="material-symbols-outlined text-xl">chat</span>
               <span>Enviar Pedido a WhatsApp</span>
