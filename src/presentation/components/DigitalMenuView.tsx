@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SECTION_THEMES } from './ProductCardComponent.js';
-import { Plus, Search, ChevronDown, ChevronUp, Sparkles, ShoppingBag, ShieldCheck, MapPin, Truck, Check, Grid, Layers, Eye, EyeOff } from 'lucide-react';
+import { Plus, ChevronDown, Sparkles, ShieldCheck, Truck, Check, Eye, EyeOff } from 'lucide-react';
 
 interface Category {
   id: string;
@@ -38,11 +38,8 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
 
   // Estado para acordeones por categoría (true = desplegado, false = replegado)
   const [expandedCategories, setExpandedCategories] = useState<{ [key: string]: boolean }>({});
-  // Estado para el menú desplegable de selección rápida de categorías
-  const [isMenuDropdownOpen, setIsMenuDropdownOpen] = useState<boolean>(false);
 
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -75,17 +72,6 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
     return () => {
       isMounted = false;
     };
-  }, []);
-
-  // Cerrar menú desplegable de categorías si se hace clic fuera
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setIsMenuDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   // IntersectionObserver para actualizar el chip activo al hacer scroll
@@ -146,7 +132,6 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
     setActiveCategory(catId);
     // Asegurar que la categoría destino esté desplegada
     setExpandedCategories((prev) => ({ ...prev, [catId]: true }));
-    setIsMenuDropdownOpen(false);
 
     setTimeout(() => {
       const target = document.getElementById(`sec-${catId}`);
@@ -166,17 +151,18 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
   };
 
   const handleAddToCart = async (item: MenuItem, e: React.MouseEvent) => {
-    e.stopPropagation();
-    
-    // Visual feedback on button
+    // Visual feedback instantáneo en React state
     setAddedItemIds((prev) => ({ ...prev, [item.id]: true }));
     setTimeout(() => {
       setAddedItemIds((prev) => ({ ...prev, [item.id]: false }));
     }, 1200);
 
-    // Call hexagonal controller
+    const buttonEl = e.currentTarget as HTMLElement;
+    const cardEl = document.getElementById(`item-card-${item.id}`) || (buttonEl.closest('.group') as HTMLElement);
+
+    // Invocar controlador hexagonal para ejecutar la secuencia completa de animaciones y guardar en carrito
     if ((window as any).appInstance?.cartController) {
-      await (window as any).appInstance.cartController.addItemToCart(item.id);
+      await (window as any).appInstance.cartController.addItemToCart(item.id, buttonEl, cardEl);
     } else {
       document.dispatchEvent(new CustomEvent('cart:add', { detail: { itemId: item.id } }));
     }
@@ -196,63 +182,15 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
   return (
     <div className="w-full relative">
 
-      {/* BARRA PEGAJOSA Y MENÚ DESPLEGABLE DE SELECCIÓN DE CATEGORÍAS */}
-      <div className="sticky top-0 z-30 bg-black/95 backdrop-blur-md border-b border-white/10 py-3 mb-6 -mx-3 px-3 sm:-mx-4 sm:px-4 flex flex-col gap-2.5">
+      {/* BARRA PEGAJOSA DE CHIPS DE CATEGORÍAS (NEÓN) */}
+      <div className="sticky top-0 z-30 bg-black/95 backdrop-blur-md border-b border-white/10 py-3 mb-6 -mx-3 px-3 sm:-mx-4 sm:px-4 flex flex-col gap-2">
         
-        {/* FILA SUPERIOR: Botón desplegable + Botones de expansión masiva */}
+        {/* FILA SUPERIOR: Botones de control masivo (Expandir / Contraer todas) */}
         <div className="flex items-center justify-between gap-2">
-          
-          {/* Botón desplegable de Categorías */}
-          <div className="relative inline-block text-left" ref={dropdownRef}>
-            <button 
-              id="menu-toggle-btn"
-              type="button" 
-              onClick={() => setIsMenuDropdownOpen(!isMenuDropdownOpen)}
-              className="group inline-flex items-center gap-2.5 px-4 py-2 bg-weekend-neon text-black font-black uppercase text-xs sm:text-sm tracking-wider rounded-xl hover:bg-white transition-all duration-200 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)]"
-            >
-              <Grid className="w-4 h-4" />
-              <span>Categorías</span>
-              <ChevronDown 
-                id="menu-chevron" 
-                className={`w-4 h-4 transition-transform duration-200 ${isMenuDropdownOpen ? 'rotate-180' : ''}`} 
-              />
-            </button>
+          <span className="text-[11px] font-black text-weekend-neon uppercase tracking-widest flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5" /> Menú Digital Weekend!
+          </span>
 
-            {/* Opciones desplegables */}
-            {isMenuDropdownOpen && (
-              <div 
-                id="menu-options" 
-                className="absolute left-0 mt-2 w-64 max-h-80 overflow-y-auto bg-neutral-900 border border-white/15 rounded-2xl shadow-2xl p-2 z-50 space-y-1 backdrop-blur-xl"
-              >
-                <div className="px-3 py-1.5 text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-white/10 mb-1">
-                  Selecciona una categoría:
-                </div>
-                {categories.map((cat) => {
-                  const theme = SECTION_THEMES[cat.id] || SECTION_THEMES['alitas'];
-                  return (
-                    <button
-                      key={cat.id}
-                      type="button"
-                      onClick={() => scrollToCategory(cat.id)}
-                      className="w-full text-left flex items-center justify-between px-3 py-2 text-xs font-bold text-gray-200 hover:text-black rounded-xl transition-all duration-150 group"
-                      style={{
-                        backgroundColor: activeCategory === cat.id ? theme.hex : undefined,
-                        color: activeCategory === cat.id ? '#000000' : undefined
-                      }}
-                    >
-                      <span className="flex items-center gap-2">
-                        <span className="text-sm">{cat.emoji}</span>
-                        <span>{cat.name}</span>
-                      </span>
-                      <span className="text-[10px] font-black opacity-75">{cat.id}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* Botones de control masivo (Expandir / Contraer todas) */}
           <div className="flex items-center gap-1.5">
             <button
               type="button"
@@ -275,7 +213,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
           </div>
         </div>
 
-        {/* FILA INFERIOR: Chips neón horizontales */}
+        {/* FILA DE CHIPS HORIZONTALES CON SCROLL SUAVE */}
         <div 
           id="category-chips-nav" 
           className="flex space-x-2 overflow-x-auto no-scrollbar py-1 scroll-smooth"
@@ -565,6 +503,7 @@ function renderCardItem(
       key={item.id}
       id={`item-card-${item.id}`}
       className="bg-neutral-900/90 border border-white/10 hover:border-white/25 rounded-2xl p-4 flex flex-col justify-between text-left group relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 shadow-lg"
+      data-item-id={item.id}
     >
       <div>
         <div className="flex justify-between items-start gap-2 mb-1.5">
@@ -597,6 +536,8 @@ function renderCardItem(
             </span>
             <button
               type="button"
+              data-action="add-to-cart"
+              data-item-id={item.id}
               onClick={(e) => onAdd(item, e)}
               className={`flex items-center justify-center w-8 h-8 rounded-xl border transition-all duration-200 active:scale-90 shadow-sm ${
                 isAdded ? 'bg-weekend-neon text-black border-weekend-neon' : ''
@@ -635,6 +576,7 @@ function renderRowItem(
       key={item.id}
       id={`item-card-${item.id}`}
       className="flex justify-between items-center border-b border-white/10 py-2 px-3 rounded-xl hover:bg-white/5 transition-colors group"
+      data-item-id={item.id}
     >
       <div className="flex-1 pr-2 min-w-0">
         <div className="flex items-center gap-1.5 flex-wrap">
@@ -671,6 +613,8 @@ function renderRowItem(
         </span>
         <button
           type="button"
+          data-action="add-to-cart"
+          data-item-id={item.id}
           onClick={(e) => onAdd(item, e)}
           className={`flex items-center justify-center w-7 h-7 rounded-lg border transition-all duration-200 active:scale-90 shadow-sm ${
             isAdded ? 'bg-weekend-neon text-black border-weekend-neon' : ''

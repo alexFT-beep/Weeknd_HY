@@ -197,6 +197,15 @@ export class CartController {
   }
 
   /**
+   * Alias method for adding item by ID with automatic DOM element resolution
+   */
+  async addItemToCart(itemId, buttonElement = null, cardElement = null) {
+    const card = cardElement || document.getElementById(`item-card-${itemId}`);
+    const btn = buttonElement || (card ? card.querySelector('[data-action="add-to-cart"], button') : null);
+    await this.handleAddItem(itemId, btn, card);
+  }
+
+  /**
    * Handle adding an item with rich animation & sound feedback
    */
   async handleAddItem(itemId, buttonElement, cardElement) {
