@@ -168,7 +168,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
     if ((window as any).appInstance?.cartController) {
       await (window as any).appInstance.cartController.addItemToCart(item.id, buttonEl, cardEl);
     } else {
-      document.dispatchEvent(new CustomEvent('cart:add', { detail: { itemId: item.id } }));
+      document.dispatchEvent(new CustomEvent('cart:add', { detail: { itemId: item.id, buttonElement: buttonEl, cardElement: cardEl } }));
     }
   };
 

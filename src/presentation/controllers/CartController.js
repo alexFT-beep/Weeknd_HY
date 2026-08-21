@@ -136,6 +136,16 @@ export class CartController {
       }
     });
 
+    // Custom Event Listener for cart:add
+    document.addEventListener('cart:add', async (e) => {
+      const { itemId, buttonElement, cardElement } = e.detail || {};
+      if (itemId) {
+        const btn = buttonElement || document.querySelector(`[data-action="add-to-cart"][data-item-id="${itemId}"]`);
+        const card = cardElement || document.getElementById(`item-card-${itemId}`);
+        await this.handleAddItem(itemId, btn, card);
+      }
+    });
+
     // Notes change listener
     document.addEventListener('input', (e) => {
       if (e.target && e.target.dataset.action === 'update-item-notes') {
