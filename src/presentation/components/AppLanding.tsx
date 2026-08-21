@@ -135,24 +135,30 @@ function useDragScroll() {
 //  COMPONENTE: Banda de capibara con parallax scroll-driven
 // =========================================================
 function CapybaraBand({
-  src, alt, eyebrow, title, desc, reverse,
-}: { src: string; alt: string; eyebrow: string; title: string; desc: string; reverse?: boolean }) {
+  src, alt, align = 'center',
+}: { src: string; alt: string; align?: 'left' | 'right' | 'center' }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], [70, -70]);
   const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.88, 1.06, 0.96]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.85, 1], [0, 1, 1, 0.35]);
-  const textY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
+  const alignmentClasses = 
+    align === 'left' 
+      ? 'items-start justify-start md:pl-12 lg:pl-24' 
+      : align === 'right' 
+      ? 'items-end justify-end md:pr-12 lg:pr-24' 
+      : 'items-center justify-center';
 
   return (
-    <div ref={ref} className="relative min-h-[72vh] flex items-center overflow-hidden py-16">
+    <div ref={ref} className="relative min-h-[50vh] flex items-center overflow-hidden py-10">
       {/* halo de fondo */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pulse-glow" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/5" />
+        <div className={`absolute top-1/2 ${align === 'left' ? 'left-1/4' : align === 'right' ? 'left-3/4' : 'left-1/2'} -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pulse-glow`} />
+        <div className={`absolute top-1/2 ${align === 'left' ? 'left-1/4' : align === 'right' ? 'left-3/4' : 'left-1/2'} -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/5`} />
       </div>
-      <div className={`relative z-10 max-w-6xl mx-auto px-4 w-full flex flex-col items-center justify-center`}>
-        <motion.div style={{ y, scale, opacity }} className="relative flex-shrink-0 w-full max-w-md">
+      <div className={`relative z-10 max-w-6xl mx-auto px-4 w-full flex flex-col ${alignmentClasses}`}>
+        <motion.div style={{ y, scale, opacity }} className="relative flex-shrink-0 w-full max-w-xs md:max-w-sm lg:max-w-md">
           <div className="absolute -inset-6 rounded-[32px] bg-weekend-neon/10 blur-3xl pulse-glow" />
           <img
             src={src} alt={alt} loading="lazy"
@@ -672,26 +678,18 @@ export default function App() {
       <section id="capibaras" className="relative bg-black border-y border-white/5 overflow-hidden">
         <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-weekend-neon/30 to-transparent scan-line pointer-events-none" />
 
-        {/* Encabezado del corredor */}
-        <div className="text-center pt-16 pb-2 px-4 relative z-10">
-          <p className="text-weekend-neon text-xs tracking-[0.4em] uppercase font-display mb-3">Las Mascotas del Weekend</p>
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-            Capibaras en Acción
-          </h2>
-          <p className="text-white/50 text-sm max-w-xl mx-auto">Desliza hacia abajo y descubre la evolución de nuestra mascota.</p>
-        </div>
-
-        {/* Central: Pose Kamehameha */}
+        {/* Central: Pose Kamehameha (Lado Izquierdo) */}
         <CapybaraBand
           src={CAPY_KAME}
           alt="Capibara pose kamehameha"
+          align="left"
         />
 
-        {/* Inferior: Súper Héroe Aterriza */}
+        {/* Inferior: Súper Héroe Aterriza (Lado Derecho) */}
         <CapybaraBand
           src={CAPY_HERO}
           alt="Capibara superhéroe aterrizando"
-          reverse
+          align="right"
         />
       </section>
 
