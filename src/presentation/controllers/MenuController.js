@@ -19,17 +19,23 @@ export class MenuController {
     this.observer = null;
   }
 
-  async init() {
+  async init(isFresh = false) {
+    if (isFresh) {
+      this._retryCount = 0;
+    }
+
     const navContainer = document.getElementById("category-chips-nav");
     const sectionsContainer = document.getElementById("menu-sections-container");
 
     if (!navContainer || !sectionsContainer) {
-      if (!this._retryCount) this._retryCount = 0;
-      if (this._retryCount < 15) {
+      if (this._retryCount === undefined) this._retryCount = 0;
+      if (this._retryCount < 20) {
         this._retryCount++;
         setTimeout(() => this.init(), 100);
         return;
       }
+      console.warn("Category nav or menu sections container not found in DOM.");
+      return;
     }
     this._retryCount = 0;
 

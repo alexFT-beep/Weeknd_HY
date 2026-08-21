@@ -626,14 +626,18 @@ export default function App() {
 function DashboardView({ goToLanding }: { goToLanding: () => void }) {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' });
-    // Tras el commit de React los contenedores #category-chips-nav y
-    // #menu-sections-container ya existen; rAF asegura el pintado antes de
-    // inicializar la app Hexagonal Vanilla JS (MenuController además sondea).
-    requestAnimationFrame(() => {
+    const runBoot = () => {
       if (typeof (window as any).initHexagonalApp === 'function') {
         (window as any).initHexagonalApp();
       }
-    });
+    };
+    runBoot();
+    const t1 = setTimeout(runBoot, 50);
+    const t2 = setTimeout(runBoot, 200);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
   }, []);
 
   return (

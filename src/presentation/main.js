@@ -52,7 +52,7 @@ export async function bootApp() {
     }
 
     // Always re-run menuController init so DOM elements in React views are populated
-    await appInstance.menuController.init();
+    await appInstance.menuController.init(true);
     await appInstance.cartController.updateCartWidgets();
 
     console.log('🍽️ WEEKEND! Lounge & Restaurant - Carta Digital iniciada correctamente con Arquitectura Hexagonal.');
