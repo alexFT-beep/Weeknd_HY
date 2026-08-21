@@ -127,16 +127,17 @@
     </div>
   </div>
 
-  <!-- Circular Floating Cart Button (All Devices) -->
+  <!-- Circular Floating Cart Button (Fallback / Main) -->
   <button 
     type="button"
     id="cart-floating-fab"
     data-action="open-cart"
-    class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-primary hover:bg-primary-container text-black flex items-center justify-center shadow-[0_4px_25px_rgba(10,204,128,0.45)] hover:scale-105 active:scale-95 transition-all duration-200"
-    title="Ver Carrito de Compras"
+    class="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-40 w-14 h-14 rounded-full bg-[#0acc80] text-black font-extrabold flex items-center justify-center shadow-[0_0_25px_rgba(10,204,128,0.55)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+    title="Ver Carrito / Hacer Pedido"
+    aria-label="Ver Carrito / Hacer Pedido"
   >
     <span class="material-symbols-outlined text-[26px]">shopping_cart</span>
-    <span id="floating-cart-badge" class="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 bg-black text-primary border-2 border-primary font-black text-[11px] rounded-full flex items-center justify-center hidden animate-bounce">
+    <span id="floating-cart-badge" class="absolute -top-1.5 -right-1.5 min-w-[22px] h-[22px] px-1 bg-black text-[#0acc80] border-2 border-[#0acc80] font-black text-[11px] rounded-full flex items-center justify-center hidden animate-bounce">
       0
     </span>
   </button>

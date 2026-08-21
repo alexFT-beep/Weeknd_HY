@@ -638,7 +638,7 @@ function DashboardView({ goToLanding }: { goToLanding: () => void }) {
 
   return (
 
-      <div className="min-h-screen bg-black text-white font-sans selection:bg-weekend-neon selection:text-black">
+      <div className="min-h-screen bg-black text-white font-sans selection:bg-weekend-neon selection:text-black relative">
         {/* Main Menu Container */}
         <main className="pt-3 pb-24 max-w-7xl mx-auto px-3 sm:px-4">
 
@@ -665,15 +665,29 @@ function DashboardView({ goToLanding }: { goToLanding: () => void }) {
               </span>
             </div>
 
-            <button
-              type="button"
-              data-action="open-search"
-              className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 p-1.5 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon shadow-sm"
-              title="Buscar en la carta"
-              aria-label="Buscar en la carta"
-            >
-              <span className="material-symbols-outlined text-[20px]">search</span>
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                data-action="open-search"
+                className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 p-1.5 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon shadow-sm"
+                title="Buscar en la carta"
+                aria-label="Buscar en la carta"
+              >
+                <span className="material-symbols-outlined text-[20px]">search</span>
+              </button>
+
+              <button
+                type="button"
+                data-action="open-cart"
+                className="relative text-black font-extrabold bg-weekend-neon hover:bg-white transition-all active:scale-95 px-3 py-1.5 rounded-xl flex items-center gap-1.5 text-xs uppercase shadow-md cursor-pointer"
+                title="Ver Carrito / Hacer Pedido"
+                aria-label="Ver Carrito / Hacer Pedido"
+              >
+                <ShoppingCart size={16} />
+                <span className="hidden sm:inline">Pedido</span>
+                <span className="header-cart-badge min-w-[18px] h-[18px] px-1 bg-black text-weekend-neon font-black text-[10px] rounded-full flex items-center justify-center hidden">0</span>
+              </button>
+            </div>
           </div>
 
           {/* Sticky Category Chips Navigation Bar (Directly at top-0) */}
@@ -688,6 +702,34 @@ function DashboardView({ goToLanding }: { goToLanding: () => void }) {
             {/* Injected dynamically by MenuController */}
           </div>
         </main>
+
+        {/* Floating Bottom Order Bar & FAB for Quick Order Access */}
+        <div className="fixed bottom-5 inset-x-4 sm:bottom-6 sm:right-6 sm:inset-x-auto z-40 flex items-center justify-center">
+          <button
+            type="button"
+            id="cart-floating-fab"
+            data-action="open-cart"
+            className="group relative w-full sm:w-auto flex items-center justify-between sm:justify-center gap-3 px-5 py-3.5 bg-weekend-neon text-black font-black uppercase text-xs sm:text-sm rounded-2xl sm:rounded-full shadow-[0_0_25px_rgba(10,204,128,0.55)] hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer border border-black/10"
+            title="Ver Pedido / Hacer Pedido"
+            aria-label="Ver Pedido / Hacer Pedido"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="relative flex items-center justify-center">
+                <ShoppingCart size={20} className="stroke-[2.5]" />
+                <span
+                  id="floating-cart-badge"
+                  className="absolute -top-2.5 -right-3 min-w-[20px] h-[20px] px-1 bg-black text-weekend-neon border-2 border-weekend-neon font-black text-[10px] rounded-full flex items-center justify-center hidden animate-bounce"
+                >
+                  0
+                </span>
+              </div>
+              <span className="tracking-wider font-black">Ver Mi Pedido</span>
+            </div>
+            <span className="cart-total-display bg-black/20 text-black px-2.5 py-1 rounded-lg text-xs font-black tracking-tight">
+              S/ 0.00
+            </span>
+          </button>
+        </div>
 
         {/* Dashboard Footer */}
         <footer className="border-t border-white/10 py-8 bg-black text-center text-xs text-white/50">

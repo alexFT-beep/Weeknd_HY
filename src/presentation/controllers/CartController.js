@@ -302,6 +302,12 @@ export class CartController {
         badge.classList.add('hidden');
       }
     });
+
+    // Update total price displays across widgets
+    const totalDisplays = document.querySelectorAll('.cart-total-display');
+    totalDisplays.forEach(el => {
+      el.textContent = `S/ ${totals.grandTotal.toFixed(2)}`;
+    });
   }
 
   async openCart() {
