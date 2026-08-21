@@ -609,7 +609,14 @@ export default function App() {
 
   useEffect(() => {
     const handleHash = () => {
-      if (window.location.hash === '#carta-digital' || window.location.hash === '#menu-virtual' || window.location.hash === '#carta') {
+      const hash = (window.location.hash || '').toLowerCase();
+      const menuHashes = [
+        '#carta-digital', '#menu-virtual', '#carta', '#menu',
+        '#alitas', '#hamburguesas', '#broaster', '#salchipapas', '#parrillas',
+        '#piqueos', '#a-la-carta', '#chifa', '#pastas', '#ensaladas', '#makis',
+        '#jugos', '#bubble-tea', '#refrescos', '#cocteles', '#cervezas', '#guarniciones'
+      ];
+      if (menuHashes.some(h => hash.startsWith(h))) {
         setCurrentView('dashboard');
       } else {
         setCurrentView('landing');
@@ -623,16 +630,18 @@ export default function App() {
   useEffect(() => {
     if (currentView === 'dashboard') {
       window.scrollTo({ top: 0, behavior: 'instant' });
-      // Use a longer timeout and requestAnimationFrame to ensure the DOM nodes
-      // #category-chips-nav and #menu-sections-container are fully mounted
-      // before the Hexagonal Vanilla JS app tries to initialize them.
-      setTimeout(() => {
-        requestAnimationFrame(() => {
-          if (typeof (window as any).initHexagonalApp === 'function') {
-            (window as any).initHexagonalApp();
-          }
-        });
-      }, 300);
+      const runBoot = () => {
+        if (typeof (window as any).initHexagonalApp === 'function') {
+          (window as any).initHexagonalApp();
+        }
+      };
+      runBoot();
+      const t1 = setTimeout(runBoot, 50);
+      const t2 = setTimeout(runBoot, 200);
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+      };
     }
   }, [currentView]);
 
