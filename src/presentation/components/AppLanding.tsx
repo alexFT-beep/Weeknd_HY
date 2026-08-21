@@ -36,44 +36,224 @@ const TIME_SLOTS = [
 ];
 
 // =========================================================
-//  REDES SOCIALES — Datos reales (perfiles y publicaciones)
+//  REDES SOCIALES — Datos Canónicos & Sincronización de Likes
 // =========================================================
-const TIKTOK = {
+
+interface SocialPostItem {
+  id: string;
+  url: string;
+  shortUrl?: string;
+  title: string;
+  caption: string;
+  likes: number;
+  comments: number;
+  views?: string;
+  shares?: number;
+  cover: string;
+  isVideo: boolean;
+  tag: string;
+}
+
+const TIKTOK_DATA = {
   name: 'TikTok',
   handle: '@weekendhuarmey',
-  profile: 'https://www.tiktok.com/@weekendhuarmey?_r=1',
+  profile: 'https://www.tiktok.com/@weekendhuarmey',
+  accent: '#FE2C55',
+  badge: 'linear-gradient(135deg,#25F4EE 0%,#000 45%,#FE2C55 100%)',
   posts: [
-    'https://vt.tiktok.com/ZSVySRqtW/',
-    'https://vt.tiktok.com/ZSVySJ7A3/',
-    'https://vt.tiktok.com/ZSVySfxPv/',
-    'https://vt.tiktok.com/ZSVySAA4a/',
-  ],
+    {
+      id: '7675469738880830741',
+      url: 'https://www.tiktok.com/@weekendhuarmey/video/7675469738880830741',
+      shortUrl: 'https://vt.tiktok.com/ZSVySRqtW/',
+      title: '🍗 Broaster & Alitas Weekend',
+      caption: '¡El mejor broaster y alitas de Huarmey! Crujientes con más de 31 salsas.',
+      likes: 1420,
+      comments: 86,
+      views: '12.4K',
+      cover: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&h=750&fit=crop&auto=format',
+      isVideo: true,
+      tag: '🔥 Tendencia',
+    },
+    {
+      id: '7674053681561521428',
+      url: 'https://www.tiktok.com/@weekendhuarmey/video/7674053681561521428',
+      shortUrl: 'https://vt.tiktok.com/ZSVySJ7A3/',
+      title: '🎂 Noche de Cumpleaños & Fiesta',
+      caption: '¡Celebrando los cumpleaños en The Weekend! Show, sorpresas y buena vibra.',
+      likes: 3180,
+      comments: 142,
+      views: '28.1K',
+      cover: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=750&fit=crop&auto=format',
+      isVideo: true,
+      tag: '🎉 Fiesta',
+    },
+    {
+      id: '7673237454119275796',
+      url: 'https://www.tiktok.com/@weekendhuarmey/video/7673237454119275796',
+      shortUrl: 'https://vt.tiktok.com/ZSVySfxPv/',
+      title: '🍸 Coctelería de Autor',
+      caption: 'Tragos exclusivos de nuestros bartenders. Sofisticado y casual para tu fin de semana.',
+      likes: 890,
+      comments: 54,
+      views: '9.8K',
+      cover: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&h=750&fit=crop&auto=format',
+      isVideo: true,
+      tag: '🍹 Barra',
+    },
+    {
+      id: '7672838643735792917',
+      url: 'https://www.tiktok.com/@weekendhuarmey/video/7672838643735792917',
+      shortUrl: 'https://vt.tiktok.com/ZSVySAA4a/',
+      title: '🥤 Frappés & Bebidas',
+      caption: '¡Agranda tu frappé y refréscate con el sabor único de The Weekend!',
+      likes: 2150,
+      comments: 98,
+      views: '18.6K',
+      cover: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&h=750&fit=crop&auto=format',
+      isVideo: true,
+      tag: '✨ Delicioso',
+    },
+  ] as SocialPostItem[],
 };
 
-const INSTAGRAM = {
+const INSTAGRAM_DATA = {
   name: 'Instagram',
   handle: '@weekend_huarmey',
   profile: 'https://www.instagram.com/weekend_huarmey/',
+  accent: '#dc2743',
+  badge: 'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)',
   posts: [
-    'https://www.instagram.com/p/DcRuJRXFasq/',
-    'https://www.instagram.com/reel/DcRtn0aTRHm/',
-    'https://www.instagram.com/p/DcRrOtwlU_w/',
-    'https://www.instagram.com/p/DcPU49ig26K/',
-    'https://www.instagram.com/p/DcPTkUZgJ3m/',
-  ],
+    {
+      id: 'DcRuJRXFasq',
+      url: 'https://www.instagram.com/p/DcRuJRXFasq/',
+      title: '🎉 Noche de Cumpleaños Grupal',
+      caption: '🎂 #CUMPLEAÑOS | #AGOSTO | #WEEKEND ¡Feliz cumpleaños, Kimberly! Gracias por celebrar con nosotros.',
+      likes: 312,
+      comments: 24,
+      cover: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=750&fit=crop&auto=format',
+      isVideo: false,
+      tag: '📸 Post',
+    },
+    {
+      id: 'DcRtn0aTRHm',
+      url: 'https://www.instagram.com/reel/DcRtn0aTRHm/',
+      title: '🎬 Reel: Pastel Sorpresa & Show',
+      caption: 'Audio original • Weekend Huarmey • ¡La sorpresa de la noche con toda la onda del Weekend!',
+      likes: 487,
+      comments: 38,
+      cover: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&h=750&fit=crop&auto=format',
+      isVideo: true,
+      tag: '🎬 Reel',
+    },
+    {
+      id: 'DcRrOtwlU_w',
+      url: 'https://www.instagram.com/p/DcRrOtwlU_w/',
+      title: '🍗 Sabrosos Broaster Weekend',
+      caption: '🍗 ¡BROASTER que te hará volver! Combínalo con Chaufa o Salchipapas + Pide tu Delivery 📲 961 336 674',
+      likes: 621,
+      comments: 45,
+      cover: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=750&fit=crop&auto=format',
+      isVideo: false,
+      tag: '🍗 Carta',
+    },
+    {
+      id: 'DcPU49ig26K',
+      url: 'https://www.instagram.com/p/DcPU49ig26K/',
+      title: '🍓 Agranda tu Frappé x S/ 3.99',
+      caption: '✨ ¡AGRANDA TU FRAPPÉ por solo S/ 3.99! Más grande, más sabor. Reserva o pide delivery en Huarmey.',
+      likes: 256,
+      comments: 18,
+      cover: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&h=750&fit=crop&auto=format',
+      isVideo: false,
+      tag: '🍓 Promo',
+    },
+    {
+      id: 'DcPTkUZgJ3m',
+      url: 'https://www.instagram.com/p/DcPTkUZgJ3m/',
+      title: '✨ Amigos & Celebraciones',
+      caption: 'Amigos, risas, buena comida y la mejor música en vivo. Tu fin de semana empieza aquí.',
+      likes: 403,
+      comments: 31,
+      cover: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=750&fit=crop&auto=format',
+      isVideo: false,
+      tag: '🥂 Noche',
+    },
+  ] as SocialPostItem[],
 };
 
-const FACEBOOK = {
+const FACEBOOK_DATA = {
   name: 'Facebook',
   handle: 'Weekend Huarmey',
-  profile: 'https://www.facebook.com/p/Weekend-Huarmey-100075916407028/?checkpoint_src=any',
+  profile: 'https://www.facebook.com/p/Weekend-Huarmey-100075916407028/',
+  accent: '#1877f2',
+  badge: '#1877f2',
   posts: [
-    'https://www.facebook.com/share/p/19GHC6RSia/',
-    'https://www.facebook.com/share/r/1EcBQH7uVN/',
-    'https://www.facebook.com/share/p/1912zGDxwd/',
-    'https://www.facebook.com/share/p/19NN2y8RBz/',
-    'https://www.facebook.com/share/p/1Dum4UT4Jh/',
-  ],
+    {
+      id: '1064399486100588',
+      url: 'https://www.facebook.com/100075916407028/posts/1064399486100588',
+      shortUrl: 'https://www.facebook.com/share/p/19GHC6RSia/',
+      title: '🎉 ¡Viernes de fiesta en The Weekend!',
+      caption: '¡Gracias Huarmey por otro fin de semana increíble! Los esperamos con la mejor carta y ambiente.',
+      likes: 218,
+      comments: 34,
+      shares: 16,
+      cover: 'https://images.unsplash.com/photo-1545128485-c400e7702796?w=600&h=750&fit=crop&auto=format',
+      isVideo: false,
+      tag: '🎉 Evento',
+    },
+    {
+      id: '1363382619241547',
+      url: 'https://www.facebook.com/100075916407028/videos/1363382619241547/',
+      shortUrl: 'https://www.facebook.com/share/r/1EcBQH7uVN/',
+      title: '🎬 Cumpleaños Kimberly - Show en vivo',
+      caption: 'Feliz cumpleaños Kimberly ❤️ Gracias por hacernos parte de este momento tan especial.',
+      likes: 342,
+      comments: 52,
+      shares: 28,
+      cover: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=750&fit=crop&auto=format',
+      isVideo: true,
+      tag: '🎥 Video',
+    },
+    {
+      id: '1064386526101884',
+      url: 'https://www.facebook.com/100075916407028/posts/1064386526101884',
+      shortUrl: 'https://www.facebook.com/share/p/1912zGDxwd/',
+      title: '🍸 Coctelería de autor y piqueos',
+      caption: 'Ven a probar nuestras tablas de piqueos, tequeños y alitas con más de 31 salsas artesanales.',
+      likes: 189,
+      comments: 21,
+      shares: 12,
+      cover: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&h=750&fit=crop&auto=format',
+      isVideo: false,
+      tag: '🍸 Bar',
+    },
+    {
+      id: '1063598126180724',
+      url: 'https://www.facebook.com/100075916407028/posts/1063598126180724',
+      shortUrl: 'https://www.facebook.com/share/p/19NN2y8RBz/',
+      title: '🍔 Hamburguesas Gourmet a la parrilla',
+      caption: 'Cortes seleccionados, pan brioche sellado y salsas exclusivas. Pide tu delivery al instante.',
+      likes: 276,
+      comments: 42,
+      shares: 19,
+      cover: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=750&fit=crop&auto=format',
+      isVideo: false,
+      tag: '🍔 Burgers',
+    },
+    {
+      id: '1063592619514608',
+      url: 'https://www.facebook.com/100075916407028/posts/1063592619514608',
+      shortUrl: 'https://www.facebook.com/share/p/19Dum4UT4Jh/',
+      title: '🥘 Platos a la Carta y Chifa',
+      caption: 'Lomo saltado, chaufa especial, tallarines y parrillas completas para compartir en familia.',
+      likes: 310,
+      comments: 36,
+      shares: 22,
+      cover: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=750&fit=crop&auto=format',
+      isVideo: false,
+      tag: '🥘 Carta',
+    },
+  ] as SocialPostItem[],
 };
 
 // --- Iconos oficiales de cada plataforma (SVG) ---
@@ -87,10 +267,10 @@ const FACEBOOK_ICON = (cn = 'w-5 h-5') => (
   <svg viewBox="0 0 24 24" className={cn} fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
 );
 
-const PLATFORMS = [
-  { data: TIKTOK,   badge: 'linear-gradient(135deg,#25F4EE 0%,#000 45%,#FE2C55 100%)', solid: '#000000', accent: '#FE2C55', icon: TIKTOK_ICON, hover: 'hover:border-[#FE2C55]/60', cta: 'Ver perfil' },
-  { data: INSTAGRAM, badge: 'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)', solid: '#dc2743', accent: '#dc2743', icon: INSTAGRAM_ICON, hover: 'hover:border-[#dc2743]/50', cta: 'Ver perfil' },
-  { data: FACEBOOK, badge: '#1877f2', solid: '#1877f2', accent: '#1877f2', icon: FACEBOOK_ICON, hover: 'hover:border-[#1877f2]/55', cta: 'Ver página' },
+const PLATFORMS_DATA = [
+  { ...TIKTOK_DATA, icon: TIKTOK_ICON, cta: 'Ver perfil' },
+  { ...INSTAGRAM_DATA, icon: INSTAGRAM_ICON, cta: 'Ver perfil' },
+  { ...FACEBOOK_DATA, icon: FACEBOOK_ICON, cta: 'Ver página' },
 ];
 
 // =========================================================
@@ -132,208 +312,198 @@ function useDragScroll() {
 }
 
 // =========================================================
-//  COMPONENTE: Banda de capibara con parallax scroll-driven
+//  COMPONENTE: Tarjeta Social Interactiva con Likes Sincronizados
 // =========================================================
-function CapybaraBand({
-  src, alt, align = 'center',
-}: { src: string; alt: string; align?: 'left' | 'right' | 'center' }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], [70, -70]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.88, 1.06, 0.96]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.85, 1], [0, 1, 1, 0.35]);
+function SocialPostCard({
+  post,
+  platform,
+}: {
+  post: SocialPostItem;
+  platform: typeof PLATFORMS_DATA[number];
+}) {
+  const [liked, setLiked] = useState(false);
+  const [likesCount, setLikesCount] = useState(post.likes);
+  const [copied, setCopied] = useState(false);
 
-  const alignmentClasses = 
-    align === 'left' 
-      ? 'items-start justify-start md:pl-12 lg:pl-24' 
-      : align === 'right' 
-      ? 'items-end justify-end md:pr-12 lg:pr-24' 
-      : 'items-center justify-center';
-
-  return (
-    <div ref={ref} className="relative min-h-[50vh] flex items-center overflow-hidden py-10">
-      {/* halo de fondo */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className={`absolute top-1/2 ${align === 'left' ? 'left-1/4' : align === 'right' ? 'left-3/4' : 'left-1/2'} -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pulse-glow`} />
-        <div className={`absolute top-1/2 ${align === 'left' ? 'left-1/4' : align === 'right' ? 'left-3/4' : 'left-1/2'} -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/5`} />
-      </div>
-      <div className={`relative z-10 max-w-6xl mx-auto px-4 w-full flex flex-col ${alignmentClasses}`}>
-        <motion.div style={{ y, scale, opacity }} className="relative flex-shrink-0 w-full max-w-xs md:max-w-sm lg:max-w-md">
-          <div className="absolute -inset-6 rounded-[32px] bg-weekend-neon/10 blur-3xl pulse-glow" />
-          <img
-            src={src} alt={alt} loading="lazy"
-            className="relative w-full drop-shadow-[0_0_45px_rgba(10,204,128,0.35)] float-anim"
-          />
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
-function SocialEmbedCard({ platform, url, index }: { platform: typeof PLATFORMS[number]; url: string; index: number }) {
-  const { data, badge, icon, hover, accent } = platform;
-
+  // Cargar estado de likes sincronizado desde localStorage
   useEffect(() => {
-    // Process embeds on mount
-    if (data.name === 'Instagram' && typeof (window as any).instgrm?.Embeds?.process === 'function') {
-      (window as any).instgrm.Embeds.process();
+    const storageKey = `weekend_likes_${post.id}`;
+    const saved = localStorage.getItem(storageKey);
+    if (saved === 'true') {
+      setLiked(true);
+      setLikesCount(post.likes + 1);
     }
-    if (data.name === 'Facebook' && typeof (window as any).FB?.XFBML?.parse === 'function') {
-      (window as any).FB.XFBML.parse();
+  }, [post.id, post.likes]);
+
+  const toggleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const storageKey = `weekend_likes_${post.id}`;
+    if (liked) {
+      setLiked(false);
+      setLikesCount(prev => Math.max(post.likes, prev - 1));
+      localStorage.removeItem(storageKey);
+    } else {
+      setLiked(true);
+      setLikesCount(prev => prev + 1);
+      localStorage.setItem(storageKey, 'true');
     }
-  }, [url, data.name]);
+  };
 
-  if (data.name === 'TikTok') {
-    return (
-      <div className="flex-shrink-0 w-[300px] sm:w-[325px] bg-[#0d0d0d] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-2 shadow-2xl transition-transform hover:-translate-y-1 duration-300">
-        <blockquote
-          className="tiktok-embed"
-          cite={url}
-          data-video-id={url.split('/').filter(Boolean).pop()}
-          style={{ maxWidth: '100%', minWidth: '280px', margin: 0, borderRadius: '20px' }}
-        >
-          <section>
-            <a target="_blank" title={`@${data.handle}`} href={url} className="text-xs text-white/50 p-4 block text-center">
-              🎵 Ver video de TikTok @{data.handle}
-            </a>
-          </section>
-        </blockquote>
-      </div>
-    );
-  }
-
-  if (data.name === 'Instagram') {
-    return (
-      <div className="flex-shrink-0 w-[300px] sm:w-[330px] bg-black border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-1.5 shadow-2xl transition-transform hover:-translate-y-1 duration-300">
-        <blockquote
-          className="instagram-media"
-          data-instgrm-permalink={url}
-          data-instgrm-version="14"
-          data-instgrm-captioned="false"
-          style={{
-            background: '#000000',
-            border: 0,
-            borderRadius: '24px',
-            margin: '0px',
-            maxWidth: '100%',
-            minWidth: '280px',
-            padding: 0,
-            width: '100%',
-          }}
-        >
-          <div style={{ padding: '12px', background: '#000000' }}>
-            <a
-              href={url}
-              style={{ background: '#000000', color: '#0acc80', lineHeight: 1.5, padding: '10px 0', textAlign: 'center', textDecoration: 'none', width: '100%', display: 'block', fontSize: '12px', fontWeight: 'bold' }}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              📸 Ver publicación en Instagram
-            </a>
-          </div>
-        </blockquote>
-      </div>
-    );
-  }
-
-  if (data.name === 'Facebook') {
-    const isVideo = url.includes('/r/') || url.includes('video');
-    return (
-      <div className="flex-shrink-0 w-[300px] sm:w-[330px] bg-[#0d0d0d] border border-white/10 rounded-[28px] overflow-hidden flex flex-col items-center justify-center p-3 shadow-2xl transition-transform hover:-translate-y-1 duration-300">
-        <div
-          className={isVideo ? "fb-video" : "fb-post"}
-          data-href={url}
-          data-width="310"
-          data-show-text="true"
-          style={{ width: '100%', overflow: 'hidden', minHeight: '380px' }}
-        >
-          <blockquote cite={url} className="fb-xfbml-parse-ignore">
-            <a href={url} className="text-xs text-white/50 block p-4 text-center">
-              🔵 Ver post en Facebook
-            </a>
-          </blockquote>
-        </div>
-      </div>
-    );
-  }
+  const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard?.writeText(post.url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
 
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`group flex-shrink-0 w-60 bg-[#131313] border border-white/10 rounded-[28px] overflow-hidden ${hover} hover:-translate-y-1 transition-all duration-300 flex flex-col`}
-    >
-      <div className="flex items-center gap-2.5 px-3.5 py-3 border-b border-white/5">
-        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white" style={{ background: badge }}>
-          <span className="font-display font-bold text-[9px]">TW</span>
+    <div className="group flex-shrink-0 w-[270px] sm:w-[300px] bg-[#0f0f11] border border-white/10 hover:border-weekend-neon/50 rounded-[26px] overflow-hidden flex flex-col justify-between shadow-2xl transition-all duration-300 hover:-translate-y-1.5">
+      {/* Cabecera compacta */}
+      <div className="flex items-center justify-between px-3.5 py-2.5 bg-black/60 border-b border-white/5">
+        <div className="flex items-center gap-2 min-w-0">
+          <div
+            className="w-6 h-6 rounded-full flex items-center justify-center text-white flex-shrink-0"
+            style={{ background: platform.badge }}
+          >
+            {platform.icon('w-3.5 h-3.5')}
+          </div>
+          <span className="font-display font-bold text-[11px] text-white truncate">
+            {platform.handle}
+          </span>
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="font-display text-[11px] font-bold text-white truncate">{data.handle}</div>
-          <div className="text-[#888] text-[10px]">Publicación #{index + 1}</div>
-        </div>
-        <div className="w-5 h-5 flex-shrink-0 text-white/70" style={{ background: badge, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {icon('w-3 h-3')}
-        </div>
-      </div>
-      <div className="relative w-full aspect-square overflow-hidden bg-[#1a1a1a] flex items-center justify-center rounded-[20px]">
-        <div className="absolute inset-0 opacity-30" style={{ background: badge }} />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-black/60" />
-        <div className="relative z-10 flex flex-col items-center gap-2.5 text-white/90">
-          {icon('w-10 h-10')}
-          <span className="font-display text-[10px] uppercase tracking-widest">Ver en {data.name}</span>
-        </div>
-        <div className="absolute top-2.5 right-2.5 z-20 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-sm text-[9px] font-display font-bold text-white border border-white/10">
-          #{index + 1}
-        </div>
-      </div>
-      <div className="px-3.5 py-3 flex items-center justify-between">
-        <span className="text-[#888] text-[10px] font-display truncate">Abrir publicación</span>
-        <span className="flex items-center gap-1 text-[11px] font-display font-bold" style={{ color: accent }}>
-          Ver <ArrowUpRight size={13} />
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-weekend-neon">
+          {post.tag}
         </span>
       </div>
-    </a>
+
+      {/* Imagen / Video Portada HD con Overlay y Play */}
+      <a
+        href={post.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="relative aspect-[4/4.8] overflow-hidden bg-black flex items-center justify-center block cursor-pointer"
+      >
+        <img
+          src={post.cover}
+          alt={post.title}
+          loading="lazy"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+
+        {/* Play Icon si es video */}
+        {post.isVideo && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-weekend-neon group-hover:text-black transition-all shadow-xl">
+              <svg viewBox="0 0 24 24" className="w-6 h-6 fill-currentColor translate-x-0.5">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+          </div>
+        )}
+
+        {/* Título y descripción sobrepuesta corta */}
+        <div className="absolute bottom-2.5 inset-x-3 text-left">
+          <p className="text-white font-bold text-xs line-clamp-1 drop-shadow-md">
+            {post.title}
+          </p>
+          <p className="text-white/70 text-[10px] line-clamp-1 mt-0.5">
+            {post.caption}
+          </p>
+        </div>
+      </a>
+
+      {/* Barra de Interacciones Sincronizadas */}
+      <div className="px-3.5 py-2.5 bg-[#0a0a0c] border-t border-white/5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          {/* Botón de Like Interactivo */}
+          <button
+            type="button"
+            onClick={toggleLike}
+            className={`flex items-center gap-1 text-xs font-bold transition-transform active:scale-125 ${
+              liked ? 'text-[#ff2d55]' : 'text-white/60 hover:text-white'
+            }`}
+            title="Dar Me Gusta"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className={`w-4 h-4 transition-all ${
+                liked ? 'fill-[#ff2d55] stroke-[#ff2d55] scale-110' : 'fill-none stroke-currentColor'
+              }`}
+              strokeWidth="2"
+            >
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+            <span className="font-display text-[11px]">{likesCount}</span>
+          </button>
+
+          {/* Comentarios */}
+          <div className="flex items-center gap-1 text-white/50 text-xs" title="Comentarios">
+            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-currentColor" strokeWidth="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            <span className="font-display text-[11px]">{post.comments}</span>
+          </div>
+
+          {/* Botón Compartir */}
+          <button
+            type="button"
+            onClick={handleShare}
+            className="text-white/50 hover:text-weekend-neon transition-colors"
+            title="Copiar enlace"
+          >
+            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-currentColor" strokeWidth="2">
+              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+              <polyline points="16 6 12 2 8 6" />
+              <line x1="12" y1="2" x2="12" y2="15" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Botón Ver en Red Social */}
+        <a
+          href={post.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-white/5 hover:bg-weekend-neon hover:text-black transition-all flex items-center gap-1 text-white/80"
+        >
+          <span>{copied ? '¡Copiado!' : 'Ver'}</span>
+          <ArrowUpRight size={11} />
+        </a>
+      </div>
+    </div>
   );
 }
 
 // =========================================================
 //  COMPONENTE: Feed de red social (carrusel drag-scroll)
 // =========================================================
-function SocialFeed({ platform }: { platform: typeof PLATFORMS[number] }) {
+function SocialFeed({ platform }: { platform: typeof PLATFORMS_DATA[number] }) {
   const drag = useDragScroll();
-  const { data, badge, icon, cta } = platform;
-
-  useEffect(() => {
-    // Trigger global SDK parses after mount
-    setTimeout(() => {
-      if (typeof (window as any).instgrm?.Embeds?.process === 'function') {
-        (window as any).instgrm.Embeds.process();
-      }
-      if (typeof (window as any).FB?.XFBML?.parse === 'function') {
-        (window as any).FB.XFBML.parse();
-      }
-    }, 500);
-  }, []);
+  const { handle, name, badge, icon, cta, profile, posts } = platform;
 
   return (
-    <div className="mb-16">
+    <div className="mb-14">
       {/* Cabecera de plataforma */}
-      <div className="flex items-center justify-between px-4 md:px-12 mb-5">
+      <div className="flex items-center justify-between px-4 md:px-12 mb-4">
         <div className="flex items-center gap-3">
           <div
-            className="w-10 h-10 rounded-[14px] flex items-center justify-center flex-shrink-0 text-white shadow-lg"
+            className="w-9 h-9 rounded-[14px] flex items-center justify-center flex-shrink-0 text-white shadow-lg"
             style={{ background: badge }}
           >
-            {icon('w-5 h-5')}
+            {icon('w-4.5 h-4.5')}
           </div>
           <div>
-            <div className="font-display text-sm font-bold text-white leading-none">{data.name}</div>
-            <div className="text-[#888] text-xs mt-0.5">{data.handle}</div>
+            <div className="font-display text-sm font-bold text-white leading-none">{name}</div>
+            <div className="text-zinc-500 text-xs mt-0.5">{handle}</div>
           </div>
         </div>
         <a
-          href={data.profile} target="_blank" rel="noopener noreferrer"
+          href={profile}
+          target="_blank"
+          rel="noopener noreferrer"
           className="text-weekend-neon font-display text-xs tracking-widest uppercase flex items-center gap-1.5 hover:opacity-70 transition-opacity"
         >
           {cta}
@@ -341,29 +511,38 @@ function SocialFeed({ platform }: { platform: typeof PLATFORMS[number] }) {
         </a>
       </div>
 
-      {/* Carrusel drag-scroll */}
+      {/* Carrusel drag-scroll ultra pegado */}
       <div
         ref={drag.ref}
-        onMouseDown={drag.onMouseDown} onMouseUp={drag.onMouseUp} onMouseLeave={drag.onMouseLeave}
-        onMouseMove={drag.onMouseMove} onTouchStart={drag.onTouchStart} onTouchMove={drag.onTouchMove}
-        className="flex gap-5 overflow-x-auto no-carousel-scrollbar pb-4 px-4 md:px-12 select-none items-stretch"
+        onMouseDown={drag.onMouseDown}
+        onMouseUp={drag.onMouseUp}
+        onMouseLeave={drag.onMouseLeave}
+        onMouseMove={drag.onMouseMove}
+        onTouchStart={drag.onTouchStart}
+        onTouchMove={drag.onTouchMove}
+        className="flex gap-4 overflow-x-auto no-carousel-scrollbar pb-3 px-4 md:px-12 select-none items-stretch"
         style={{ cursor: 'grab' }}
       >
-        {data.posts.map((url, i) => (
-          <SocialEmbedCard key={i} platform={platform} url={url} index={i} />
+        {posts.map((post) => (
+          <SocialPostCard key={post.id} post={post} platform={platform} />
         ))}
 
         {/* Card CTA al perfil */}
         <a
-          href={data.profile} target="_blank" rel="noopener noreferrer"
-          className="flex-shrink-0 w-60 border border-dashed border-weekend-neon/30 rounded-[28px] flex flex-col items-center justify-center gap-3 p-6 hover:border-weekend-neon/70 hover:bg-weekend-neon/5 transition-all duration-300 min-h-[300px]"
+          href={profile}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-shrink-0 w-48 border border-dashed border-weekend-neon/30 hover:border-weekend-neon/80 rounded-[26px] flex flex-col items-center justify-center gap-3 p-5 hover:bg-weekend-neon/5 transition-all duration-300"
         >
-          <div className="w-12 h-12 rounded-[14px] flex items-center justify-center text-white" style={{ background: badge }}>
-            {icon('w-6 h-6')}
+          <div
+            className="w-10 h-10 rounded-[12px] flex items-center justify-center text-white"
+            style={{ background: badge }}
+          >
+            {icon('w-5 h-5')}
           </div>
           <div className="text-center">
-            <div className="font-display text-xs font-bold text-white mb-1">Ver más en {data.name}</div>
-            <div className="text-weekend-neon text-[10px] tracking-widest">{data.handle} →</div>
+            <div className="font-display text-xs font-bold text-white mb-1">Ver más en {name}</div>
+            <div className="text-weekend-neon text-[10px] tracking-widest">{handle} →</div>
           </div>
         </a>
       </div>
@@ -372,29 +551,31 @@ function SocialFeed({ platform }: { platform: typeof PLATFORMS[number] }) {
 }
 
 // =========================================================
-//  COMPONENTE: Sección social completa (3 plataformas)
+//  COMPONENTE: Sección social completa
 // =========================================================
 function SocialSection() {
   return (
-    <section id="redes" className="py-16 relative overflow-hidden border-t border-white/5">
+    <section id="redes" className="py-14 relative overflow-hidden border-t border-white/5 bg-black">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0acc80]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[#0acc80]/8 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10">
         {/* Encabezado con Emojis y Color */}
-        <div className="text-center mb-10 px-4 md:px-12">
-          <p className="text-[#0acc80] text-xs tracking-[0.4em] uppercase font-display mb-3 flex items-center justify-center gap-2">
+        <div className="text-center mb-8 px-4 md:px-12">
+          <p className="text-[#0acc80] text-xs tracking-[0.4em] uppercase font-display mb-2 flex items-center justify-center gap-2">
             <span>✨</span> <span>Nuestras Redes Oficiales</span> <span>🔥</span>
           </p>
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-3 neon-flicker" style={{ textShadow: '0 0 40px rgba(10,204,128,0.3)' }}>
+          <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-2 neon-flicker" style={{ textShadow: '0 0 40px rgba(10,204,128,0.3)' }}>
             📸 @weekend_huarmey 🎵
           </h2>
           <p className="text-zinc-400 font-body text-xs sm:text-sm max-w-md mx-auto">
-            🍹 Vive la experiencia antes de llegar. Arrastra los videos y publicaciones en tiempo real 🎬✨
+            🍹 Vive la experiencia antes de llegar. Toca el ❤️ para sincronizar likes y explorar 🎬✨
           </p>
         </div>
 
-        {PLATFORMS.map((p) => <SocialFeed key={p.data.name} platform={p} />)}
+        {PLATFORMS_DATA.map((p) => (
+          <SocialFeed key={p.name} platform={p} />
+        ))}
       </div>
     </section>
   );
@@ -853,13 +1034,13 @@ export default function App() {
                 {/* Políticas del servicio */}
                 <div className="rounded-2xl border border-white/10 bg-black/50 p-3.5 space-y-1.5">
                   <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
-                  <p className="text-white/50 text-[11px] leading-relaxed flex items-start gap-1.5">
+                  <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
                     <span className="text-weekend-neon mt-0.5">•</span>
-                    <span><span className="text-white/80 font-semibold">Tolerancia:</span> 10 a 15 min; luego la mesa queda disponible.</span>
+                    <span><span className="text-white/90 font-semibold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
                   </p>
-                  <p className="text-white/50 text-[11px] leading-relaxed flex items-start gap-1.5">
+                  <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
                     <span className="text-weekend-neon mt-0.5">•</span>
-                    <span><span className="text-white/80 font-semibold">Restricción:</span> No se permite el ingreso de alimentos o bebidas externos.</span>
+                    <span><span className="text-white/90 font-semibold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
                   </p>
                 </div>
 
