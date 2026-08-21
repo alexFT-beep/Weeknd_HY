@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SECTION_THEMES } from './ProductCardComponent.js';
-import { Plus, Search, ChevronDown, Sparkles, ShoppingBag, ShieldCheck, MapPin, Truck, Check } from 'lucide-react';
+import { Plus, Search, ChevronDown, ChevronUp, Sparkles, ShoppingBag, ShieldCheck, MapPin, Truck, Check, Grid, Layers, Eye, EyeOff } from 'lucide-react';
 
 interface Category {
   id: string;
@@ -36,7 +36,13 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
   const [addedItemIds, setAddedItemIds] = useState<{ [key: string]: boolean }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  // Estado para acordeones por categoría (true = desplegado, false = replegado)
+  const [expandedCategories, setExpandedCategories] = useState<{ [key: string]: boolean }>({});
+  // Estado para el menú desplegable de selección rápida de categorías
+  const [isMenuDropdownOpen, setIsMenuDropdownOpen] = useState<boolean>(false);
+
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -51,7 +57,6 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
             setIsLoading(false);
           }
         } else {
-          // Fallback direct import from data source if appInstance loading
           const { MENU_CATEGORIES, FULL_MENU_ITEMS } = await import('../../infrastructure/data/fullMenuData.js');
           if (isMounted) {
             setCategories(MENU_CATEGORIES as Category[]);
@@ -72,7 +77,18 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
     };
   }, []);
 
-  // IntersectionObserver to auto-update active category chip on scroll
+  // Cerrar menú desplegable de categorías si se hace clic fuera
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setIsMenuDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // IntersectionObserver para actualizar el chip activo al hacer scroll
   useEffect(() => {
     if (categories.length === 0 || isLoading) return;
 
@@ -111,46 +127,59 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
     };
   }, [categories, isLoading]);
 
+  const toggleCategoryAccordion = (catId: string) => {
+    setExpandedCategories((prev) => ({
+      ...prev,
+      [catId]: prev[catId] === undefined ? false : !prev[catId]
+    }));
+  };
+
+  const setAllCategoriesExpanded = (expand: boolean) => {
+    const nextState: { [key: string]: boolean } = {};
+    categories.forEach((cat) => {
+      nextState[cat.id] = expand;
+    });
+    setExpandedCategories(nextState);
+  };
+
   const scrollToCategory = (catId: string) => {
     setActiveCategory(catId);
-    const target = document.getElementById(`sec-${catId}`);
-    if (target) {
-      const offset = 120;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = target.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+    // Asegurar que la categoría destino esté desplegada
+    setExpandedCategories((prev) => ({ ...prev, [catId]: true }));
+    setIsMenuDropdownOpen(false);
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+    setTimeout(() => {
+      const target = document.getElementById(`sec-${catId}`);
+      if (target) {
+        const offset = 120;
+        const bodyRect = document.body.getBoundingClientRect().top;
+        const elementRect = target.getBoundingClientRect().top;
+        const elementPosition = elementRect - bodyRect;
+        const offsetPosition = elementPosition - offset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 50);
   };
 
   const handleAddToCart = async (item: MenuItem, e: React.MouseEvent) => {
     e.stopPropagation();
     
-    // Feedback visual instantaneo en boton
+    // Visual feedback on button
     setAddedItemIds((prev) => ({ ...prev, [item.id]: true }));
     setTimeout(() => {
       setAddedItemIds((prev) => ({ ...prev, [item.id]: false }));
     }, 1200);
 
-    // Invocar controlador hexagonal
+    // Call hexagonal controller
     if ((window as any).appInstance?.cartController) {
       await (window as any).appInstance.cartController.addItemToCart(item.id);
     } else {
-      // Disparar evento alternativo
-      const btnMock = document.createElement('button');
-      btnMock.setAttribute('data-action', 'add-to-cart');
-      btnMock.setAttribute('data-item-id', item.id);
       document.dispatchEvent(new CustomEvent('cart:add', { detail: { itemId: item.id } }));
     }
-  };
-
-  const formatPrice = (price: number) => {
-    return `S/ ${Number(price).toFixed(2)}`;
   };
 
   if (isLoading) {
@@ -166,8 +195,87 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
 
   return (
     <div className="w-full relative">
-      {/* BARRA PEGAJOSA DE NAVEGACIÓN POR CHIPS DE CATEGORÍAS (NEÓN) */}
-      <div className="sticky top-0 z-30 bg-black/95 backdrop-blur-md border-b border-white/10 py-2.5 mb-6 -mx-3 px-3 sm:-mx-4 sm:px-4">
+
+      {/* BARRA PEGAJOSA Y MENÚ DESPLEGABLE DE SELECCIÓN DE CATEGORÍAS */}
+      <div className="sticky top-0 z-30 bg-black/95 backdrop-blur-md border-b border-white/10 py-3 mb-6 -mx-3 px-3 sm:-mx-4 sm:px-4 flex flex-col gap-2.5">
+        
+        {/* FILA SUPERIOR: Botón desplegable + Botones de expansión masiva */}
+        <div className="flex items-center justify-between gap-2">
+          
+          {/* Botón desplegable de Categorías */}
+          <div className="relative inline-block text-left" ref={dropdownRef}>
+            <button 
+              id="menu-toggle-btn"
+              type="button" 
+              onClick={() => setIsMenuDropdownOpen(!isMenuDropdownOpen)}
+              className="group inline-flex items-center gap-2.5 px-4 py-2 bg-weekend-neon text-black font-black uppercase text-xs sm:text-sm tracking-wider rounded-xl hover:bg-white transition-all duration-200 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)]"
+            >
+              <Grid className="w-4 h-4" />
+              <span>Categorías</span>
+              <ChevronDown 
+                id="menu-chevron" 
+                className={`w-4 h-4 transition-transform duration-200 ${isMenuDropdownOpen ? 'rotate-180' : ''}`} 
+              />
+            </button>
+
+            {/* Opciones desplegables */}
+            {isMenuDropdownOpen && (
+              <div 
+                id="menu-options" 
+                className="absolute left-0 mt-2 w-64 max-h-80 overflow-y-auto bg-neutral-900 border border-white/15 rounded-2xl shadow-2xl p-2 z-50 space-y-1 backdrop-blur-xl"
+              >
+                <div className="px-3 py-1.5 text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-white/10 mb-1">
+                  Selecciona una categoría:
+                </div>
+                {categories.map((cat) => {
+                  const theme = SECTION_THEMES[cat.id] || SECTION_THEMES['alitas'];
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => scrollToCategory(cat.id)}
+                      className="w-full text-left flex items-center justify-between px-3 py-2 text-xs font-bold text-gray-200 hover:text-black rounded-xl transition-all duration-150 group"
+                      style={{
+                        backgroundColor: activeCategory === cat.id ? theme.hex : undefined,
+                        color: activeCategory === cat.id ? '#000000' : undefined
+                      }}
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-sm">{cat.emoji}</span>
+                        <span>{cat.name}</span>
+                      </span>
+                      <span className="text-[10px] font-black opacity-75">{cat.id}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Botones de control masivo (Expandir / Contraer todas) */}
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setAllCategoriesExpanded(true)}
+              className="px-2.5 py-1.5 bg-white/5 hover:bg-white/15 border border-white/10 text-gray-300 rounded-xl text-[11px] font-extrabold uppercase transition-all flex items-center gap-1 active:scale-95"
+              title="Desplegar todas las categorías"
+            >
+              <Eye className="w-3.5 h-3.5 text-weekend-neon" />
+              <span className="hidden sm:inline">Desplegar Todas</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setAllCategoriesExpanded(false)}
+              className="px-2.5 py-1.5 bg-white/5 hover:bg-white/15 border border-white/10 text-gray-300 rounded-xl text-[11px] font-extrabold uppercase transition-all flex items-center gap-1 active:scale-95"
+              title="Plegar todas las categorías"
+            >
+              <EyeOff className="w-3.5 h-3.5 text-gray-400" />
+              <span className="hidden sm:inline">Plegar Todas</span>
+            </button>
+          </div>
+        </div>
+
+        {/* FILA INFERIOR: Chips neón horizontales */}
         <div 
           id="category-chips-nav" 
           className="flex space-x-2 overflow-x-auto no-scrollbar py-1 scroll-smooth"
@@ -180,7 +288,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
               <button
                 key={cat.id}
                 onClick={() => scrollToCategory(cat.id)}
-                className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase whitespace-nowrap transition-all duration-200 shrink-0 border ${
+                className={`flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs font-extrabold uppercase whitespace-nowrap transition-all duration-200 shrink-0 border ${
                   isActive 
                     ? 'scale-105 shadow-lg' 
                     : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:border-white/20'
@@ -226,13 +334,16 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
         </div>
       </div>
 
-      {/* SECCIONES Y PLATOS POR CATEGORÍA */}
-      <div className="space-y-12 pb-16">
+      {/* SECCIONES DE CATEGORÍAS COMO ACORDEONES DESPLEGABLES */}
+      <div className="space-y-6 pb-16">
         {categories.map((cat) => {
           const theme = SECTION_THEMES[cat.id] || SECTION_THEMES['alitas'];
           const categoryItems = items.filter((item) => item.category === cat.id);
 
           if (categoryItems.length === 0) return null;
+
+          // Por defecto está abierto (true) a menos que esté explícitamente en false
+          const isExpanded = expandedCategories[cat.id] !== false;
 
           // Agrupar subcategorías si aplican
           const isAlitas = cat.id === 'alitas';
@@ -260,16 +371,17 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
             <section 
               key={cat.id} 
               id={`sec-${cat.id}`} 
-              className="scroll-mt-32 pt-2"
+              className="scroll-mt-36 bg-neutral-900/60 border border-white/10 rounded-2xl p-4 transition-all duration-300 shadow-xl"
             >
-              {/* ENCABEZADO DE CATEGORÍA CON ACCENTO NEÓN */}
-              <div 
-                className="flex items-center justify-between gap-3 pb-3 mb-6 border-b border-white/10"
-                style={{ borderColor: `${theme.hex}40` }}
+              {/* ENCABEZADO ACORDEÓN DE LA CATEGORÍA */}
+              <button
+                type="button"
+                onClick={() => toggleCategoryAccordion(cat.id)}
+                className="w-full flex items-center justify-between gap-3 text-left focus:outline-none group cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <div 
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-lg border"
+                    className="w-11 h-11 rounded-2xl flex items-center justify-center text-2xl shadow-lg border shrink-0 transition-transform group-hover:scale-105"
                     style={{ 
                       backgroundColor: `${theme.hex}20`, 
                       borderColor: theme.hex,
@@ -280,7 +392,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                   </div>
                   <div>
                     <h2 
-                      className="text-lg sm:text-xl font-black uppercase tracking-wider text-white"
+                      className="text-base sm:text-xl font-black uppercase tracking-wider text-white group-hover:text-weekend-neon transition-colors"
                       style={{ textShadow: `0 0 10px rgba(${theme.rgb}, 0.3)` }}
                     >
                       {cat.name}
@@ -290,118 +402,147 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                     )}
                   </div>
                 </div>
-                <span 
-                  className="text-[10px] font-black tracking-widest px-2.5 py-1 rounded-full uppercase border"
-                  style={{ 
-                    backgroundColor: `${theme.hex}15`, 
-                    color: theme.hex, 
-                    borderColor: `${theme.hex}50` 
-                  }}
-                >
-                  {categoryItems.length} OPCIONES
-                </span>
-              </div>
 
-              {/* CONTENIDO DE ALITAS */}
-              {isAlitas ? (
-                <div className="space-y-8">
-                  {rondasAlitas.length > 0 && (
-                    <div>
-                      <h3 className="text-xs font-black uppercase tracking-widest text-weekend-neon mb-3 flex items-center gap-2">
-                        <Sparkles className="w-3.5 h-3.5" /> RONDAS & COMBOS FESTÍN (RECOMENDADOS)
-                      </h3>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span 
+                    className="text-[10px] font-black tracking-widest px-2.5 py-1 rounded-full uppercase border hidden sm:inline-block"
+                    style={{ 
+                      backgroundColor: `${theme.hex}15`, 
+                      color: theme.hex, 
+                      borderColor: `${theme.hex}50` 
+                    }}
+                  >
+                    {categoryItems.length} OPCIONES
+                  </span>
+
+                  <div 
+                    className="w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-300"
+                    style={{
+                      backgroundColor: isExpanded ? theme.hex : 'rgba(255,255,255,0.05)',
+                      color: isExpanded ? '#000000' : theme.hex,
+                      borderColor: `${theme.hex}60`
+                    }}
+                  >
+                    <ChevronDown 
+                      className={`w-5 h-5 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} 
+                    />
+                  </div>
+                </div>
+              </button>
+
+              {/* CONTENIDO DESPLEGABLE DE LA CATEGORÍA */}
+              {isExpanded ? (
+                <div className="mt-6 pt-4 border-t border-white/10 transition-all duration-300 animate-fadeIn">
+                  {isAlitas ? (
+                    <div className="space-y-8">
+                      {rondasAlitas.length > 0 && (
+                        <div>
+                          <h3 className="text-xs font-black uppercase tracking-widest text-weekend-neon mb-3 flex items-center gap-2">
+                            <Sparkles className="w-3.5 h-3.5" /> RONDAS & COMBOS FESTÍN (RECOMENDADOS)
+                          </h3>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                            {rondasAlitas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div>
+                        <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
+                          ALITAS INDIVIDUALES (08 UNIDADES + PAPAS + ENSALADA)
+                        </h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                          {regularAlitas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : isHamburguesas ? (
+                    <div className="space-y-8">
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                        {rondasAlitas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                        {mainBurgers.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
                       </div>
-                    </div>
-                  )}
 
-                  <div>
-                    <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
-                      ALITAS INDIVIDUALES (08 UNIDADES + PAPAS + ENSALADA)
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                      {regularAlitas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                      {adicionalsBurgers.length > 0 && (
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+                          <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
+                            ADICIONALES PARA TU HAMBURGUESA
+                          </h3>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            {adicionalsBurgers.map((item) => renderRowItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                </div>
-              ) : isHamburguesas ? (
-                <div className="space-y-8">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                    {mainBurgers.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
-                  </div>
-
-                  {adicionalsBurgers.length > 0 && (
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
-                        ADICIONALES PARA TU HAMBURGUESA
-                      </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {adicionalsBurgers.map((item) => renderRowItem(item, theme, addedItemIds[item.id], handleAddToCart))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : isBroaster ? (
-                <div className="space-y-8">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                    {mainBroaster.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
-                  </div>
-
-                  {agregadosBroaster.length > 0 && (
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
-                        AGREGADOS PARA TU BROASTER
-                      </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {agregadosBroaster.map((item) => renderRowItem(item, theme, addedItemIds[item.id], handleAddToCart))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : isParrillas ? (
-                <div className="space-y-8">
-                  <div>
-                    <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
-                      CORTES A LA PARRILLA & ANTICUCHOS
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                      {mainParrillas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
-                    </div>
-                  </div>
-
-                  {combosParrillas.length > 0 && (
-                    <div>
-                      <h3 className="text-xs font-black uppercase tracking-widest text-weekend-neon mb-3 flex items-center gap-2">
-                        <Sparkles className="w-3.5 h-3.5" /> COMBOS PARRILLEROS PARA COMPARTIR
-                      </h3>
+                  ) : isBroaster ? (
+                    <div className="space-y-8">
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                        {combosParrillas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                        {mainBroaster.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
                       </div>
-                    </div>
-                  )}
-                </div>
-              ) : isPastas ? (
-                <div className="space-y-8">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                    {mainPastas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
-                  </div>
 
-                  {acompanaPastas.length > 0 && (
-                    <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
-                        ACOMPAÑA TUS PASTAS
-                      </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {acompanaPastas.map((item) => renderRowItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                      {agregadosBroaster.length > 0 && (
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+                          <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
+                            AGREGADOS PARA TU BROASTER
+                          </h3>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            {agregadosBroaster.map((item) => renderRowItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : isParrillas ? (
+                    <div className="space-y-8">
+                      <div>
+                        <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
+                          CORTES A LA PARRILLA & ANTICUCHOS
+                        </h3>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                          {mainParrillas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                        </div>
                       </div>
+
+                      {combosParrillas.length > 0 && (
+                        <div>
+                          <h3 className="text-xs font-black uppercase tracking-widest text-weekend-neon mb-3 flex items-center gap-2">
+                            <Sparkles className="w-3.5 h-3.5" /> COMBOS PARRILLEROS PARA COMPARTIR
+                          </h3>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                            {combosParrillas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : isPastas ? (
+                    <div className="space-y-8">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                        {mainPastas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                      </div>
+
+                      {acompanaPastas.length > 0 && (
+                        <div className="bg-white/5 border border-white/10 rounded-2xl p-4">
+                          <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
+                            ACOMPAÑA TUS PASTAS
+                          </h3>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            {acompanaPastas.map((item) => renderRowItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    /* CATEGORÍAS GENERALES */
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                      {categoryItems.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
                     </div>
                   )}
                 </div>
               ) : (
-                /* CATEGORÍAS GENERALES (Chifa, Salchipapas, Cocteles, Cervezas, Guarniciones, etc.) */
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                  {categoryItems.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                <div 
+                  onClick={() => toggleCategoryAccordion(cat.id)}
+                  className="mt-2 text-center text-xs font-bold text-gray-400 py-1 cursor-pointer hover:text-white transition-colors"
+                >
+                  <span className="underline">
+                    {categoryItems.length} platos en {cat.name} ocultos (Toca para desplegar)
+                  </span>
                 </div>
               )}
             </section>

@@ -359,7 +359,8 @@ export class CartController {
       selectedDeliveryZoneId: this.cartUseCases.getDeliveryZoneId(),
       packagingSelections: this.cartUseCases.getPackagingSelections(),
       totals,
-      orderType: this.orderType
+      orderType: this.orderType,
+      isOpen: this.isOpen
     });
 
     this.restoreFormData();

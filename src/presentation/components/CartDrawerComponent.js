@@ -22,7 +22,8 @@ export class CartDrawerComponent {
     selectedDeliveryZoneId = null,
     packagingSelections = {},
     totals = { subtotal: 0, deliveryFee: 0, packagingFee: 0, grandTotal: 0, itemCount: 0 },
-    orderType = "delivery"
+    orderType = "delivery",
+    isOpen = false
   }) {
     const hasItems = items.length > 0;
 
@@ -30,14 +31,14 @@ export class CartDrawerComponent {
       <!-- Backdrop -->
       <div 
         id="cart-backdrop" 
-        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 transition-opacity duration-300 opacity-0 pointer-events-none"
+        class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 transition-opacity duration-300 ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}"
         data-action="close-cart"
       ></div>
 
       <!-- Drawer Panel -->
       <aside 
         id="cart-drawer-panel"
-        class="fixed top-0 right-0 w-full max-w-lg h-full bg-[#121214] border-l border-zinc-800 z-50 flex flex-col transform translate-x-full transition-transform duration-300 ease-out shadow-2xl text-white"
+        class="fixed top-0 right-0 w-full max-w-lg h-full bg-[#121214] border-l border-zinc-800 z-50 flex flex-col transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 ease-out shadow-2xl text-white"
       >
         <!-- Header (Tu Pedido Weekend!) -->
         <div class="p-4 sm:p-5 border-b border-zinc-800 bg-[#18181b] flex items-center justify-between">
