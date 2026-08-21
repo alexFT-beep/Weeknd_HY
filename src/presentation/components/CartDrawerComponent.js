@@ -85,29 +85,38 @@ export class CartDrawerComponent {
               </button>
             </div>
           ` : `
-            <!-- Order Type Selector (Delivery vs En Salón) -->
+            <!-- Order Type Selector (Tabs: Delivery, Salón, Reserva) -->
             <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-2.5">
               <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-2">
                 📋 Modalidad de Atención
               </label>
-              <div class="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  data-action="set-order-type"
+              <div class="grid grid-cols-3 gap-1 p-1 bg-zinc-900 border border-zinc-800 rounded-xl">
+                <button 
+                  type="button" 
+                  data-action="set-order-type" 
                   data-type="delivery"
-                  class="py-2.5 px-3 rounded-lg text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 ${orderType === "delivery" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
+                  class="py-2 px-2 rounded-lg text-[11px] font-bold uppercase transition-all flex items-center justify-center gap-1 ${orderType === "delivery" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-400 hover:text-white"}"
                   aria-label="Seleccionar Delivery"
                 >
                   <span>🛵 Delivery</span>
                 </button>
-                <button
-                  type="button"
-                  data-action="set-order-type"
+                <button 
+                  type="button" 
+                  data-action="set-order-type" 
                   data-type="salon"
-                  class="py-2.5 px-3 rounded-lg text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 ${orderType === "salon" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
+                  class="py-2 px-2 rounded-lg text-[11px] font-bold uppercase transition-all flex items-center justify-center gap-1 ${orderType === "salon" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-400 hover:text-white"}"
                   aria-label="Seleccionar En Salón"
                 >
-                  <span>🍽️ En Salón / Mesa</span>
+                  <span>🍽️ En Salón</span>
+                </button>
+                <button 
+                  type="button" 
+                  data-action="set-order-type" 
+                  data-type="reserva"
+                  class="py-2 px-2 rounded-lg text-[11px] font-bold uppercase transition-all flex items-center justify-center gap-1 ${orderType === "reserva" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-400 hover:text-white"}"
+                  aria-label="Seleccionar Reserva"
+                >
+                  <span>📅 Reserva</span>
                 </button>
               </div>
             </div>
@@ -215,10 +224,23 @@ export class CartDrawerComponent {
               </div>
             ` : ""}
 
+            <!-- Nota Destacada de Aviso para Reservas -->
+            ${orderType === "reserva" ? `
+              <div class="bg-[#00ff88]/10 border border-[#00ff88]/30 rounded-xl p-3.5 space-y-1 text-xs text-white shadow-lg">
+                <div class="flex items-center gap-2 font-bold text-[#00ff88]">
+                  <span class="material-symbols-outlined text-base">info</span>
+                  <span>📌 NOTA DE AVISO PARA RESERVAS:</span>
+                </div>
+                <p class="text-zinc-300 text-[11px] leading-relaxed pl-6">
+                  Al enviar tu solicitud por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en The Weekend Huarmey.
+                </p>
+              </div>
+            ` : ""}
+
             <!-- Customer Details Form (Clean Dark Inputs) -->
             <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-3.5 space-y-2.5">
               <label class="block text-xs font-bold text-white uppercase tracking-wide">
-                👤 Datos para el Pedido
+                ${orderType === "reserva" ? "📅 Datos para la Reserva" : "👤 Datos para el Pedido"}
               </label>
               <div class="space-y-2 text-xs">
                 <div>
@@ -246,6 +268,35 @@ export class CartDrawerComponent {
                       class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
                     />
                   </div>
+                ` : orderType === "reserva" ? `
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <input 
+                        type="text" 
+                        id="order-reservation-motive" 
+                        placeholder="Motivo (ej: Cumpleaños, Cita) *" 
+                        class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <input 
+                        type="number" 
+                        id="order-reservation-people" 
+                        placeholder="Cant. Personas *" 
+                        min="1"
+                        max="30"
+                        class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <input 
+                      type="text" 
+                      id="order-reservation-datetime" 
+                      placeholder="Fecha y Hora estimada (ej: Hoy 8:30 PM) *" 
+                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
+                    />
+                  </div>
                 ` : `
                   <div>
                     <input 
@@ -257,14 +308,14 @@ export class CartDrawerComponent {
                   </div>
                 `}
                 <div>
-                  <label class="block text-[10px] font-semibold text-zinc-400 mb-1">Método de Pago</label>
+                  <label class="block text-[10px] font-semibold text-zinc-400 mb-1">Método de Pago Preferido</label>
                   <select 
                     id="order-payment-method"
                     class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white focus:border-primary focus:outline-none text-xs"
                   >
                     <option value="Yape">Yape (QR / Billetera)</option>
                     <option value="Plin">Plin (QR / Billetera)</option>
-                    <option value="Efectivo">Efectivo (Contraentrega)</option>
+                    <option value="Efectivo">Efectivo</option>
                     <option value="Tarjeta (POS)">Tarjeta (POS)</option>
                   </select>
                 </div>
@@ -272,7 +323,7 @@ export class CartDrawerComponent {
                   <textarea 
                     id="order-general-notes"
                     rows="2" 
-                    placeholder="Observaciones generales para cocina..." 
+                    placeholder="${orderType === "reserva" ? "Detalles de la reserva o notas adicionales..." : "Observaciones generales para cocina..."}" 
                     class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none resize-none"
                   ></textarea>
                 </div>

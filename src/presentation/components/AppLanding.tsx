@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { DigitalMenuView } from './DigitalMenuView';
+import { SocialGalleryView } from './SocialGalleryView';
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774383788/LOGO_wgvqfj.webp";
@@ -585,7 +586,7 @@ function SocialSection() {
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentView, setCurrentView] = useState<'landing' | 'dashboard'>('landing');
+  const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social'>('landing');
 
   // Declara los hooks de Framer Motion al inicio para cumplir estrictamente con las reglas de Hooks de React
   const heroRef = useRef<HTMLElement>(null);
@@ -602,7 +603,7 @@ export default function App() {
     motivo: ''
   });
 
-  // --- Módulo intacto: VER CARTA DIGITAL (redirección a la carta) ---
+  // --- Navegación entre Vistas ---
   const goToDashboard = () => {
     setCurrentView('dashboard');
     window.location.hash = 'carta-digital';
@@ -615,6 +616,12 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const goToSocial = () => {
+    setCurrentView('social');
+    window.location.hash = 'redes';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     const handleHash = () => {
       const hash = (window.location.hash || '').toLowerCase();
@@ -624,7 +631,10 @@ export default function App() {
         '#piqueos', '#a-la-carta', '#chifa', '#pastas', '#ensaladas', '#makis',
         '#jugos', '#bubble-tea', '#refrescos', '#cocteles', '#cervezas', '#guarniciones'
       ];
-      if (menuHashes.some(h => hash.startsWith(h))) {
+
+      if (hash.startsWith('#redes') || hash.startsWith('#social') || hash.startsWith('#gallery') || hash.startsWith('#videos')) {
+        setCurrentView('social');
+      } else if (menuHashes.some(h => hash.startsWith(h))) {
         setCurrentView('dashboard');
       } else {
         setCurrentView('landing');
@@ -695,6 +705,18 @@ export default function App() {
     const message = "Hola! Deseo hacer un pedido de delivery.";
     window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
   };
+
+  // ----------------------------------------------------
+  // SOCIAL GALLERY VIEW (Dedicada a Redes Sociales y Videos)
+  // ----------------------------------------------------
+  if (currentView === 'social') {
+    return (
+      <SocialGalleryView 
+        onBackToHome={goToLanding} 
+        onOpenMenu={goToDashboard} 
+      />
+    );
+  }
 
   // ----------------------------------------------------
   // DASHBOARD VIEW (Dedicada a la Carta Digital)
@@ -777,7 +799,7 @@ export default function App() {
     }
     if (link.name === 'Redes') {
       e.preventDefault();
-      document.getElementById('redes')?.scrollIntoView({ behavior: 'smooth' });
+      goToSocial();
       setIsOpen(false);
       return;
     }
@@ -1100,8 +1122,37 @@ export default function App() {
         </div>
       </section>
 
-      {/* ============ REDES SOCIALES (Feeds reales) ============ */}
-      <SocialSection />
+      {/* ============ BANNER DE REDES SOCIALES & GALERÍA DE VIDEOS ============ */}
+      <section id="redes" className="py-16 relative overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black border-t border-b border-white/10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-weekend-neon/10 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto px-4 text-center space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-weekend-neon/10 border border-weekend-neon/30 text-weekend-neon text-xs font-bold uppercase tracking-widest">
+            <Music2 size={14} />
+            <span>Nuestra Comunidad Viral</span>
+          </div>
+
+          <h2 className="text-3xl sm:text-5xl font-black uppercase text-white tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            📸 @weekend_huarmey 🎵
+          </h2>
+
+          <p className="text-zinc-400 text-sm max-w-xl mx-auto font-light leading-relaxed">
+            Explora nuestros videos exclusivos, ambiente en vivo, cócteles artesanales y eventos imperdibles en la nueva Galería de Redes Sociales.
+          </p>
+
+          <div className="pt-2">
+            <button
+              onClick={goToSocial}
+              className="inline-flex items-center gap-3 px-8 py-4 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(10,204,128,0.4)] active:scale-95 text-xs sm:text-sm"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              <Play size={18} className="fill-current" />
+              <span>Ver Galería de Videos de Redes Sociales</span>
+              <ArrowUpRight size={18} />
+            </button>
+          </div>
+        </div>
+      </section>
 
       {/* ============ FOOTER ============ */}
       <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden">

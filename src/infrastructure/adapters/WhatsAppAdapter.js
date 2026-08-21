@@ -18,8 +18,11 @@ export class WhatsAppAdapter {
   generateWhatsAppLink(orderData) {
     const {
       customerName = 'Cliente',
-      orderType = 'delivery', // 'delivery' or 'salon'
+      orderType = 'delivery', // 'delivery', 'salon', or 'reserva'
       tableNumber = '',
+      reservationMotive = '',
+      reservationPeople = '',
+      reservationDateTime = '',
       deliveryZoneName = '',
       deliveryFee = 0,
       address = '',
@@ -33,15 +36,24 @@ export class WhatsAppAdapter {
       phoneNumber = this.defaultPhoneNumber
     } = orderData;
 
-    let text = `🍹 *¡NUEVO PEDIDO - WEEKEND! Lounge & Restaurant* 🍗\n`;
+    let text = orderType === 'reserva' 
+      ? `🍹 *¡SOLICITUD DE RESERVA! - WEEKEND Lounge & Restaurant* 📅\n`
+      : `🍹 *¡NUEVO PEDIDO - WEEKEND! Lounge & Restaurant* 🍗\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━\n`;
     text += `👤 *Cliente:* ${customerName}\n`;
-    text += `📋 *Tipo:* ${orderType === 'delivery' ? '🛵 Delivery' : `🍽️ En Salón (Mesa ${tableNumber || 'N/A'})`}\n`;
     
     if (orderType === 'delivery') {
+      text += `📋 *Tipo:* 🛵 Delivery\n`;
       text += `📍 *Zona:* ${deliveryZoneName || 'Por coordinar'}\n`;
       if (address) text += `🏠 *Dirección:* ${address}\n`;
       if (reference) text += `📌 *Referencia:* ${reference}\n`;
+    } else if (orderType === 'reserva') {
+      text += `📋 *Tipo:* 📅 Reserva de Mesa\n`;
+      if (reservationMotive) text += `🎉 *Motivo:* ${reservationMotive}\n`;
+      if (reservationPeople) text += `👥 *Personas:* ${reservationPeople}\n`;
+      if (reservationDateTime) text += `⏰ *Fecha/Hora:* ${reservationDateTime}\n`;
+    } else {
+      text += `📋 *Tipo:* 🍽️ En Salón (Mesa ${tableNumber || 'N/A'})\n`;
     }
 
     text += `💳 *Método de Pago:* ${paymentMethod}\n`;
