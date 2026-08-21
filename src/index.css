@@ -3,7 +3,13 @@
   --color-weekend-purple: #08a063;
   --color-weekend-neon: #0acc80;
   --color-weekend-fuchsia: #d7d4d4;
+  --color-weekend-surface: #131313;
+  --color-weekend-surface-dim: #0e0e0e;
+  --color-weekend-surface-elevated: #1a1a1a;
+  --color-weekend-text-dim: #888888;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 }
 @layer base {
   html { scroll-behavior: smooth; }
@@ -24,3 +30,50 @@ input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear
   50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(10, 204, 128, 0.7); }
 }
 .animate-pulse-neon { animation: pulse-neon 2s infinite ease-in-out; }
+
+/* === Utilidades de marca del reference (Social Media Section Design) === */
+.font-body { font-family: 'Montserrat', sans-serif; }
+.font-display { font-family: 'Space Grotesk', sans-serif; }
+
+.neon-text {
+  text-shadow: 0 0 10px rgba(10, 204, 128, 0.8), 0 0 30px rgba(10, 204, 128, 0.4);
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.85; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
+}
+.neon-flicker { animation: flicker 8s infinite; }
+
+@keyframes pulse-glow-anim {
+  0%, 100% { box-shadow: 0 0 15px rgba(10,204,128,0.3); }
+  50% { box-shadow: 0 0 40px rgba(10,204,128,0.6), 0 0 80px rgba(10,204,128,0.2); }
+}
+.pulse-glow { animation: pulse-glow-anim 3s ease-in-out infinite; }
+
+/* Pausar animaciones cuando la página no está visible */
+.animations-paused * {
+  animation-play-state: paused !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+@keyframes scan-line-anim {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+.scan-line { animation: scan-line-anim 6s linear infinite; }
+
+@keyframes float-anim {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+.float-anim { animation: float-anim 4s ease-in-out infinite; }
+
+/* Ocultar scrollbars en carruseles drag-scroll */
+.no-carousel-scrollbar::-webkit-scrollbar { display: none; }
+.no-carousel-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

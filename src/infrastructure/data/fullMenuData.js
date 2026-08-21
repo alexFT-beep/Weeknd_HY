@@ -33,11 +33,9 @@ export const DELIVERY_ZONES = [
   { id: "9-de-octubre", name: "9 de Octubre", fee: 10.00 }
 ];
 
-export const PACKAGING_OPTIONS = [
-  { id: "tupper", name: "Tupper Descartable", price: 1.00, defaultQty: 1 },
-  { id: "bolsa", name: "Bolsa Biodegradable", price: 1.00, defaultQty: 1 },
-  { id: "vaso", name: "Vaso Biodegradable", price: 1.00, defaultQty: 1 }
-];
+// Módulo "EMPAQUES Y ENVASES" eliminado por requerimiento.
+// El resumen de orden queda limpio, sin cargos automáticos ni manuales por empaques.
+export const PACKAGING_OPTIONS = [];
 
 export const FULL_MENU_ITEMS = [
   // =================== 1. EL BRAVO D' CASA..! ALITAS FESTÍN DE SABORES ===================
