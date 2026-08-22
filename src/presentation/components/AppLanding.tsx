@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, Calendar, ArrowLeft, Search, ShoppingCart, Music2, Play, ArrowUpRight, Info
+  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, ChevronLeft, Send, Smartphone, Calendar, ArrowLeft, Search, ShoppingCart, Music2, Play, ArrowUpRight, Info
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { DigitalMenuView } from './DigitalMenuView';
@@ -9,11 +9,11 @@ import { SocialGalleryView } from './SocialGalleryView';
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
-const HERO_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774380039/logo2_vyasrd.webp";
+const HERO_IMG = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
 const MENU_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380723/alitas2_upllif.webm";
 const DELIVERY_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1771715674/makis-weekend_fxfha7.jpg";
 const RESERVA_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774381246/reserva_dxdyyt.webp";
-const FOOTER_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774380038/piepag_lni8ko.webp";
+const FOOTER_IMG = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp";
 const MOBILE_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380798/hambur2_lhdl97.webm";
 
 // --- Assets locales de capibaras (animación scroll-driven) ---
@@ -46,6 +46,16 @@ const PROMOS = [
   "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/delivery1am.webp",
   "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/hamburguesas.webp",
   "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/litronas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/marSaboresDelicias.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/masAlitas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/newPresentacionMakis.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/nocheTragosCasa.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/piqueos.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/promo_frappe.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/reyesAlitas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/ruleta.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/salchiPapas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/transfusionSangreHallowen.webp"
 ];
 
 const TIME_SLOTS = [
@@ -605,7 +615,32 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social'>('landing');
-  const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
+  const [selectedPromoIndex, setSelectedPromoIndex] = useState<number | null>(null);
+
+  const nextPromo = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (selectedPromoIndex !== null) {
+      setSelectedPromoIndex((selectedPromoIndex + 1) % PROMOS.length);
+    }
+  };
+
+  const prevPromo = (e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    if (selectedPromoIndex !== null) {
+      setSelectedPromoIndex((selectedPromoIndex - 1 + PROMOS.length) % PROMOS.length);
+    }
+  };
+
+  useEffect(() => {
+    const handlePromoKey = (e: KeyboardEvent) => {
+      if (selectedPromoIndex === null) return;
+      if (e.key === 'ArrowRight') nextPromo();
+      if (e.key === 'ArrowLeft') prevPromo();
+      if (e.key === 'Escape') setSelectedPromoIndex(null);
+    };
+    window.addEventListener('keydown', handlePromoKey);
+    return () => window.removeEventListener('keydown', handlePromoKey);
+  }, [selectedPromoIndex]);
 
   // Declara los hooks de Framer Motion al inicio para cumplir estrictamente con las reglas de Hooks de React
   const heroRef = useRef<HTMLElement>(null);
@@ -1053,7 +1088,7 @@ export default function App() {
             {PROMOS.map((url, i) => {
               const filename = url.split('/').pop()?.split('.')[0] || `Promo ${i}`;
               return (
-                <div key={i} className="promo-card cursor-pointer group" onClick={() => setSelectedPromo(url)}>
+                <div key={i} className="promo-card cursor-pointer group" onClick={() => setSelectedPromoIndex(i)}>
                   <div className="w-full aspect-[4/5] bg-[#101016] rounded-[16px] overflow-hidden border border-[rgba(201,0,255,0.18)] transition-all duration-300 group-hover:scale-[1.03] group-hover:border-[rgba(201,0,255,0.55)] group-hover:shadow-[0_0_25px_rgba(201,0,255,0.25)] relative">
                     <img
                       src={url}
@@ -1215,29 +1250,62 @@ export default function App() {
         </div>
       </section>
 
-      {/* Lightbox Modal */}
+      {/* Lightbox Modal con Controles Neón */}
       <AnimatePresence>
-        {selectedPromo && (
+        {selectedPromoIndex !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="promo-modal fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
-            onClick={() => setSelectedPromo(null)}
+            onClick={() => setSelectedPromoIndex(null)}
           >
-            <button className="absolute top-6 right-6 text-white hover:text-[#C900FF] transition-colors z-50 p-2" onClick={() => setSelectedPromo(null)}>
-              <X size={32} />
+            {/* Botón Cerrar */}
+            <button 
+              className="absolute top-6 right-6 text-white hover:text-[#C900FF] transition-colors z-50 p-2 bg-black/60 rounded-full border border-white/10" 
+              onClick={() => setSelectedPromoIndex(null)}
+              aria-label="Cerrar modal"
+            >
+              <X size={28} />
             </button>
+
+            {/* Contador */}
+            <div className="absolute top-6 left-6 px-3 py-1.5 rounded-full bg-black/60 border border-[rgba(201,0,255,0.3)] text-xs text-white/90 font-mono font-bold">
+              {selectedPromoIndex + 1} / {PROMOS.length}
+            </div>
+
+            {/* Botón Anterior */}
+            <button
+              type="button"
+              className="lightbox-nav-btn left-4 sm:left-8"
+              onClick={prevPromo}
+              aria-label="Promoción anterior"
+            >
+              <ChevronLeft size={28} />
+            </button>
+
+            {/* Imagen Principal */}
             <motion.img
-              initial={{ scale: 0.9, opacity: 0 }}
+              key={selectedPromoIndex}
+              initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              exit={{ scale: 0.92, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              src={selectedPromo}
-              alt="Promoción ampliada"
-              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-[0_0_40px_rgba(201,0,255,0.3)] border border-[rgba(201,0,255,0.3)]"
+              src={PROMOS[selectedPromoIndex]}
+              alt={`Promoción ${selectedPromoIndex + 1}`}
+              className="max-w-[85vw] max-h-[85vh] object-contain rounded-2xl shadow-[0_0_40px_rgba(201,0,255,0.35)] border border-[rgba(201,0,255,0.35)]"
               onClick={(e) => e.stopPropagation()}
             />
+
+            {/* Botón Siguiente */}
+            <button
+              type="button"
+              className="lightbox-nav-btn right-4 sm:right-8"
+              onClick={nextPromo}
+              aria-label="Siguiente promoción"
+            >
+              <ChevronRight size={28} />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

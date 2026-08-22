@@ -19,5 +19,13 @@ export default defineConfig(({ mode }) => {
     server: {
       hmr: process?.env?.DISABLE_HMR !== 'true',
     },
+    build: {
+      rollupOptions: {
+        input: {
+          main: fileURLToPath(new URL('./index.html', import.meta.url)),
+          promociones: fileURLToPath(new URL('./promociones.html', import.meta.url)),
+        },
+      },
+    },
   };
 });
