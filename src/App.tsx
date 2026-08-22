@@ -51,7 +51,7 @@ export default function App() {
   const handleReserve = (e: React.FormEvent) => {
     e.preventDefault();
     const { nombre, fecha, hora, personas, motivo } = form;
-    const message = `Hola The Weekend! Deseo una reserva: Nombre: ${nombre}, Fecha: ${fecha}, Hora: ${hora}, Personas: ${personas}, Motivo: ${motivo}`;
+    const message = `Hola Weekend! Deseo una reserva: Nombre: ${nombre}, Fecha: ${fecha}, Hora: ${hora}, Personas: ${personas}, Motivo: ${motivo}`;
     window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
@@ -75,7 +75,7 @@ export default function App() {
               referrerPolicy="no-referrer"
             />
             <a href="/" className="text-white font-bold tracking-tighter text-lg uppercase hidden xl:block hover:text-weekend-neon transition-colors duration-500">
-              The Weekend! - huarmey
+              Weekend! - huarmey
             </a>
           </div>
 
@@ -145,7 +145,7 @@ export default function App() {
             </div>
 
             <div className="absolute bottom-8 landscape:hidden left-0 w-full text-center z-10">
-              <p className="text-weekend-purple text-xs font-bold uppercase tracking-[0.3em] mb-1">the weekend!</p>
+              <p className="text-weekend-purple text-xs font-bold uppercase tracking-[0.3em] mb-1">weekend!</p>
               <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.4em]">- huarmey -</p>
             </div>
           </motion.div>
@@ -281,7 +281,7 @@ export default function App() {
               <h2 className="text-weekend-purple text-sm font-bold tracking-[0.3em] uppercase mb-4">Planifica tu noche</h2>
               <h3 className="text-4xl md:text-6xl font-black uppercase mb-8 leading-tight">Asegura tu <span className="text-weekend-purple">Mesa</span></h3>
               <p className="text-white/60 text-base md:text-lg mb-8 leading-relaxed">
-                Vive la experiencia completa en The Weekend. Ya sea para un cumpleaños, una cita o una salida con amigos, reserva con anticipación y déjanos encargarnos del resto.
+                Vive la experiencia completa en Weekend. Ya sea para un cumpleaños, una cita o una salida con amigos, reserva con anticipación y déjanos encargarnos del resto.
               </p>
 
               <div className="space-y-6">
@@ -406,7 +406,7 @@ export default function App() {
           >
             <Smartphone className="text-weekend-neon mb-6" size={48} />
             <h3 className="text-3xl md:text-5xl font-black uppercase mb-4">¿Prefieres quedarte en casa?</h3>
-            <p className="text-white/60 mb-10 max-w-xl">Llevamos el sabor de The Weekend directo a tu puerta. Rápido, seguro y delicioso.</p>
+            <p className="text-white/60 mb-10 max-w-xl">Llevamos el sabor de Weekend directo a tu puerta. Rápido, seguro y delicioso.</p>
             <button
               onClick={handleDelivery}
               className="px-12 py-5 border-2 border-weekend-neon text-weekend-neon font-black uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300 flex items-center gap-3"
@@ -465,7 +465,7 @@ export default function App() {
                   className="h-10 w-10 rounded-full object-cover border border-weekend-purple"
                   referrerPolicy="no-referrer"
                 />
-                <span className="text-white font-bold tracking-tighter text-lg uppercase">The Weekend! - huarmey</span>
+                <span className="text-white font-bold tracking-tighter text-lg uppercase">Weekend! - huarmey</span>
               </div>
               <p className="text-white/50 text-sm leading-relaxed mb-6">
                 El espacio donde la alta cocina se encuentra con el ritmo más sofisticado de la ciudad.
@@ -525,7 +525,7 @@ export default function App() {
 
           <div className="pt-12 border-t border-white/10 text-center">
             <p className="text-white/30 text-xs uppercase tracking-[0.3em]">
-              &copy; {new Date().getFullYear()} The Weekend Lounge & Restaurant.
+              &copy; {new Date().getFullYear()} Weekend Lounge & Restaurant.
             </p>
           </div>
         </div>

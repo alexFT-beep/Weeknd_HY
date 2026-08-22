@@ -81,7 +81,7 @@ const TIKTOK_DATA = {
       url: 'https://www.tiktok.com/@weekendhuarmey/video/7674053681561521428',
       shortUrl: 'https://vt.tiktok.com/ZSVySJ7A3/',
       title: '🎂 Noche de Cumpleaños & Fiesta',
-      caption: '¡Celebrando los cumpleaños en The Weekend! Show, sorpresas y buena vibra.',
+      caption: '¡Celebrando los cumpleaños en Weekend! Show, sorpresas y buena vibra.',
       likes: 3180,
       comments: 142,
       views: '28.1K',
@@ -107,7 +107,7 @@ const TIKTOK_DATA = {
       url: 'https://www.tiktok.com/@weekendhuarmey/video/7672838643735792917',
       shortUrl: 'https://vt.tiktok.com/ZSVySAA4a/',
       title: '🥤 Frappés & Bebidas',
-      caption: '¡Agranda tu frappé y refréscate con el sabor único de The Weekend!',
+      caption: '¡Agranda tu frappé y refréscate con el sabor único de Weekend!',
       likes: 2150,
       comments: 98,
       views: '18.6K',
@@ -194,7 +194,7 @@ const FACEBOOK_DATA = {
       id: '1064399486100588',
       url: 'https://www.facebook.com/100075916407028/posts/1064399486100588',
       shortUrl: 'https://www.facebook.com/share/p/19GHC6RSia/',
-      title: '🎉 ¡Viernes de fiesta en The Weekend!',
+      title: '🎉 ¡Viernes de fiesta en Weekend!',
       caption: '¡Gracias Huarmey por otro fin de semana increíble! Los esperamos con la mejor carta y ambiente.',
       likes: 218,
       comments: 34,
@@ -732,7 +732,7 @@ export default function App() {
   const handleReserve = (e: React.FormEvent) => {
     e.preventDefault();
     const { nombre, fecha, hora, personas, motivo } = form;
-    const message = `Hola The Weekend! Deseo una reserva: Nombre: ${nombre}, Fecha: ${fecha}, Hora: ${hora}, Personas: ${personas}, Motivo: ${motivo}`;
+    const message = `Hola Weekend! Deseo una reserva: Nombre: ${nombre}, Fecha: ${fecha}, Hora: ${hora}, Personas: ${personas}, Motivo: ${motivo}`;
     window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
@@ -794,7 +794,7 @@ export default function App() {
         {/* Dashboard Footer */}
         <footer className="border-t border-white/10 py-8 bg-black text-center text-xs text-white/50">
           <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; {new Date().getFullYear()} The Weekend Lounge &amp; Restaurant - Huarmey.</p>
+            <p>&copy; {new Date().getFullYear()} Weekend Lounge &amp; Restaurant - Huarmey.</p>
             <button
               type="button"
               onClick={goToLanding}
@@ -853,7 +853,7 @@ export default function App() {
               referrerPolicy="no-referrer"
             />
             <a href="/" className="text-white font-bold tracking-tighter text-base xl:block hidden uppercase hover:text-weekend-neon transition-colors duration-500" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              The Weekend! <span className="text-weekend-neon">Huarmey</span>
+              Weekend! <span className="text-weekend-neon">Huarmey</span>
             </a>
           </div>
 
@@ -944,7 +944,7 @@ export default function App() {
             </div>
 
             <div className="absolute bottom-8 landscape:hidden left-0 w-full text-center z-10">
-              <p className="text-weekend-neon text-xs font-bold uppercase tracking-[0.3em] mb-1">the weekend!</p>
+              <p className="text-weekend-neon text-xs font-bold uppercase tracking-[0.3em] mb-1">weekend!</p>
               <p className="text-white/70 text-[10px] font-bold uppercase tracking-[0.4em]">- huarmey -</p>
             </div>
           </motion.div>
@@ -1193,7 +1193,7 @@ export default function App() {
             <div className="col-span-1 lg:col-span-1">
               <div className="flex items-center gap-3 mb-6">
                 <img src={LOGO_URL} alt="Logo" className="h-10 w-10 rounded-full object-cover border border-weekend-neon" referrerPolicy="no-referrer" />
-                <span className="text-white font-bold tracking-tighter text-lg uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>The Weekend! - huarmey</span>
+                <span className="text-white font-bold tracking-tighter text-lg uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Weekend! - huarmey</span>
               </div>
               <p className="text-white/50 text-sm leading-relaxed mb-6">
                 El espacio donde la alta cocina se encuentra con el ritmo más sofisticado de la ciudad.
@@ -1256,7 +1256,7 @@ export default function App() {
 
           <div className="pt-12 border-t border-white/10 text-center">
             <p className="text-white/30 text-xs uppercase tracking-[0.3em]">
-              &copy; {new Date().getFullYear()} The Weekend Lounge &amp; Restaurant.
+              &copy; {new Date().getFullYear()} Weekend Lounge &amp; Restaurant.
             </p>
           </div>
         </div>

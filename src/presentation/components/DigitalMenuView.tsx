@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { SECTION_THEMES } from './ProductCardComponent.js';
 import { Plus, ChevronDown, Sparkles, ShieldCheck, Truck, Check, Eye, EyeOff } from 'lucide-react';
+import { MENU_CATEGORIES, FULL_MENU_ITEMS } from '../../infrastructure/data/fullMenuData.js';
 
 interface Category {
   id: string;
@@ -29,14 +30,156 @@ interface DigitalMenuViewProps {
   onSearchClick?: () => void;
 }
 
+// Memoized Card Component to prevent re-rendering all menu cards when single item state changes
+const MenuCardItem = React.memo<{
+  item: MenuItem;
+  theme: { hex: string; rgb: string };
+  isAdded: boolean;
+  onAdd: (item: MenuItem, e: React.MouseEvent) => void;
+}>(({ item, theme, isAdded, onAdd }) => {
+  return (
+    <div
+      id={`item-card-${item.id}`}
+      className="bg-neutral-900/90 border border-white/10 hover:border-white/25 rounded-2xl p-4 flex flex-col justify-between text-left group relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 shadow-lg"
+      data-item-id={item.id}
+    >
+      <div>
+        <div className="flex justify-between items-start gap-2 mb-1.5">
+          <div className="flex-1 min-w-0">
+            {item.badge && (
+              <span
+                className="font-black text-[9px] tracking-wider px-2 py-0.5 rounded-full uppercase mb-1.5 inline-block"
+                style={{
+                  backgroundColor: theme.hex,
+                  color: '#000000',
+                  boxShadow: `0 0 10px rgba(${theme.rgb}, 0.5)`
+                }}
+              >
+                {item.badge}
+              </span>
+            )}
+            <h3 className="font-extrabold text-white uppercase text-xs sm:text-sm leading-snug group-hover:text-weekend-neon transition-colors">
+              {item.name}
+            </h3>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <span
+              className="font-extrabold whitespace-nowrap text-sm sm:text-base"
+              style={{
+                color: theme.hex,
+                textShadow: `0 0 10px rgba(${theme.rgb}, 0.35)`
+              }}
+            >
+              S/ {Number(item.price).toFixed(2)}
+            </span>
+            <button
+              type="button"
+              data-action="add-to-cart"
+              data-item-id={item.id}
+              onClick={(e) => onAdd(item, e)}
+              className={`flex items-center justify-center w-8 h-8 rounded-xl border transition-all duration-200 active:scale-90 shadow-sm ${
+                isAdded ? 'bg-weekend-neon text-black border-weekend-neon' : ''
+              }`}
+              style={{
+                color: isAdded ? '#000000' : theme.hex,
+                borderColor: isAdded ? theme.hex : `${theme.hex}80`,
+                backgroundColor: isAdded ? theme.hex : `rgba(${theme.rgb}, 0.12)`,
+                boxShadow: `0 0 10px rgba(${theme.rgb}, 0.25)`
+              }}
+              title={`Añadir ${item.name} al carrito`}
+            >
+              {isAdded ? <Check className="w-4 h-4 stroke-[3]" /> : <Plus className="w-4 h-4 stroke-[3]" />}
+            </button>
+          </div>
+        </div>
+        {item.description && (
+          <p className="text-[11px] sm:text-xs text-gray-400 leading-relaxed mt-1 line-clamp-2">
+            {item.description}
+          </p>
+        )}
+      </div>
+    </div>
+  );
+});
+
+MenuCardItem.displayName = 'MenuCardItem';
+
+// Memoized Row Item for side items / extras
+const MenuRowItem = React.memo<{
+  item: MenuItem;
+  theme: { hex: string; rgb: string };
+  isAdded: boolean;
+  onAdd: (item: MenuItem, e: React.MouseEvent) => void;
+}>(({ item, theme, isAdded, onAdd }) => {
+  return (
+    <div
+      id={`item-card-${item.id}`}
+      className="flex justify-between items-center border-b border-white/10 py-2 px-3 rounded-xl hover:bg-white/5 transition-colors group"
+      data-item-id={item.id}
+    >
+      <div className="flex-1 pr-2 min-w-0">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <h4 className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-weekend-neon transition-colors">
+            {item.name}
+          </h4>
+          {item.badge && (
+            <span
+              className="text-[9px] font-bold px-1.5 py-0.5 rounded"
+              style={{
+                backgroundColor: `rgba(${theme.rgb}, 0.2)`,
+                color: theme.hex
+              }}
+            >
+              {item.badge}
+            </span>
+          )}
+        </div>
+        {item.description && (
+          <span className="text-[10px] sm:text-xs text-gray-400 block mt-0.5 truncate">
+            {item.description}
+          </span>
+        )}
+      </div>
+      <div className="flex items-center gap-2 shrink-0">
+        <span
+          className="font-extrabold whitespace-nowrap text-xs sm:text-sm"
+          style={{
+            color: theme.hex,
+            textShadow: `0 0 8px rgba(${theme.rgb}, 0.3)`
+          }}
+        >
+          S/ {Number(item.price).toFixed(2)}
+        </span>
+        <button
+          type="button"
+          data-action="add-to-cart"
+          data-item-id={item.id}
+          onClick={(e) => onAdd(item, e)}
+          className={`flex items-center justify-center w-7 h-7 rounded-lg border transition-all duration-200 active:scale-90 shadow-sm ${
+            isAdded ? 'bg-weekend-neon text-black border-weekend-neon' : ''
+          }`}
+          style={{
+            color: isAdded ? '#000000' : theme.hex,
+            borderColor: isAdded ? theme.hex : `${theme.hex}80`,
+            backgroundColor: isAdded ? theme.hex : `rgba(${theme.rgb}, 0.12)`
+          }}
+          title={`Añadir ${item.name} al carrito`}
+        >
+          {isAdded ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : <Plus className="w-3.5 h-3.5 stroke-[3]" />}
+        </button>
+      </div>
+    </div>
+  );
+});
+
+MenuRowItem.displayName = 'MenuRowItem';
+
 export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick }) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [items, setItems] = useState<MenuItem[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('alitas');
   const [addedItemIds, setAddedItemIds] = useState<{ [key: string]: boolean }>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  // Estado para acordeones por categoría (true = desplegado, false = replegado)
   const [expandedCategories, setExpandedCategories] = useState<{ [key: string]: boolean }>({});
 
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -54,7 +197,6 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
             setIsLoading(false);
           }
         } else {
-          const { MENU_CATEGORIES, FULL_MENU_ITEMS } = await import('../../infrastructure/data/fullMenuData.js');
           if (isMounted) {
             setCategories(MENU_CATEGORIES as Category[]);
             setItems(FULL_MENU_ITEMS as MenuItem[]);
@@ -113,24 +255,23 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
     };
   }, [categories, isLoading]);
 
-  const toggleCategoryAccordion = (catId: string) => {
+  const toggleCategoryAccordion = useCallback((catId: string) => {
     setExpandedCategories((prev) => ({
       ...prev,
       [catId]: prev[catId] === undefined ? false : !prev[catId]
     }));
-  };
+  }, []);
 
-  const setAllCategoriesExpanded = (expand: boolean) => {
+  const setAllCategoriesExpanded = useCallback((expand: boolean) => {
     const nextState: { [key: string]: boolean } = {};
     categories.forEach((cat) => {
       nextState[cat.id] = expand;
     });
     setExpandedCategories(nextState);
-  };
+  }, [categories]);
 
-  const scrollToCategory = (catId: string) => {
+  const scrollToCategory = useCallback((catId: string) => {
     setActiveCategory(catId);
-    // Asegurar que la categoría destino esté desplegada
     setExpandedCategories((prev) => ({ ...prev, [catId]: true }));
 
     setTimeout(() => {
@@ -148,10 +289,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
         });
       }
     }, 50);
-  };
+  }, []);
 
-  const handleAddToCart = async (item: MenuItem, e: React.MouseEvent) => {
-    // Visual feedback instantáneo en React state
+  const handleAddToCart = useCallback(async (item: MenuItem, e: React.MouseEvent) => {
     setAddedItemIds((prev) => ({ ...prev, [item.id]: true }));
     setTimeout(() => {
       setAddedItemIds((prev) => ({ ...prev, [item.id]: false }));
@@ -160,13 +300,22 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
     const buttonEl = e.currentTarget as HTMLElement;
     const cardEl = document.getElementById(`item-card-${item.id}`) || (buttonEl.closest('.group') as HTMLElement);
 
-    // Invocar controlador hexagonal para ejecutar la secuencia completa de animaciones y guardar en carrito
     if ((window as any).appInstance?.cartController) {
       await (window as any).appInstance.cartController.addItemToCart(item.id, buttonEl, cardEl);
     } else {
       document.dispatchEvent(new CustomEvent('cart:add', { detail: { itemId: item.id } }));
     }
-  };
+  }, []);
+
+  // Pre-calculate items by category using useMemo to avoid filter calculations on re-render
+  const itemsByCategory = useMemo(() => {
+    const map: { [catId: string]: MenuItem[] } = {};
+    items.forEach((item) => {
+      if (!map[item.category]) map[item.category] = [];
+      map[item.category].push(item);
+    });
+    return map;
+  }, [items]);
 
   if (isLoading) {
     return (
@@ -185,7 +334,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
       {/* BARRA PEGAJOSA DE CHIPS DE CATEGORÍAS (NEÓN) */}
       <div className="sticky top-0 z-30 bg-black/95 backdrop-blur-md border-b border-white/10 py-3 mb-6 -mx-3 px-3 sm:-mx-4 sm:px-4 flex flex-col gap-2">
         
-        {/* FILA SUPERIOR: Botones de control masivo (Expandir / Contraer todas) */}
+        {/* FILA SUPERIOR: Botones de control masivo */}
         <div className="flex items-center justify-between gap-2">
           <span className="text-[11px] font-black text-weekend-neon uppercase tracking-widest flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5" /> Menú Digital Weekend!
@@ -276,14 +425,12 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
       <div className="space-y-6 pb-16">
         {categories.map((cat) => {
           const theme = SECTION_THEMES[cat.id] || SECTION_THEMES['alitas'];
-          const categoryItems = items.filter((item) => item.category === cat.id);
+          const categoryItems = itemsByCategory[cat.id] || [];
 
           if (categoryItems.length === 0) return null;
 
-          // Por defecto está abierto (true) a menos que esté explícitamente en false
           const isExpanded = expandedCategories[cat.id] !== false;
 
-          // Agrupar subcategorías si aplican
           const isAlitas = cat.id === 'alitas';
           const isHamburguesas = cat.id === 'hamburguesas';
           const isBroaster = cat.id === 'broaster';
@@ -379,7 +526,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                             <Sparkles className="w-3.5 h-3.5" /> RONDAS & COMBOS FESTÍN (RECOMENDADOS)
                           </h3>
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                            {rondasAlitas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                            {rondasAlitas.map((item) => (
+                              <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                            ))}
                           </div>
                         </div>
                       )}
@@ -389,14 +538,18 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                           ALITAS INDIVIDUALES (08 UNIDADES + PAPAS + ENSALADA)
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                          {regularAlitas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                          {regularAlitas.map((item) => (
+                            <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                          ))}
                         </div>
                       </div>
                     </div>
                   ) : isHamburguesas ? (
                     <div className="space-y-8">
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                        {mainBurgers.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                        {mainBurgers.map((item) => (
+                          <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                        ))}
                       </div>
 
                       {adicionalsBurgers.length > 0 && (
@@ -405,7 +558,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                             ADICIONALES PARA TU HAMBURGUESA
                           </h3>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {adicionalsBurgers.map((item) => renderRowItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                            {adicionalsBurgers.map((item) => (
+                              <MenuRowItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                            ))}
                           </div>
                         </div>
                       )}
@@ -413,7 +568,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                   ) : isBroaster ? (
                     <div className="space-y-8">
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                        {mainBroaster.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                        {mainBroaster.map((item) => (
+                          <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                        ))}
                       </div>
 
                       {agregadosBroaster.length > 0 && (
@@ -422,7 +579,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                             AGREGADOS PARA TU BROASTER
                           </h3>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {agregadosBroaster.map((item) => renderRowItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                            {agregadosBroaster.map((item) => (
+                              <MenuRowItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                            ))}
                           </div>
                         </div>
                       )}
@@ -434,7 +593,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                           CORTES A LA PARRILLA & ANTICUCHOS
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                          {mainParrillas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                          {mainParrillas.map((item) => (
+                            <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                          ))}
                         </div>
                       </div>
 
@@ -444,7 +605,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                             <Sparkles className="w-3.5 h-3.5" /> COMBOS PARRILLEROS PARA COMPARTIR
                           </h3>
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                            {combosParrillas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                            {combosParrillas.map((item) => (
+                              <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                            ))}
                           </div>
                         </div>
                       )}
@@ -452,7 +615,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                   ) : isPastas ? (
                     <div className="space-y-8">
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                        {mainPastas.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                        {mainPastas.map((item) => (
+                          <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                        ))}
                       </div>
 
                       {acompanaPastas.length > 0 && (
@@ -461,7 +626,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                             ACOMPAÑA TUS PASTAS
                           </h3>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {acompanaPastas.map((item) => renderRowItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                            {acompanaPastas.map((item) => (
+                              <MenuRowItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                            ))}
                           </div>
                         </div>
                       )}
@@ -469,7 +636,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                   ) : (
                     /* CATEGORÍAS GENERALES */
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                      {categoryItems.map((item) => renderCardItem(item, theme, addedItemIds[item.id], handleAddToCart))}
+                      {categoryItems.map((item) => (
+                        <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                      ))}
                     </div>
                   )}
                 </div>
@@ -490,145 +659,3 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
     </div>
   );
 };
-
-// AUXILIAR: Renderizado de tarjeta estándar en React
-function renderCardItem(
-  item: MenuItem, 
-  theme: { hex: string; rgb: string }, 
-  isAdded: boolean, 
-  onAdd: (item: MenuItem, e: React.MouseEvent) => void
-) {
-  return (
-    <div 
-      key={item.id}
-      id={`item-card-${item.id}`}
-      className="bg-neutral-900/90 border border-white/10 hover:border-white/25 rounded-2xl p-4 flex flex-col justify-between text-left group relative overflow-hidden transition-all duration-200 hover:-translate-y-0.5 shadow-lg"
-      data-item-id={item.id}
-    >
-      <div>
-        <div className="flex justify-between items-start gap-2 mb-1.5">
-          <div className="flex-1 min-w-0">
-            {item.badge && (
-              <span 
-                className="font-black text-[9px] tracking-wider px-2 py-0.5 rounded-full uppercase mb-1.5 inline-block"
-                style={{
-                  backgroundColor: theme.hex,
-                  color: '#000000',
-                  boxShadow: `0 0 10px rgba(${theme.rgb}, 0.5)`
-                }}
-              >
-                {item.badge}
-              </span>
-            )}
-            <h3 className="font-extrabold text-white uppercase text-xs sm:text-sm leading-snug group-hover:text-weekend-neon transition-colors">
-              {item.name}
-            </h3>
-          </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <span 
-              className="font-extrabold whitespace-nowrap text-sm sm:text-base"
-              style={{
-                color: theme.hex,
-                textShadow: `0 0 10px rgba(${theme.rgb}, 0.35)`
-              }}
-            >
-              S/ {Number(item.price).toFixed(2)}
-            </span>
-            <button
-              type="button"
-              data-action="add-to-cart"
-              data-item-id={item.id}
-              onClick={(e) => onAdd(item, e)}
-              className={`flex items-center justify-center w-8 h-8 rounded-xl border transition-all duration-200 active:scale-90 shadow-sm ${
-                isAdded ? 'bg-weekend-neon text-black border-weekend-neon' : ''
-              }`}
-              style={{
-                color: isAdded ? '#000000' : theme.hex,
-                borderColor: isAdded ? theme.hex : `${theme.hex}80`,
-                backgroundColor: isAdded ? theme.hex : `rgba(${theme.rgb}, 0.12)`,
-                boxShadow: `0 0 10px rgba(${theme.rgb}, 0.25)`
-              }}
-              title={`Añadir ${item.name} al carrito`}
-            >
-              {isAdded ? <Check className="w-4 h-4 stroke-[3]" /> : <Plus className="w-4 h-4 stroke-[3]" />}
-            </button>
-          </div>
-        </div>
-        {item.description && (
-          <p className="text-[11px] sm:text-xs text-gray-400 leading-relaxed mt-1 line-clamp-2">
-            {item.description}
-          </p>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// AUXILIAR: Renderizado de fila secundaria (Adicionales / Guarniciones)
-function renderRowItem(
-  item: MenuItem, 
-  theme: { hex: string; rgb: string }, 
-  isAdded: boolean, 
-  onAdd: (item: MenuItem, e: React.MouseEvent) => void
-) {
-  return (
-    <div 
-      key={item.id}
-      id={`item-card-${item.id}`}
-      className="flex justify-between items-center border-b border-white/10 py-2 px-3 rounded-xl hover:bg-white/5 transition-colors group"
-      data-item-id={item.id}
-    >
-      <div className="flex-1 pr-2 min-w-0">
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <h4 className="text-xs sm:text-sm font-bold text-white uppercase group-hover:text-weekend-neon transition-colors">
-            {item.name}
-          </h4>
-          {item.badge && (
-            <span 
-              className="text-[9px] font-bold px-1.5 py-0.5 rounded"
-              style={{
-                backgroundColor: `rgba(${theme.rgb}, 0.2)`,
-                color: theme.hex
-              }}
-            >
-              {item.badge}
-            </span>
-          )}
-        </div>
-        {item.description && (
-          <span className="text-[10px] sm:text-xs text-gray-400 block mt-0.5 truncate">
-            {item.description}
-          </span>
-        )}
-      </div>
-      <div className="flex items-center gap-2 shrink-0">
-        <span 
-          className="font-extrabold whitespace-nowrap text-xs sm:text-sm"
-          style={{
-            color: theme.hex,
-            textShadow: `0 0 8px rgba(${theme.rgb}, 0.3)`
-          }}
-        >
-          S/ {Number(item.price).toFixed(2)}
-        </span>
-        <button
-          type="button"
-          data-action="add-to-cart"
-          data-item-id={item.id}
-          onClick={(e) => onAdd(item, e)}
-          className={`flex items-center justify-center w-7 h-7 rounded-lg border transition-all duration-200 active:scale-90 shadow-sm ${
-            isAdded ? 'bg-weekend-neon text-black border-weekend-neon' : ''
-          }`}
-          style={{
-            color: isAdded ? '#000000' : theme.hex,
-            borderColor: isAdded ? theme.hex : `${theme.hex}80`,
-            backgroundColor: isAdded ? theme.hex : `rgba(${theme.rgb}, 0.12)`
-          }}
-          title={`Añadir ${item.name} al carrito`}
-        >
-          {isAdded ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : <Plus className="w-3.5 h-3.5 stroke-[3]" />}
-        </button>
-      </div>
-    </div>
-  );
-}

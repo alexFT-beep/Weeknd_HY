@@ -20,10 +20,30 @@ export default defineConfig(({ mode }) => {
       hmr: process?.env?.DISABLE_HMR !== 'true',
     },
     build: {
+      target: 'es2020',
+      cssCodeSplit: true,
+      chunkSizeWarningLimit: 1000,
+      minify: 'esbuild',
+      esbuild: {
+        drop: mode === 'production' ? ['console', 'debugger'] : [],
+      },
       rollupOptions: {
         input: {
           main: fileURLToPath(new URL('./index.html', import.meta.url)),
           promotions: fileURLToPath(new URL('./promociones.html', import.meta.url)),
+        },
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+              return 'vendor-react';
+            }
+            if (id.includes('node_modules/framer-motion') || id.includes('node_modules/motion')) {
+              return 'vendor-motion';
+            }
+            if (id.includes('node_modules/lucide-react')) {
+              return 'vendor-lucide';
+            }
+          },
         },
       },
     },
