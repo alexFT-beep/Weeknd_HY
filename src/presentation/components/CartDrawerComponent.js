@@ -228,24 +228,6 @@ export class CartDrawerComponent {
         <!-- Footer / Checkout Actions -->
         ${hasItems ? `
           <div class="p-4 sm:p-5 border-t border-zinc-800 bg-[#18181b] space-y-3">
-            <!-- Weekend Vibe Progression Bar -->
-            <div class="bg-gradient-to-r from-amber-500/10 via-purple-500/10 to-primary/10 border border-primary/30 rounded-xl p-3 space-y-1.5 shadow-sm">
-              <div class="flex justify-between items-center text-[11px] font-bold">
-                <span class="text-white flex items-center gap-1.5">
-                  <span class="text-amber-400">🔥</span> Weekend Vibe Meter:
-                </span>
-                <span class="text-primary font-mono font-black">
-                  ${totals.subtotal >= 80 ? '🎉 ¡NIVEL MÁXIMO! Regalo VIP' : totals.subtotal >= 40 ? '🎁 ¡Salsa Especial Desbloqueada!' : `Faltan S/ ${(40 - totals.subtotal).toFixed(2)} p/ Extra`}
-                </span>
-              </div>
-              <div class="w-full bg-black/60 rounded-full h-2 overflow-hidden border border-white/10">
-                <div 
-                  class="bg-gradient-to-r from-amber-400 via-purple-500 to-primary h-full rounded-full transition-all duration-500"
-                  style="width: ${Math.min(100, Math.round((totals.subtotal / 80) * 100))}%"
-                ></div>
-              </div>
-            </div>
-
             <!-- Price Breakdown (Estilo Comanda Artesanal) -->
             <div class="space-y-1.5 text-xs bg-black/40 border border-zinc-800/90 rounded-xl p-3.5">
               <div class="flex justify-between text-zinc-300">
