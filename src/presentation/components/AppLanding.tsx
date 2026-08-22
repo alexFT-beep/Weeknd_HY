@@ -5,7 +5,6 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DigitalMenuView } from './DigitalMenuView';
-import { SocialGalleryView } from './SocialGalleryView';
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
@@ -39,7 +38,6 @@ const MOBILE_NAV_LINKS = [
   { name: 'DESTACADOS', href: 'promociones.html', type: 'destacados' },
   { name: 'SÍGUENOS', href: '#redes', type: 'siguenos' },
 ];
-
 const TIME_SLOTS = [
   '05:00 PM', '05:30 PM', '06:00 PM', '06:30 PM', '07:00 PM', '07:30 PM',
   '08:00 PM', '08:30 PM', '09:00 PM', '09:30 PM', '10:00 PM', '10:30 PM',
@@ -91,7 +89,7 @@ const TIKTOK_DATA = {
       url: 'https://www.tiktok.com/@weekendhuarmey/video/7674053681561521428',
       shortUrl: 'https://vt.tiktok.com/ZSVySJ7A3/',
       title: '🎂 Noche de Cumpleaños & Fiesta',
-      caption: '¡Celebrando los cumpleaños en The Weekend! Show, sorpresas y buena vibra.',
+      caption: '¡Celebrando los cumpleaños en Weekend! Show, sorpresas y buena vibra.',
       likes: 3180,
       comments: 142,
       views: '28.1K',
@@ -117,7 +115,7 @@ const TIKTOK_DATA = {
       url: 'https://www.tiktok.com/@weekendhuarmey/video/7672838643735792917',
       shortUrl: 'https://vt.tiktok.com/ZSVySAA4a/',
       title: '🥤 Frappés & Bebidas',
-      caption: '¡Agranda tu frappé y refréscate con el sabor único de The Weekend!',
+      caption: '¡Agranda tu frappé y refréscate con el sabor único de Weekend!',
       likes: 2150,
       comments: 98,
       views: '18.6K',
@@ -204,7 +202,7 @@ const FACEBOOK_DATA = {
       id: '1064399486100588',
       url: 'https://www.facebook.com/100075916407028/posts/1064399486100588',
       shortUrl: 'https://www.facebook.com/share/p/19GHC6RSia/',
-      title: '🎉 ¡Viernes de fiesta en The Weekend!',
+      title: '🎉 ¡Viernes de fiesta en Weekend!',
       caption: '¡Gracias Huarmey por otro fin de semana increíble! Los esperamos con la mejor carta y ambiente.',
       likes: 218,
       comments: 34,
@@ -567,7 +565,7 @@ function SocialFeed({ platform }: { platform: typeof PLATFORMS_DATA[number] }) {
 // =========================================================
 function SocialSection() {
   return (
-    <section id="redes" className="py-14 relative overflow-hidden border-t border-white/5 bg-black">
+    <section id="redes" className="py-14 relative overflow-hidden border-t border-white/5 bg-black social-section">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0acc80]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[#0acc80]/8 rounded-full blur-3xl pointer-events-none" />
 
@@ -593,10 +591,54 @@ function SocialSection() {
   );
 }
 
+const PROMOS = [
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barcoMix.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barquitoHarryHou.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/boxRomantico.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/broster.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/bubbleTea.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/burritoMexi.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/calientitosPisco.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/carruselAlitas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cervezaArtesanal.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/comboParrillero.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumple.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/delivery1am.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/hamburguesas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/litronas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/marSaboresDelicias.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/masAlitas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/newPresentacionMakis.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/nocheTragosCasa.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/piqueos.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/promo_frappe.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/reyesAlitas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/ruleta.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/salchiPapas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/transfusionSangreHallowen.webp"
+];
+
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social' | 'reserva'>('landing');
+  const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelectedPromo(null);
+    };
+    if (selectedPromo) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [selectedPromo]);
 
   const [form, setForm] = useState({
     nombre: '',
@@ -606,7 +648,7 @@ export default function App() {
     motivo: ''
   });
 
-  // --- Navegación entre Vistas ---
+  // --- Módulo intacto: VER CARTA DIGITAL (redirección a la carta) ---
   const goToDashboard = () => {
     setCurrentView('dashboard');
     window.location.hash = 'carta-digital';
@@ -675,9 +717,9 @@ export default function App() {
     handleHash();
     window.addEventListener('hashchange', handleHash);
     return () => {
-      window.removeEventListener('hashchange', handleHash);
       window.removeEventListener('app:navigate', handleCustomNav);
       window.removeEventListener('navigate-view', handleCustomNav);
+      window.removeEventListener('hashchange', handleHash);
     };
   }, []);
 
@@ -735,18 +777,7 @@ export default function App() {
   const handleReserve = (e: React.FormEvent) => {
     e.preventDefault();
     const { nombre, fecha, hora, personas, motivo } = form;
-    let message = `🍹 *¡SOLICITUD DE RESERVA - WEEKEND! Lounge & Restaurant* 🍗\n`;
-    message += `━━━━━━━━━━━━━━━━━━━━━\n`;
-    message += `👤 *Cliente:* ${nombre}\n`;
-    message += `📅 *Fecha:* ${fecha}\n`;
-    message += `⏰ *Hora de llegada:* ${hora}\n`;
-    message += `👥 *Cant. Personas:* ${personas}\n`;
-    message += `🎉 *Motivo:* ${motivo || 'Cena Casual'}\n`;
-    message += `━━━━━━━━━━━━━━━━━━━━━\n`;
-    message += `📌 *POLÍTICAS DE RESERVA:*\n`;
-    message += `• *Tolerancia de reserva:* 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.\n`;
-    message += `• *Restricción:* No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.\n\n`;
-    message += `_¡Esperamos confirmar su mesa pronto!_ 🎉🥂🍽️`;
+    const message = `Hola Weekend! Deseo una reserva: Nombre: ${nombre}, Fecha: ${fecha}, Hora: ${hora}, Personas: ${personas}, Motivo: ${motivo}`;
     window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
@@ -754,18 +785,6 @@ export default function App() {
     const message = "Hola! Deseo hacer un pedido de delivery.";
     window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
   };
-
-  // ----------------------------------------------------
-  // SOCIAL GALLERY VIEW (Dedicada a Redes Sociales y Videos)
-  // ----------------------------------------------------
-  if (currentView === 'social') {
-    return (
-      <SocialGalleryView 
-        onBackToHome={goToLanding} 
-        onOpenMenu={goToDashboard} 
-      />
-    );
-  }
 
   // ----------------------------------------------------
   // DASHBOARD VIEW (Dedicada a la Carta Digital)
@@ -1031,7 +1050,7 @@ export default function App() {
     }
     if (link.name === 'Redes' || link.name === 'SÍGUENOS') {
       e.preventDefault();
-      goToSocial();
+      document.getElementById('redes')?.scrollIntoView({ behavior: 'smooth' });
       setIsOpen(false);
       return;
     }
@@ -1076,7 +1095,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen font-sans selection:bg-weekend-neon selection:text-black">
+    <div className="min-h-screen font-sans selection:bg-[#C900FF] selection:text-white home-page bg-[#050505] text-[#F5F5F5]">
       {/* ============ HEADER ============ */}
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
@@ -1088,11 +1107,10 @@ export default function App() {
           <div className="flex items-center gap-3 justify-self-start">
             <img
               src={LOGO_URL} alt="Logo"
-              onClick={goToLanding}
-              className="h-9 w-9 rounded-full object-cover border border-weekend-neon/60 cursor-pointer"
+              className="h-9 w-9 rounded-full object-cover border border-weekend-neon/60"
               referrerPolicy="no-referrer"
             />
-            <a href="#inicio" onClick={(e) => { e.preventDefault(); goToLanding(); }} className="text-white font-bold tracking-tighter text-base xl:block hidden uppercase hover:text-weekend-neon transition-colors duration-500 cursor-pointer" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            <a href="#inicio" onClick={(e) => { e.preventDefault(); goToLanding(); }} className="text-white font-bold tracking-tighter text-base xl:block hidden uppercase hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300 cursor-pointer" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               WEEKND! <span className="text-weekend-neon">Huarmey</span>
             </a>
           </div>
@@ -1105,7 +1123,7 @@ export default function App() {
                 onClick={(e) => handleNavClick(e, link)}
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.94 }}
-                className="text-sm uppercase tracking-widest font-bold hover:text-weekend-neon transition-all duration-500"
+                className="text-sm uppercase tracking-widest font-bold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-all duration-300"
               >
                 {link.name}
               </motion.a>
@@ -1117,7 +1135,7 @@ export default function App() {
             <button
               type="button"
               data-action="open-cart"
-              className="relative text-black font-bold bg-weekend-neon hover:bg-weekend-purple hover:text-white transition-all active:scale-95 duration-150 px-3 py-2 rounded-full flex items-center gap-1.5 text-xs uppercase cursor-pointer"
+              className="relative text-black font-extrabold bg-weekend-neon hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all active:scale-95 duration-200 px-3.5 py-2 rounded-full flex items-center gap-1.5 text-xs uppercase shadow-sm hover:shadow-[0_0_20px_rgba(201,0,255,0.75)] cursor-pointer"
               title="Ver Carrito"
               aria-label="Ver Carrito"
             >
@@ -1130,7 +1148,7 @@ export default function App() {
             <button
               type="button"
               onClick={goToDashboard}
-              className="hidden sm:inline-flex items-center gap-2 bg-weekend-neon text-black font-extrabold uppercase tracking-widest text-xs px-5 py-2.5 rounded-full hover:bg-white transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)] cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-2 bg-weekend-neon text-black font-extrabold uppercase tracking-widest text-xs px-5 py-2.5 rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)] hover:shadow-[0_0_25px_rgba(201,0,255,0.8)] cursor-pointer"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               aria-label="Ver menú virtual"
             >
@@ -1138,7 +1156,7 @@ export default function App() {
             </button>
 
             <button
-              className={`lg:hidden p-2 transition-colors duration-500 z-50 cursor-pointer ${isOpen ? 'text-weekend-neon' : 'text-white'}`}
+              className={`lg:hidden p-2 transition-colors duration-500 z-50 cursor-pointer ${isOpen ? 'text-[#C900FF]' : 'text-white'}`}
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Menú"
             >
@@ -1150,7 +1168,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* Menú móvil (overlay con el orden estricto solicitado) */}
+      {/* Menú móvil */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -1160,15 +1178,14 @@ export default function App() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-5 landscape:gap-3 md:hidden overflow-y-auto"
           >
-            {/* Fondo de Pantalla Móvil con Filtro Oscuro Rústico */}
             <div className="absolute inset-0 z-0">
               <img
                 src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp"
                 alt="Fondo Menú"
-                className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75"
+                className="w-full h-full object-cover opacity-65 brightness-90 contrast-110"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[#08080a]/95 via-[#0e0e12]/90 to-[#050508]/98" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/70 via-[#050505]/45 to-[#0A0A0F]/75" />
             </div>
 
             <div className="relative z-10 flex flex-col items-center gap-4 landscape:gap-2 py-8 w-full max-w-xs px-4">
@@ -1179,7 +1196,7 @@ export default function App() {
                   whileHover={{ scale: 1.08 }} 
                   whileTap={{ scale: 0.92 }}
                   onClick={(e) => handleNavClick(e, link)}
-                  className="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-white hover:text-weekend-neon active:text-weekend-neon transition-colors duration-200 border-b border-white/5"
+                  className="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300 border-b border-white/5"
                   style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
                   {link.name}
@@ -1187,7 +1204,7 @@ export default function App() {
               ))}
               <button
                 onClick={goToDashboard}
-                className="mt-3 w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-2xl text-xs text-center active:scale-95 transition-transform shadow-[0_0_20px_rgba(10,204,128,0.4)] cursor-pointer"
+                className="mt-4 w-full px-8 py-3 bg-[#EA2A81] text-white font-extrabold uppercase tracking-widest rounded-full text-sm text-center shadow-[0_0_20px_rgba(234,42,129,0.4)] hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:scale-95 transition-all hover:shadow-[0_0_25px_rgba(201,0,255,0.8)] cursor-pointer"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
                 🔥 Pide tu Weekend (Carta Digital)
@@ -1201,7 +1218,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* ============ HERO COMPACTO (ESTILO RÚSTICO & FIESTA) ============ */}
+      {/* ============ HERO COMPACTO ============ */}
       <section id="inicio" className="relative min-h-[86vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
         {/* Fondo adaptativo: Carbón mate, madera ahumada y degradados cálidos */}
         <div className="absolute inset-0 z-0 bg-[#08080a]">
@@ -1210,7 +1227,7 @@ export default function App() {
             <img
               src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
               alt="Fondo Portada Móvil"
-              className="w-full h-full object-cover opacity-35 grayscale contrast-125 brightness-75"
+              className="w-full h-full object-cover opacity-65 brightness-90 contrast-110"
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-[#08080a]/85 via-[#08080a]/75 to-[#08080a]/98" />
@@ -1264,7 +1281,7 @@ export default function App() {
           >
             <button
               onClick={goToDashboard}
-              className="group inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-weekend-neon to-emerald-400 text-black font-black uppercase tracking-widest rounded-full hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_35px_rgba(10,204,128,0.55)] active:scale-95 text-sm md:text-base text-center cursor-pointer border border-white/20"
+              className="group inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-weekend-neon to-emerald-400 text-black font-black uppercase tracking-widest rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 shadow-[0_0_35px_rgba(10,204,128,0.55)] hover:shadow-[0_0_40px_rgba(201,0,255,0.85)] active:scale-95 text-sm md:text-base text-center cursor-pointer border border-white/20"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
               <span>🔥 Pide tu Weekend - Menú &amp; Delivery</span>
@@ -1275,6 +1292,148 @@ export default function App() {
 
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
           <ChevronRight className="rotate-90 text-weekend-neon" size={28} />
+        </div>
+      </section>
+
+      {/* ============ PROMOCIONES ============ */}
+      <section id="promociones" className="promo-section relative py-20 bg-[#050505] overflow-hidden" style={{ scrollMarginTop: '80px' }}>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C900FF]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-[#C900FF] text-sm font-bold tracking-[0.3em] uppercase mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Nuestras Promociones</h2>
+            <h3 className="text-3xl md:text-5xl font-black uppercase mb-5" style={{ fontFamily: "'Space Grotesk', sans-serif", background: 'linear-gradient(135deg, #C900FF, #F000D9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Las mejores ofertas</h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+            {PROMOS.map((url, i) => {
+              const filename = url.split('/').pop()?.split('.')[0] || `Promo ${i}`;
+              return (
+                <div key={i} className="promo-card cursor-pointer group" onClick={() => setSelectedPromo(url)}>
+                  <div className="w-full aspect-[4/5] bg-[#101016] rounded-[16px] overflow-hidden border border-[rgba(201,0,255,0.18)] transition-all duration-300 group-hover:scale-[1.03] group-hover:border-[rgba(201,0,255,0.55)] group-hover:shadow-[0_0_25px_rgba(201,0,255,0.25)] relative">
+                    <img
+                      src={url}
+                      alt={`Promoción ${filename}`}
+                      loading="lazy"
+                      decoding="async"
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'assets/placeholder-promo.jpg'; }}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                      <span className="text-white font-bold text-sm tracking-wider uppercase drop-shadow-md">Ver Promo</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ RESERVA + CAPIBARAS FLANQUEANDO ============ */}
+      <section id="reserva" className="relative py-12 bg-black overflow-hidden border-t border-white/5">
+        <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-weekend-neon/30 to-transparent scan-line pointer-events-none" />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4">
+          <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
+            {/* Capibara Izquierda (Kamehameha) */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mb-8 lg:mb-0 z-20 pointer-events-none"
+            >
+              <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
+              <img
+                src={CAPY_KAME}
+                alt="Capibara pose kamehameha"
+                className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
+              />
+            </motion.div>
+
+            {/* Módulo de Reserva en el Centro */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="w-full max-w-xl bg-zinc-900/80 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-white/10 neon-glow-purple shadow-2xl relative z-10"
+            >
+              <div className="text-center mb-6">
+                <h2 className="text-weekend-neon text-xs font-bold tracking-[0.3em] uppercase mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
+                <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Reserva tu <span className="text-weekend-neon">Mesa</span></h3>
+                <p className="text-white/50 text-xs sm:text-sm">Reserva con anticipación y déjanos encargarnos del resto.</p>
+              </div>
+
+              <form onSubmit={handleReserve} className="space-y-4 text-xs">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Nombre</label>
+                    <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Fecha</label>
+                    <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
+                  </div>
+                </div>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Personas</label>
+                    <input type="number" required placeholder="Cantidad" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
+                    <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
+                      {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                    </select>
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Motivo</label>
+                  <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
+                    <option value="">Seleccionar</option>
+                    <option value="Cena Casual">Cena Casual</option>
+                    <option value="Cumpleaños">Cumpleaños</option>
+                    <option value="Aniversario">Aniversario</option>
+                    <option value="Evento Corporativo">Evento Corporativo</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </div>
+
+                {/* Políticas del servicio */}
+                <div className="rounded-2xl border border-white/10 bg-black/50 p-3.5 space-y-1.5">
+                  <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
+                  <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
+                    <span className="text-weekend-neon mt-0.5">•</span>
+                    <span><span className="text-white/90 font-semibold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
+                  </p>
+                  <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
+                    <span className="text-weekend-neon mt-0.5">•</span>
+                    <span><span className="text-white/90 font-semibold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
+                  </p>
+                </div>
+
+                <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs hover:shadow-[0_0_25px_rgba(201,0,255,0.75)]">
+                  Reservar por WhatsApp <Send size={16} />
+                </button>
+              </form>
+            </motion.div>
+
+            {/* Capibara Derecha (Superhéroe) */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mt-8 lg:mt-0 z-20 pointer-events-none"
+            >
+              <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
+              <img
+                src={CAPY_HERO}
+                alt="Capibara superhéroe aterrizando"
+                className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
+              />
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -1302,16 +1461,13 @@ export default function App() {
         </div>
       </section>
 
+      {/* ============ REDES SOCIALES (Feeds reales) ============ */}
+      <SocialSection />
+
       {/* ============ FOOTER ============ */}
       <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden border-t border-white/10">
-        {/* Fondo Living con Filtro Grisáceo Oscuro */}
         <div className="absolute inset-0 z-0">
-          <img
-            src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp"
-            alt="Footer Background"
-            className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75"
-            referrerPolicy="no-referrer"
-          />
+          <img src={FOOTER_IMG} alt="Footer Background" className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75" referrerPolicy="no-referrer" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-[#0A0A0F]/90" />
         </div>
 
@@ -1319,33 +1475,43 @@ export default function App() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
             <div className="col-span-1 lg:col-span-1">
               <div className="flex items-center gap-3 mb-6">
-                <img
-                  src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp"
-                  alt="Logo"
-                  className="h-10 w-10 rounded-full object-cover border border-weekend-neon"
-                  referrerPolicy="no-referrer"
-                />
-                <span className="text-white font-black tracking-tighter text-xl uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKND!</span>
+                <img src={LOGO_URL} alt="Logo" className="h-10 w-10 rounded-full object-cover border border-weekend-neon" referrerPolicy="no-referrer" />
+                <span className="text-white font-black tracking-tighter text-xl uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKEND!</span>
+              </div>
+              <p className="text-white/60 text-sm leading-relaxed mb-6">
+                El espacio donde la alta cocina se encuentra con el ritmo más sofisticado de la ciudad.
+              </p>
+              <div className="space-y-4">
+                <p className="text-weekend-neon font-bold uppercase tracking-widest text-xs" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>¡Síguenos!</p>
+                <div className="flex items-center gap-4">
+                  <a href={TIKTOK_DATA.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="TikTok">
+                    {TIKTOK_ICON('w-5 h-5')}
+                  </a>
+                  <a href={INSTAGRAM_DATA.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Instagram">
+                    <Instagram size={20} />
+                  </a>
+                  <a href={FACEBOOK_DATA.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Facebook">
+                    <Facebook size={20} />
+                  </a>
+                </div>
               </div>
             </div>
 
-            {/* Horario con Icono Dorado */}
             <div>
               <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Horario</h4>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-white/60">
-                  <Clock size={18} className="text-[#F4A936]" />
+                  <Clock size={18} className="text-weekend-neon" />
                   <span className="text-sm">Diariamente: 5:00 PM - 3:00 AM</span>
                 </div>
               </div>
             </div>
 
-            {/* Métodos de Pago con Icono Púrpura y Badges Coloreados */}
             <div>
               <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Métodos de Pago</h4>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-white/60">
-                  <CreditCard size={18} className="text-[#B11F9E]" />
+                  <CreditCard size={18} className="text-weekend-neon" />
                   <span className="text-sm">Aceptamos todos los bancos, pagos digitales y efectivo</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -1357,16 +1523,15 @@ export default function App() {
               </div>
             </div>
 
-            {/* Contacto con Iconos Magenta y Esmeralda */}
             <div>
               <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Contacto</h4>
               <div className="space-y-4">
                 <div className="flex items-center gap-3 text-white/60">
-                  <Phone size={18} className="text-[#EA2A81]" />
+                  <Phone size={18} className="text-weekend-neon" />
                   <span className="text-sm">+51 961 336 674</span>
                 </div>
                 <div className="flex items-start gap-3 text-white/60">
-                  <MapPin size={18} className="text-[#08D383] shrink-0" />
+                  <MapPin size={18} className="text-weekend-neon shrink-0" />
                   <span className="text-sm">Av. Cabo 140, Huarmey 02651</span>
                 </div>
               </div>
@@ -1375,12 +1540,38 @@ export default function App() {
 
           <div className="pt-12 border-t border-white/10 text-center">
             <p className="text-white/40 text-xs uppercase tracking-[0.3em]">
-              &copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant.
+              &copy; {new Date().getFullYear()} WEEKEND! Lounge &amp; Restaurant.
             </p>
           </div>
         </div>
       </footer>
 
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedPromo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="promo-modal fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+            onClick={() => setSelectedPromo(null)}
+          >
+            <button className="absolute top-6 right-6 text-white hover:text-[#C900FF] transition-colors z-50 p-2" onClick={() => setSelectedPromo(null)}>
+              <X size={32} />
+            </button>
+            <motion.img
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              src={selectedPromo}
+              alt="Promoción ampliada"
+              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-[0_0_40px_rgba(201,0,255,0.3)] border border-[rgba(201,0,255,0.3)]"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

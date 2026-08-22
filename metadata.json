@@ -1,5 +1,7 @@
 {
-  "name": "weeknd - huarmey",
+  "name": "Weekend - Huarmey",
   "description": "Lounge & Restaurant en Huarmey. Donde la noche cobra vida.",
-  "requestFramePermissions": ["geolocation"]
+  "requestFramePermissions": [
+    "geolocation"
+  ]
 }
