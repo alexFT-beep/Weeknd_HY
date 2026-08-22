@@ -148,7 +148,7 @@ export default function App() {
       </AnimatePresence>
 
       <section id="inicio" className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0 bg-[#050505]">
+        <div className="absolute inset-0 z-0 bg-black">
           {/* Fondo Móvil y Tablet exclusivo */}
           <div className="block lg:hidden absolute inset-0 z-0">
             <img
@@ -157,7 +157,7 @@ export default function App() {
               className="w-full h-full object-cover opacity-75 brightness-95 contrast-105"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/35 to-[#050505]/85" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/35 to-black" />
           </div>
 
           {/* Fondo Laptop y Desktop (pantallas lg y superiores) sin la imagen inicio.webp */}
@@ -166,7 +166,7 @@ export default function App() {
           </div>
 
           {/* Sombra / degradado suave inferior para fusión perfecta al scroll */}
-          <div className="absolute bottom-0 inset-x-0 h-44 bg-gradient-to-t from-[#050505] via-[#050505]/95 via-50% to-transparent z-[2] pointer-events-none" />
+          <div className="absolute bottom-0 inset-x-0 h-44 bg-gradient-to-t from-black via-black/95 via-50% to-black z-[2] pointer-events-none" />
         </div>
 
         <div className="relative z-10 max-w-4xl px-4 text-center">

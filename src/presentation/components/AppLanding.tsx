@@ -625,7 +625,7 @@ export default function App() {
       {/* ============ HERO COMPACTO ============ */}
       <section id="inicio" className="relative min-h-[86vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
         {/* Fondo adaptativo: Carbón mate, madera ahumada y degradados cálidos */}
-        <div className="absolute inset-0 z-0 bg-[#08080a]">
+        <div className="absolute inset-0 z-0 bg-black">
           {/* Fondo Móvil y Tablet exclusivo */}
           <div className="block lg:hidden absolute inset-0 z-0">
             <img
@@ -634,12 +634,12 @@ export default function App() {
               className="w-full h-full object-cover opacity-65 brightness-90 contrast-110"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#08080a]/85 via-[#08080a]/75 to-[#08080a]/98" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-black" />
           </div>
 
           {/* Degradado Neón y Acentos Terrosos en Desktop */}
           <div className="hidden lg:block absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-b from-weekend-neon/[0.07] via-black to-[#08080a]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-weekend-neon/[0.07] via-black to-black" />
             <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-weekend-neon/[0.06] blur-3xl pulse-glow pointer-events-none" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28rem] h-[28rem] rounded-full border border-weekend-neon/10 pointer-events-none" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-amber-500/[0.08] pointer-events-none" />
