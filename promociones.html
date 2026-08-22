@@ -36,14 +36,20 @@
 
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu" class="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-6 hidden">
-      <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/90 via-[#101016]/80 to-[#0A0A0F] z-0 backdrop-blur-sm"></div>
-      <div class="relative z-10 flex flex-col items-center gap-8 py-10">
-        <a href="index.html" class="text-xl uppercase tracking-widest font-bold text-white hover:text-[#C900FF] transition-colors duration-500">Inicio</a>
-        <a href="promociones.html" class="text-xl uppercase tracking-widest font-bold text-[#C900FF] transition-colors duration-500">Promociones</a>
-        <a href="index.html#carta-digital" class="text-xl uppercase tracking-widest font-bold text-white hover:text-[#C900FF] transition-colors duration-500">Carta</a>
-        <a href="index.html#reserva" class="text-xl uppercase tracking-widest font-bold text-white hover:text-[#C900FF] transition-colors duration-500">Reserva</a>
+      <div class="absolute inset-0 z-0">
+        <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp" alt="Fondo Menú" class="w-full h-full object-cover opacity-30 grayscale contrast-125 brightness-75" />
+        <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/90 via-[#050505]/85 to-[#0A0A0F]/95"></div>
       </div>
-      <button class="absolute top-6 right-6 text-white p-2 hover:text-[#C900FF] transition-colors" id="close-menu-btn">
+      <div class="relative z-10 flex flex-col items-center gap-8 py-10">
+        <a href="index.html" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300">Inicio</a>
+        <a href="promociones.html" class="text-xl uppercase tracking-widest font-extrabold text-[#EA2A81] transition-colors duration-300">Promociones</a>
+        <a href="index.html#carta-digital" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300">Carta</a>
+        <a href="index.html#reserva" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300">Reserva</a>
+      </div>
+      <div class="absolute bottom-8 left-0 w-full text-center z-10">
+        <p class="text-white font-black text-xl uppercase tracking-[0.3em]">WEEKND!</p>
+      </div>
+      <button class="absolute top-6 right-6 text-white p-2 hover:text-[#EA2A81] transition-colors z-20" id="close-menu-btn">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>
@@ -87,8 +93,24 @@
     </div>
     
     <!-- Footer -->
-    <footer class="border-t border-[rgba(201,0,255,0.22)] py-8 text-center text-xs text-[#777782] bg-[#0A0A0F]">
-      <p>&copy; 2026 Weekend Lounge &amp; Restaurant. Todos los derechos reservados.</p>
+    <footer class="relative border-t border-white/10 py-12 overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp" alt="Footer Background" class="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75" />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-[#0A0A0F]/90"></div>
+      </div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" alt="Logo" class="h-10 w-10 rounded-full object-cover border border-[#00CFFF]" />
+          <span class="text-white font-black tracking-tighter text-xl uppercase">WEEKEND!</span>
+        </div>
+        <div class="flex flex-wrap items-center justify-center gap-2">
+          <span class="px-3 py-1 bg-[#742284] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#8f2ca2] shadow-sm">Yape</span>
+          <span class="px-3 py-1 bg-[#00D4B2] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33e0c4] shadow-sm">Plin</span>
+          <span class="px-3 py-1 bg-[#1A1F71] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#2b329b] shadow-sm">Visa</span>
+          <span class="px-3 py-1 bg-[#00E968] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33ee86] shadow-sm">Efectivo</span>
+        </div>
+        <p class="text-white/40 text-xs uppercase tracking-[0.2em]">&copy; 2026 WEEKEND! Lounge &amp; Restaurant. Todos los derechos reservados.</p>
+      </div>
     </footer>
 
     <script>

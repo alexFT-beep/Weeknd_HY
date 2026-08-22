@@ -12,7 +12,7 @@ const HERO_IMG = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/pub
 const MENU_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380723/alitas2_upllif.webm";
 const DELIVERY_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1771715674/makis-weekend_fxfha7.jpg";
 const RESERVA_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774381246/reserva_dxdyyt.webp";
-const FOOTER_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774380038/piepag_lni8ko.webp";
+const FOOTER_IMG = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp";
 const MOBILE_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380798/hambur2_lhdl97.webm";
 
 // --- Assets locales de capibaras (animación scroll-driven) ---
@@ -920,8 +920,14 @@ export default function App() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-6 landscape:gap-4 md:hidden overflow-y-auto"
           >
-            <div className="absolute inset-0 z-0 bg-gradient-to-b from-weekend-neon/5 via-black to-black" />
-            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-weekend-neon/5 blur-3xl pulse-glow pointer-events-none" />
+            <div className="absolute inset-0 z-0">
+              <img
+                src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp"
+                alt="Fondo Menú"
+                className="w-full h-full object-cover opacity-30 grayscale contrast-125 brightness-75"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/90 via-[#050505]/85 to-[#0A0A0F]/95" />
+            </div>
 
             <div className="relative z-10 flex flex-col items-center gap-6 landscape:gap-3 py-10">
               {NAV_LINKS.map((link) => (
@@ -929,14 +935,14 @@ export default function App() {
                   key={link.name} href={link.href}
                   whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
                   onClick={(e) => handleNavClick(e, link)}
-                  className="text-xl landscape:text-lg uppercase tracking-widest font-bold hover:text-weekend-neon transition-colors duration-500"
+                  className="text-xl landscape:text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300"
                 >
                   {link.name}
                 </motion.a>
               ))}
               <button
                 onClick={goToDashboard}
-                className="mt-4 px-8 py-3 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full text-sm text-center"
+                className="mt-4 px-8 py-3 bg-[#EA2A81] text-white font-extrabold uppercase tracking-widest rounded-full text-sm text-center shadow-[0_0_20px_rgba(234,42,129,0.4)] hover:bg-[#B11F9E] active:scale-95 transition-all"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
                 Ver Menú Virtual
@@ -944,8 +950,7 @@ export default function App() {
             </div>
 
             <div className="absolute bottom-8 landscape:hidden left-0 w-full text-center z-10">
-              <p className="text-weekend-neon text-xs font-bold uppercase tracking-[0.3em] mb-1">weekend!</p>
-              <p className="text-white/70 text-[10px] font-bold uppercase tracking-[0.4em]">- huarmey -</p>
+              <p className="text-white font-black text-xl uppercase tracking-[0.3em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKND!</p>
             </div>
           </motion.div>
         )}
@@ -1182,10 +1187,10 @@ export default function App() {
       <SocialSection />
 
       {/* ============ FOOTER ============ */}
-      <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden">
+      <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden border-t border-white/10">
         <div className="absolute inset-0 z-0">
-          <img src={FOOTER_IMG} alt="Footer" className="w-full h-full object-cover opacity-70" referrerPolicy="no-referrer" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-black" />
+          <img src={FOOTER_IMG} alt="Footer Background" className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75" referrerPolicy="no-referrer" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-[#0A0A0F]/90" />
         </div>
 
         <div className="relative z-10 max-w-6xl mx-auto px-4">
@@ -1193,9 +1198,9 @@ export default function App() {
             <div className="col-span-1 lg:col-span-1">
               <div className="flex items-center gap-3 mb-6">
                 <img src={LOGO_URL} alt="Logo" className="h-10 w-10 rounded-full object-cover border border-weekend-neon" referrerPolicy="no-referrer" />
-                <span className="text-white font-bold tracking-tighter text-lg uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Weekend! - huarmey</span>
+                <span className="text-white font-black tracking-tighter text-xl uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKEND!</span>
               </div>
-              <p className="text-white/50 text-sm leading-relaxed mb-6">
+              <p className="text-white/60 text-sm leading-relaxed mb-6">
                 El espacio donde la alta cocina se encuentra con el ritmo más sofisticado de la ciudad.
               </p>
               <div className="space-y-4">
@@ -1217,7 +1222,7 @@ export default function App() {
             <div>
               <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Horario</h4>
               <div className="space-y-4">
-                <div className="flex items-center gap-3 text-white/50">
+                <div className="flex items-center gap-3 text-white/60">
                   <Clock size={18} className="text-weekend-neon" />
                   <span className="text-sm">Diariamente: 5:00 PM - 3:00 AM</span>
                 </div>
@@ -1227,14 +1232,15 @@ export default function App() {
             <div>
               <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Métodos de Pago</h4>
               <div className="space-y-4">
-                <div className="flex items-center gap-3 text-white/50">
+                <div className="flex items-center gap-3 text-white/60">
                   <CreditCard size={18} className="text-weekend-neon" />
-                  <span className="text-sm">Aceptamos todos los bancos y pagos digitales</span>
+                  <span className="text-sm">Aceptamos todos los bancos, pagos digitales y efectivo</span>
                 </div>
-                <div className="flex flex-wrap gap-3">
-                  <span className="px-3 py-1 bg-white/5 rounded-full text-[10px] uppercase font-bold tracking-widest">Yape</span>
-                  <span className="px-3 py-1 bg-white/5 rounded-full text-[10px] uppercase font-bold tracking-widest">Plin</span>
-                  <span className="px-3 py-1 bg-white/5 rounded-full text-[10px] uppercase font-bold tracking-widest">Visa</span>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-[#742284] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#8f2ca2] shadow-sm">Yape</span>
+                  <span className="px-3 py-1 bg-[#00D4B2] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33e0c4] shadow-sm">Plin</span>
+                  <span className="px-3 py-1 bg-[#1A1F71] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#2b329b] shadow-sm">Visa</span>
+                  <span className="px-3 py-1 bg-[#00E968] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33ee86] shadow-sm">Efectivo</span>
                 </div>
               </div>
             </div>
@@ -1242,11 +1248,11 @@ export default function App() {
             <div>
               <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Contacto</h4>
               <div className="space-y-4">
-                <div className="flex items-center gap-3 text-white/50">
+                <div className="flex items-center gap-3 text-white/60">
                   <Phone size={18} className="text-weekend-neon" />
                   <span className="text-sm">+51 961 336 674</span>
                 </div>
-                <div className="flex items-start gap-3 text-white/50">
+                <div className="flex items-start gap-3 text-white/60">
                   <MapPin size={18} className="text-weekend-neon shrink-0" />
                   <span className="text-sm">Av. Cabo 140, Huarmey 02651</span>
                 </div>
@@ -1255,8 +1261,8 @@ export default function App() {
           </div>
 
           <div className="pt-12 border-t border-white/10 text-center">
-            <p className="text-white/30 text-xs uppercase tracking-[0.3em]">
-              &copy; {new Date().getFullYear()} Weekend Lounge &amp; Restaurant.
+            <p className="text-white/40 text-xs uppercase tracking-[0.3em]">
+              &copy; {new Date().getFullYear()} WEEKEND! Lounge &amp; Restaurant.
             </p>
           </div>
         </div>

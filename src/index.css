@@ -48,60 +48,87 @@
   --color-surface-container-highest: #353535;
   --color-surface: #131313;
   --color-on-secondary-fixed: #1a1c1c;
-  --color-weekend-neon: #0acc80;
-  --color-weekend-purple: #08a063;
-  --color-weekend-fuchsia: #d7d4d4;
-  --color-weekend-surface: #131313;
+
+  /* Target Design Token System */
+  --color-bg-dark: #1B1C1D;
+  --color-capybara-light: #F4A936;
+  --color-capybara-dark: #A2511E;
+  --color-shirt-pink: #EA2A81;
+  --color-ribbon-purple: #B11F9E;
+  --color-outline-purple: #9011C5;
+  --color-outline-cyan: #08D383;
+  --color-burger-yellow: #E0B738;
+  --color-burger-green: #4BA11F;
+  --color-guitar-brown: #765338;
+  --color-dark-strap: #2F3134;
+  --color-text-white: #FFFFFF;
+
+  --color-weekend-neon: #EA2A81;
+  --color-weekend-purple: #B11F9E;
+  --color-weekend-fuchsia: #9011C5;
+  --color-weekend-gold: #F4A936;
+  --color-weekend-green: #08D383;
+  --color-weekend-surface: #1B1C1D;
   --color-weekend-surface-dim: #0e0e0e;
-  --color-weekend-surface-elevated: #1a1a1a;
+  --color-weekend-surface-elevated: #2F3134;
   --color-weekend-text-dim: #888888;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
 
-  /* --- Premium Night Restobar Redesign --- */
-  --color-background-new: #050505;
+  /* --- Premium Multi-Color Night Restobar System --- */
+  --color-background-new: #1B1C1D;
   --color-background-secondary-new: #0A0A0F;
   --color-surface-new: #101016;
-  --color-surface-elevated-new: #15151D;
-  --color-primary-new: #C900FF;
-  --color-primary-dark-new: #8F00B8;
-  --color-primary-light-new: #E45CFF;
-  --color-secondary-new: #F000D9;
-  --color-secondary-dark-new: #A50096;
-  --color-cyan-new: #00CFFF;
-  --color-green-new: #00E968;
-  --color-orange-new: #FF6A00;
-  --color-gold-new: #FFC928;
-  --color-text-primary-new: #F5F5F5;
+  --color-surface-elevated-new: #2F3134;
+  --color-primary-new: #EA2A81;
+  --color-primary-dark-new: #B11F9E;
+  --color-primary-light-new: #F4A936;
+  --color-secondary-new: #B11F9E;
+  --color-secondary-dark-new: #9011C5;
+  --color-cyan-new: #08D383;
+  --color-green-new: #4BA11F;
+  --color-orange-new: #F4A936;
+  --color-gold-new: #E0B738;
+  --color-text-primary-new: #FFFFFF;
   --color-text-secondary-new: #B8B8C2;
   --color-text-muted-new: #777782;
-  --color-border-new: rgba(201, 0, 255, 0.22);
-  --color-border-hover-new: rgba(201, 0, 255, 0.55);
-  --gradient-primary-new: linear-gradient(135deg, #C900FF 0%, #F000D9 100%);
-  --gradient-neon-new: linear-gradient(135deg, #C900FF 0%, #F000D9 45%, #00CFFF 100%);
-  --shadow-primary-new: 0 0 30px rgba(201, 0, 255, 0.20);
-  --shadow-primary-strong-new: 0 0 40px rgba(201, 0, 255, 0.35);
+  --color-border-new: rgba(234, 42, 129, 0.25);
+  --color-border-hover-new: rgba(234, 42, 129, 0.60);
+  --gradient-primary-new: linear-gradient(135deg, #EA2A81 0%, #B11F9E 100%);
+  --gradient-neon-new: linear-gradient(135deg, #EA2A81 0%, #F4A936 50%, #08D383 100%);
+  --shadow-primary-new: 0 0 30px rgba(234, 42, 129, 0.25);
+  --shadow-primary-strong-new: 0 0 40px rgba(234, 42, 129, 0.40);
 }
 
 :root {
   /* Surface Dark Base */
-  --color-background: #050505;
+  --color-bg-dark: #1B1C1D;
+  --color-capybara-light: #F4A936;
+  --color-capybara-dark: #A2511E;
+  --color-shirt-pink: #EA2A81;
+  --color-ribbon-purple: #B11F9E;
+  --color-outline-purple: #9011C5;
+  --color-outline-cyan: #08D383;
+  --color-burger-yellow: #E0B738;
+  --color-burger-green: #4BA11F;
+  --color-guitar-brown: #765338;
+  --color-dark-strap: #2F3134;
+  --color-text-white: #FFFFFF;
+
+  --color-background: #1B1C1D;
   --color-background-secondary: #0A0A0F;
   --color-surface: #101016;
 
-  /* Primary Logo Colors */
-  --color-primary-purple: #C900FF;    /* Dominant brand purple */
-  --color-secondary-magenta: #F000D9; /* Primary magenta glow */
-
-  /* Secondary Accent Palette */
-  --color-accent-cyan: #00CFFF;       /* Modernity / Interactive elements */
-  --color-accent-green: #00E968;      /* Reservations / Positive CTAs / WhatsApp */
-  --color-accent-orange: #FF6A00;     /* Promos / Culinary highlights */
-  --color-accent-gold: #FFC928;       /* VIP details / Premium badges */
+  /* Primary Multi-Color Palette */
+  --color-primary-magenta: #EA2A81;   /* Magenta / Pink */
+  --color-secondary-purple: #B11F9E;  /* Ribbon Purple */
+  --color-accent-gold: #F4A936;       /* Capybara Gold / Amber */
+  --color-accent-emerald: #08D383;    /* Outline Cyan / Emerald Green */
+  --color-accent-yellow: #E0B738;     /* Burger Yellow */
 
   /* Text Hierarchy */
-  --color-text-primary: #F5F5F5;
+  --color-text-primary: #FFFFFF;
   --color-text-secondary: #B8B8C2;
 }
 
