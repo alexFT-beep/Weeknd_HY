@@ -79,6 +79,18 @@ export class CartController {
         case 'close-cart':
           this.closeCart();
           break;
+        case 'go-to-menu':
+        case 'view-menu':
+          this.closeCart();
+          if (typeof window.goToDashboard === 'function') {
+            window.goToDashboard();
+          } else {
+            window.location.hash = 'carta-digital';
+            window.dispatchEvent(new CustomEvent('app:navigate', { detail: { view: 'dashboard' } }));
+            window.dispatchEvent(new HashChangeEvent('hashchange'));
+          }
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          break;
         case 'set-order-type': {
           this.saveCurrentFormData();
           this.orderType = button.dataset.type || 'delivery';

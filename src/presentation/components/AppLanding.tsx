@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, Calendar, ArrowLeft, Search, ShoppingCart, Music2, Play, ArrowUpRight
+  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, Calendar, ArrowLeft, Search, ShoppingCart, Music2, Play, ArrowUpRight, Info
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { DigitalMenuView } from './DigitalMenuView';
@@ -642,6 +642,24 @@ export default function App() {
   };
 
   useEffect(() => {
+    (window as any).goToDashboard = goToDashboard;
+    (window as any).goToLanding = goToLanding;
+    (window as any).goToSocial = goToSocial;
+
+    const handleCustomNav = (e: any) => {
+      const view = e.detail?.view;
+      if (view === 'dashboard' || view === 'menu' || view === 'carta') {
+        goToDashboard();
+      } else if (view === 'landing' || view === 'home' || view === 'inicio') {
+        goToLanding();
+      } else if (view === 'social' || view === 'redes') {
+        goToSocial();
+      }
+    };
+
+    window.addEventListener('app:navigate', handleCustomNav);
+    window.addEventListener('navigate-view', handleCustomNav);
+
     const handleHash = () => {
       const hash = (window.location.hash || '').toLowerCase();
       const menuHashes = [
@@ -661,7 +679,11 @@ export default function App() {
     };
     handleHash();
     window.addEventListener('hashchange', handleHash);
-    return () => window.removeEventListener('hashchange', handleHash);
+    return () => {
+      window.removeEventListener('hashchange', handleHash);
+      window.removeEventListener('app:navigate', handleCustomNav);
+      window.removeEventListener('navigate-view', handleCustomNav);
+    };
   }, []);
 
   useEffect(() => {
@@ -716,7 +738,18 @@ export default function App() {
   const handleReserve = (e: React.FormEvent) => {
     e.preventDefault();
     const { nombre, fecha, hora, personas, motivo } = form;
-    const message = `Hola The Weekend! Deseo una reserva: Nombre: ${nombre}, Fecha: ${fecha}, Hora: ${hora}, Personas: ${personas}, Motivo: ${motivo}`;
+    let message = `🍹 *¡SOLICITUD DE RESERVA - WEEKEND! Lounge & Restaurant* 🍗\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `👤 *Cliente:* ${nombre}\n`;
+    message += `📅 *Fecha:* ${fecha}\n`;
+    message += `⏰ *Hora de llegada:* ${hora}\n`;
+    message += `👥 *Cant. Personas:* ${personas}\n`;
+    message += `🎉 *Motivo:* ${motivo || 'Cena Casual'}\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `📌 *POLÍTICAS DE RESERVA:*\n`;
+    message += `• *Tolerancia de reserva:* 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.\n`;
+    message += `• *Restricción:* No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.\n\n`;
+    message += `_¡Esperamos confirmar su mesa pronto!_ 🎉🥂🍽️`;
     window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
@@ -1111,17 +1144,25 @@ export default function App() {
                   </select>
                 </div>
 
-                {/* Políticas del servicio */}
-                <div className="rounded-2xl border border-white/10 bg-black/50 p-3.5 space-y-1.5">
-                  <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
-                  <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
-                    <span className="text-weekend-neon mt-0.5">•</span>
-                    <span><span className="text-white/90 font-semibold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
+                {/* NOTA DE AVISO PARA RESERVAS */}
+                <div className="rounded-2xl border border-weekend-neon/40 bg-weekend-neon/10 p-4 space-y-2 text-zinc-200">
+                  <div className="flex items-center gap-2 text-weekend-neon font-black text-xs uppercase tracking-wide">
+                    <Info size={16} className="text-weekend-neon flex-shrink-0" />
+                    <span>📌 NOTA DE AVISO PARA RESERVAS:</span>
+                  </div>
+                  <p className="text-white/80 text-[11px] leading-relaxed">
+                    Al enviar tu solicitud por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en The Weekend Huarmey.
                   </p>
-                  <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
-                    <span className="text-weekend-neon mt-0.5">•</span>
-                    <span><span className="text-white/90 font-semibold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
-                  </p>
+                  <div className="pt-2 border-t border-weekend-neon/20 space-y-1.5 text-[11px] leading-relaxed text-zinc-200">
+                    <p className="flex items-start gap-1.5">
+                      <span className="text-weekend-neon font-bold mt-0.5">•</span>
+                      <span><span className="text-white font-bold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
+                    </p>
+                    <p className="flex items-start gap-1.5">
+                      <span className="text-weekend-neon font-bold mt-0.5">•</span>
+                      <span><span className="text-white font-bold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
+                    </p>
+                  </div>
                 </div>
 
                 <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs">
