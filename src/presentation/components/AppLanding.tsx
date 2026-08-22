@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, ChevronLeft, Send, Smartphone, Calendar, ArrowLeft, Search, ShoppingCart, Music2, Play, ArrowUpRight, Info
 } from 'lucide-react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { DigitalMenuView } from './DigitalMenuView';
 import { SocialGalleryView } from './SocialGalleryView';
 
@@ -642,13 +642,6 @@ export default function App() {
     return () => window.removeEventListener('keydown', handlePromoKey);
   }, [selectedPromoIndex]);
 
-  // Declara los hooks de Framer Motion al inicio para cumplir estrictamente con las reglas de Hooks de React
-  const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: heroProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-  const heroCapyY = useTransform(heroProgress, [0, 1], [0, 140]);
-  const heroCapyRotate = useTransform(heroProgress, [0, 1], [0, 12]);
-  const heroCapyOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
-
   const [form, setForm] = useState({
     nombre: '',
     fecha: '',
@@ -661,13 +654,13 @@ export default function App() {
   const goToDashboard = () => {
     setCurrentView('dashboard');
     window.location.hash = 'carta-digital';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const goToLanding = () => {
     setCurrentView('landing');
     window.location.hash = 'inicio';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const goToSocial = () => {
@@ -736,6 +729,8 @@ export default function App() {
         clearTimeout(t1);
         clearTimeout(t2);
       };
+    } else if (currentView === 'landing') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [currentView]);
 
@@ -1017,7 +1012,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* ============ HERO COMPACTO (sin banners pesados) ============ */}
-      <section id="inicio" ref={heroRef} className="relative min-h-[86vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
+      <section id="inicio" className="relative min-h-[86vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
         {/* Fondo minimalista neón — sin imágenes/banners pesados */}
         <div className="absolute inset-0 z-0 bg-black">
           <div className="absolute inset-0 bg-gradient-to-b from-weekend-neon/[0.06] via-black to-black" />
@@ -1026,9 +1021,11 @@ export default function App() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/[0.07] pointer-events-none" />
         </div>
 
-        {/* Capibara heroica — posición superior, parallax scroll-driven */}
+        {/* Capibara heroica — posición superior */}
         <motion.div
-          style={{ y: heroCapyY, rotate: heroCapyRotate, opacity: heroCapyOpacity }}
+          initial={{ opacity: 0, scale: 0.9, x: 20 }}
+          animate={{ opacity: 1, scale: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="absolute right-0 lg:right-6 top-1/2 -translate-y-1/2 z-[5] pointer-events-none hidden md:block w-56 lg:w-80"
         >
           <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-3xl pulse-glow" />
