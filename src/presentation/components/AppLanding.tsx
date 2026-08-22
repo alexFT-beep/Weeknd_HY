@@ -38,34 +38,6 @@ const MOBILE_NAV_LINKS = [
   { name: 'DELIVERYS', href: '#delivery', type: 'delivery' },
   { name: 'DESTACADOS', href: 'promociones.html', type: 'destacados' },
   { name: 'SÍGUENOS', href: '#redes', type: 'siguenos' },
-  { name: 'UBICACIÓN', href: '#ubicacion', type: 'ubicacion' },
-];
-
-const PROMOS = [
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barcoMix.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barquitoHarryHou.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/boxRomantico.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/broster.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/bubbleTea.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/burritoMexi.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/calientitosPisco.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/carruselAlitas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cervezaArtesanal.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/comboParrillero.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumple.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/delivery1am.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/hamburguesas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/litronas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/marSaboresDelicias.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/masAlitas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/newPresentacionMakis.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/nocheTragosCasa.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/piqueos.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/promo_frappe.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/reyesAlitas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/ruleta.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/salchiPapas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/transfusionSangreHallowen.webp"
 ];
 
 const TIME_SLOTS = [
@@ -625,32 +597,6 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social' | 'reserva'>('landing');
-  const [selectedPromoIndex, setSelectedPromoIndex] = useState<number | null>(null);
-
-  const nextPromo = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    if (selectedPromoIndex !== null) {
-      setSelectedPromoIndex((selectedPromoIndex + 1) % PROMOS.length);
-    }
-  };
-
-  const prevPromo = (e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    if (selectedPromoIndex !== null) {
-      setSelectedPromoIndex((selectedPromoIndex - 1 + PROMOS.length) % PROMOS.length);
-    }
-  };
-
-  useEffect(() => {
-    const handlePromoKey = (e: KeyboardEvent) => {
-      if (selectedPromoIndex === null) return;
-      if (e.key === 'ArrowRight') nextPromo();
-      if (e.key === 'ArrowLeft') prevPromo();
-      if (e.key === 'Escape') setSelectedPromoIndex(null);
-    };
-    window.addEventListener('keydown', handlePromoKey);
-    return () => window.removeEventListener('keydown', handlePromoKey);
-  }, [selectedPromoIndex]);
 
   const [form, setForm] = useState({
     nombre: '',
@@ -1332,38 +1278,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ============ SECCIÓN PROMOCIONES ============ */}
-      <section id="promociones" className="promo-section py-20 relative overflow-hidden border-t border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-[#C900FF] text-sm font-bold tracking-[0.3em] uppercase mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Nuestras Promociones</h2>
-            <h3 className="text-3xl md:text-5xl font-black uppercase mb-5" style={{ fontFamily: "'Space Grotesk', sans-serif", background: 'linear-gradient(135deg, #C900FF, #F000D9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Las mejores ofertas</h3>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
-            {PROMOS.map((url, i) => {
-              const filename = url.split('/').pop()?.split('.')[0] || `Promo ${i}`;
-              return (
-                <div key={i} className="promo-card cursor-pointer group" onClick={() => setSelectedPromoIndex(i)}>
-                  <div className="w-full aspect-[4/5] bg-[#101016] rounded-[16px] overflow-hidden border border-[rgba(201,0,255,0.18)] transition-all duration-300 group-hover:scale-[1.03] group-hover:border-[rgba(201,0,255,0.55)] group-hover:shadow-[0_0_25px_rgba(201,0,255,0.25)] relative">
-                    <img
-                      src={url}
-                      alt={`Promoción ${filename}`}
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'assets/placeholder-promo.jpg'; }}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                      <span className="text-white font-bold text-sm tracking-wider uppercase drop-shadow-md">Ver Promo</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
       {/* ============ UBICACIÓN ============ */}
       <section id="ubicacion" className="py-20 bg-black">
         <div className="max-w-5xl mx-auto px-4">
@@ -1466,66 +1380,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      {/* Lightbox Modal con Controles Neón */}
-      <AnimatePresence>
-        {selectedPromoIndex !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="promo-modal fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
-            onClick={() => setSelectedPromoIndex(null)}
-          >
-            {/* Botón Cerrar */}
-            <button 
-              className="absolute top-6 right-6 text-white hover:text-[#C900FF] transition-colors z-50 p-2 bg-black/60 rounded-full border border-white/10" 
-              onClick={() => setSelectedPromoIndex(null)}
-              aria-label="Cerrar modal"
-            >
-              <X size={28} />
-            </button>
-
-            {/* Contador */}
-            <div className="absolute top-6 left-6 px-3 py-1.5 rounded-full bg-black/60 border border-[rgba(201,0,255,0.3)] text-xs text-white/90 font-mono font-bold">
-              {selectedPromoIndex + 1} / {PROMOS.length}
-            </div>
-
-            {/* Botón Anterior */}
-            <button
-              type="button"
-              className="lightbox-nav-btn left-4 sm:left-8"
-              onClick={prevPromo}
-              aria-label="Promoción anterior"
-            >
-              <ChevronLeft size={28} />
-            </button>
-
-            {/* Imagen Principal */}
-            <motion.img
-              key={selectedPromoIndex}
-              initial={{ scale: 0.92, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.92, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              src={PROMOS[selectedPromoIndex]}
-              alt={`Promoción ${selectedPromoIndex + 1}`}
-              className="max-w-[85vw] max-h-[85vh] object-contain rounded-2xl shadow-[0_0_40px_rgba(201,0,255,0.35)] border border-[rgba(201,0,255,0.35)]"
-              onClick={(e) => e.stopPropagation()}
-            />
-
-            {/* Botón Siguiente */}
-            <button
-              type="button"
-              className="lightbox-nav-btn right-4 sm:right-8"
-              onClick={nextPromo}
-              aria-label="Siguiente promoción"
-            >
-              <ChevronRight size={28} />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
     </div>
   );
