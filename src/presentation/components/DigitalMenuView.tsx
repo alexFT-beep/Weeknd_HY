@@ -292,6 +292,8 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
   }, []);
 
   const handleAddToCart = useCallback(async (item: MenuItem, e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     setAddedItemIds((prev) => ({ ...prev, [item.id]: true }));
     setTimeout(() => {
       setAddedItemIds((prev) => ({ ...prev, [item.id]: false }));

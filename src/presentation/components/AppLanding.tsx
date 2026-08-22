@@ -215,8 +215,8 @@ export default function App() {
         {/* Main Menu Container */}
         <main className="pt-3 pb-24 max-w-7xl mx-auto px-3 sm:px-4">
 
-          {/* Sleek Minimalist Top Navigation Row */}
-          <div className="flex items-center justify-between gap-3 mb-3 py-2 border-b border-white/10">
+          {/* Sleek Minimalist Sticky Top Navigation Row */}
+          <header className="sticky top-0 z-40 bg-black/95 backdrop-blur-md py-3 px-3 sm:px-4 border-b border-white/10 -mx-3 sm:-mx-4 mb-4 flex items-center justify-between gap-3">
             <button
               type="button"
               onClick={goToLanding}
@@ -238,16 +238,31 @@ export default function App() {
               </span>
             </div>
 
-            <button
-              type="button"
-              data-action="open-search"
-              className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 p-1.5 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon shadow-sm cursor-pointer"
-              title="Buscar en la carta"
-              aria-label="Buscar en la carta"
-            >
-              <span className="material-symbols-outlined text-[20px]">search</span>
-            </button>
-          </div>
+            <div className="flex items-center gap-2">
+              {/* Cart Button */}
+              <button
+                type="button"
+                data-action="open-cart"
+                className="relative text-black font-extrabold bg-weekend-neon hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all active:scale-95 duration-200 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs uppercase shadow-sm hover:shadow-[0_0_20px_rgba(201,0,255,0.75)] cursor-pointer"
+                title="Ver Carrito"
+                aria-label="Ver Carrito"
+              >
+                <ShoppingCart size={15} />
+                <span className="hidden sm:inline">Carrito</span>
+                <span id="bar-cart-badge" className="min-w-[18px] h-[18px] px-1 bg-black text-weekend-neon font-extrabold text-[10px] rounded-full flex items-center justify-center">0</span>
+              </button>
+
+              <button
+                type="button"
+                data-action="open-search"
+                className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 p-1.5 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon shadow-sm cursor-pointer"
+                title="Buscar en la carta"
+                aria-label="Buscar en la carta"
+              >
+                <span className="material-symbols-outlined text-[20px]">search</span>
+              </button>
+            </div>
+          </header>
 
           {/* Componente Nativo React de la Carta Digital */}
           <DigitalMenuView onSearchClick={() => {
