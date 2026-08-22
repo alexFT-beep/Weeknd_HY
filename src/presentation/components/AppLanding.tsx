@@ -327,8 +327,8 @@ export default function App() {
         {/* Main Reservation Section */}
         <main className="flex-1 relative py-12 px-4 overflow-hidden flex items-center justify-center">
           <div className="absolute inset-0 bg-radial-vignette opacity-70 pointer-events-none" />
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-weekend-neon/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-weekend-purple/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#C900FF]/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#C900FF]/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 max-w-6xl mx-auto w-full">
             <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
@@ -339,11 +339,11 @@ export default function App() {
                 transition={{ duration: 0.8 }}
                 className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mb-8 lg:mb-0 z-20 pointer-events-none"
               >
-                <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
+                <div className="absolute -inset-4 rounded-full bg-[#C900FF]/25 blur-2xl pulse-glow" />
                 <img
                   src={CAPY_KAME}
                   alt="Capibara pose kamehameha"
-                  className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
+                  className="relative w-full drop-shadow-[0_0_35px_rgba(201,0,255,0.45)] float-anim"
                 />
               </motion.div>
 
@@ -352,11 +352,11 @@ export default function App() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="w-full max-w-xl bg-zinc-900/85 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-white/10 neon-glow-purple shadow-2xl relative z-10"
+                className="w-full max-w-xl bg-zinc-900/85 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-[#C900FF]/40 shadow-[0_0_40px_rgba(201,0,255,0.35)] relative z-10"
               >
                 <div className="text-center mb-6">
-                  <h2 className="text-weekend-neon text-xs font-bold tracking-[0.3em] uppercase mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
-                  <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Reserva tu <span className="text-weekend-neon">Mesa</span></h3>
+                  <h2 className="text-[#C900FF] text-xs font-bold tracking-[0.3em] uppercase mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
+                  <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Reserva tu <span className="text-[#C900FF] font-black">Mesa</span></h3>
                   <p className="text-white/50 text-xs sm:text-sm">Reserva con anticipación y déjanos encargarnos del resto.</p>
                 </div>
 
@@ -364,28 +364,28 @@ export default function App() {
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Nombre</label>
-                      <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
+                      <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Fecha</label>
-                      <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
+                      <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
                     </div>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Personas</label>
-                      <input type="number" required placeholder="Cantidad" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
+                      <input type="number" required placeholder="Cantidad" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
-                      <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
+                      <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all appearance-none cursor-pointer text-white" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
                         {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
                       </select>
                     </div>
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Motivo</label>
-                    <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
+                    <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
                       <option value="">Seleccionar</option>
                       <option value="Cena Casual">Cena Casual</option>
                       <option value="Cumpleaños">Cumpleaños</option>
@@ -396,19 +396,19 @@ export default function App() {
                   </div>
 
                   {/* Políticas del servicio */}
-                  <div className="rounded-2xl border border-white/10 bg-black/50 p-3.5 space-y-1.5">
-                    <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
+                  <div className="rounded-2xl border border-[#C900FF]/35 bg-[#C900FF]/5 p-3.5 space-y-1.5">
+                    <p className="text-[#C900FF] text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
                     <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
-                      <span className="text-weekend-neon mt-0.5">•</span>
+                      <span className="text-[#C900FF] mt-0.5">•</span>
                       <span><span className="text-white/90 font-semibold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
                     </p>
                     <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
-                      <span className="text-weekend-neon mt-0.5">•</span>
+                      <span className="text-[#C900FF] mt-0.5">•</span>
                       <span><span className="text-white/90 font-semibold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
                     </p>
                   </div>
 
-                  <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs hover:shadow-[0_0_25px_rgba(201,0,255,0.75)] cursor-pointer">
+                  <button type="submit" className="w-full py-3.5 bg-[#C900FF] text-white font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white hover:text-[#C900FF] active:scale-95 transition-all flex items-center justify-center gap-2 text-xs shadow-[0_0_25px_rgba(201,0,255,0.5)] cursor-pointer">
                     Reservar por WhatsApp <Send size={16} />
                   </button>
                 </form>
@@ -421,11 +421,11 @@ export default function App() {
                 transition={{ duration: 0.8 }}
                 className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mt-8 lg:mt-0 z-20 pointer-events-none"
               >
-                <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
+                <div className="absolute -inset-4 rounded-full bg-[#C900FF]/25 blur-2xl pulse-glow" />
                 <img
                   src={CAPY_HERO}
                   alt="Capibara superhéroe aterrizando"
-                  className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
+                  className="relative w-full drop-shadow-[0_0_35px_rgba(201,0,255,0.45)] float-anim"
                 />
               </motion.div>
             </div>
