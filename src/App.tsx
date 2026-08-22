@@ -148,14 +148,22 @@ export default function App() {
       </AnimatePresence>
 
       <section id="inicio" className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={HERO_IMG}
-            alt="Hero"
-            className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black"></div>
+        <div className="absolute inset-0 z-0 bg-[#050505]">
+          {/* Fondo Móvil y Tablet exclusivo */}
+          <div className="block lg:hidden absolute inset-0 z-0">
+            <img
+              src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
+              alt="Hero Inicio Móvil"
+              className="w-full h-full object-cover opacity-35 grayscale contrast-125 brightness-75"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-[#050505]/65 to-[#050505]" />
+          </div>
+
+          {/* Fondo Laptop y Desktop (pantallas lg y superiores) sin la imagen inicio.webp */}
+          <div className="hidden lg:block absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black"></div>
+          </div>
         </div>
 
         <div className="relative z-10 max-w-4xl px-4 text-center">

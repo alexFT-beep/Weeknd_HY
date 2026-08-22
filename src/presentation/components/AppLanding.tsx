@@ -956,14 +956,27 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* ============ HERO COMPACTO (sin banners pesados) ============ */}
+      {/* ============ HERO COMPACTO ============ */}
       <section id="inicio" ref={heroRef} className="relative min-h-[86vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
-        {/* Fondo minimalista neón — sin imágenes/banners pesados */}
-        <div className="absolute inset-0 z-0 bg-black">
-          <div className="absolute inset-0 bg-gradient-to-b from-weekend-neon/[0.06] via-black to-black" />
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[42rem] h-[42rem] rounded-full bg-weekend-neon/[0.06] blur-3xl pulse-glow pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/[0.07] pointer-events-none" />
+        {/* Fondo adaptativo: Imagen sólo en mobile/tablet (block lg:hidden), degradado minimalista neón en laptop/desktop (hidden lg:block) */}
+        <div className="absolute inset-0 z-0 bg-[#050505]">
+          {/* Fondo Móvil y Tablet exclusivo */}
+          <div className="block lg:hidden absolute inset-0 z-0">
+            <img
+              src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
+              alt="Fondo inicio móvil"
+              className="w-full h-full object-cover opacity-35 grayscale contrast-125 brightness-75"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-[#050505]/65 to-[#050505]" />
+          </div>
+
+          {/* Fondo Laptop y Desktop (pantallas lg y superiores) sin la imagen inicio.webp */}
+          <div className="hidden lg:block absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-weekend-neon/[0.06] via-black to-black" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[42rem] h-[42rem] rounded-full bg-weekend-neon/[0.06] blur-3xl pulse-glow pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/[0.07] pointer-events-none" />
+          </div>
         </div>
 
         {/* Capibara heroica — posición superior, parallax scroll-driven */}
