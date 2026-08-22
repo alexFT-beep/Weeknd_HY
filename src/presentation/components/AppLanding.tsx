@@ -286,7 +286,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={goToLanding}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm cursor-pointer"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-[#C900FF] border border-[#C900FF]/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm cursor-pointer"
                 title="Volver a la portada principal"
               >
                 <ArrowLeft size={16} />
@@ -296,10 +296,10 @@ export default function App() {
                 <img
                   src={LOGO_URL}
                   alt="Logo Weeknd"
-                  className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
+                  className="h-7 w-7 rounded-full object-cover border border-[#C900FF]"
                 />
                 <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  WEEKND! <span className="text-weekend-neon">Huarmey</span>
+                  WEEKND! <span className="text-[#C900FF]">HUARMEY</span>
                 </span>
               </div>
             </div>
@@ -308,10 +308,10 @@ export default function App() {
               <button
                 type="button"
                 data-action="open-cart"
-                className="relative text-black font-bold bg-weekend-neon hover:bg-white transition-all active:scale-95 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs uppercase cursor-pointer"
+                className="relative text-white font-bold bg-[#C900FF] hover:bg-[#A800D6] transition-all active:scale-95 px-3.5 py-1.5 rounded-full flex items-center gap-1.5 text-xs uppercase cursor-pointer shadow-[0_0_15px_rgba(201,0,255,0.4)]"
               >
                 <ShoppingCart size={15} />
-                <span className="hidden sm:inline">Carrito</span>
+                <span>Carrito</span>
               </button>
               <button
                 type="button"
@@ -327,8 +327,8 @@ export default function App() {
         {/* Main Reservation Section */}
         <main className="flex-1 relative py-12 px-4 overflow-hidden flex items-center justify-center">
           <div className="absolute inset-0 bg-radial-vignette opacity-70 pointer-events-none" />
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-weekend-neon/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-weekend-purple/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-weekend-neon/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-weekend-neon/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 max-w-6xl mx-auto w-full">
             <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
@@ -352,7 +352,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="w-full max-w-xl bg-zinc-900/85 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-white/10 neon-glow-purple shadow-2xl relative z-10"
+                className="w-full max-w-xl bg-zinc-900/80 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-white/10 shadow-[0_0_40px_rgba(10,204,128,0.15)] relative z-10"
               >
                 <div className="text-center mb-6">
                   <h2 className="text-weekend-neon text-xs font-bold tracking-[0.3em] uppercase mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
@@ -408,7 +408,7 @@ export default function App() {
                     </p>
                   </div>
 
-                  <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs hover:shadow-[0_0_25px_rgba(201,0,255,0.75)] cursor-pointer">
+                  <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white active:scale-95 transition-all flex items-center justify-center gap-2 text-xs shadow-[0_0_25px_rgba(10,204,128,0.4)] cursor-pointer">
                     Reservar por WhatsApp <Send size={16} />
                   </button>
                 </form>
