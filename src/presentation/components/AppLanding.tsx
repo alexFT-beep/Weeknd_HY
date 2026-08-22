@@ -599,12 +599,12 @@ export default function App() {
           >
             <div className="absolute inset-0 z-0">
               <img
-                src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp"
+                src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
                 alt="Fondo Menú"
-                className="w-full h-full object-cover opacity-65 brightness-90 contrast-110"
+                className="w-full h-full object-cover opacity-80 brightness-110 contrast-100"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/70 via-[#050505]/45 to-[#0A0A0F]/75" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/35 to-black/95" />
             </div>
 
             <div className="relative z-10 flex flex-col items-center gap-4 landscape:gap-2 py-8 w-full max-w-xs px-4">
@@ -646,10 +646,10 @@ export default function App() {
             <img
               src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
               alt="Fondo Portada Móvil"
-              className="w-full h-full object-cover opacity-65 brightness-90 contrast-110"
+              className="w-full h-full object-cover opacity-80 brightness-110 contrast-100"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-black" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/35 to-black" />
           </div>
 
           {/* Degradado Neón y Acentos Terrosos en Desktop */}
