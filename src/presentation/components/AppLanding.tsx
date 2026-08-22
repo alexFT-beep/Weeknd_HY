@@ -1,22 +1,20 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, ChevronLeft, Send, Smartphone, Calendar, ArrowLeft, Search, ShoppingCart, Music2, Play, ArrowUpRight, Info
+  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, ArrowLeft, ShoppingCart
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DigitalMenuView } from './DigitalMenuView';
+import { SocialGalleryView } from './SocialGalleryView';
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
-const HERO_IMG = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
 const MENU_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380723/alitas2_upllif.webm";
 const DELIVERY_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1771715674/makis-weekend_fxfha7.jpg";
-const RESERVA_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774381246/reserva_dxdyyt.webp";
 const FOOTER_IMG = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp";
-const MOBILE_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380798/hambur2_lhdl97.webm";
+const CARTA_PDF = "https://res.cloudinary.com/dwlzez9mr/image/upload/v1771786883/WEKEEND_CARTA_2026_aew47m.pdf";
 
 // --- Assets locales de capibaras (animación scroll-driven) ---
-// Orden vertical estricto: Superior (heroic) -> Central (kamehameha) -> Inferior (superhero)
 import CAPY_HEROIC from '../../assets/capybaras/heroic_capybara_mascot_VECTOR.png';
 import CAPY_KAME from '../../assets/capybaras/capybara_kamehameha_pose_VECTOR.png';
 import CAPY_HERO from '../../assets/capybaras/superhero_capibara_landing_VECTOR.png';
@@ -38,6 +36,7 @@ const MOBILE_NAV_LINKS = [
   { name: 'DESTACADOS', href: 'promociones.html', type: 'destacados' },
   { name: 'SÍGUENOS', href: '#redes', type: 'siguenos' },
 ];
+
 const TIME_SLOTS = [
   '05:00 PM', '05:30 PM', '06:00 PM', '06:30 PM', '07:00 PM', '07:30 PM',
   '08:00 PM', '08:30 PM', '09:00 PM', '09:30 PM', '10:00 PM', '10:30 PM',
@@ -45,600 +44,14 @@ const TIME_SLOTS = [
   '02:00 AM', '02:30 AM', '03:00 AM'
 ];
 
-// =========================================================
-//  REDES SOCIALES — Datos Canónicos & Sincronización de Likes
-// =========================================================
-
-interface SocialPostItem {
-  id: string;
-  url: string;
-  shortUrl?: string;
-  title: string;
-  caption: string;
-  likes: number;
-  comments: number;
-  views?: string;
-  shares?: number;
-  cover: string;
-  isVideo: boolean;
-  tag: string;
-}
-
-const TIKTOK_DATA = {
-  name: 'TikTok',
-  handle: '@weekendhuarmey',
-  profile: 'https://www.tiktok.com/@weekendhuarmey',
-  accent: '#FE2C55',
-  badge: 'linear-gradient(135deg,#25F4EE 0%,#000 45%,#FE2C55 100%)',
-  posts: [
-    {
-      id: '7675469738880830741',
-      url: 'https://www.tiktok.com/@weekendhuarmey/video/7675469738880830741',
-      shortUrl: 'https://vt.tiktok.com/ZSVySRqtW/',
-      title: '🍗 Broaster & Alitas Weekend',
-      caption: '¡El mejor broaster y alitas de Huarmey! Crujientes con más de 31 salsas.',
-      likes: 1420,
-      comments: 86,
-      views: '12.4K',
-      cover: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&h=750&fit=crop&auto=format',
-      isVideo: true,
-      tag: '🔥 Tendencia',
-    },
-    {
-      id: '7674053681561521428',
-      url: 'https://www.tiktok.com/@weekendhuarmey/video/7674053681561521428',
-      shortUrl: 'https://vt.tiktok.com/ZSVySJ7A3/',
-      title: '🎂 Noche de Cumpleaños & Fiesta',
-      caption: '¡Celebrando los cumpleaños en Weekend! Show, sorpresas y buena vibra.',
-      likes: 3180,
-      comments: 142,
-      views: '28.1K',
-      cover: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=750&fit=crop&auto=format',
-      isVideo: true,
-      tag: '🎉 Fiesta',
-    },
-    {
-      id: '7673237454119275796',
-      url: 'https://www.tiktok.com/@weekendhuarmey/video/7673237454119275796',
-      shortUrl: 'https://vt.tiktok.com/ZSVySfxPv/',
-      title: '🍸 Coctelería de Autor',
-      caption: 'Tragos exclusivos de nuestros bartenders. Sofisticado y casual para tu fin de semana.',
-      likes: 890,
-      comments: 54,
-      views: '9.8K',
-      cover: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&h=750&fit=crop&auto=format',
-      isVideo: true,
-      tag: '🍹 Barra',
-    },
-    {
-      id: '7672838643735792917',
-      url: 'https://www.tiktok.com/@weekendhuarmey/video/7672838643735792917',
-      shortUrl: 'https://vt.tiktok.com/ZSVySAA4a/',
-      title: '🥤 Frappés & Bebidas',
-      caption: '¡Agranda tu frappé y refréscate con el sabor único de Weekend!',
-      likes: 2150,
-      comments: 98,
-      views: '18.6K',
-      cover: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&h=750&fit=crop&auto=format',
-      isVideo: true,
-      tag: '✨ Delicioso',
-    },
-  ] as SocialPostItem[],
-};
-
-const INSTAGRAM_DATA = {
-  name: 'Instagram',
-  handle: '@weekend_huarmey',
-  profile: 'https://www.instagram.com/weekend_huarmey/',
-  accent: '#dc2743',
-  badge: 'linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)',
-  posts: [
-    {
-      id: 'DcRuJRXFasq',
-      url: 'https://www.instagram.com/p/DcRuJRXFasq/',
-      title: '🎉 Noche de Cumpleaños Grupal',
-      caption: '🎂 #CUMPLEAÑOS | #AGOSTO | #WEEKEND ¡Feliz cumpleaños, Kimberly! Gracias por celebrar con nosotros.',
-      likes: 312,
-      comments: 24,
-      cover: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&h=750&fit=crop&auto=format',
-      isVideo: false,
-      tag: '📸 Post',
-    },
-    {
-      id: 'DcRtn0aTRHm',
-      url: 'https://www.instagram.com/reel/DcRtn0aTRHm/',
-      title: '🎬 Reel: Pastel Sorpresa & Show',
-      caption: 'Audio original • Weekend Huarmey • ¡La sorpresa de la noche con toda la onda del Weekend!',
-      likes: 487,
-      comments: 38,
-      cover: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&h=750&fit=crop&auto=format',
-      isVideo: true,
-      tag: '🎬 Reel',
-    },
-    {
-      id: 'DcRrOtwlU_w',
-      url: 'https://www.instagram.com/p/DcRrOtwlU_w/',
-      title: '🍗 Sabrosos Broaster Weekend',
-      caption: '🍗 ¡BROASTER que te hará volver! Combínalo con Chaufa o Salchipapas + Pide tu Delivery 📲 961 336 674',
-      likes: 621,
-      comments: 45,
-      cover: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&h=750&fit=crop&auto=format',
-      isVideo: false,
-      tag: '🍗 Carta',
-    },
-    {
-      id: 'DcPU49ig26K',
-      url: 'https://www.instagram.com/p/DcPU49ig26K/',
-      title: '🍓 Agranda tu Frappé x S/ 3.99',
-      caption: '✨ ¡AGRANDA TU FRAPPÉ por solo S/ 3.99! Más grande, más sabor. Reserva o pide delivery en Huarmey.',
-      likes: 256,
-      comments: 18,
-      cover: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&h=750&fit=crop&auto=format',
-      isVideo: false,
-      tag: '🍓 Promo',
-    },
-    {
-      id: 'DcPTkUZgJ3m',
-      url: 'https://www.instagram.com/p/DcPTkUZgJ3m/',
-      title: '✨ Amigos & Celebraciones',
-      caption: 'Amigos, risas, buena comida y la mejor música en vivo. Tu fin de semana empieza aquí.',
-      likes: 403,
-      comments: 31,
-      cover: 'https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600&h=750&fit=crop&auto=format',
-      isVideo: false,
-      tag: '🥂 Noche',
-    },
-  ] as SocialPostItem[],
-};
-
-const FACEBOOK_DATA = {
-  name: 'Facebook',
-  handle: 'Weekend Huarmey',
-  profile: 'https://www.facebook.com/p/Weekend-Huarmey-100075916407028/',
-  accent: '#1877f2',
-  badge: '#1877f2',
-  posts: [
-    {
-      id: '1064399486100588',
-      url: 'https://www.facebook.com/100075916407028/posts/1064399486100588',
-      shortUrl: 'https://www.facebook.com/share/p/19GHC6RSia/',
-      title: '🎉 ¡Viernes de fiesta en Weekend!',
-      caption: '¡Gracias Huarmey por otro fin de semana increíble! Los esperamos con la mejor carta y ambiente.',
-      likes: 218,
-      comments: 34,
-      shares: 16,
-      cover: 'https://images.unsplash.com/photo-1545128485-c400e7702796?w=600&h=750&fit=crop&auto=format',
-      isVideo: false,
-      tag: '🎉 Evento',
-    },
-    {
-      id: '1363382619241547',
-      url: 'https://www.facebook.com/100075916407028/videos/1363382619241547/',
-      shortUrl: 'https://www.facebook.com/share/r/1EcBQH7uVN/',
-      title: '🎬 Cumpleaños Kimberly - Show en vivo',
-      caption: 'Feliz cumpleaños Kimberly ❤️ Gracias por hacernos parte de este momento tan especial.',
-      likes: 342,
-      comments: 52,
-      shares: 28,
-      cover: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=750&fit=crop&auto=format',
-      isVideo: true,
-      tag: '🎥 Video',
-    },
-    {
-      id: '1064386526101884',
-      url: 'https://www.facebook.com/100075916407028/posts/1064386526101884',
-      shortUrl: 'https://www.facebook.com/share/p/1912zGDxwd/',
-      title: '🍸 Coctelería de autor y piqueos',
-      caption: 'Ven a probar nuestras tablas de piqueos, tequeños y alitas con más de 31 salsas artesanales.',
-      likes: 189,
-      comments: 21,
-      shares: 12,
-      cover: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&h=750&fit=crop&auto=format',
-      isVideo: false,
-      tag: '🍸 Bar',
-    },
-    {
-      id: '1063598126180724',
-      url: 'https://www.facebook.com/100075916407028/posts/1063598126180724',
-      shortUrl: 'https://www.facebook.com/share/p/19NN2y8RBz/',
-      title: '🍔 Hamburguesas Gourmet a la parrilla',
-      caption: 'Cortes seleccionados, pan brioche sellado y salsas exclusivas. Pide tu delivery al instante.',
-      likes: 276,
-      comments: 42,
-      shares: 19,
-      cover: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&h=750&fit=crop&auto=format',
-      isVideo: false,
-      tag: '🍔 Burgers',
-    },
-    {
-      id: '1063592619514608',
-      url: 'https://www.facebook.com/100075916407028/posts/1063592619514608',
-      shortUrl: 'https://www.facebook.com/share/p/19Dum4UT4Jh/',
-      title: '🥘 Platos a la Carta y Chifa',
-      caption: 'Lomo saltado, chaufa especial, tallarines y parrillas completas para compartir en familia.',
-      likes: 310,
-      comments: 36,
-      shares: 22,
-      cover: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=750&fit=crop&auto=format',
-      isVideo: false,
-      tag: '🥘 Carta',
-    },
-  ] as SocialPostItem[],
-};
-
-// --- Iconos oficiales de cada plataforma (SVG) ---
 const TIKTOK_ICON = (cn = 'w-5 h-5') => (
-  <svg viewBox="0 0 24 24" className={cn} fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.69a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.12z"/></svg>
+  <svg viewBox="0 0 24 24" className={cn} fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.06 3.43-.3 6.83-1.62 10.12-1.14 2.81-3.38 5.08-6.23 5.87-2.04.56-4.2.42-6.17-.36-2.53-.99-4.51-3.18-5.19-5.77-.58-2.18-.44-4.52.35-6.65.95-2.58 3.11-4.61 5.73-5.28 1.15-.29 2.35-.39 3.53-.28V10.7c-.49-.17-1.02-.2-1.53-.13-.76.11-1.49.54-1.91 1.17-.45.68-.5 1.55-.3 2.32.25.86.96 1.53 1.82 1.73.66.16 1.38.07 1.98-.26.59-.34 1.01-.92 1.14-1.58.1-.47.12-.95.12-1.43V0z"/></svg>
 );
-const INSTAGRAM_ICON = (cn = 'w-5 h-5') => (
-  <svg viewBox="0 0 24 24" className={cn} fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-);
-const FACEBOOK_ICON = (cn = 'w-5 h-5') => (
-  <svg viewBox="0 0 24 24" className={cn} fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-);
-
-const PLATFORMS_DATA = [
-  { ...TIKTOK_DATA, icon: TIKTOK_ICON, cta: 'Ver perfil' },
-  { ...INSTAGRAM_DATA, icon: INSTAGRAM_ICON, cta: 'Ver perfil' },
-  { ...FACEBOOK_DATA, icon: FACEBOOK_ICON, cta: 'Ver página' },
-];
-
-// =========================================================
-//  HOOK: Drag-scroll (arrastrar para navegar el carrusel)
-// =========================================================
-function useDragScroll() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
-
-  const onMouseDown = (e: React.MouseEvent) => {
-    isDragging.current = true;
-    startX.current = e.pageX - (ref.current?.offsetLeft ?? 0);
-    scrollLeft.current = ref.current?.scrollLeft ?? 0;
-    if (ref.current) ref.current.style.cursor = 'grabbing';
-  };
-  const stop = () => {
-    isDragging.current = false;
-    if (ref.current) ref.current.style.cursor = 'grab';
-  };
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging.current || !ref.current) return;
-    e.preventDefault();
-    const x = e.pageX - ref.current.offsetLeft;
-    ref.current.scrollLeft = scrollLeft.current - (x - startX.current) * 1.2;
-  };
-  const onTouchStart = (e: React.TouchEvent) => {
-    startX.current = e.touches[0].pageX - (ref.current?.offsetLeft ?? 0);
-    scrollLeft.current = ref.current?.scrollLeft ?? 0;
-  };
-  const onTouchMove = (e: React.TouchEvent) => {
-    if (!ref.current) return;
-    const x = e.touches[0].pageX - ref.current.offsetLeft;
-    ref.current.scrollLeft = scrollLeft.current - (x - startX.current) * 1.2;
-  };
-
-  return { ref, onMouseDown, onMouseUp: stop, onMouseLeave: stop, onMouseMove, onTouchStart, onTouchMove };
-}
-
-// =========================================================
-//  COMPONENTE: Tarjeta Social Interactiva con Likes Sincronizados
-// =========================================================
-function SocialPostCard({
-  post,
-  platform,
-}: {
-  post: SocialPostItem;
-  platform: typeof PLATFORMS_DATA[number];
-}) {
-  const [liked, setLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(post.likes);
-  const [copied, setCopied] = useState(false);
-
-  // Cargar estado de likes sincronizado desde localStorage
-  useEffect(() => {
-    const storageKey = `weekend_likes_${post.id}`;
-    const saved = localStorage.getItem(storageKey);
-    if (saved === 'true') {
-      setLiked(true);
-      setLikesCount(post.likes + 1);
-    }
-  }, [post.id, post.likes]);
-
-  const toggleLike = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const storageKey = `weekend_likes_${post.id}`;
-    if (liked) {
-      setLiked(false);
-      setLikesCount(prev => Math.max(post.likes, prev - 1));
-      localStorage.removeItem(storageKey);
-    } else {
-      setLiked(true);
-      setLikesCount(prev => prev + 1);
-      localStorage.setItem(storageKey, 'true');
-    }
-  };
-
-  const handleShare = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    navigator.clipboard?.writeText(post.url);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-
-  return (
-    <div className="group flex-shrink-0 w-[270px] sm:w-[300px] bg-[#0f0f11] border border-white/10 hover:border-weekend-neon/50 rounded-[26px] overflow-hidden flex flex-col justify-between shadow-2xl transition-all duration-300 hover:-translate-y-1.5">
-      {/* Cabecera compacta */}
-      <div className="flex items-center justify-between px-3.5 py-2.5 bg-black/60 border-b border-white/5">
-        <div className="flex items-center gap-2 min-w-0">
-          <div
-            className="w-6 h-6 rounded-full flex items-center justify-center text-white flex-shrink-0"
-            style={{ background: platform.badge }}
-          >
-            {platform.icon('w-3.5 h-3.5')}
-          </div>
-          <span className="font-display font-bold text-[11px] text-white truncate">
-            {platform.handle}
-          </span>
-        </div>
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-weekend-neon">
-          {post.tag}
-        </span>
-      </div>
-
-      {/* Imagen / Video Portada HD con Overlay y Play */}
-      <a
-        href={post.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="relative aspect-[4/4.8] overflow-hidden bg-black flex items-center justify-center block cursor-pointer"
-      >
-        <img
-          src={post.cover}
-          alt={post.title}
-          loading="lazy"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-
-        {/* Play Icon si es video */}
-        {post.isVideo && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-weekend-neon group-hover:text-black transition-all shadow-xl">
-              <svg viewBox="0 0 24 24" className="w-6 h-6 fill-currentColor translate-x-0.5">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-          </div>
-        )}
-
-        {/* Título y descripción sobrepuesta corta */}
-        <div className="absolute bottom-2.5 inset-x-3 text-left">
-          <p className="text-white font-bold text-xs line-clamp-1 drop-shadow-md">
-            {post.title}
-          </p>
-          <p className="text-white/70 text-[10px] line-clamp-1 mt-0.5">
-            {post.caption}
-          </p>
-        </div>
-      </a>
-
-      {/* Barra de Interacciones Sincronizadas */}
-      <div className="px-3.5 py-2.5 bg-[#0a0a0c] border-t border-white/5 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          {/* Botón de Like Interactivo */}
-          <button
-            type="button"
-            onClick={toggleLike}
-            className={`flex items-center gap-1 text-xs font-bold transition-transform active:scale-125 ${
-              liked ? 'text-[#ff2d55]' : 'text-white/60 hover:text-white'
-            }`}
-            title="Dar Me Gusta"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className={`w-4 h-4 transition-all ${
-                liked ? 'fill-[#ff2d55] stroke-[#ff2d55] scale-110' : 'fill-none stroke-currentColor'
-              }`}
-              strokeWidth="2"
-            >
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-            </svg>
-            <span className="font-display text-[11px]">{likesCount}</span>
-          </button>
-
-          {/* Comentarios */}
-          <div className="flex items-center gap-1 text-white/50 text-xs" title="Comentarios">
-            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-currentColor" strokeWidth="2">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-            <span className="font-display text-[11px]">{post.comments}</span>
-          </div>
-
-          {/* Botón Compartir */}
-          <button
-            type="button"
-            onClick={handleShare}
-            className="text-white/50 hover:text-weekend-neon transition-colors"
-            title="Copiar enlace"
-          >
-            <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-currentColor" strokeWidth="2">
-              <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-              <polyline points="16 6 12 2 8 6" />
-              <line x1="12" y1="2" x2="12" y2="15" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Botón Ver en Red Social */}
-        <a
-          href={post.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-white/5 hover:bg-weekend-neon hover:text-black transition-all flex items-center gap-1 text-white/80"
-        >
-          <span>{copied ? '¡Copiado!' : 'Ver'}</span>
-          <ArrowUpRight size={11} />
-        </a>
-      </div>
-    </div>
-  );
-}
-
-// =========================================================
-//  COMPONENTE: Feed de red social (carrusel drag-scroll)
-// =========================================================
-function SocialFeed({ platform }: { platform: typeof PLATFORMS_DATA[number] }) {
-  const drag = useDragScroll();
-  const { handle, name, badge, icon, cta, profile, posts } = platform;
-
-  return (
-    <div className="mb-14">
-      {/* Cabecera de plataforma */}
-      <div className="flex items-center justify-between px-4 md:px-12 mb-4">
-        <div className="flex items-center gap-3">
-          <div
-            className="w-9 h-9 rounded-[14px] flex items-center justify-center flex-shrink-0 text-white shadow-lg"
-            style={{ background: badge }}
-          >
-            {icon('w-4.5 h-4.5')}
-          </div>
-          <div>
-            <div className="font-display text-sm font-bold text-white leading-none">{name}</div>
-            <div className="text-zinc-500 text-xs mt-0.5">{handle}</div>
-          </div>
-        </div>
-        <a
-          href={profile}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-weekend-neon font-display text-xs tracking-widest uppercase flex items-center gap-1.5 hover:opacity-70 transition-opacity"
-        >
-          {cta}
-          <ArrowUpRight size={14} />
-        </a>
-      </div>
-
-      {/* Carrusel drag-scroll ultra pegado */}
-      <div
-        ref={drag.ref}
-        onMouseDown={drag.onMouseDown}
-        onMouseUp={drag.onMouseUp}
-        onMouseLeave={drag.onMouseLeave}
-        onMouseMove={drag.onMouseMove}
-        onTouchStart={drag.onTouchStart}
-        onTouchMove={drag.onTouchMove}
-        className="flex gap-4 overflow-x-auto no-carousel-scrollbar pb-3 px-4 md:px-12 select-none items-stretch"
-        style={{ cursor: 'grab' }}
-      >
-        {posts.map((post) => (
-          <SocialPostCard key={post.id} post={post} platform={platform} />
-        ))}
-
-        {/* Card CTA al perfil */}
-        <a
-          href={profile}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-shrink-0 w-48 border border-dashed border-weekend-neon/30 hover:border-weekend-neon/80 rounded-[26px] flex flex-col items-center justify-center gap-3 p-5 hover:bg-weekend-neon/5 transition-all duration-300"
-        >
-          <div
-            className="w-10 h-10 rounded-[12px] flex items-center justify-center text-white"
-            style={{ background: badge }}
-          >
-            {icon('w-5 h-5')}
-          </div>
-          <div className="text-center">
-            <div className="font-display text-xs font-bold text-white mb-1">Ver más en {name}</div>
-            <div className="text-weekend-neon text-[10px] tracking-widest">{handle} →</div>
-          </div>
-        </a>
-      </div>
-    </div>
-  );
-}
-
-// =========================================================
-//  COMPONENTE: Sección social completa
-// =========================================================
-function SocialSection() {
-  return (
-    <section id="redes" className="py-14 relative overflow-hidden border-t border-white/5 bg-black social-section">
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0acc80]/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[#0acc80]/8 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative z-10">
-        {/* Encabezado con Emojis y Color */}
-        <div className="text-center mb-8 px-4 md:px-12">
-          <p className="text-[#0acc80] text-xs tracking-[0.4em] uppercase font-display mb-2 flex items-center justify-center gap-2">
-            <span>✨</span> <span>Nuestras Redes Oficiales</span> <span>🔥</span>
-          </p>
-          <h2 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-2 neon-flicker" style={{ textShadow: '0 0 40px rgba(10,204,128,0.3)' }}>
-            📸 @weekend_huarmey 🎵
-          </h2>
-          <p className="text-zinc-400 font-body text-xs sm:text-sm max-w-md mx-auto">
-            🍹 Vive la experiencia antes de llegar. Toca el ❤️ para sincronizar likes y explorar 🎬✨
-          </p>
-        </div>
-
-        {PLATFORMS_DATA.map((p) => (
-          <SocialFeed key={p.name} platform={p} />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-const PROMOS = [
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barcoMix.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barquitoHarryHou.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/boxRomantico.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/broster.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/bubbleTea.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/burritoMexi.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/calientitosPisco.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/carruselAlitas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cervezaArtesanal.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/comboParrillero.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumple.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/delivery1am.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/hamburguesas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/litronas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/marSaboresDelicias.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/masAlitas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/newPresentacionMakis.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/nocheTragosCasa.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/piqueos.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/promo_frappe.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/reyesAlitas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/ruleta.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/salchiPapas.webp",
-  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/transfusionSangreHallowen.webp"
-];
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social' | 'reserva'>('landing');
-  const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setSelectedPromo(null);
-    };
-    if (selectedPromo) {
-      window.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = '';
-    };
-  }, [selectedPromo]);
 
   const [form, setForm] = useState({
     nombre: '',
@@ -648,7 +61,6 @@ export default function App() {
     motivo: ''
   });
 
-  // --- Módulo intacto: VER CARTA DIGITAL (redirección a la carta) ---
   const goToDashboard = () => {
     setCurrentView('dashboard');
     window.location.hash = 'carta-digital';
@@ -738,7 +150,7 @@ export default function App() {
         clearTimeout(t1);
         clearTimeout(t2);
       };
-    } else if (currentView === 'landing') {
+    } else {
       window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [currentView]);
@@ -747,7 +159,6 @@ export default function App() {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll, { passive: true });
 
-    // Manejar tecla Escape para cerrar menú móvil
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
         setIsOpen(false);
@@ -755,13 +166,10 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    // Pausar animaciones cuando la página no está visible
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        // Pausar animaciones CSS
         document.body.classList.add('animations-paused');
       } else {
-        // Reanudar animaciones CSS
         document.body.classList.remove('animations-paused');
       }
     };
@@ -787,6 +195,18 @@ export default function App() {
   };
 
   // ----------------------------------------------------
+  // SOCIAL GALLERY VIEW (Dedicada a Redes Sociales y Canales Oficiales)
+  // ----------------------------------------------------
+  if (currentView === 'social') {
+    return (
+      <SocialGalleryView 
+        onBackToHome={goToLanding} 
+        onOpenMenu={goToDashboard} 
+      />
+    );
+  }
+
+  // ----------------------------------------------------
   // DASHBOARD VIEW (Dedicada a la Carta Digital)
   // ----------------------------------------------------
   if (currentView === 'dashboard') {
@@ -800,7 +220,7 @@ export default function App() {
             <button
               type="button"
               onClick={goToLanding}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm cursor-pointer"
               title="Volver a la portada principal"
             >
               <ArrowLeft size={16} />
@@ -821,7 +241,7 @@ export default function App() {
             <button
               type="button"
               data-action="open-search"
-              className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 p-1.5 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon shadow-sm"
+              className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 p-1.5 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon shadow-sm cursor-pointer"
               title="Buscar en la carta"
               aria-label="Buscar en la carta"
             >
@@ -843,7 +263,7 @@ export default function App() {
             <button
               type="button"
               onClick={goToLanding}
-              className="text-weekend-neon hover:underline font-bold uppercase tracking-wider"
+              className="text-weekend-neon hover:underline font-bold uppercase tracking-wider cursor-pointer"
             >
               Volver a la Página Principal
             </button>
@@ -866,7 +286,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={goToLanding}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm cursor-pointer"
                 title="Volver a la portada principal"
               >
                 <ArrowLeft size={16} />
@@ -888,7 +308,7 @@ export default function App() {
               <button
                 type="button"
                 data-action="open-cart"
-                className="relative text-black font-bold bg-weekend-neon hover:bg-white transition-all active:scale-95 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs uppercase"
+                className="relative text-black font-bold bg-weekend-neon hover:bg-white transition-all active:scale-95 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs uppercase cursor-pointer"
               >
                 <ShoppingCart size={15} />
                 <span className="hidden sm:inline">Carrito</span>
@@ -896,7 +316,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={goToDashboard}
-                className="px-4 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white font-bold border border-white/20 rounded-full text-xs uppercase transition-all"
+                className="px-4 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white font-bold border border-white/20 rounded-full text-xs uppercase transition-all cursor-pointer"
               >
                 Ver Menú
               </button>
@@ -975,28 +395,20 @@ export default function App() {
                     </select>
                   </div>
 
-                  {/* NOTA DE AVISO PARA RESERVAS */}
-                  <div className="rounded-2xl border border-weekend-neon/40 bg-weekend-neon/10 p-4 space-y-2 text-zinc-200">
-                    <div className="flex items-center gap-2 text-weekend-neon font-black text-xs uppercase tracking-wide">
-                      <Info size={16} className="text-weekend-neon flex-shrink-0" />
-                      <span>📌 NOTA DE AVISO PARA RESERVAS:</span>
-                    </div>
-                    <p className="text-white/80 text-[11px] leading-relaxed">
-                      Al enviar tu solicitud por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en WEEKND! Huarmey.
+                  {/* Políticas del servicio */}
+                  <div className="rounded-2xl border border-white/10 bg-black/50 p-3.5 space-y-1.5">
+                    <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
+                    <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
+                      <span className="text-weekend-neon mt-0.5">•</span>
+                      <span><span className="text-white/90 font-semibold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
                     </p>
-                    <div className="pt-2 border-t border-weekend-neon/20 space-y-1.5 text-[11px] leading-relaxed text-zinc-200">
-                      <p className="flex items-start gap-1.5">
-                        <span className="text-weekend-neon font-bold mt-0.5">•</span>
-                        <span><span className="text-white font-bold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
-                      </p>
-                      <p className="flex items-start gap-1.5">
-                        <span className="text-weekend-neon font-bold mt-0.5">•</span>
-                        <span><span className="text-white font-bold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
-                      </p>
-                    </div>
+                    <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
+                      <span className="text-weekend-neon mt-0.5">•</span>
+                      <span><span className="text-white/90 font-semibold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
+                    </p>
                   </div>
 
-                  <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs">
+                  <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs hover:shadow-[0_0_25px_rgba(201,0,255,0.75)] cursor-pointer">
                     Reservar por WhatsApp <Send size={16} />
                   </button>
                 </form>
@@ -1027,7 +439,7 @@ export default function App() {
             <button
               type="button"
               onClick={goToLanding}
-              className="text-weekend-neon hover:underline font-bold uppercase tracking-wider"
+              className="text-weekend-neon hover:underline font-bold uppercase tracking-wider cursor-pointer"
             >
               Volver a la Página Principal
             </button>
@@ -1050,7 +462,7 @@ export default function App() {
     }
     if (link.name === 'Redes' || link.name === 'SÍGUENOS') {
       e.preventDefault();
-      document.getElementById('redes')?.scrollIntoView({ behavior: 'smooth' });
+      goToSocial();
       setIsOpen(false);
       return;
     }
@@ -1068,7 +480,6 @@ export default function App() {
     }
     if (link.name === 'Promociones' || link.name === 'DESTACADOS') {
       setIsOpen(false);
-      // Opens dedicated promociones page
       window.location.href = 'promociones.html';
       return;
     }
@@ -1085,13 +496,6 @@ export default function App() {
       return;
     }
     setIsOpen(false);
-  };
-
-  // Manejo de teclado para el menú móvil
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      setIsOpen(false);
-    }
   };
 
   return (
@@ -1123,7 +527,7 @@ export default function App() {
                 onClick={(e) => handleNavClick(e, link)}
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.94 }}
-                className="text-sm uppercase tracking-widest font-bold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-all duration-300"
+                className="text-sm uppercase tracking-widest font-bold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-all duration-300 cursor-pointer"
               >
                 {link.name}
               </motion.a>
@@ -1196,7 +600,7 @@ export default function App() {
                   whileHover={{ scale: 1.08 }} 
                   whileTap={{ scale: 0.92 }}
                   onClick={(e) => handleNavClick(e, link)}
-                  className="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300 border-b border-white/5"
+                  className="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300 border-b border-white/5 cursor-pointer"
                   style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
                   {link.name}
@@ -1295,145 +699,92 @@ export default function App() {
         </div>
       </section>
 
-      {/* ============ PROMOCIONES ============ */}
-      <section id="promociones" className="promo-section relative py-20 bg-[#050505] overflow-hidden" style={{ scrollMarginTop: '80px' }}>
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C900FF]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="text-center mb-12">
-            <h2 className="text-[#C900FF] text-sm font-bold tracking-[0.3em] uppercase mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Nuestras Promociones</h2>
-            <h3 className="text-3xl md:text-5xl font-black uppercase mb-5" style={{ fontFamily: "'Space Grotesk', sans-serif", background: 'linear-gradient(135deg, #C900FF, #F000D9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Las mejores ofertas</h3>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
-            {PROMOS.map((url, i) => {
-              const filename = url.split('/').pop()?.split('.')[0] || `Promo ${i}`;
-              return (
-                <div key={i} className="promo-card cursor-pointer group" onClick={() => setSelectedPromo(url)}>
-                  <div className="w-full aspect-[4/5] bg-[#101016] rounded-[16px] overflow-hidden border border-[rgba(201,0,255,0.18)] transition-all duration-300 group-hover:scale-[1.03] group-hover:border-[rgba(201,0,255,0.55)] group-hover:shadow-[0_0_25px_rgba(201,0,255,0.25)] relative">
-                    <img
-                      src={url}
-                      alt={`Promoción ${filename}`}
-                      loading="lazy"
-                      decoding="async"
-                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'assets/placeholder-promo.jpg'; }}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
-                      <span className="text-white font-bold text-sm tracking-wider uppercase drop-shadow-md">Ver Promo</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+      {/* ============ CARTA / MENÚ ============ */}
+      <section id="menu" className="relative py-24 overflow-hidden min-h-[70vh] flex items-center">
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover opacity-60"
+          >
+            <source src={MENU_VID} type="video/webm" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black"></div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-10"
+          >
+            <h2 className="text-[#EA2A81] text-xs font-bold tracking-[0.3em] uppercase mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Nuestra Propuesta</h2>
+            <h3 className="text-3xl md:text-5xl font-black uppercase mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>La Carta</h3>
+            <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
+              Alitas en más de 31 salsas artesanales, piqueos criollos, hamburguesas gourmet, pastas y makis maridados con coctelería de autor.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="flex flex-wrap justify-center gap-4"
+          >
+            <button
+              onClick={goToDashboard}
+              className="group inline-flex items-center gap-3 px-8 py-4 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full hover:bg-white transition-all shadow-[0_0_25px_rgba(10,204,128,0.4)] active:scale-95 text-xs sm:text-sm cursor-pointer"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              <span>Ver Carta Digital Interactiva</span>
+              <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+            </button>
+            <a
+              href={CARTA_PDF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-white font-extrabold uppercase tracking-widest rounded-full border border-white/20 transition-all text-xs sm:text-sm cursor-pointer"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              <span>Descargar PDF</span>
+            </a>
+          </motion.div>
         </div>
       </section>
 
-      {/* ============ RESERVA + CAPIBARAS FLANQUEANDO ============ */}
-      <section id="reserva" className="relative py-12 bg-black overflow-hidden border-t border-white/5">
-        <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-weekend-neon/30 to-transparent scan-line pointer-events-none" />
+      {/* ============ DELIVERY ============ */}
+      <section id="delivery" className="relative py-28 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={DELIVERY_IMG}
+            alt="Delivery"
+            className="w-full h-full object-cover opacity-60"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/30 to-black"></div>
+        </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4">
-          <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
-            {/* Capibara Izquierda (Kamehameha) */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mb-8 lg:mb-0 z-20 pointer-events-none"
+        <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="flex flex-col items-center"
+          >
+            <Smartphone className="text-weekend-neon mb-5" size={44} />
+            <h3 className="text-2xl md:text-4xl font-black uppercase mb-3" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>¿Prefieres disfrutar en casa?</h3>
+            <p className="text-white/60 mb-8 max-w-lg text-sm sm:text-base">Llevamos el sabor y la vibra de Weekend directo a tu puerta en todo Huarmey.</p>
+            <button
+              onClick={handleDelivery}
+              className="px-10 py-4 border-2 border-weekend-neon text-weekend-neon font-black uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300 flex items-center gap-3 text-xs sm:text-sm cursor-pointer"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
-              <img
-                src={CAPY_KAME}
-                alt="Capibara pose kamehameha"
-                className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
-              />
-            </motion.div>
-
-            {/* Módulo de Reserva en el Centro */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="w-full max-w-xl bg-zinc-900/80 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-white/10 neon-glow-purple shadow-2xl relative z-10"
-            >
-              <div className="text-center mb-6">
-                <h2 className="text-weekend-neon text-xs font-bold tracking-[0.3em] uppercase mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
-                <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Reserva tu <span className="text-weekend-neon">Mesa</span></h3>
-                <p className="text-white/50 text-xs sm:text-sm">Reserva con anticipación y déjanos encargarnos del resto.</p>
-              </div>
-
-              <form onSubmit={handleReserve} className="space-y-4 text-xs">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Nombre</label>
-                    <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Fecha</label>
-                    <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
-                  </div>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Personas</label>
-                    <input type="number" required placeholder="Cantidad" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
-                    <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
-                      {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
-                    </select>
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Motivo</label>
-                  <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
-                    <option value="">Seleccionar</option>
-                    <option value="Cena Casual">Cena Casual</option>
-                    <option value="Cumpleaños">Cumpleaños</option>
-                    <option value="Aniversario">Aniversario</option>
-                    <option value="Evento Corporativo">Evento Corporativo</option>
-                    <option value="Otro">Otro</option>
-                  </select>
-                </div>
-
-                {/* Políticas del servicio */}
-                <div className="rounded-2xl border border-white/10 bg-black/50 p-3.5 space-y-1.5">
-                  <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
-                  <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
-                    <span className="text-weekend-neon mt-0.5">•</span>
-                    <span><span className="text-white/90 font-semibold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
-                  </p>
-                  <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
-                    <span className="text-weekend-neon mt-0.5">•</span>
-                    <span><span className="text-white/90 font-semibold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
-                  </p>
-                </div>
-
-                <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs hover:shadow-[0_0_25px_rgba(201,0,255,0.75)]">
-                  Reservar por WhatsApp <Send size={16} />
-                </button>
-              </form>
-            </motion.div>
-
-            {/* Capibara Derecha (Superhéroe) */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mt-8 lg:mt-0 z-20 pointer-events-none"
-            >
-              <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
-              <img
-                src={CAPY_HERO}
-                alt="Capibara superhéroe aterrizando"
-                className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
-              />
-            </motion.div>
-          </div>
+              Pedir Delivery por WhatsApp
+            </button>
+          </motion.div>
         </div>
       </section>
 
@@ -1461,9 +812,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ============ REDES SOCIALES (Feeds reales) ============ */}
-      <SocialSection />
-
       {/* ============ FOOTER ============ */}
       <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden border-t border-white/10">
         <div className="absolute inset-0 z-0">
@@ -1484,13 +832,13 @@ export default function App() {
               <div className="space-y-4">
                 <p className="text-weekend-neon font-bold uppercase tracking-widest text-xs" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>¡Síguenos!</p>
                 <div className="flex items-center gap-4">
-                  <a href={TIKTOK_DATA.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="TikTok">
+                  <a href="https://www.tiktok.com/@weekendhuarmey" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="TikTok">
                     {TIKTOK_ICON('w-5 h-5')}
                   </a>
-                  <a href={INSTAGRAM_DATA.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Instagram">
+                  <a href="https://www.instagram.com/weekend_huarmey/" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Instagram">
                     <Instagram size={20} />
                   </a>
-                  <a href={FACEBOOK_DATA.profile} target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Facebook">
+                  <a href="https://www.facebook.com/p/Weekend-Huarmey-100075916407028/" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-2xl hover:bg-weekend-neon hover:text-black transition-colors" aria-label="Facebook">
                     <Facebook size={20} />
                   </a>
                 </div>
@@ -1545,33 +893,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {selectedPromo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="promo-modal fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
-            onClick={() => setSelectedPromo(null)}
-          >
-            <button className="absolute top-6 right-6 text-white hover:text-[#C900FF] transition-colors z-50 p-2" onClick={() => setSelectedPromo(null)}>
-              <X size={32} />
-            </button>
-            <motion.img
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              src={selectedPromo}
-              alt="Promoción ampliada"
-              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-[0_0_40px_rgba(201,0,255,0.3)] border border-[rgba(201,0,255,0.3)]"
-              onClick={(e) => e.stopPropagation()}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

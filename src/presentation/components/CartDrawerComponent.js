@@ -44,7 +44,7 @@ export class CartDrawerComponent {
         <div class="p-4 sm:p-5 border-b border-zinc-800 bg-[#18181b] flex items-center justify-between">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-primary/15 border border-primary/60 flex items-center justify-center text-primary shadow-[0_0_12px_rgba(10,204,128,0.3)]">
-              <span class="material-symbols-outlined text-2xl">shopping_cart</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
             </div>
             <div>
               <h2 class="text-base sm:text-lg font-black uppercase tracking-tight text-white">
@@ -57,12 +57,12 @@ export class CartDrawerComponent {
           </div>
           <button
             type="button"
-            class="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+            class="p-2 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors cursor-pointer"
             data-action="close-cart"
             title="Cerrar Carrito"
             aria-label="Cerrar Carrito"
           >
-            <span class="material-symbols-outlined text-2xl">close</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
           </button>
         </div>
 
@@ -71,13 +71,13 @@ export class CartDrawerComponent {
           ${!hasItems ? `
             <div class="py-16 text-center flex flex-col items-center justify-center">
               <div class="w-20 h-20 rounded-full bg-zinc-900 flex items-center justify-center text-zinc-500 mb-4 border border-zinc-800">
-                <span class="material-symbols-outlined text-4xl">shopping_bag</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
               </div>
               <h3 class="text-base font-bold text-white mb-1">Tu carrito está vacío</h3>
               <p class="text-xs text-zinc-400 max-w-xs mb-6">Explora nuestra carta y añade tus platos favoritos con el botón (+).</p>
               <button
                 type="button"
-                class="bg-primary text-black font-extrabold text-xs uppercase px-6 py-3 rounded-xl hover:bg-primary-container transition-all active:scale-95 shadow-md"
+                class="bg-primary text-black font-extrabold text-xs uppercase px-6 py-3 rounded-xl hover:bg-primary-container transition-all active:scale-95 shadow-md cursor-pointer"
                 data-action="go-to-menu"
                 aria-label="Ver la Carta"
               >
@@ -106,10 +106,11 @@ export class CartDrawerComponent {
                 <button
                   type="button"
                   data-action="clear-cart"
-                  class="text-[11px] text-red-400 hover:underline flex items-center gap-1 font-semibold"
+                  class="text-[11px] text-red-400 hover:underline flex items-center gap-1 font-semibold cursor-pointer"
                   aria-label="Vaciar carrito"
                 >
-                  <span class="material-symbols-outlined text-xs">delete_sweep</span> Vaciar
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  <span>Vaciar</span>
                 </button>
               </div>
 
@@ -142,13 +143,15 @@ export class CartDrawerComponent {
                           type="button"
                           data-action="decrease-qty"
                           data-cart-item-id="${ci.id}"
-                          class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-red-400 transition-colors"
+                          class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-red-400 transition-colors cursor-pointer"
                           title="Disminuir"
                           aria-label="Disminuir cantidad"
                         >
-                          <span class="material-symbols-outlined text-[16px]">
-                            ${ci.quantity === 1 ? "delete" : "remove"}
-                          </span>
+                          ${ci.quantity === 1 ? `
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                          ` : `
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                          `}
                         </button>
                         <span class="text-xs font-bold min-w-[18px] text-center font-price-display text-white">
                           ${ci.quantity}
@@ -157,11 +160,11 @@ export class CartDrawerComponent {
                           type="button"
                           data-action="increase-qty"
                           data-cart-item-id="${ci.id}"
-                          class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+                          class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-white transition-colors cursor-pointer"
                           title="Aumentar"
                           aria-label="Aumentar cantidad"
                         >
-                          <span class="material-symbols-outlined text-[16px]">add</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                         </button>
                       </div>
                     </div>
@@ -267,7 +270,7 @@ export class CartDrawerComponent {
               class="w-full bg-primary hover:bg-white text-black font-black uppercase py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(10,204,128,0.5)] active:scale-[0.98] transition-all text-xs sm:text-sm tracking-wider cursor-pointer"
               aria-label="${orderType === 'reserva' ? 'Enviar reserva por WhatsApp' : 'Enviar pedido por WhatsApp'}"
             >
-              <span class="material-symbols-outlined text-xl">chat</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
               <span>${orderType === 'reserva' ? 'Enviar Reserva a WhatsApp' : 'Enviar Pedido a WhatsApp'}</span>
             </button>
           </div>
