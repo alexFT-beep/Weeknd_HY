@@ -1,153 +1,255 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Promociones - Weekend - Huarmey</title>
+  <title>Promociones &amp; Ofertas - The Weekend Huarmey</title>
+  <meta name="description" content="Descubre las mejores promociones de Weekend Huarmey: barcos de alitas, combos parrilleros, litronas de cócteles, makis y ofertas festín." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@600;700;800;900&display=swap">
   <link rel="preload" as="image" fetchpriority="high" href="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp">
   <link rel="stylesheet" href="/src/index.css">
+  <style>
+    /* Estilos de Carrusel Infinito y Microinteracciones */
+    @keyframes infinite-scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-infinite-carousel {
+      display: flex;
+      width: max-content;
+      animation: infinite-scroll-left 35s linear infinite;
+    }
+    .animate-infinite-carousel:hover {
+      animation-play-state: paused;
+    }
+    .promo-card-item {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .promo-card-item:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 0 30px rgba(10, 204, 128, 0.3), 0 0 15px rgba(201, 0, 255, 0.2);
+    }
+  </style>
 </head>
-<body class="theme-premium-night font-sans selection:bg-[#C900FF] selection:text-white bg-[#050505]">
-  <div class="min-h-screen bg-[#050505] text-[#F5F5F5] font-sans promotions-page">
+<body class="bg-[#08080a] text-[#F5F5F5] font-sans selection:bg-[#0acc80] selection:text-black min-h-screen">
+  <div class="min-h-screen bg-[#08080a] flex flex-col justify-between relative overflow-x-hidden">
     
-    <!-- Navbar -->
-    <header class="fixed top-0 left-0 w-full z-50 bg-[#101016]/90 backdrop-blur-md py-4 border-b border-[rgba(201,0,255,0.22)] transition-all duration-300 shadow-[0_0_30px_rgba(201,0,255,0.20)]">
+    <!-- Background Ambient Volcanic Glows -->
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+    <div class="fixed bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#0acc80]/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+    <!-- Header / Navbar -->
+    <header class="fixed top-0 left-0 w-full z-50 bg-[#0e0e12]/90 backdrop-blur-md py-3.5 border-b border-white/10 transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
       <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" alt="Logo" class="h-12 w-12 rounded-full object-cover border border-[#00CFFF]" />
-          <a href="index.html" class="text-white font-bold tracking-tighter text-lg uppercase hidden xl:block hover:text-[#C900FF] transition-colors duration-500">
-            Weekend! - huarmey
+          <a href="index.html" class="flex items-center gap-3 group">
+            <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" alt="Logo Weekend" class="h-10 w-10 rounded-full object-cover border border-[#0acc80] group-hover:scale-105 transition-transform" />
+            <span class="text-white font-black tracking-tight text-base sm:text-lg uppercase" style="font-family: 'Space Grotesk', sans-serif;">
+              WEEKND! <span class="text-[#0acc80]">Huarmey</span>
+            </span>
           </a>
         </div>
-        <nav class="hidden lg:flex items-center gap-8">
-          <a href="index.html" class="text-sm uppercase tracking-widest font-bold hover:text-[#C900FF] transition-all duration-500">Inicio</a>
-          <a href="promociones.html" class="text-sm uppercase tracking-widest font-bold text-[#C900FF] transition-all duration-500" style="color: #C900FF; border-bottom: 2px solid #C900FF; padding-bottom: 2px;">Promociones</a>
-          <a href="index.html#carta-digital" class="text-sm uppercase tracking-widest font-bold hover:text-[#C900FF] transition-all duration-500">Carta</a>
-          <a href="index.html#reserva" class="text-sm uppercase tracking-widest font-bold hover:text-[#C900FF] transition-all duration-500">Reserva</a>
+
+        <nav class="hidden lg:flex items-center gap-7">
+          <a href="index.html" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#0acc80] transition-colors">Inicio</a>
+          <a href="promociones.html" class="text-sm uppercase tracking-widest font-black text-[#0acc80] border-b-2 border-[#0acc80] pb-0.5">Promociones</a>
+          <a href="index.html#carta-digital" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#0acc80] transition-colors">Carta</a>
+          <a href="index.html#reserva" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#0acc80] transition-colors">Reserva</a>
+          <a href="index.html#redes" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#0acc80] transition-colors">Redes</a>
+          <a href="index.html#ubicacion" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#0acc80] transition-colors">Ubicación</a>
         </nav>
-        <button class="lg:hidden p-2 text-white z-50 hover:text-[#C900FF] transition-colors" id="mobile-menu-btn">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-        </button>
+
+        <div class="flex items-center gap-3">
+          <a 
+            href="index.html#carta-digital"
+            class="hidden sm:inline-flex items-center gap-2 bg-[#0acc80] text-black font-extrabold uppercase tracking-widest text-xs px-5 py-2 rounded-full hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(10,204,128,0.4)]"
+            style="font-family: 'Space Grotesk', sans-serif;"
+          >
+            🔥 Ver Menú
+          </a>
+          <button 
+            type="button" 
+            class="lg:hidden p-2 text-white hover:text-[#0acc80] transition-colors cursor-pointer" 
+            id="mobile-menu-btn"
+            aria-label="Abrir menú"
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </div>
       </div>
     </header>
 
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-6 hidden">
-      <div class="absolute inset-0 z-0">
-        <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp" alt="Fondo Menú" class="w-full h-full object-cover opacity-30 grayscale contrast-125 brightness-75" />
-        <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/90 via-[#050505]/85 to-[#0A0A0F]/95"></div>
+    <!-- Mobile Menu Overlay (Orden estricto solicitado) -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-[#08080a]/98 backdrop-blur-xl flex flex-col items-center justify-center gap-4 hidden p-6 overflow-y-auto">
+      <div class="absolute inset-0 z-0 opacity-20">
+        <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp" alt="Fondo Menú" class="w-full h-full object-cover grayscale contrast-125" />
       </div>
-      <div class="relative z-10 flex flex-col items-center gap-8 py-10">
-        <a href="index.html" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300">Inicio</a>
-        <a href="promociones.html" class="text-xl uppercase tracking-widest font-extrabold text-[#EA2A81] transition-colors duration-300">Promociones</a>
-        <a href="index.html#carta-digital" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300">Carta</a>
-        <a href="index.html#reserva" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300">Reserva</a>
+      <div class="relative z-10 flex flex-col items-center gap-3 py-6 w-full max-w-xs">
+        <a href="index.html#inicio" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#0acc80] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">INICIO</a>
+        <a href="index.html#carta-digital" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#0acc80] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">CARTA</a>
+        <a href="index.html#reserva" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#0acc80] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">RESERVA</a>
+        <a href="https://wa.me/51961336674?text=Hola%2C%20deseo%20hacer%20un%20pedido%20de%20delivery%20en%20Weekend!" target="_blank" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-amber-400 hover:text-white transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">DELIVERYS</a>
+        <a href="promociones.html" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-[#0acc80] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">DESTACADOS</a>
+        <a href="index.html#redes" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#0acc80] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">SÍGUENOS</a>
+        <a href="index.html#ubicacion" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#0acc80] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">UBICACIÓN</a>
+        
+        <a href="index.html#carta-digital" class="mt-4 w-full py-3.5 bg-[#0acc80] text-black font-black uppercase tracking-widest rounded-2xl text-xs text-center shadow-[0_0_20px_rgba(10,204,128,0.4)]" style="font-family: 'Space Grotesk', sans-serif;">
+          🔥 Pide tu Weekend (Carta Digital)
+        </a>
       </div>
-      <div class="absolute bottom-8 left-0 w-full text-center z-10">
-        <p class="text-white font-black text-xl uppercase tracking-[0.3em]">WEEKND!</p>
-      </div>
-      <button class="absolute top-6 right-6 text-white p-2 hover:text-[#EA2A81] transition-colors z-20" id="close-menu-btn">
+      <button class="absolute top-6 right-6 text-white p-2 hover:text-[#0acc80] transition-colors z-20 cursor-pointer" id="close-menu-btn" aria-label="Cerrar menú">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>
 
     <!-- Main Content -->
-    <main class="pt-32 pb-24 max-w-7xl mx-auto px-4">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-black uppercase mb-4 text-[#F5F5F5]">
-          Nuestras <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#C900FF] to-[#F000D9]" style="text-shadow: 0 0 40px rgba(201,0,255,0.35);">Promociones</span>
-        </h1>
-        <p class="text-[#B8B8C2] max-w-2xl mx-auto text-sm md:text-base font-semibold">Descubre nuestras mejores ofertas y combos especiales para compartir en tu fin de semana. Calidad y ambiente inigualables.</p>
-      </div>
+    <main class="pt-28 pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex-grow">
+      
+      <!-- HERO LLAMATIVO DE PROMOCIONES -->
+      <section class="text-center mb-16 relative">
+        <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 via-purple-500/20 to-[#0acc80]/20 border border-amber-500/40 text-amber-400 text-xs font-black uppercase tracking-[0.25em] mb-4 shadow-[0_0_20px_rgba(245,158,11,0.25)] animate-pulse">
+          <span>🔥</span> NUESTRAS PROMOCIONES &amp; FESTINES <span>🍗</span>
+        </div>
 
-      <div class="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6" id="promos-grid">
-        <!-- JS will populate promos -->
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black uppercase tracking-tight text-white mb-4" style="font-family: 'Space Grotesk', sans-serif;">
+          Las Mejores <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0acc80] via-amber-300 to-[#C900FF]" style="text-shadow: 0 0 45px rgba(10,204,128,0.4);">Ofertas Weekend</span>
+        </h1>
+
+        <p class="text-zinc-300 max-w-3xl mx-auto text-sm sm:text-base font-medium leading-relaxed">
+          Toca cualquier promoción para verla en detalle, o desliza los carruseles continuos de cada sección. ¡Comparte la mejor fiesta y sabor en Huarmey!
+        </p>
+
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <a href="#sec-alitas" class="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-[#0acc80] hover:text-[#0acc80] text-xs font-bold uppercase transition-all">🍗 Alitas &amp; Combos</a>
+          <a href="#sec-burgers" class="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-[#0acc80] hover:text-[#0acc80] text-xs font-bold uppercase transition-all">🍔 Hamburguesas &amp; Parrillas</a>
+          <a href="#sec-tragos" class="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-[#0acc80] hover:text-[#0acc80] text-xs font-bold uppercase transition-all">🍹 Tragos &amp; Noche</a>
+          <a href="#sec-piqueos" class="px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-[#0acc80] hover:text-[#0acc80] text-xs font-bold uppercase transition-all">🍱 Makis &amp; Piqueos</a>
+        </div>
+      </section>
+
+      <!-- 4 SECCIONES TEMÁTICAS CON CARRUSEL INFINITO -->
+      <div class="space-y-16" id="promo-sections-container">
+        <!-- Renderizado dinámico desde JS con soporte infinito y badges de DESTACADO -->
       </div>
     </main>
 
-    <!-- Lightbox Modal -->
-    <div id="promo-lightbox" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md hidden items-center justify-center p-4 selection:bg-[#C900FF] selection:text-white">
-      <!-- Close Button -->
-      <button id="close-lightbox" aria-label="Cerrar modal" class="absolute top-5 right-5 text-white/70 hover:text-white bg-[#101016]/80 p-3 rounded-full border border-[rgba(201,0,255,0.22)] hover:border-[#C900FF] hover:bg-[#15151D] transition-colors z-30 shadow-[0_0_30px_rgba(201,0,255,0.20)]">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    <!-- Lightbox Modal Fullscreen -->
+    <div id="promo-lightbox" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md hidden items-center justify-center p-4 selection:bg-[#0acc80] selection:text-black">
+      <button id="close-lightbox" aria-label="Cerrar modal" class="absolute top-5 right-5 text-white/80 hover:text-white bg-zinc-900/80 p-3 rounded-full border border-white/20 hover:border-[#0acc80] transition-colors z-30 shadow-2xl cursor-pointer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
 
       <!-- Left Arrow Button -->
-      <button id="prev-promo-btn" aria-label="Previous Promo" class="lightbox-nav-btn left-4 sm:left-8">
+      <button id="prev-promo-btn" aria-label="Promoción anterior" class="lightbox-nav-btn left-4 sm:left-8 cursor-pointer">
         <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
       </button>
 
       <!-- Central Image & Counter Container -->
       <div class="relative max-w-4xl max-h-[85vh] flex flex-col items-center justify-center">
-        <img id="lightbox-img" src="" alt="Promoción" class="max-h-[78vh] sm:max-h-[80vh] w-auto object-contain rounded-xl border border-purple-500/30 shadow-[0_0_35px_rgba(201,0,255,0.25)] transition-all duration-300 select-none">
-        <span id="promo-counter" class="mt-3 text-sm font-medium text-gray-400 tracking-wide bg-[#101016]/80 px-4 py-1.5 rounded-full border border-[rgba(201,0,255,0.22)] shadow-[0_0_15px_rgba(201,0,255,0.15)]"></span>
+        <img id="lightbox-img" src="" alt="Promoción Weekend" class="max-h-[76vh] sm:max-h-[80vh] w-auto object-contain rounded-2xl border border-white/20 shadow-[0_0_40px_rgba(10,204,128,0.3)] transition-all duration-300 select-none">
+        <div class="mt-3 flex items-center gap-3">
+          <span id="promo-title" class="text-xs font-bold text-white uppercase tracking-wider bg-zinc-900/90 px-4 py-1.5 rounded-full border border-white/10"></span>
+          <span id="promo-counter" class="text-xs font-mono font-bold text-[#0acc80] bg-zinc-900/90 px-3 py-1.5 rounded-full border border-[#0acc80]/30"></span>
+        </div>
       </div>
 
       <!-- Right Arrow Button -->
-      <button id="next-promo-btn" aria-label="Next Promo" class="lightbox-nav-btn right-4 sm:right-8">
+      <button id="next-promo-btn" aria-label="Siguiente promoción" class="lightbox-nav-btn right-4 sm:right-8 cursor-pointer">
         <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
       </button>
     </div>
     
     <!-- Footer -->
-    <footer class="relative border-t border-white/10 py-12 overflow-hidden">
-      <div class="absolute inset-0 z-0">
-        <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp" alt="Footer Background" class="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75" />
-        <div class="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-[#0A0A0F]/90"></div>
-      </div>
-      <div class="relative z-10 max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer class="relative border-t border-white/10 py-12 bg-[#050507] overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
         <div class="flex items-center gap-3">
-          <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" alt="Logo" class="h-10 w-10 rounded-full object-cover border border-[#00CFFF]" />
-          <span class="text-white font-black tracking-tighter text-xl uppercase">WEEKEND!</span>
+          <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" alt="Logo" class="h-10 w-10 rounded-full object-cover border border-[#0acc80]" />
+          <span class="text-white font-black tracking-tighter text-xl uppercase" style="font-family: 'Space Grotesk', sans-serif;">WEEKND! HUARMEY</span>
         </div>
         <div class="flex flex-wrap items-center justify-center gap-2">
-          <span class="px-3 py-1 bg-[#742284] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#8f2ca2] shadow-sm">Yape</span>
-          <span class="px-3 py-1 bg-[#00D4B2] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33e0c4] shadow-sm">Plin</span>
-          <span class="px-3 py-1 bg-[#1A1F71] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#2b329b] shadow-sm">Visa</span>
-          <span class="px-3 py-1 bg-[#00E968] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33ee86] shadow-sm">Efectivo</span>
+          <span class="px-3 py-1 bg-[#742284] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#8f2ca2]">Yape</span>
+          <span class="px-3 py-1 bg-[#00D4B2] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33e0c4]">Plin</span>
+          <span class="px-3 py-1 bg-[#1A1F71] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#2b329b]">Visa</span>
+          <span class="px-3 py-1 bg-[#00E968] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33ee86]">Efectivo</span>
         </div>
-        <p class="text-white/40 text-xs uppercase tracking-[0.2em]">&copy; 2026 WEEKEND! Lounge &amp; Restaurant. Todos los derechos reservados.</p>
+        <p class="text-white/40 text-xs uppercase tracking-[0.2em]">&copy; 2026 WEEKEND! Lounge &amp; Restaurant. Huarmey - Ancash.</p>
       </div>
     </footer>
 
+    <!-- Lógica de Promociones en 4 Secciones con Carrusel Infinito -->
     <script>
-      const PROMOS = [
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barcoMix.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barquitoHarryHou.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/boxRomantico.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/broster.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/bubbleTea.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/burritoMexi.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/calientitosPisco.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/carruselAlitas.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cervezaArtesanal.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/comboParrillero.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumple.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/delivery1am.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/hamburguesas.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/litronas.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/marSaboresDelicias.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/masAlitas.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/newPresentacionMakis.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/nocheTragosCasa.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/piqueos.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/promo_frappe.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/reyesAlitas.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/ruleta.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/salchiPapas.webp",
-        "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/transfusionSangreHallowen.webp"
+      const SECTIONS_DATA = [
+        {
+          id: "sec-alitas",
+          title: "🍗 Combos, Rondas & Alitas Festín",
+          subtitle: "Los combos más pedidos para compartir entre amigos con más de 31 salsas artesanales",
+          color: "#0acc80",
+          promos: [
+            { id: 0, name: "Barco Mix Weekend", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barcoMix.webp", isFeatured: true, badge: "DESTACADO 🔥" },
+            { id: 1, name: "Barquito Happy 4x2 Hour", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barquitoHarryHou.webp", isFeatured: false, badge: "HAPPY HOUR ⚡" },
+            { id: 2, name: "Carrusel de Alitas", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/carruselAlitas.webp", isFeatured: true, badge: "MÁS PEDIDO 👑" },
+            { id: 3, name: "Reyes de las Alitas (+30 Sabores)", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/reyesAlitas.webp", isFeatured: true, badge: "DESTACADO 🔥" },
+            { id: 4, name: "Ruleta de Alitas", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/ruleta.webp", isFeatured: false, badge: "FESTÍN 🎉" },
+            { id: 5, name: "Más Alitas Más Sabor", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/masAlitas.webp", isFeatured: false, badge: "SABOR PURA VIBRA" }
+          ]
+        },
+        {
+          id: "sec-burgers",
+          title: "🍔 Hamburguesas, Parrillas & Cumpleaños",
+          subtitle: "Cortes artesanales a la parrilla, burritos gigantes, combos y festejos con sorpresas",
+          color: "#FFE600",
+          promos: [
+            { id: 6, name: "Combos Parrilleros para Compartir", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/comboParrillero.webp", isFeatured: true, badge: "DESTACADO 🔥" },
+            { id: 7, name: "Listas para Conquistar Hamburguesas", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/hamburguesas.webp", isFeatured: true, badge: "MÁS PEDIDO 🍔" },
+            { id: 8, name: "Festeja tu Cumpleaños en Weekend", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumple.webp", isFeatured: true, badge: "CELEBRACIÓN 🎂" },
+            { id: 9, name: "Box Romántico Weekend", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/boxRomantico.webp", isFeatured: false, badge: "PAREJAS ❤️" },
+            { id: 10, name: "Piñata Burrito Mexicano", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/burritoMexi.webp", isFeatured: false, badge: "SABOR INTENSO" },
+            { id: 11, name: "Salchipapas Weekend", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/salchiPapas.webp", isFeatured: false, badge: "CRUJIENTE 🍟" }
+          ]
+        },
+        {
+          id: "sec-tragos",
+          title: "🍹 Tragos, Litronas & Noches de Bar",
+          subtitle: "Coctelería de autor, litronas festivas, calientitos y el mejor ambiente nocturno",
+          color: "#C900FF",
+          promos: [
+            { id: 12, name: "Litronas Weekend", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/litronas.webp", isFeatured: true, badge: "DESTACADO 🍹" },
+            { id: 13, name: "Noche de Tragos en Casa", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/nocheTragosCasa.webp", isFeatured: false, badge: "DELIVERY BAR 🛵" },
+            { id: 14, name: "Calentitos Pisco Weekend", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/calientitosPisco.webp", isFeatured: false, badge: "TRADICIÓN 🔥" },
+            { id: 15, name: "Transfusión Weekend Special", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/transfusionSangreHallowen.webp", isFeatured: true, badge: "DESTACADO 🩸" },
+            { id: 16, name: "Cerveza Artesanal - Nuevo Lanzamiento", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cervezaArtesanal.webp", isFeatured: false, badge: "EXCLUSIVO 🍺" },
+            { id: 17, name: "Broaster que te Hará Volver", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/broster.webp", isFeatured: true, badge: "DESTACADO 🍗" }
+          ]
+        },
+        {
+          id: "sec-piqueos",
+          title: "🍱 Makis, Piqueos & Bebidas Especiales",
+          subtitle: "Makis acevichados, tablas de piqueos, frappés gigantes y delivery hasta la 1:30 AM",
+          color: "#00CFFF",
+          promos: [
+            { id: 18, name: "Nueva Presentación para tus Makis", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/newPresentacionMakis.webp", isFeatured: true, badge: "DESTACADO 🍱" },
+            { id: 19, name: "Piqueos & Tequeños Weekend", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/piqueos.webp", isFeatured: false, badge: "PIQUEOS 🍢" },
+            { id: 20, name: "Agranda tu Frappé x S/ 3.99", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/promo_frappe.webp", isFeatured: true, badge: "DESTACADO 🥤" },
+            { id: 21, name: "Bubble Tea Popping Bobba", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/bubbleTea.webp", isFeatured: false, badge: "REFRESCANTE 🧋" },
+            { id: 22, name: "Navega en un Mar de Sabores", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/marSaboresDelicias.webp", isFeatured: true, badge: "DESTACADO 🚢" },
+            { id: 23, name: "Delivery hasta la 1:30 AM", src: "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/delivery1am.webp", isFeatured: true, badge: "TODO HUARMEY 🛵" }
+          ]
+        }
       ];
 
-      const grid = document.getElementById('promos-grid');
-      const lightbox = document.getElementById('promo-lightbox') || document.getElementById('lightbox-modal');
+      // Flatten list for global lightbox navigation
+      const ALL_PROMOS = SECTIONS_DATA.flatMap(s => s.promos);
+
+      const container = document.getElementById('promo-sections-container');
+      const lightbox = document.getElementById('promo-lightbox');
       const lightboxImg = document.getElementById('lightbox-img');
-      const closeBtn = document.getElementById('close-lightbox') || document.getElementById('close-modal-btn');
+      const promoTitle = document.getElementById('promo-title');
+      const promoCounter = document.getElementById('promo-counter');
+      const closeBtn = document.getElementById('close-lightbox');
       const prevBtn = document.getElementById('prev-promo-btn');
       const nextBtn = document.getElementById('next-promo-btn');
-      const counterSpan = document.getElementById('promo-counter');
       const mobileMenuBtn = document.getElementById('mobile-menu-btn');
       const closeMenuBtn = document.getElementById('close-menu-btn');
       const mobileMenu = document.getElementById('mobile-menu');
@@ -155,98 +257,128 @@
       let currentPromoIndex = 0;
 
       const updateLightbox = (index) => {
-        currentPromoIndex = (index + PROMOS.length) % PROMOS.length;
-        lightboxImg.src = PROMOS[currentPromoIndex];
-        if (counterSpan) {
-          counterSpan.textContent = `${currentPromoIndex + 1} / ${PROMOS.length}`;
-        }
+        currentPromoIndex = (index + ALL_PROMOS.length) % ALL_PROMOS.length;
+        const p = ALL_PROMOS[currentPromoIndex];
+        lightboxImg.src = p.src;
+        promoTitle.textContent = p.name;
+        promoCounter.textContent = `${currentPromoIndex + 1} / ${ALL_PROMOS.length}`;
       };
 
-      const showPrevPromo = () => {
-        updateLightbox(currentPromoIndex - 1);
+      const openLightbox = (globalIndex) => {
+        updateLightbox(globalIndex);
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+        document.body.style.overflow = 'hidden';
       };
 
-      const showNextPromo = () => {
-        updateLightbox(currentPromoIndex + 1);
-      };
-
-      // Populate Grid
-      PROMOS.forEach((src, index) => {
-        const div = document.createElement('div');
-        div.className = 'promo-card relative aspect-[4/5] rounded-2xl overflow-hidden cursor-pointer border border-[rgba(201,0,255,0.22)] bg-[#101016] group transition-all duration-300 hover:border-[rgba(201,0,255,0.55)] hover:shadow-[0_0_30px_rgba(201,0,255,0.20)]';
-        div.innerHTML = `
-          <img src="${src}" alt="Promo Weekend ${index + 1}" loading="lazy" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://via.placeholder.com/400x500?text=Promo+No+Disponible'" />
-          <div class="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-            <span class="text-white font-bold text-sm tracking-widest uppercase flex items-center gap-2">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C900FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l3-9 5 18 3-9h5"/></svg>
-              Ver Promo
-            </span>
-          </div>
-        `;
-        div.addEventListener('click', () => {
-          updateLightbox(index);
-          lightbox.classList.remove('hidden');
-          lightbox.classList.add('flex');
-          document.body.style.overflow = 'hidden';
-        });
-        grid.appendChild(div);
-      });
-
-      // Lightbox Actions
       const closeLightbox = () => {
         lightbox.classList.add('hidden');
         lightbox.classList.remove('flex');
         document.body.style.overflow = '';
       };
 
+      // Render 4 Sections with Infinite Carousels
+      SECTIONS_DATA.forEach((sec) => {
+        const secEl = document.createElement('section');
+        secEl.id = sec.id;
+        secEl.className = "rounded-3xl p-5 sm:p-7 bg-[#111116]/80 border border-white/10 shadow-2xl relative overflow-hidden";
+        
+        // Header de Sección
+        secEl.innerHTML = `
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6 border-b border-white/10 pb-4">
+            <div>
+              <h2 class="text-xl sm:text-2xl font-black uppercase text-white tracking-wide flex items-center gap-2" style="font-family: 'Space Grotesk', sans-serif;">
+                ${sec.title}
+              </h2>
+              <p class="text-xs sm:text-sm text-zinc-400 mt-1">${sec.subtitle}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full border border-white/10 bg-white/5 text-zinc-300">
+                ${sec.promos.length} Ofertas • Carrusel Infinito
+              </span>
+            </div>
+          </div>
+
+          <!-- Carrusel Contenedor con Overflow Oculto y Animación Infinita -->
+          <div class="relative overflow-hidden w-full group/carousel py-2">
+            <div class="animate-infinite-carousel flex gap-5">
+              ${[...sec.promos, ...sec.promos].map((promo, idx) => `
+                <div 
+                  class="promo-card-item flex-shrink-0 w-[240px] sm:w-[280px] aspect-[4/5] bg-[#17171f] rounded-2xl overflow-hidden border ${promo.isFeatured ? 'border-amber-400/60 shadow-[0_0_20px_rgba(245,158,11,0.25)]' : 'border-white/10'} relative cursor-pointer group"
+                  data-global-id="${promo.id}"
+                >
+                  <img 
+                    src="${promo.src}" 
+                    alt="${promo.name}" 
+                    loading="lazy" 
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                  />
+                  <div class="absolute top-3 left-3 z-10">
+                    <span class="text-[10px] font-black px-2.5 py-1 rounded-full uppercase ${promo.isFeatured ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-black shadow-lg font-black' : 'bg-black/70 text-white backdrop-blur-md border border-white/20'}">
+                      ${promo.badge}
+                    </span>
+                  </div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                    <p class="text-white font-black text-xs sm:text-sm uppercase drop-shadow-md mb-1">${promo.name}</p>
+                    <span class="text-[11px] font-bold text-[#0acc80] flex items-center gap-1">
+                      🔍 Toca para ampliar
+                    </span>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+
+        container.appendChild(secEl);
+      });
+
+      // Attach click events on promo cards
+      document.addEventListener('click', (e) => {
+        const card = e.target.closest('.promo-card-item');
+        if (card && card.dataset.globalId !== undefined) {
+          const globalId = parseInt(card.dataset.globalId, 10);
+          const foundIdx = ALL_PROMOS.findIndex(p => p.id === globalId);
+          if (foundIdx !== -1) {
+            openLightbox(foundIdx);
+          }
+        }
+      });
+
+      // Lightbox Controls
       if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-      if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); showPrevPromo(); });
-      if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); showNextPromo(); });
+      if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); updateLightbox(currentPromoIndex - 1); });
+      if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); updateLightbox(currentPromoIndex + 1); });
 
       lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox || e.target.id === 'promo-lightbox' || e.target.id === 'lightbox-modal') {
+        if (e.target === lightbox || e.target.id === 'promo-lightbox') {
           closeLightbox();
         }
       });
 
       document.addEventListener('keydown', (e) => {
         if (lightbox.classList.contains('hidden')) return;
-        if (e.key === 'ArrowLeft') {
-          showPrevPromo();
-        } else if (e.key === 'ArrowRight') {
-          showNextPromo();
-        } else if (e.key === 'Escape') {
-          closeLightbox();
-        }
+        if (e.key === 'ArrowLeft') updateLightbox(currentPromoIndex - 1);
+        if (e.key === 'ArrowRight') updateLightbox(currentPromoIndex + 1);
+        if (e.key === 'Escape') closeLightbox();
       });
 
-      // Touch / Swipe Gestures
+      // Swipe / Touch for Lightbox
       let touchStartX = 0;
       let touchEndX = 0;
-
-      lightbox.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-      }, { passive: true });
-
+      lightbox.addEventListener('touchstart', (e) => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
       lightbox.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
         const diffX = touchEndX - touchStartX;
         if (Math.abs(diffX) > 40) {
-          if (diffX < 0) {
-            showNextPromo();
-          } else {
-            showPrevPromo();
-          }
+          if (diffX < 0) updateLightbox(currentPromoIndex + 1);
+          else updateLightbox(currentPromoIndex - 1);
         }
       }, { passive: true });
 
-      // Mobile Menu Actions
-      mobileMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.remove('hidden');
-      });
-      closeMenuBtn.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-      });
+      // Mobile Menu Toggle
+      if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', () => { mobileMenu.classList.remove('hidden'); });
+      if (closeMenuBtn) closeMenuBtn.addEventListener('click', () => { mobileMenu.classList.add('hidden'); });
     </script>
   </div>
 </body>

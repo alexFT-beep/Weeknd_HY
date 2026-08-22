@@ -24,23 +24,20 @@ export class CalculateTotalsUseCase {
       }
     }
 
-    let packagingFee = 0;
-    const packagingDetails = [];
-    const packagingOptions = await this.menuRepository.getPackagingOptions();
+    const itemCount = items.reduce((acc, ci) => acc + ci.quantity, 0);
 
-    for (const opt of packagingOptions) {
-      const qty = packagingSelections[opt.id] || 0;
-      if (qty > 0) {
-        const itemTotal = opt.price * qty;
-        packagingFee += itemTotal;
-        packagingDetails.push({
-          id: opt.id,
-          name: opt.name,
-          price: opt.price,
-          quantity: qty,
-          total: itemTotal
-        });
-      }
+    // Regla de empaques: S/ 1.00 por cada plato a la carta o envase de bebida
+    let packagingFee = itemCount * 1.00;
+    const packagingDetails = [];
+
+    if (itemCount > 0) {
+      packagingDetails.push({
+        id: 'tapers-envases',
+        name: 'Tápers y Envases (+S/ 1.00 c/u)',
+        price: 1.00,
+        quantity: itemCount,
+        total: packagingFee
+      });
     }
 
     const grandTotal = subtotal + deliveryFee + packagingFee;
@@ -52,7 +49,11 @@ export class CalculateTotalsUseCase {
       packagingFee,
       packagingDetails,
       grandTotal,
-      itemCount: items.reduce((acc, ci) => acc + ci.quantity, 0)
+      itemCount,
+      formattedSubtotal: `S/ ${subtotal.toFixed(2)}`,
+      formattedPackagingFee: `S/ ${packagingFee.toFixed(2)}`,
+      formattedDeliveryFee: `S/ ${deliveryFee.toFixed(2)}`,
+      formattedGrandTotal: `S/ ${grandTotal.toFixed(2)}`
     };
   }
 }

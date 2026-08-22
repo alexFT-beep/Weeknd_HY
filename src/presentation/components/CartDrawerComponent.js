@@ -228,19 +228,49 @@ export class CartDrawerComponent {
         <!-- Footer / Checkout Actions -->
         ${hasItems ? `
           <div class="p-4 sm:p-5 border-t border-zinc-800 bg-[#18181b] space-y-3">
-            <!-- Price Breakdown -->
-            <div class="space-y-1 text-xs">
-              <div class="flex justify-between text-zinc-400">
-                <span>Subtotal Platos:</span>
+            <!-- Weekend Vibe Progression Bar -->
+            <div class="bg-gradient-to-r from-amber-500/10 via-purple-500/10 to-primary/10 border border-primary/30 rounded-xl p-3 space-y-1.5 shadow-sm">
+              <div class="flex justify-between items-center text-[11px] font-bold">
+                <span class="text-white flex items-center gap-1.5">
+                  <span class="text-amber-400">🔥</span> Weekend Vibe Meter:
+                </span>
+                <span class="text-primary font-mono font-black">
+                  ${totals.subtotal >= 80 ? '🎉 ¡NIVEL MÁXIMO! Regalo VIP' : totals.subtotal >= 40 ? '🎁 ¡Salsa Especial Desbloqueada!' : `Faltan S/ ${(40 - totals.subtotal).toFixed(2)} p/ Extra`}
+                </span>
+              </div>
+              <div class="w-full bg-black/60 rounded-full h-2 overflow-hidden border border-white/10">
+                <div 
+                  class="bg-gradient-to-r from-amber-400 via-purple-500 to-primary h-full rounded-full transition-all duration-500"
+                  style="width: ${Math.min(100, Math.round((totals.subtotal / 80) * 100))}%"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Price Breakdown (Estilo Comanda Artesanal) -->
+            <div class="space-y-1.5 text-xs bg-black/40 border border-zinc-800/90 rounded-xl p-3.5">
+              <div class="flex justify-between text-zinc-300">
+                <span>Subtotal Platos y Bebidas:</span>
                 <span class="font-price-display text-white font-bold">S/ ${totals.subtotal.toFixed(2)}</span>
               </div>
+              ${totals.packagingFee > 0 ? `
+                <div class="flex justify-between text-zinc-300">
+                  <span class="flex items-center gap-1.5">
+                    <span class="text-amber-400">🥡</span>
+                    <span>Tápers y Envases (+S/ 1.00 c/u):</span>
+                  </span>
+                  <span class="font-price-display text-amber-400 font-bold">+ S/ ${totals.packagingFee.toFixed(2)}</span>
+                </div>
+              ` : ''}
               ${orderType === "delivery" && totals.deliveryFee > 0 ? `
-                <div class="flex justify-between text-zinc-400">
-                  <span>Delivery (${totals.selectedZone ? totals.selectedZone.name : ""}):</span>
+                <div class="flex justify-between text-zinc-300">
+                  <span class="flex items-center gap-1.5">
+                    <span class="text-primary">🛵</span>
+                    <span>Delivery (${totals.selectedZone ? totals.selectedZone.name : "Huarmey"}):</span>
+                  </span>
                   <span class="font-price-display text-primary font-bold">+ S/ ${totals.deliveryFee.toFixed(2)}</span>
                 </div>
               ` : ""}
-              <div class="flex justify-between items-center pt-2 border-t border-zinc-800 text-sm sm:text-base font-black">
+              <div class="flex justify-between items-center pt-2.5 mt-1 border-t border-zinc-800 text-sm sm:text-base font-black">
                 <span class="text-white uppercase tracking-tight">Total a Pagar:</span>
                 <span class="font-price-display text-primary text-xl sm:text-2xl font-black">
                   S/ ${totals.grandTotal.toFixed(2)}
@@ -248,11 +278,11 @@ export class CartDrawerComponent {
               </div>
             </div>
 
-            <!-- WhatsApp Checkout Button -->
+            <!-- WhatsApp Checkout Button con brillo metálico -->
             <button
               type="button"
               data-action="submit-whatsapp-order"
-              class="w-full bg-primary hover:bg-primary-container text-black font-black uppercase py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(10,204,128,0.4)] active:scale-[0.98] transition-all text-xs sm:text-sm tracking-wider"
+              class="w-full bg-primary hover:bg-white text-black font-black uppercase py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(10,204,128,0.5)] active:scale-[0.98] transition-all text-xs sm:text-sm tracking-wider cursor-pointer"
               aria-label="${orderType === 'reserva' ? 'Enviar reserva por WhatsApp' : 'Enviar pedido por WhatsApp'}"
             >
               <span class="material-symbols-outlined text-xl">chat</span>

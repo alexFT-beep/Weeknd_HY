@@ -267,10 +267,10 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-xs text-gray-300 bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl w-full md:w-auto justify-between md:justify-start">
-            <span className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-weekend-neon" />
-              <span>Sin recargos por toppers</span>
+          <div className="flex items-center gap-2 text-xs text-amber-300 bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-xl w-full md:w-auto justify-between md:justify-start">
+            <span className="flex items-center gap-1.5 font-semibold">
+              <ShieldCheck className="w-4 h-4 text-amber-400" />
+              <span>Tápers y envases: +S/ 1.00 por plato/bebida</span>
             </span>
           </div>
         </div>

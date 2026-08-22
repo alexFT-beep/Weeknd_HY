@@ -206,28 +206,28 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
           </div>
         </div>
 
-        {/* HEADER SECTION */}
+        {/* HEADER SECTION (ULTRA LLAMATIVO ¡SÍGUENOS!) */}
         <header className="text-center mb-10 space-y-4">
           {/* Super Header Badge */}
-          <div className="inline-flex items-center justify-center gap-3 px-4 py-1.5 rounded-full bg-[#00ff88]/10 border border-[#00ff88]/20 text-[11px] font-bold tracking-[0.2em] text-[#00ff88] uppercase">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Nuestras Redes Oficiales</span>
-            <Flame className="w-3.5 h-3.5 text-amber-400" />
+          <div className="inline-flex items-center justify-center gap-3 px-5 py-2 rounded-full bg-gradient-to-r from-[#00ff88]/20 via-amber-500/20 to-purple-500/20 border border-[#00ff88]/40 text-xs font-black tracking-[0.25em] text-[#00ff88] uppercase shadow-[0_0_20px_rgba(0,255,136,0.3)] animate-pulse">
+            <Sparkles className="w-4 h-4 text-amber-300" />
+            <span>¡SÍGUENOS EN REDES OFICIALES!</span>
+            <Flame className="w-4 h-4 text-amber-400" />
           </div>
 
           {/* Main Title */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold flex items-center justify-center gap-3 flex-wrap tracking-tight text-white">
-            <span className="drop-shadow-lg">📸</span>
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-zinc-100 to-zinc-400">
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black flex items-center justify-center gap-3 flex-wrap tracking-tight text-white">
+            <span className="drop-shadow-lg text-amber-400">📸</span>
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#00ff88] via-white to-amber-300 drop-shadow-[0_0_35px_rgba(0,255,136,0.4)]">
               @weekend_huarmey
             </span>
-            <span className="drop-shadow-lg">🎵</span>
+            <span className="drop-shadow-lg text-purple-400">🎵</span>
           </h1>
 
           {/* Subtext */}
-          <p className="text-[#888888] max-w-2xl mx-auto text-xs sm:text-sm font-light tracking-wide leading-relaxed">
-            Vive la experiencia antes de llegar. Toca el <span className="text-white font-bold">🤍</span> para sincronizar
-            likes y explorar nuestros momentos virales <span className="text-white">🎬✨</span>
+          <p className="text-zinc-300 max-w-2xl mx-auto text-xs sm:text-sm font-medium tracking-wide leading-relaxed">
+            🍹 Vive la experiencia antes de llegar. Toca el <span className="text-rose-500 font-bold">❤️</span> para sincronizar
+            likes y explorar nuestros mejores momentos virales y novedades <span className="text-white">🎬✨</span>
           </p>
         </header>
 

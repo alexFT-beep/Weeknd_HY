@@ -234,3 +234,24 @@ input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear
   }
 }
 
+/* Metallic Shine Hover Effect */
+.btn-metallic {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-metallic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transition: all 0.6s ease;
+}
+.btn-metallic:hover::before {
+  left: 150%;
+}
+
+

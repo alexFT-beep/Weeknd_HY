@@ -23,12 +23,22 @@ import CAPY_KAME from '../../assets/capybaras/capybara_kamehameha_pose_VECTOR.pn
 import CAPY_HERO from '../../assets/capybaras/superhero_capibara_landing_VECTOR.png';
 
 const NAV_LINKS = [
-  { name: 'Inicio', href: '#inicio' },
-  { name: 'Promociones', href: '#promociones' },
-  { name: 'Carta', href: '#carta-digital' },
-  { name: 'Reserva', href: '#reserva' },
-  { name: 'Ubicación', href: '#ubicacion' },
-  { name: 'Redes', href: '#redes' },
+  { name: 'Inicio', href: '#inicio', type: 'inicio' },
+  { name: 'Promociones', href: 'promociones.html', type: 'promociones' },
+  { name: 'Carta', href: '#carta-digital', type: 'carta' },
+  { name: 'Reserva', href: '#reserva', type: 'reserva' },
+  { name: 'Ubicación', href: '#ubicacion', type: 'ubicacion' },
+  { name: 'Redes', href: '#redes', type: 'redes' },
+];
+
+const MOBILE_NAV_LINKS = [
+  { name: 'INICIO', href: '#inicio', type: 'inicio' },
+  { name: 'CARTA', href: '#carta-digital', type: 'carta' },
+  { name: 'RESERVA', href: '#reserva', type: 'reserva' },
+  { name: 'DELIVERYS', href: '#delivery', type: 'delivery' },
+  { name: 'DESTACADOS', href: 'promociones.html', type: 'destacados' },
+  { name: 'SÍGUENOS', href: '#redes', type: 'siguenos' },
+  { name: 'UBICACIÓN', href: '#ubicacion', type: 'ubicacion' },
 ];
 
 const PROMOS = [
@@ -1066,24 +1076,47 @@ export default function App() {
   // LANDING PAGE VIEW (Página Principal)
   // ----------------------------------------------------
 
-  const handleNavClick = (e: React.MouseEvent, link: typeof NAV_LINKS[number]) => {
-    // Módulo VER CARTA DIGITAL: redirección intacta
-    if (link.name === 'Carta') {
+  const handleNavClick = (e: React.MouseEvent, link: typeof NAV_LINKS[number] | typeof MOBILE_NAV_LINKS[number]) => {
+    if (link.name === 'Carta' || link.name === 'CARTA') {
       e.preventDefault();
       goToDashboard();
       setIsOpen(false);
       return;
     }
-    if (link.name === 'Redes') {
+    if (link.name === 'Redes' || link.name === 'SÍGUENOS') {
       e.preventDefault();
       goToSocial();
       setIsOpen(false);
       return;
     }
-    if (link.name === 'Reserva') {
+    if (link.name === 'Reserva' || link.name === 'RESERVA') {
       e.preventDefault();
       goToReservation();
       setIsOpen(false);
+      return;
+    }
+    if (link.name === 'DELIVERYS') {
+      e.preventDefault();
+      handleDelivery();
+      setIsOpen(false);
+      return;
+    }
+    if (link.name === 'Promociones' || link.name === 'DESTACADOS') {
+      setIsOpen(false);
+      // Opens dedicated promociones page
+      window.location.href = 'promociones.html';
+      return;
+    }
+    if (link.name === 'Inicio' || link.name === 'INICIO') {
+      e.preventDefault();
+      goToLanding();
+      setIsOpen(false);
+      return;
+    }
+    if (link.name === 'Ubicación' || link.name === 'UBICACIÓN') {
+      setIsOpen(false);
+      const el = document.getElementById('ubicacion');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
       return;
     }
     setIsOpen(false);
@@ -1138,7 +1171,7 @@ export default function App() {
             <button
               type="button"
               data-action="open-cart"
-              className="relative text-black font-bold bg-weekend-neon hover:bg-weekend-purple hover:text-white transition-all active:scale-95 duration-150 px-3 py-2 rounded-full flex items-center gap-1.5 text-xs uppercase"
+              className="relative text-black font-bold bg-weekend-neon hover:bg-weekend-purple hover:text-white transition-all active:scale-95 duration-150 px-3 py-2 rounded-full flex items-center gap-1.5 text-xs uppercase cursor-pointer"
               title="Ver Carrito"
               aria-label="Ver Carrito"
             >
@@ -1151,7 +1184,7 @@ export default function App() {
             <button
               type="button"
               onClick={goToDashboard}
-              className="hidden sm:inline-flex items-center gap-2 bg-weekend-neon text-black font-extrabold uppercase tracking-widest text-xs px-5 py-2.5 rounded-full hover:bg-white transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)]"
+              className="hidden sm:inline-flex items-center gap-2 bg-weekend-neon text-black font-extrabold uppercase tracking-widest text-xs px-5 py-2.5 rounded-full hover:bg-white transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)] cursor-pointer"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               aria-label="Ver menú virtual"
             >
@@ -1159,7 +1192,7 @@ export default function App() {
             </button>
 
             <button
-              className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-weekend-neon' : 'text-white'}`}
+              className={`lg:hidden p-2 transition-colors duration-500 z-50 cursor-pointer ${isOpen ? 'text-weekend-neon' : 'text-white'}`}
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Menú"
             >
@@ -1171,7 +1204,7 @@ export default function App() {
         </div>
       </header>
 
-      {/* Menú móvil (overlay) */}
+      {/* Menú móvil (overlay con el orden estricto solicitado) */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -1179,50 +1212,53 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-6 landscape:gap-4 md:hidden overflow-y-auto"
+            className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-5 landscape:gap-3 md:hidden overflow-y-auto"
           >
-            {/* Fondo de Pantalla Móvil con Filtro Oscuro */}
+            {/* Fondo de Pantalla Móvil con Filtro Oscuro Rústico */}
             <div className="absolute inset-0 z-0">
               <img
                 src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp"
                 alt="Fondo Menú"
-                className="w-full h-full object-cover opacity-30 grayscale contrast-125 brightness-75"
+                className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/90 via-[#050505]/85 to-[#0A0A0F]/95" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#08080a]/95 via-[#0e0e12]/90 to-[#050508]/98" />
             </div>
 
-            <div className="relative z-10 flex flex-col items-center gap-6 landscape:gap-3 py-10">
-              {NAV_LINKS.map((link) => (
+            <div className="relative z-10 flex flex-col items-center gap-4 landscape:gap-2 py-8 w-full max-w-xs px-4">
+              {MOBILE_NAV_LINKS.map((link) => (
                 <motion.a
-                  key={link.name} href={link.href}
-                  whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
+                  key={link.name} 
+                  href={link.href}
+                  whileHover={{ scale: 1.08 }} 
+                  whileTap={{ scale: 0.92 }}
                   onClick={(e) => handleNavClick(e, link)}
-                  className="text-xl landscape:text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300"
+                  className="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-white hover:text-weekend-neon active:text-weekend-neon transition-colors duration-200 border-b border-white/5"
+                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
                   {link.name}
                 </motion.a>
               ))}
               <button
                 onClick={goToDashboard}
-                className="mt-4 px-8 py-3 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full text-sm text-center active:scale-95 transition-transform"
+                className="mt-3 w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-widest rounded-2xl text-xs text-center active:scale-95 transition-transform shadow-[0_0_20px_rgba(10,204,128,0.4)] cursor-pointer"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
-                Ver Menú Virtual
+                🔥 Pide tu Weekend (Carta Digital)
               </button>
             </div>
 
-            <div className="absolute bottom-8 landscape:hidden left-0 w-full text-center z-10">
-              <p className="text-white font-black text-xl uppercase tracking-[0.3em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKND!</p>
+            <div className="absolute bottom-6 landscape:hidden left-0 w-full text-center z-10">
+              <p className="text-white/40 font-black text-sm uppercase tracking-[0.3em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKND! - HUARMEY</p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ============ HERO COMPACTO ============ */}
+      {/* ============ HERO COMPACTO (ESTILO RÚSTICO & FIESTA) ============ */}
       <section id="inicio" className="relative min-h-[86vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
-        {/* Fondo adaptativo: Imagen sólo en mobile/tablet (block lg:hidden), degradado neón en desktop (hidden lg:block) */}
-        <div className="absolute inset-0 z-0 bg-[#050505]">
+        {/* Fondo adaptativo: Carbón mate, madera ahumada y degradados cálidos */}
+        <div className="absolute inset-0 z-0 bg-[#08080a]">
           {/* Fondo Móvil y Tablet exclusivo */}
           <div className="block lg:hidden absolute inset-0 z-0">
             <img
@@ -1231,15 +1267,15 @@ export default function App() {
               className="w-full h-full object-cover opacity-35 grayscale contrast-125 brightness-75"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-[#050505]/70 to-[#050505]/95" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#08080a]/85 via-[#08080a]/75 to-[#08080a]/98" />
           </div>
 
-          {/* Degradado Neón en Desktop */}
+          {/* Degradado Neón y Acentos Terrosos en Desktop */}
           <div className="hidden lg:block absolute inset-0">
-            <div className="absolute inset-0 bg-gradient-to-b from-weekend-neon/[0.06] via-black to-black" />
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[42rem] h-[42rem] rounded-full bg-weekend-neon/[0.06] blur-3xl pulse-glow pointer-events-none" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pointer-events-none" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/[0.07] pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-weekend-neon/[0.07] via-black to-[#08080a]" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[44rem] h-[44rem] rounded-full bg-weekend-neon/[0.06] blur-3xl pulse-glow pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[28rem] h-[28rem] rounded-full border border-weekend-neon/10 pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-amber-500/[0.08] pointer-events-none" />
           </div>
         </div>
 
@@ -1256,9 +1292,9 @@ export default function App() {
 
         <div className="relative z-10 max-w-3xl mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <h2 className="text-weekend-neon font-bold tracking-[0.3em] uppercase text-xs md:text-sm mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              Restobar &amp; Lounge - Huarmey
-            </h2>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-black uppercase tracking-[0.25em] mb-4">
+              <span>🔥</span> Restobar &amp; Lounge - Huarmey <span>🎸</span>
+            </div>
           </motion.div>
 
           <motion.h1
@@ -1266,27 +1302,27 @@ export default function App() {
             className="text-4xl md:text-7xl font-black uppercase tracking-tight text-white mb-5"
             style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
-            Donde la noche <span className="text-weekend-neon">cobra vida</span>
+            Donde la noche <span className="text-transparent bg-clip-text bg-gradient-to-r from-weekend-neon via-emerald-400 to-amber-300" style={{ textShadow: '0 0 35px rgba(10,204,128,0.4)' }}>cobra vida</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-base md:text-lg text-white/70 mb-10 max-w-xl mx-auto font-medium"
+            className="text-base md:text-lg text-white/80 mb-10 max-w-xl mx-auto font-medium leading-relaxed"
           >
-            Tu fin de semana empieza aquí. Sofisticado y casual a la vez: la noche fina que se deja llevar.
+            Tu fin de semana empieza aquí: alitas en 31 salsas artesanales, hamburguesas gourmet a la parrilla, makis y coctelería con pura vibra fiesta.
           </motion.p>
 
-          {/* CTA ÚNICO central y destacado */}
+          {/* Botón Pide tu Weekend con brillo metálico y neón */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.4 }}
             className="flex justify-center"
           >
             <button
               onClick={goToDashboard}
-              className="group inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(10,204,128,0.5)] active:scale-95 text-sm md:text-base text-center"
+              className="group inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-weekend-neon to-emerald-400 text-black font-black uppercase tracking-widest rounded-full hover:bg-white hover:text-black transition-all duration-300 shadow-[0_0_35px_rgba(10,204,128,0.55)] active:scale-95 text-sm md:text-base text-center cursor-pointer border border-white/20"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Ver menú virtual - Reservas &amp; Delivery
-              <ChevronRight className="group-hover:translate-x-1 transition-transform" />
+              <span>🔥 Pide tu Weekend - Menú &amp; Delivery</span>
+              <ChevronRight className="group-hover:translate-x-1.5 transition-transform" />
             </button>
           </motion.div>
         </div>
