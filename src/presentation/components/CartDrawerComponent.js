@@ -90,7 +90,7 @@ export class CartDrawerComponent {
               <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-2">
                 📋 Modalidad de Atención
               </label>
-              <div class="grid grid-cols-3 gap-1.5">
+              <div class="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   data-action="set-order-type"
@@ -99,15 +99,6 @@ export class CartDrawerComponent {
                   aria-label="Seleccionar Delivery"
                 >
                   <span>🛵 Delivery</span>
-                </button>
-                <button
-                  type="button"
-                  data-action="set-order-type"
-                  data-type="salon"
-                  class="py-2.5 px-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase transition-all flex items-center justify-center gap-1 ${orderType === "salon" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
-                  aria-label="Seleccionar En Salón"
-                >
-                  <span>🍽️ En Salón</span>
                 </button>
                 <button
                   type="button"
@@ -194,15 +185,15 @@ export class CartDrawerComponent {
               </div>
             </div>
 
-            <!-- Nota de Aviso para Reservas / En Salón -->
-            ${(orderType === "reserva" || orderType === "salon") ? `
+            <!-- Nota de Aviso para Reservas -->
+            ${orderType === "reserva" ? `
               <div class="bg-primary/10 border border-primary/40 rounded-xl p-3.5 space-y-2 text-zinc-200">
                 <div class="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-wide">
                   <span class="material-symbols-outlined text-base">info</span>
-                  <span>📌 ${orderType === "salon" ? "NOTA DE AVISO (EN SALÓN):" : "NOTA DE AVISO PARA RESERVAS:"}</span>
+                  <span>📌 NOTA DE AVISO PARA RESERVAS:</span>
                 </div>
                 <p class="text-[11px] text-zinc-300 leading-relaxed">
-                  Al enviar tu ${orderType === "salon" ? "pedido" : "solicitud"} por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en The Weekend Huarmey.
+                  Al enviar tu solicitud por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en The Weekend Huarmey.
                 </p>
                 <div class="pt-2 border-t border-primary/20 space-y-1.5 text-[11px] leading-relaxed text-zinc-300">
                   <p class="flex items-start gap-1.5">
@@ -245,15 +236,6 @@ export class CartDrawerComponent {
                       type="text" 
                       id="order-reference" 
                       placeholder="Referencia de ubicación (ej: al frente de sanny)" 
-                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
-                    />
-                  </div>
-                ` : orderType === "salon" ? `
-                  <div>
-                    <input 
-                      type="text" 
-                      id="order-table-number" 
-                      placeholder="Número de Mesa *" 
                       class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
                     />
                   </div>
