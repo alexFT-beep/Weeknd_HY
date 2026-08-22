@@ -84,14 +84,38 @@
   --shadow-primary-strong-new: 0 0 40px rgba(201, 0, 255, 0.35);
 }
 
-/* Isolate Redesign Styles specifically for Landing Page */
+:root {
+  /* Surface Dark Base */
+  --color-background: #050505;
+  --color-background-secondary: #0A0A0F;
+  --color-surface: #101016;
+
+  /* Primary Logo Colors */
+  --color-primary-purple: #C900FF;    /* Dominant brand purple */
+  --color-secondary-magenta: #F000D9; /* Primary magenta glow */
+
+  /* Secondary Accent Palette */
+  --color-accent-cyan: #00CFFF;       /* Modernity / Interactive elements */
+  --color-accent-green: #00E968;      /* Reservations / Positive CTAs / WhatsApp */
+  --color-accent-orange: #FF6A00;     /* Promos / Culinary highlights */
+  --color-accent-gold: #FFC928;       /* VIP details / Premium badges */
+
+  /* Text Hierarchy */
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #B8B8C2;
+}
+
+/* Isolate Redesign Styles specifically for Landing Page, Promotions, and Social Media Sections */
+.home-page,
+.promotions-page,
+.social-section,
 body.theme-premium-night header,
-body.theme-premium-night section,
+body.theme-premium-night section:not(#carta-digital),
 body.theme-premium-night footer#contacto {
-  --color-weekend-neon: var(--color-primary-new);
-  --color-weekend-purple: var(--color-cyan-new);
-  --color-weekend-fuchsia: var(--color-primary-light-new);
-  --color-background: var(--color-background-new);
+  --color-weekend-neon: var(--color-primary-purple);
+  --color-weekend-purple: var(--color-accent-cyan);
+  --color-weekend-fuchsia: var(--color-secondary-magenta);
+  --color-background: var(--color-background);
 }
 
 body.theme-premium-night header .neon-glow,
@@ -215,3 +239,55 @@ input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear
 .promo-modal {
   z-index: 100;
 }
+
+/* === Lightbox Gallery Carousel Navigation === */
+.lightbox-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 9999px;
+  background-color: rgba(16, 16, 22, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 0, 255, 0.3);
+  color: #F5F5F5;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 15px rgba(201, 0, 255, 0.2);
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.lightbox-nav-btn:hover {
+  background-color: rgba(21, 21, 29, 0.9);
+  border-color: #C900FF;
+  color: #FFFFFF;
+  box-shadow: 0 0 25px rgba(201, 0, 255, 0.6), 0 0 10px rgba(201, 0, 255, 0.4);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-nav-btn:active {
+  border-color: #00CFFF;
+  color: #00CFFF;
+  box-shadow: 0 0 30px rgba(0, 207, 255, 0.8), 0 0 15px rgba(0, 207, 255, 0.5);
+  transform: translateY(-50%) scale(0.95);
+}
+
+.lightbox-nav-btn:focus-visible {
+  outline: 2px solid #00CFFF;
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .lightbox-nav-btn {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+

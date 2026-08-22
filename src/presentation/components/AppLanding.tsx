@@ -23,7 +23,7 @@ import CAPY_HERO from '../../assets/capybaras/superhero_capibara_landing_VECTOR.
 
 const NAV_LINKS = [
   { name: 'Inicio', href: '#inicio' },
-  { name: 'Promociones', href: '#promociones' },
+  { name: 'Promociones', href: 'promociones.html' },
   { name: 'Carta', href: '#carta-digital' },
   { name: 'Reserva', href: '#reserva' },
   { name: 'Ubicación', href: '#ubicacion' },
@@ -557,7 +557,7 @@ function SocialFeed({ platform }: { platform: typeof PLATFORMS_DATA[number] }) {
 // =========================================================
 function SocialSection() {
   return (
-    <section id="redes" className="py-14 relative overflow-hidden border-t border-white/5 bg-black">
+    <section id="redes" className="py-14 relative overflow-hidden border-t border-white/5 bg-black social-section">
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#0acc80]/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-[#0acc80]/8 rounded-full blur-3xl pointer-events-none" />
 
@@ -837,7 +837,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen font-sans selection:bg-weekend-neon selection:text-black">
+    <div className="min-h-screen font-sans selection:bg-[#C900FF] selection:text-white home-page bg-[#050505] text-[#F5F5F5]">
       {/* ============ HEADER ============ */}
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
