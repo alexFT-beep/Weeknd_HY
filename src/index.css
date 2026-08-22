@@ -51,10 +51,6 @@
   --color-weekend-neon: #0acc80;
   --color-weekend-purple: #08a063;
   --color-weekend-fuchsia: #d7d4d4;
-
-  --color-weekend-purple: #08a063;
-  --color-weekend-neon: #0acc80;
-  --color-weekend-fuchsia: #d7d4d4;
   --color-weekend-surface: #131313;
   --color-weekend-surface-dim: #0e0e0e;
   --color-weekend-surface-elevated: #1a1a1a;
@@ -62,6 +58,23 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Target Design Token System --- */
+  --color-bg-dark: #1B1C1D;
+  --color-capybara-light: #F4A936;
+  --color-capybara-dark: #A2511E;
+  --color-shirt-pink: #EA2A81;
+  --color-ribbon-purple: #B11F9E;
+  --color-outline-purple: #9011C5;
+  --color-outline-cyan: #08D383;
+  --color-burger-yellow: #E0B738;
+  --color-burger-green: #4BA11F;
+  --color-guitar-brown: #765338;
+  --color-dark-strap: #2F3134;
+  --color-text-white: #FFFFFF;
+  --color-weekend-gold: #F4A936;
+  --color-weekend-green: #4BA11F;
+  --color-weekend-cyan: #08D383;
 
   /* --- Premium Night Restobar Redesign --- */
   --color-background-new: #050505;

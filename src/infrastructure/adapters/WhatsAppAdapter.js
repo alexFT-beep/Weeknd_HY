@@ -83,9 +83,9 @@ export class WhatsAppAdapter {
       text += `📋 *Tipo:* ${orderType === 'delivery' ? '🛵 Delivery' : `🍽️ En Salón (Mesa ${tableNumber || 'N/A'})`}\n`;
       
       if (orderType === 'delivery') {
-        text += `📍 *Zona:* ${deliveryZoneName || 'Por coordinar'}\n`;
         if (address) text += `🏠 *Dirección:* ${address}\n`;
         if (reference) text += `📌 *Referencia:* ${reference}\n`;
+        if (deliveryZoneName) text += `📍 *Zona:* ${deliveryZoneName}\n`;
       }
 
       text += `💳 *Método de Pago:* ${paymentMethod}\n`;

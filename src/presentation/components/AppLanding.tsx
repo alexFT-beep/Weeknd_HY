@@ -980,8 +980,16 @@ export default function App() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-6 landscape:gap-4 md:hidden overflow-y-auto"
           >
-            <div className="absolute inset-0 z-0 bg-gradient-to-b from-weekend-neon/5 via-black to-black" />
-            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-weekend-neon/5 blur-3xl pulse-glow pointer-events-none" />
+            {/* Fondo de Pantalla Móvil con Filtro Oscuro */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp"
+                alt="Fondo Menú"
+                className="w-full h-full object-cover opacity-30 grayscale contrast-125 brightness-75"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/90 via-[#050505]/85 to-[#0A0A0F]/95" />
+            </div>
 
             <div className="relative z-10 flex flex-col items-center gap-6 landscape:gap-3 py-10">
               {NAV_LINKS.map((link) => (
@@ -989,14 +997,14 @@ export default function App() {
                   key={link.name} href={link.href}
                   whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
                   onClick={(e) => handleNavClick(e, link)}
-                  className="text-xl landscape:text-lg uppercase tracking-widest font-bold hover:text-weekend-neon transition-colors duration-500"
+                  className="text-xl landscape:text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300"
                 >
                   {link.name}
                 </motion.a>
               ))}
               <button
                 onClick={goToDashboard}
-                className="mt-4 px-8 py-3 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full text-sm text-center"
+                className="mt-4 px-8 py-3 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full text-sm text-center active:scale-95 transition-transform"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
                 Ver Menú Virtual
@@ -1004,21 +1012,34 @@ export default function App() {
             </div>
 
             <div className="absolute bottom-8 landscape:hidden left-0 w-full text-center z-10">
-              <p className="text-weekend-neon text-xs font-bold uppercase tracking-[0.3em] mb-1">the weekend!</p>
-              <p className="text-white/70 text-[10px] font-bold uppercase tracking-[0.4em]">- huarmey -</p>
+              <p className="text-white font-black text-xl uppercase tracking-[0.3em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKND!</p>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* ============ HERO COMPACTO (sin banners pesados) ============ */}
+      {/* ============ HERO COMPACTO ============ */}
       <section id="inicio" className="relative min-h-[86vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
-        {/* Fondo minimalista neón — sin imágenes/banners pesados */}
-        <div className="absolute inset-0 z-0 bg-black">
-          <div className="absolute inset-0 bg-gradient-to-b from-weekend-neon/[0.06] via-black to-black" />
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[42rem] h-[42rem] rounded-full bg-weekend-neon/[0.06] blur-3xl pulse-glow pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/[0.07] pointer-events-none" />
+        {/* Fondo adaptativo: Imagen sólo en mobile/tablet (block lg:hidden), degradado neón en desktop (hidden lg:block) */}
+        <div className="absolute inset-0 z-0 bg-[#050505]">
+          {/* Fondo Móvil y Tablet exclusivo */}
+          <div className="block lg:hidden absolute inset-0 z-0">
+            <img
+              src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
+              alt="Fondo Portada Móvil"
+              className="w-full h-full object-cover opacity-35 grayscale contrast-125 brightness-75"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-[#050505]/70 to-[#050505]/95" />
+          </div>
+
+          {/* Degradado Neón en Desktop */}
+          <div className="hidden lg:block absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-b from-weekend-neon/[0.06] via-black to-black" />
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[42rem] h-[42rem] rounded-full bg-weekend-neon/[0.06] blur-3xl pulse-glow pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/[0.07] pointer-events-none" />
+          </div>
         </div>
 
         {/* Capibara heroica — posición superior */}
@@ -1246,6 +1267,88 @@ export default function App() {
           </motion.div>
         </div>
       </section>
+
+      {/* ============ REDES SOCIALES ============ */}
+      <SocialSection />
+
+      {/* ============ FOOTER ============ */}
+      <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden border-t border-white/10">
+        {/* Fondo Living con Filtro Grisáceo Oscuro */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp"
+            alt="Footer Background"
+            className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-[#0A0A0F]/90" />
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+            <div className="col-span-1 lg:col-span-1">
+              <div className="flex items-center gap-3 mb-6">
+                <img
+                  src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp"
+                  alt="Logo"
+                  className="h-10 w-10 rounded-full object-cover border border-weekend-neon"
+                  referrerPolicy="no-referrer"
+                />
+                <span className="text-white font-black tracking-tighter text-xl uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKND!</span>
+              </div>
+            </div>
+
+            {/* Horario con Icono Dorado */}
+            <div>
+              <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Horario</h4>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-white/60">
+                  <Clock size={18} className="text-[#F4A936]" />
+                  <span className="text-sm">Diariamente: 5:00 PM - 3:00 AM</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Métodos de Pago con Icono Púrpura y Badges Coloreados */}
+            <div>
+              <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Métodos de Pago</h4>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-white/60">
+                  <CreditCard size={18} className="text-[#B11F9E]" />
+                  <span className="text-sm">Aceptamos todos los bancos, pagos digitales y efectivo</span>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <span className="px-3 py-1 bg-[#742284] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#8f2ca2] shadow-sm">Yape</span>
+                  <span className="px-3 py-1 bg-[#00D4B2] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33e0c4] shadow-sm">Plin</span>
+                  <span className="px-3 py-1 bg-[#1A1F71] text-white rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#2b329b] shadow-sm">Visa</span>
+                  <span className="px-3 py-1 bg-[#00E968] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33ee86] shadow-sm">Efectivo</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Contacto con Iconos Magenta y Esmeralda */}
+            <div>
+              <h4 className="text-white font-bold uppercase tracking-widest text-sm mb-6" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Contacto</h4>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3 text-white/60">
+                  <Phone size={18} className="text-[#EA2A81]" />
+                  <span className="text-sm">+51 961 336 674</span>
+                </div>
+                <div className="flex items-start gap-3 text-white/60">
+                  <MapPin size={18} className="text-[#08D383] shrink-0" />
+                  <span className="text-sm">Av. Cabo 140, Huarmey 02651</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-12 border-t border-white/10 text-center">
+            <p className="text-white/40 text-xs uppercase tracking-[0.3em]">
+              &copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant.
+            </p>
+          </div>
+        </div>
+      </footer>
 
       {/* Lightbox Modal con Controles Neón */}
       <AnimatePresence>

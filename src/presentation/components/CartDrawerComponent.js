@@ -194,36 +194,6 @@ export class CartDrawerComponent {
               </div>
             </div>
 
-            <!-- Delivery Zone Selection (Clean, Intuitive Cards) -->
-            ${orderType === "delivery" ? `
-              <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-3.5 space-y-2.5">
-                <div class="flex items-center justify-between">
-                  <label class="text-xs font-bold text-white uppercase tracking-wide flex items-center gap-1.5">
-                    <span>📍 Zona de Delivery (Huarmey)</span>
-                  </label>
-                  <span class="text-[10px] text-zinc-400">Elige tu zona</span>
-                </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  ${deliveryZones.map(zone => {
-                    const isSelected = selectedDeliveryZoneId === zone.id;
-                    return `
-                      <button 
-                        type="button"
-                        data-action="select-delivery-zone"
-                        data-zone-id="${zone.id}"
-                        class="p-2.5 rounded-xl border text-left flex flex-col justify-between transition-all text-xs active:scale-95 ${isSelected ? "bg-primary/15 border-primary text-white shadow-sm" : "bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700"}"
-                      >
-                        <span class="font-bold text-[11px] truncate mb-0.5">${zone.name}</span>
-                        <span class="font-price-display text-[11px] ${isSelected ? "text-primary font-black" : "text-zinc-400"}">
-                          + S/ ${zone.fee.toFixed(2)}
-                        </span>
-                      </button>
-                    `;
-                  }).join("")}
-                </div>
-              </div>
-            ` : ""}
-
             <!-- Nota de Aviso para Reservas / En Salón -->
             ${(orderType === "reserva" || orderType === "salon") ? `
               <div class="bg-primary/10 border border-primary/40 rounded-xl p-3.5 space-y-2 text-zinc-200">
