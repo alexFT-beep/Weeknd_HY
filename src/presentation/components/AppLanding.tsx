@@ -1268,9 +1268,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* ============ REDES SOCIALES ============ */}
-      <SocialSection />
-
       {/* ============ FOOTER ============ */}
       <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden border-t border-white/10">
         {/* Fondo Living con Filtro Grisáceo Oscuro */}
