@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { SECTION_THEMES } from './ProductCardComponent.js';
-import { Plus, ChevronDown, Sparkles, ShieldCheck, Truck, Check, Eye, EyeOff } from 'lucide-react';
+import { Plus, ChevronDown, Sparkles, ShieldCheck, Check, Eye, EyeOff } from 'lucide-react';
 import { MENU_CATEGORIES, FULL_MENU_ITEMS } from '../../infrastructure/data/fullMenuData.js';
 
 interface Category {
@@ -402,8 +402,25 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
         <div className="absolute top-0 right-0 w-32 h-32 bg-weekend-neon/5 rounded-full blur-3xl pointer-events-none"></div>
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-weekend-neon/10 border border-weekend-neon/30 flex items-center justify-center shrink-0">
-              <Truck className="w-5 h-5 text-weekend-neon" />
+            <div className="w-10 h-10 rounded-full bg-[#C900FF]/15 border border-[#C900FF]/30 flex items-center justify-center shrink-0">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                className="w-5 h-5 text-[#C900FF]"
+              >
+                <circle cx="5" cy="18" r="2.5" />
+                <circle cx="19" cy="18" r="2.5" />
+                <path d="M5 18h14" />
+                <path d="M19 18v-5h-4l-3-4H7.5V6H4" />
+                <rect x="5.5" y="9" width="5" height="5" rx="1" fill="currentColor" fillOpacity="0.2" />
+                <path d="M12 9h4" />
+                <path d="M16 9l1-2h2" />
+              </svg>
             </div>
             <div>
               <h4 className="text-sm font-extrabold uppercase tracking-wide text-white flex items-center gap-2">
