@@ -267,17 +267,14 @@ export class CartController {
       cardElement.classList.add('selected-active');
       setTimeout(() => {
         cardElement.classList.remove('selected-active');
-      }, 1000);
+      }, 600);
     }
 
-    // 4. Flying particle towards cart target
-    this.triggerFlyingParticle(buttonElement || cardElement);
-
-    // 5. Update floating cart widget and bounce cart icons
+    // 4. Update floating cart widget and bounce cart icons
     await this.updateCartWidgets();
     this.animateCartIcons();
 
-    // 6. Toast Notification
+    // 5. Toast Notification
     this.toast.show(`¡"${menuItem.name}" añadido al carrito!`, 'success');
   }
 

@@ -22,7 +22,7 @@ const VIDEO_POSTS: VideoPost[] = [
   {
     id: 'turbo_mami',
     title: '🍗 Metele turbo mami',
-    subtitle: '576 x 1024 • Video Oficial',
+    subtitle: 'Video Oficial',
     category: 'Humor / Meseros',
     videoSrc: '/videos/video_turbo_mami.webm#t=0.1',
     views: 1420,
@@ -34,7 +34,7 @@ const VIDEO_POSTS: VideoPost[] = [
   {
     id: 'oe_como_es',
     title: '🎂 Oe como es? Pide nomás',
-    subtitle: '576 x 1024 • Delivery & Fiesta',
+    subtitle: 'Delivery & Fiesta',
     category: 'Humor / Delivery',
     videoSrc: '/videos/video_oe_como_es.webm#t=0.1',
     views: 3180,
@@ -46,7 +46,7 @@ const VIDEO_POSTS: VideoPost[] = [
   {
     id: 'cocteleria',
     title: '🍸 Coctelería de Autor',
-    subtitle: '1080 x 1920 • Bar & Drinks',
+    subtitle: 'Bar & Drinks',
     category: 'Tragos / Bar',
     videoSrc: '/videos/video_cocteleria.webm#t=0.1',
     views: 890,
@@ -58,7 +58,7 @@ const VIDEO_POSTS: VideoPost[] = [
   {
     id: 'alitas',
     title: '🍗 Broaster & Alitas Weekend',
-    subtitle: '1080 x 1920 • Crujientes',
+    subtitle: 'Crujientes',
     category: 'Carta / Gastronomía',
     videoSrc: '/videos/video_alitas.webm#t=0.1',
     views: 2150,
@@ -70,7 +70,7 @@ const VIDEO_POSTS: VideoPost[] = [
   {
     id: 'promo',
     title: '🥤 Frappés & Promociones',
-    subtitle: '1080 x 1920 • Refrescos',
+    subtitle: 'Refrescos',
     category: 'Promos / Verano',
     videoSrc: '/videos/video_promo.webm#t=0.1',
     views: 1890,
@@ -82,7 +82,7 @@ const VIDEO_POSTS: VideoPost[] = [
   {
     id: 'noche',
     title: '🌌 Ambiente & Música Weekend',
-    subtitle: '1080 x 1920 • Noches Weekend',
+    subtitle: 'Noches Weekend',
     category: 'Experiencia / Nightlife',
     videoSrc: '/videos/video_noche.webm#t=0.1',
     views: 2540,
@@ -94,7 +94,7 @@ const VIDEO_POSTS: VideoPost[] = [
   {
     id: 'cumple',
     title: '🎂 Celebración de Cumpleaños',
-    subtitle: '1080 x 1920 • Show & Sorpresas',
+    subtitle: 'Show & Sorpresas',
     category: 'Cumpleaños / Reservas',
     videoSrc: '/videos/video_cumple.webm#t=0.1',
     views: 3410,

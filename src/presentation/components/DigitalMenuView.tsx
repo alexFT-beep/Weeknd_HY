@@ -159,7 +159,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
     setAddedItemIds((prev) => ({ ...prev, [item.id]: true }));
     setTimeout(() => {
       setAddedItemIds((prev) => ({ ...prev, [item.id]: false }));
-    }, 1200);
+    }, 500);
 
     const buttonEl = e.currentTarget as HTMLElement;
     const cardEl = document.getElementById(`item-card-${item.id}`) || (buttonEl.closest('.group') as HTMLElement);
