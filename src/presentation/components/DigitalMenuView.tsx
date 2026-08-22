@@ -116,7 +116,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
   const toggleCategoryAccordion = (catId: string) => {
     setExpandedCategories((prev) => ({
       ...prev,
-      [catId]: prev[catId] === undefined ? false : !prev[catId]
+      [catId]: !prev[catId]
     }));
   };
 
@@ -284,8 +284,8 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
 
           if (categoryItems.length === 0) return null;
 
-          // Por defecto está abierto (true) a menos que esté explícitamente en false
-          const isExpanded = expandedCategories[cat.id] !== false;
+          // Por defecto está cerrado (false) a menos que esté explícitamente en true
+          const isExpanded = !!expandedCategories[cat.id];
 
           // Agrupar subcategorías si aplican
           const isAlitas = cat.id === 'alitas';
