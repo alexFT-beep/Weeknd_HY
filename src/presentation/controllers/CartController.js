@@ -506,6 +506,7 @@ export class CartController {
     let reference = '';
     let tableNumber = '';
     let reservationMotive = '';
+    let reservationReason = '';
     let reservationPeople = '';
     let reservationDateTime = '';
 
