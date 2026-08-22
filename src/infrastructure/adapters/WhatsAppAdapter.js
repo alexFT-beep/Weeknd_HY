@@ -120,6 +120,13 @@ export class WhatsAppAdapter {
       text += `💰 *TOTAL A PAGAR: S/ ${Number(grandTotal).toFixed(2)}*\n`;
       text += `━━━━━━━━━━━━━━━━━━━━━\n`;
       text += `📝 *Observaciones:* ${notes || 'Ninguna'}\n\n`;
+
+      if (orderType === 'salon') {
+        text += `📌 *POLÍTICAS DEL ESTABLECIMIENTO:*\n`;
+        text += `• *Tolerancia de mesa:* 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.\n`;
+        text += `• *Restricción:* No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.\n\n`;
+      }
+
       text += `_¡Muchas gracias por su preferencia!_ 🎉🍗🍹`;
     }
 

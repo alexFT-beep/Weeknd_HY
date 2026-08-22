@@ -224,15 +224,15 @@ export class CartDrawerComponent {
               </div>
             ` : ""}
 
-            <!-- Nota de Aviso para Reservas -->
-            ${orderType === "reserva" ? `
+            <!-- Nota de Aviso para Reservas / En Salón -->
+            ${(orderType === "reserva" || orderType === "salon") ? `
               <div class="bg-primary/10 border border-primary/40 rounded-xl p-3.5 space-y-2 text-zinc-200">
                 <div class="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-wide">
                   <span class="material-symbols-outlined text-base">info</span>
-                  <span>📌 NOTA DE AVISO PARA RESERVAS:</span>
+                  <span>📌 ${orderType === "salon" ? "NOTA DE AVISO (EN SALÓN):" : "NOTA DE AVISO PARA RESERVAS:"}</span>
                 </div>
                 <p class="text-[11px] text-zinc-300 leading-relaxed">
-                  Al enviar tu solicitud por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en The Weekend Huarmey.
+                  Al enviar tu ${orderType === "salon" ? "pedido" : "solicitud"} por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en The Weekend Huarmey.
                 </p>
                 <div class="pt-2 border-t border-primary/20 space-y-1.5 text-[11px] leading-relaxed text-zinc-300">
                   <p class="flex items-start gap-1.5">
