@@ -51,6 +51,10 @@ export async function bootApp() {
         menuController
       };
 
+      if (typeof window !== 'undefined') {
+        window.appInstance = appInstance;
+      }
+
       await cartController.init();
     }
 

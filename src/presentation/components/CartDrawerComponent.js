@@ -78,24 +78,24 @@ export class CartDrawerComponent {
               <button
                 type="button"
                 class="bg-primary text-black font-extrabold text-xs uppercase px-6 py-3 rounded-xl hover:bg-primary-container transition-all active:scale-95 shadow-md"
-                data-action="close-cart"
+                data-action="go-to-menu"
                 aria-label="Ver la Carta"
               >
                 Ver la Carta
               </button>
             </div>
           ` : `
-            <!-- Order Type Selector (Delivery vs En Salón) -->
+            <!-- Order Type Selector (Delivery vs En Salón vs Reserva) -->
             <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-2.5">
               <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-2">
                 📋 Modalidad de Atención
               </label>
-              <div class="grid grid-cols-2 gap-2">
+              <div class="grid grid-cols-3 gap-1.5">
                 <button
                   type="button"
                   data-action="set-order-type"
                   data-type="delivery"
-                  class="py-2.5 px-3 rounded-lg text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 ${orderType === "delivery" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
+                  class="py-2.5 px-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase transition-all flex items-center justify-center gap-1 ${orderType === "delivery" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
                   aria-label="Seleccionar Delivery"
                 >
                   <span>🛵 Delivery</span>
@@ -104,10 +104,19 @@ export class CartDrawerComponent {
                   type="button"
                   data-action="set-order-type"
                   data-type="salon"
-                  class="py-2.5 px-3 rounded-lg text-xs font-bold uppercase transition-all flex items-center justify-center gap-1.5 ${orderType === "salon" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
+                  class="py-2.5 px-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase transition-all flex items-center justify-center gap-1 ${orderType === "salon" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
                   aria-label="Seleccionar En Salón"
                 >
-                  <span>🍽️ En Salón / Mesa</span>
+                  <span>🍽️ En Salón</span>
+                </button>
+                <button
+                  type="button"
+                  data-action="set-order-type"
+                  data-type="reserva"
+                  class="py-2.5 px-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase transition-all flex items-center justify-center gap-1 ${orderType === "reserva" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
+                  aria-label="Seleccionar Reserva"
+                >
+                  <span>🗓️ Reserva</span>
                 </button>
               </div>
             </div>
@@ -215,10 +224,33 @@ export class CartDrawerComponent {
               </div>
             ` : ""}
 
+            <!-- Nota de Aviso para Reservas / En Salón -->
+            ${(orderType === "reserva" || orderType === "salon") ? `
+              <div class="bg-primary/10 border border-primary/40 rounded-xl p-3.5 space-y-2 text-zinc-200">
+                <div class="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-wide">
+                  <span class="material-symbols-outlined text-base">info</span>
+                  <span>📌 ${orderType === "salon" ? "NOTA DE AVISO (EN SALÓN):" : "NOTA DE AVISO PARA RESERVAS:"}</span>
+                </div>
+                <p class="text-[11px] text-zinc-300 leading-relaxed">
+                  Al enviar tu ${orderType === "salon" ? "pedido" : "solicitud"} por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en The Weekend Huarmey.
+                </p>
+                <div class="pt-2 border-t border-primary/20 space-y-1.5 text-[11px] leading-relaxed text-zinc-300">
+                  <p class="flex items-start gap-1.5">
+                    <span class="text-primary font-bold mt-0.5">•</span>
+                    <span><span class="text-white font-semibold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
+                  </p>
+                  <p class="flex items-start gap-1.5">
+                    <span class="text-primary font-bold mt-0.5">•</span>
+                    <span><span class="text-white font-semibold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
+                  </p>
+                </div>
+              </div>
+            ` : ""}
+
             <!-- Customer Details Form (Clean Dark Inputs) -->
             <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-3.5 space-y-2.5">
               <label class="block text-xs font-bold text-white uppercase tracking-wide">
-                👤 Datos para el Pedido
+                ${orderType === "reserva" ? "🗓️ Datos para la Reserva" : "👤 Datos para el Pedido"}
               </label>
               <div class="space-y-2 text-xs">
                 <div>
@@ -246,7 +278,7 @@ export class CartDrawerComponent {
                       class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
                     />
                   </div>
-                ` : `
+                ` : orderType === "salon" ? `
                   <div>
                     <input 
                       type="text" 
@@ -255,9 +287,34 @@ export class CartDrawerComponent {
                       class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
                     />
                   </div>
+                ` : `
+                  <!-- Campos de Reserva -->
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <input 
+                      type="text" 
+                      id="order-reservation-reason" 
+                      placeholder="Motivo (ej: Cumpleaños)" 
+                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
+                    />
+                    <input 
+                      type="number" 
+                      id="order-reservation-people" 
+                      placeholder="Cant. Personas *" 
+                      min="1"
+                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
+                    />
+                  </div>
+                  <div>
+                    <input 
+                      type="text" 
+                      id="order-reservation-datetime" 
+                      placeholder="Fecha y Hora estimada (ej: Hoy 8:30 PM) *" 
+                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
+                    />
+                  </div>
                 `}
                 <div>
-                  <label class="block text-[10px] font-semibold text-zinc-400 mb-1">Método de Pago</label>
+                  <label class="block text-[10px] font-semibold text-zinc-400 mb-1">Método de Pago Preferido</label>
                   <select 
                     id="order-payment-method"
                     class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white focus:border-primary focus:outline-none text-xs"
@@ -272,7 +329,7 @@ export class CartDrawerComponent {
                   <textarea 
                     id="order-general-notes"
                     rows="2" 
-                    placeholder="Observaciones generales para cocina..." 
+                    placeholder="Observaciones generales para cocina / reserva..." 
                     class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none resize-none"
                   ></textarea>
                 </div>
@@ -309,10 +366,10 @@ export class CartDrawerComponent {
               type="button"
               data-action="submit-whatsapp-order"
               class="w-full bg-primary hover:bg-primary-container text-black font-black uppercase py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(10,204,128,0.4)] active:scale-[0.98] transition-all text-xs sm:text-sm tracking-wider"
-              aria-label="Enviar pedido por WhatsApp"
+              aria-label="${orderType === 'reserva' ? 'Enviar reserva por WhatsApp' : 'Enviar pedido por WhatsApp'}"
             >
               <span class="material-symbols-outlined text-xl">chat</span>
-              <span>Enviar Pedido a WhatsApp</span>
+              <span>${orderType === 'reserva' ? 'Enviar Reserva a WhatsApp' : 'Enviar Pedido a WhatsApp'}</span>
             </button>
           </div>
         ` : ""}

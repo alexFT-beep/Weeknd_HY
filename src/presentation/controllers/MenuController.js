@@ -174,6 +174,15 @@ export class MenuController {
       };
     });
 
+    if (searchModal) {
+      searchModal.addEventListener('click', (e) => {
+        if (e.target === searchModal) {
+          searchModal.classList.add("hidden");
+          searchModal.classList.remove("flex");
+        }
+      });
+    }
+
     if (closeSearchBtn && searchModal) {
       closeSearchBtn.onclick = () => {
         searchModal.classList.add("hidden");
