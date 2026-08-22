@@ -429,7 +429,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
 
           if (categoryItems.length === 0) return null;
 
-          const isExpanded = expandedCategories[cat.id] !== false;
+          const isExpanded = expandedCategories[cat.id] === true;
 
           const isAlitas = cat.id === 'alitas';
           const isHamburguesas = cat.id === 'hamburguesas';
