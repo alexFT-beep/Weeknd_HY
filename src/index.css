@@ -132,21 +132,51 @@
   --color-text-secondary: #B8B8C2;
 }
 
-/* Neon Glow Design System */
-.neon-glow { 
-  box-shadow: 0 0 25px rgba(10, 204, 128, 0.5), 0 0 50px rgba(10, 204, 128, 0.2); 
+/* Isolate Redesign Styles specifically for Landing Page, Promotions, and Social Media Sections */
+.home-page,
+.promotions-page,
+.social-section,
+body.theme-premium-night header,
+body.theme-premium-night section:not(#carta-digital),
+body.theme-premium-night footer#contacto {
+  --color-weekend-neon: #C900FF;
+  --color-weekend-purple: #B11F9E;
+  --color-weekend-fuchsia: #EA2A81;
+  --color-background: var(--color-background);
 }
-.neon-glow-purple { 
-  box-shadow: 0 0 30px rgba(201, 0, 255, 0.45), 0 0 60px rgba(201, 0, 255, 0.2); 
+
+body.theme-premium-night header .neon-glow,
+body.theme-premium-night section .neon-glow,
+body.theme-premium-night footer#contacto .neon-glow {
+  box-shadow: var(--shadow-primary-new) !important;
 }
-.neon-glow-dual { 
-  box-shadow: 0 0 35px rgba(201, 0, 255, 0.35), 0 0 35px rgba(10, 204, 128, 0.35); 
+body.theme-premium-night header .neon-glow-purple,
+body.theme-premium-night section .neon-glow-purple,
+body.theme-premium-night footer#contacto .neon-glow-purple {
+  box-shadow: 0 0 30px rgba(0, 207, 255, 0.20) !important;
 }
-.text-shadow-neon { 
-  text-shadow: 0 0 12px rgba(10, 204, 128, 0.7), 0 0 25px rgba(10, 204, 128, 0.4); 
+body.theme-premium-night header .text-shadow-neon,
+body.theme-premium-night section .text-shadow-neon,
+body.theme-premium-night footer#contacto .text-shadow-neon {
+  text-shadow: 0 0 10px rgba(201, 0, 255, 0.6) !important;
 }
-.text-shadow-purple { 
-  text-shadow: 0 0 12px rgba(201, 0, 255, 0.7), 0 0 25px rgba(201, 0, 255, 0.4); 
+body.theme-premium-night header.bg-black,
+body.theme-premium-night section.bg-black,
+body.theme-premium-night footer#contacto.bg-black,
+body.theme-premium-night header .bg-black,
+body.theme-premium-night section .bg-black,
+body.theme-premium-night footer#contacto .bg-black {
+  background-color: var(--color-background-new) !important;
+}
+body.theme-premium-night header .border-white\/10,
+body.theme-premium-night section .border-white\/10,
+body.theme-premium-night footer#contacto .border-white\/10 {
+  border-color: var(--color-border-new) !important;
+}
+body.theme-premium-night header .bg-zinc-900\/50,
+body.theme-premium-night section .bg-zinc-900\/50,
+body.theme-premium-night footer#contacto .bg-zinc-900\/50 {
+  background-color: var(--color-surface-new) !important;
 }
 
 @layer base {
@@ -156,7 +186,7 @@
     color: #fff; 
   }
   body ::selection {
-    background-color: #0acc80;
+    background-color: var(--color-weekend-neon);
     color: #000;
   }
   ::-webkit-scrollbar { width: 10px; }
@@ -168,10 +198,13 @@
 .dark-map { filter: grayscale(100%) invert(90%) contrast(1.2); }
 input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; filter: invert(62%) sepia(81%) saturate(3942%) hue-rotate(122deg) brightness(103%) contrast(107%); opacity: 1; }
 input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button { display: none; }
+.neon-glow { box-shadow: 0 0 15px rgba(10, 204, 128, 0.4); }
+.neon-glow-purple { box-shadow: 0 0 15px rgba(8, 160, 99, 0.4); }
+.text-shadow-neon { text-shadow: 0 0 10px rgba(10, 204, 128, 0.6); }
 
 @keyframes pulse-neon {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(10, 204, 128, 0.45); }
-  50% { transform: scale(1.03); box-shadow: 0 0 40px rgba(10, 204, 128, 0.75), 0 0 70px rgba(201, 0, 255, 0.4); }
+  0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(10, 204, 128, 0.4); }
+  50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(10, 204, 128, 0.7); }
 }
 .animate-pulse-neon { animation: pulse-neon 2s infinite ease-in-out; }
 

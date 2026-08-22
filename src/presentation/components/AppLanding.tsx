@@ -278,15 +278,15 @@ export default function App() {
   // ----------------------------------------------------
   if (currentView === 'reserva') {
     return (
-      <div className="min-h-screen bg-[#050508] text-white font-sans selection:bg-[#0acc80] selection:text-black flex flex-col justify-between">
+      <div className="min-h-screen bg-black text-white font-sans selection:bg-weekend-neon selection:text-black flex flex-col justify-between">
         {/* Sleek Minimalist Top Navigation Row */}
-        <header className="sticky top-0 z-50 bg-[#0a0a0f]/90 backdrop-blur-md py-3 px-4 border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
+        <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-md py-3 px-4 border-b border-white/10">
           <div className="max-w-6xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-3">
               <button
                 type="button"
                 onClick={goToLanding}
-                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-[#0acc80] border border-[#0acc80]/40 hover:border-[#0acc80] rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-[0_0_12px_rgba(10,204,128,0.2)] cursor-pointer"
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm cursor-pointer"
                 title="Volver a la portada principal"
               >
                 <ArrowLeft size={16} />
@@ -296,10 +296,10 @@ export default function App() {
                 <img
                   src={LOGO_URL}
                   alt="Logo Weeknd"
-                  className="h-7 w-7 rounded-full object-cover border border-[#0acc80] shadow-[0_0_10px_rgba(10,204,128,0.4)]"
+                  className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
                 />
                 <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                  WEEKND! <span className="text-[#0acc80]">Huarmey</span>
+                  WEEKND! <span className="text-weekend-neon">Huarmey</span>
                 </span>
               </div>
             </div>
@@ -308,7 +308,7 @@ export default function App() {
               <button
                 type="button"
                 data-action="open-cart"
-                className="relative text-black font-extrabold bg-[#0acc80] hover:bg-white transition-all active:scale-95 px-3.5 py-1.5 rounded-full flex items-center gap-1.5 text-xs uppercase cursor-pointer shadow-[0_0_18px_rgba(10,204,128,0.4)]"
+                className="relative text-black font-bold bg-weekend-neon hover:bg-white transition-all active:scale-95 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs uppercase cursor-pointer"
               >
                 <ShoppingCart size={15} />
                 <span className="hidden sm:inline">Carrito</span>
@@ -316,7 +316,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={goToDashboard}
-                className="px-4 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white font-bold border border-white/20 hover:border-[#C900FF]/50 rounded-full text-xs uppercase transition-all cursor-pointer"
+                className="px-4 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white font-bold border border-white/20 rounded-full text-xs uppercase transition-all cursor-pointer"
               >
                 Ver Menú
               </button>
@@ -326,12 +326,9 @@ export default function App() {
 
         {/* Main Reservation Section */}
         <main className="flex-1 relative py-12 px-4 overflow-hidden flex items-center justify-center">
-          <div className="absolute inset-0 bg-radial-vignette opacity-80 pointer-events-none" />
-          <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#0acc80]/50 to-transparent scan-line pointer-events-none" />
-          
-          {/* Luces ambientales intensas */}
-          <div className="absolute top-1/4 left-1/4 w-[480px] h-[480px] bg-[#0acc80]/15 rounded-full blur-[130px] pointer-events-none" />
-          <div className="absolute bottom-1/4 right-1/4 w-[480px] h-[480px] bg-[#C900FF]/15 rounded-full blur-[130px] pointer-events-none" />
+          <div className="absolute inset-0 bg-radial-vignette opacity-70 pointer-events-none" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-weekend-neon/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-weekend-purple/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 max-w-6xl mx-auto w-full">
             <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
@@ -342,11 +339,11 @@ export default function App() {
                 transition={{ duration: 0.8 }}
                 className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mb-8 lg:mb-0 z-20 pointer-events-none"
               >
-                <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-[#0acc80]/30 to-[#C900FF]/20 blur-3xl pulse-glow" />
+                <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
                 <img
                   src={CAPY_KAME}
                   alt="Capibara pose kamehameha"
-                  className="relative w-full drop-shadow-[0_0_40px_rgba(10,204,128,0.5)] float-anim"
+                  className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
                 />
               </motion.div>
 
@@ -355,44 +352,40 @@ export default function App() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="w-full max-w-xl bg-[#0c0c12]/90 backdrop-blur-2xl p-6 sm:p-8 rounded-[32px] border-2 border-[#C900FF]/35 shadow-[0_0_50px_rgba(201,0,255,0.25),0_0_25px_rgba(10,204,128,0.2)] relative z-10"
+                className="w-full max-w-xl bg-zinc-900/85 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-white/10 neon-glow-purple shadow-2xl relative z-10"
               >
                 <div className="text-center mb-6">
-                  <div className="inline-block px-3 py-1 rounded-full bg-[#0acc80]/10 border border-[#0acc80]/30 text-[#0acc80] text-[10px] font-extrabold tracking-[0.25em] uppercase mb-3 shadow-[0_0_15px_rgba(10,204,128,0.25)]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                    Planifica tu noche
-                  </div>
-                  <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight tracking-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                    Reserva tu <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0acc80] via-[#00ffc4] to-[#0acc80] drop-shadow-[0_0_20px_rgba(10,204,128,0.6)]">Mesa</span>
-                  </h3>
-                  <p className="text-zinc-400 text-xs sm:text-sm">Reserva con anticipación y déjanos encargarnos del resto.</p>
+                  <h2 className="text-weekend-neon text-xs font-bold tracking-[0.3em] uppercase mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
+                  <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Reserva tu <span className="text-weekend-neon">Mesa</span></h3>
+                  <p className="text-white/50 text-xs sm:text-sm">Reserva con anticipación y déjanos encargarnos del resto.</p>
                 </div>
 
                 <form onSubmit={handleReserve} className="space-y-4 text-xs">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] uppercase tracking-widest text-[#0acc80] font-extrabold">Nombre</label>
-                      <input type="text" required placeholder="Tu nombre" className="w-full bg-[#050508]/90 border border-white/15 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:shadow-[0_0_18px_rgba(201,0,255,0.5)] focus:ring-1 focus:ring-[#C900FF] transition-all text-white placeholder-zinc-500" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
+                      <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Nombre</label>
+                      <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] uppercase tracking-widest text-[#0acc80] font-extrabold">Fecha</label>
-                      <input type="date" required className="w-full bg-[#050508]/90 border border-white/15 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:shadow-[0_0_18px_rgba(201,0,255,0.5)] focus:ring-1 focus:ring-[#C900FF] transition-all text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
+                      <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Fecha</label>
+                      <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
                     </div>
                   </div>
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] uppercase tracking-widest text-[#0acc80] font-extrabold">Personas</label>
-                      <input type="number" required placeholder="Cantidad" className="w-full bg-[#050508]/90 border border-white/15 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:shadow-[0_0_18px_rgba(201,0,255,0.5)] focus:ring-1 focus:ring-[#C900FF] transition-all text-white placeholder-zinc-500" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
+                      <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Personas</label>
+                      <input type="number" required placeholder="Cantidad" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] uppercase tracking-widest text-[#0acc80] font-extrabold">Hora de llegada</label>
-                      <select className="w-full bg-[#050508]/90 border border-white/15 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:shadow-[0_0_18px_rgba(201,0,255,0.5)] focus:ring-1 focus:ring-[#C900FF] transition-all appearance-none cursor-pointer text-white" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
+                      <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
+                      <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
                         {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
                       </select>
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-[#0acc80] font-extrabold">Motivo</label>
-                    <select className="w-full bg-[#050508]/90 border border-white/15 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:shadow-[0_0_18px_rgba(201,0,255,0.5)] focus:ring-1 focus:ring-[#C900FF] transition-all appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Motivo</label>
+                    <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
                       <option value="">Seleccionar</option>
                       <option value="Cena Casual">Cena Casual</option>
                       <option value="Cumpleaños">Cumpleaños</option>
@@ -403,22 +396,20 @@ export default function App() {
                   </div>
 
                   {/* Políticas del servicio */}
-                  <div className="rounded-2xl border border-[#C900FF]/30 bg-gradient-to-br from-[#C900FF]/10 via-[#050508]/80 to-[#0acc80]/10 p-4 space-y-2 shadow-[0_0_20px_rgba(201,0,255,0.15)]">
-                    <p className="text-[#C900FF] text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-                      <span>✨</span> Políticas del servicio
+                  <div className="rounded-2xl border border-white/10 bg-black/50 p-3.5 space-y-1.5">
+                    <p className="text-weekend-neon text-[10px] font-bold uppercase tracking-[0.2em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Políticas del servicio</p>
+                    <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
+                      <span className="text-weekend-neon mt-0.5">•</span>
+                      <span><span className="text-white/90 font-semibold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
                     </p>
-                    <p className="text-zinc-300 text-[11px] leading-relaxed flex items-start gap-1.5">
-                      <span className="text-[#0acc80] font-bold mt-0.5">•</span>
-                      <span><span className="text-white font-bold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
-                    </p>
-                    <p className="text-zinc-300 text-[11px] leading-relaxed flex items-start gap-1.5">
-                      <span className="text-[#0acc80] font-bold mt-0.5">•</span>
-                      <span><span className="text-white font-bold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
+                    <p className="text-white/60 text-[11px] leading-relaxed flex items-start gap-1.5">
+                      <span className="text-weekend-neon mt-0.5">•</span>
+                      <span><span className="text-white/90 font-semibold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
                     </p>
                   </div>
 
-                  <button type="submit" className="w-full py-4 bg-gradient-to-r from-[#0acc80] via-[#00f5a0] to-[#0acc80] text-black font-black uppercase tracking-[0.2em] rounded-xl hover:from-[#C900FF] hover:via-[#f000d9] hover:to-[#9011C5] hover:text-white active:scale-95 transition-all duration-300 flex items-center justify-center gap-2.5 text-xs shadow-[0_0_30px_rgba(10,204,128,0.5)] hover:shadow-[0_0_40px_rgba(201,0,255,0.8)] cursor-pointer border border-white/20">
-                    <span>Reservar por WhatsApp</span> <Send size={16} />
+                  <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs hover:shadow-[0_0_25px_rgba(201,0,255,0.75)] cursor-pointer">
+                    Reservar por WhatsApp <Send size={16} />
                   </button>
                 </form>
               </motion.div>
@@ -430,11 +421,11 @@ export default function App() {
                 transition={{ duration: 0.8 }}
                 className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mt-8 lg:mt-0 z-20 pointer-events-none"
               >
-                <div className="absolute -inset-4 rounded-full bg-gradient-to-tl from-[#C900FF]/30 to-[#0acc80]/20 blur-3xl pulse-glow" />
+                <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
                 <img
                   src={CAPY_HERO}
                   alt="Capibara superhéroe aterrizando"
-                  className="relative w-full drop-shadow-[0_0_40px_rgba(201,0,255,0.5)] float-anim"
+                  className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
                 />
               </motion.div>
             </div>
@@ -709,7 +700,20 @@ export default function App() {
       </section>
 
       {/* ============ CARTA / MENÚ ============ */}
-      <section id="menu" className="relative py-24 overflow-hidden min-h-[70vh] flex items-center bg-[#08080a] border-t border-white/5">
+      <section id="menu" className="relative py-24 overflow-hidden min-h-[70vh] flex items-center">
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover opacity-60"
+          >
+            <source src={MENU_VID} type="video/webm" />
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black"></div>
+        </div>
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -752,7 +756,17 @@ export default function App() {
       </section>
 
       {/* ============ DELIVERY ============ */}
-      <section id="delivery" className="relative py-28 overflow-hidden bg-[#050508] border-t border-white/5">
+      <section id="delivery" className="relative py-28 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={DELIVERY_IMG}
+            alt="Delivery"
+            className="w-full h-full object-cover opacity-60"
+            referrerPolicy="no-referrer"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/30 to-black"></div>
+        </div>
+
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
