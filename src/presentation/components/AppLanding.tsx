@@ -878,10 +878,11 @@ export default function App() {
           <div className="flex items-center gap-3 justify-self-start">
             <img
               src={LOGO_URL} alt="Logo"
-              className="h-9 w-9 rounded-full object-cover border border-weekend-neon/60"
+              onClick={goToLanding}
+              className="h-9 w-9 rounded-full object-cover border border-weekend-neon/60 cursor-pointer"
               referrerPolicy="no-referrer"
             />
-            <a href="/" className="text-white font-bold tracking-tighter text-base xl:block hidden uppercase hover:text-weekend-neon transition-colors duration-500" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            <a href="#inicio" onClick={(e) => { e.preventDefault(); goToLanding(); }} className="text-white font-bold tracking-tighter text-base xl:block hidden uppercase hover:text-weekend-neon transition-colors duration-500 cursor-pointer" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               The Weekend! <span className="text-weekend-neon">Huarmey</span>
             </a>
           </div>

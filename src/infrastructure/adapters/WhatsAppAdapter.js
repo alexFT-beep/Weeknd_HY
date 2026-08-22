@@ -25,6 +25,7 @@ export class WhatsAppAdapter {
       address = '',
       reference = '',
       reservationReason = '',
+      reservationMotive = '',
       reservationPeople = '',
       reservationDateTime = '',
       notes = '',
@@ -37,6 +38,7 @@ export class WhatsAppAdapter {
     } = orderData;
 
     let text = '';
+    const effectiveReason = reservationReason || reservationMotive || '';
 
     if (orderType === 'reserva') {
       text += `🍹 *¡SOLICITUD DE RESERVA - WEEKEND! Lounge & Restaurant* 🍗\n`;
@@ -44,8 +46,8 @@ export class WhatsAppAdapter {
       text += `👤 *Cliente:* ${customerName}\n`;
       text += `📅 *Fecha y Hora:* ${reservationDateTime || 'Por confirmar'}\n`;
       text += `👥 *Cant. Personas:* ${reservationPeople || 'N/A'}\n`;
-      if (reservationReason) {
-        text += `🎉 *Motivo:* ${reservationReason}\n`;
+      if (effectiveReason) {
+        text += `🎉 *Motivo:* ${effectiveReason}\n`;
       }
       text += `💳 *Método de Pago Preferido:* ${paymentMethod}\n`;
       if (paymentMethod === 'Yape' || paymentMethod === 'Plin') {

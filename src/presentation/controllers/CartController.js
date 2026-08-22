@@ -192,8 +192,11 @@ export class CartController {
       const tableInput = document.getElementById('order-table-number');
       if (tableInput) this.formData.tableNumber = tableInput.value;
 
-      const motiveInput = document.getElementById('order-reservation-motive');
-      if (motiveInput) this.formData.reservationMotive = motiveInput.value;
+      const reasonInput = document.getElementById('order-reservation-reason') || document.getElementById('order-reservation-motive');
+      if (reasonInput) {
+        this.formData.reservationReason = reasonInput.value;
+        this.formData.reservationMotive = reasonInput.value;
+      }
 
       const peopleInput = document.getElementById('order-reservation-people');
       if (peopleInput) this.formData.reservationPeople = peopleInput.value;
@@ -225,8 +228,10 @@ export class CartController {
       const tableInput = document.getElementById('order-table-number');
       if (tableInput && this.formData.tableNumber) tableInput.value = this.formData.tableNumber;
 
-      const motiveInput = document.getElementById('order-reservation-motive');
-      if (motiveInput && this.formData.reservationMotive) motiveInput.value = this.formData.reservationMotive;
+      const reasonInput = document.getElementById('order-reservation-reason') || document.getElementById('order-reservation-motive');
+      if (reasonInput && (this.formData.reservationReason || this.formData.reservationMotive)) {
+        reasonInput.value = this.formData.reservationReason || this.formData.reservationMotive;
+      }
 
       const peopleInput = document.getElementById('order-reservation-people');
       if (peopleInput && this.formData.reservationPeople) peopleInput.value = this.formData.reservationPeople;
@@ -510,24 +515,20 @@ export class CartController {
       const refInput = document.getElementById('order-reference');
       reference = refInput ? refInput.value.trim() : '';
     } else if (this.orderType === 'reserva') {
-      const motiveInput = document.getElementById('order-reservation-motive');
-      reservationMotive = motiveInput ? motiveInput.value.trim() : '';
-      if (!reservationMotive) {
-        this.toast.show('Por favor ingresa el motivo de la reserva (ej: Cumpleaños, Cita...)', 'warning');
-        if (motiveInput) motiveInput.focus();
-        return;
-      }
+      const motiveInput = document.getElementById('order-reservation-reason') || document.getElementById('order-reservation-motive');
+      reservationMotive = motiveInput ? motiveInput.value.trim() : (this.formData.reservationReason || this.formData.reservationMotive || '');
+      reservationReason = reservationMotive;
 
       const peopleInput = document.getElementById('order-reservation-people');
-      reservationPeople = peopleInput ? peopleInput.value.trim() : '';
-      if (!reservationPeople) {
-        this.toast.show('Por favor ingresa la cantidad de personas', 'warning');
+      reservationPeople = peopleInput ? peopleInput.value.trim() : (this.formData.reservationPeople || '');
+      if (!reservationPeople || parseInt(reservationPeople, 10) < 1) {
+        this.toast.show('Por favor ingresa la cantidad de personas para la reserva', 'warning');
         if (peopleInput) peopleInput.focus();
         return;
       }
 
       const dateTimeInput = document.getElementById('order-reservation-datetime');
-      reservationDateTime = dateTimeInput ? dateTimeInput.value.trim() : '';
+      reservationDateTime = dateTimeInput ? dateTimeInput.value.trim() : (this.formData.reservationDateTime || '');
       if (!reservationDateTime) {
         this.toast.show('Por favor ingresa la fecha y hora estimada para la reserva', 'warning');
         if (dateTimeInput) dateTimeInput.focus();
@@ -554,6 +555,7 @@ export class CartController {
       orderType: this.orderType,
       tableNumber,
       reservationMotive,
+      reservationReason,
       reservationPeople,
       reservationDateTime,
       deliveryZoneId: this.cartUseCases.getDeliveryZoneId(),
