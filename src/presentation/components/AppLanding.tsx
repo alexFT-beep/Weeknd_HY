@@ -597,15 +597,7 @@ export default function App() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-5 landscape:gap-3 md:hidden overflow-y-auto"
           >
-            <div className="absolute inset-0 z-0">
-              <img
-                src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
-                alt="Fondo Menú"
-                className="w-full h-full object-cover opacity-80 brightness-110 contrast-100"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/35 to-black/95" />
-            </div>
+
 
             <div className="relative z-10 flex flex-col items-center gap-4 landscape:gap-2 py-8 w-full max-w-xs px-4">
               {MOBILE_NAV_LINKS.map((link) => (
