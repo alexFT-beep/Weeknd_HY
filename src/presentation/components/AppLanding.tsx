@@ -8,7 +8,7 @@ import { DigitalMenuView } from './DigitalMenuView';
 import { SocialGalleryView } from './SocialGalleryView';
 
 const CONTACT_WA = "51961336674";
-const LOGO_URL = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774383788/LOGO_wgvqfj.webp";
+const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
 const HERO_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1774380039/logo2_vyasrd.webp";
 const MENU_VID = "https://res.cloudinary.com/dwlzez9mr/video/upload/f_auto,q_auto/v1774380723/alitas2_upllif.webm";
 const DELIVERY_IMG = "https://res.cloudinary.com/dwlzez9mr/image/upload/f_auto,q_auto/v1771715674/makis-weekend_fxfha7.jpg";
@@ -24,10 +24,28 @@ import CAPY_HERO from '../../assets/capybaras/superhero_capibara_landing_VECTOR.
 
 const NAV_LINKS = [
   { name: 'Inicio', href: '#inicio' },
+  { name: 'Promociones', href: '#promociones' },
   { name: 'Carta', href: '#carta-digital' },
   { name: 'Reserva', href: '#reserva' },
   { name: 'Ubicación', href: '#ubicacion' },
   { name: 'Redes', href: '#redes' },
+];
+
+const PROMOS = [
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barcoMix.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/barquitoHarryHou.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/boxRomantico.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/broster.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/bubbleTea.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/burritoMexi.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/calientitosPisco.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/carruselAlitas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cervezaArtesanal.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/comboParrillero.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumple.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/delivery1am.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/hamburguesas.webp",
+  "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/litronas.webp",
 ];
 
 const TIME_SLOTS = [
@@ -587,6 +605,7 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social'>('landing');
+  const [selectedPromo, setSelectedPromo] = useState<string | null>(null);
 
   // Declara los hooks de Framer Motion al inicio para cumplir estrictamente con las reglas de Hooks de React
   const heroRef = useRef<HTMLElement>(null);
@@ -989,6 +1008,38 @@ export default function App() {
         </div>
       </section>
 
+      {/* ============ SECCIÓN PROMOCIONES ============ */}
+      <section id="promociones" className="promo-section py-20 relative overflow-hidden border-t border-white/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-[#C900FF] text-sm font-bold tracking-[0.3em] uppercase mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Nuestras Promociones</h2>
+            <h3 className="text-3xl md:text-5xl font-black uppercase mb-5" style={{ fontFamily: "'Space Grotesk', sans-serif", background: 'linear-gradient(135deg, #C900FF, #F000D9)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Las mejores ofertas</h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+            {PROMOS.map((url, i) => {
+              const filename = url.split('/').pop()?.split('.')[0] || `Promo ${i}`;
+              return (
+                <div key={i} className="promo-card cursor-pointer group" onClick={() => setSelectedPromo(url)}>
+                  <div className="w-full aspect-[4/5] bg-[#101016] rounded-[16px] overflow-hidden border border-[rgba(201,0,255,0.18)] transition-all duration-300 group-hover:scale-[1.03] group-hover:border-[rgba(201,0,255,0.55)] group-hover:shadow-[0_0_25px_rgba(201,0,255,0.25)] relative">
+                    <img
+                      src={url}
+                      alt={`Promoción ${filename}`}
+                      loading="lazy"
+                      decoding="async"
+                      onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = 'assets/placeholder-promo.jpg'; }}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                      <span className="text-white font-bold text-sm tracking-wider uppercase drop-shadow-md">Ver Promo</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* ============ RESERVA + CAPIBARAS FLANQUEANDO (sin espacios, integrados) ============ */}
       <section id="reserva" className="relative py-12 bg-black overflow-hidden border-t border-white/5">
         <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-weekend-neon/30 to-transparent scan-line pointer-events-none" />
@@ -1122,8 +1173,32 @@ export default function App() {
         </div>
       </section>
 
-
-
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedPromo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="promo-modal fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+            onClick={() => setSelectedPromo(null)}
+          >
+            <button className="absolute top-6 right-6 text-white hover:text-[#C900FF] transition-colors z-50 p-2" onClick={() => setSelectedPromo(null)}>
+              <X size={32} />
+            </button>
+            <motion.img
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              src={selectedPromo}
+              alt="Promoción ampliada"
+              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-[0_0_40px_rgba(201,0,255,0.3)] border border-[rgba(201,0,255,0.3)]"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

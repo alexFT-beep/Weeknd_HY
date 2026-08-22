@@ -62,7 +62,47 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Premium Night Restobar Redesign --- */
+  --color-background-new: #050505;
+  --color-background-secondary-new: #0A0A0F;
+  --color-surface-new: #101016;
+  --color-surface-elevated-new: #15151D;
+  --color-primary-new: #C900FF;
+  --color-primary-dark-new: #8F00B8;
+  --color-primary-light-new: #E45CFF;
+  --color-secondary-new: #F000D9;
+  --color-secondary-dark-new: #A50096;
+  --color-cyan-new: #00CFFF;
+  --color-green-new: #00E968;
+  --color-orange-new: #FF6A00;
+  --color-gold-new: #FFC928;
+  --color-text-primary-new: #F5F5F5;
+  --color-text-secondary-new: #B8B8C2;
+  --color-text-muted-new: #777782;
+  --color-border-new: rgba(201, 0, 255, 0.22);
+  --color-border-hover-new: rgba(201, 0, 255, 0.55);
+  --gradient-primary-new: linear-gradient(135deg, #C900FF 0%, #F000D9 100%);
+  --gradient-neon-new: linear-gradient(135deg, #C900FF 0%, #F000D9 45%, #00CFFF 100%);
+  --shadow-primary-new: 0 0 30px rgba(201, 0, 255, 0.20);
+  --shadow-primary-strong-new: 0 0 40px rgba(201, 0, 255, 0.35);
 }
+
+/* === Promociones Section Redesign === */
+.promo-section {
+  background-color: var(--color-background-new);
+}
+.promo-card {
+  border-color: var(--color-border-new) !important;
+}
+.promo-card:hover {
+  border-color: var(--color-border-hover-new) !important;
+  box-shadow: var(--shadow-primary-new) !important;
+}
+.promo-modal {
+  z-index: 100;
+}
+
 @layer base {
   html { scroll-behavior: smooth; }
   body { @apply bg-black text-white selection:bg-weekend-neon selection:text-black; }
