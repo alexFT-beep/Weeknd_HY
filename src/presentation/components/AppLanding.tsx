@@ -700,20 +700,7 @@ export default function App() {
       </section>
 
       {/* ============ CARTA / MENÚ ============ */}
-      <section id="menu" className="relative py-24 overflow-hidden min-h-[70vh] flex items-center">
-        <div className="absolute inset-0 z-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover opacity-60"
-          >
-            <source src={MENU_VID} type="video/webm" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black"></div>
-        </div>
-
+      <section id="menu" className="relative py-24 overflow-hidden min-h-[70vh] flex items-center bg-[#08080a] border-t border-white/5">
         <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -756,17 +743,7 @@ export default function App() {
       </section>
 
       {/* ============ DELIVERY ============ */}
-      <section id="delivery" className="relative py-28 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={DELIVERY_IMG}
-            alt="Delivery"
-            className="w-full h-full object-cover opacity-60"
-            referrerPolicy="no-referrer"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-black/30 to-black"></div>
-        </div>
-
+      <section id="delivery" className="relative py-28 overflow-hidden bg-[#050508] border-t border-white/5">
         <div className="relative z-10 max-w-5xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
