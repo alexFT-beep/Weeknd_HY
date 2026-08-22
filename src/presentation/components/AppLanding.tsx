@@ -852,7 +852,7 @@ export default function App() {
               className="h-9 w-9 rounded-full object-cover border border-weekend-neon/60"
               referrerPolicy="no-referrer"
             />
-            <a href="/" className="text-white font-bold tracking-tighter text-base xl:block hidden uppercase hover:text-weekend-neon transition-colors duration-500" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            <a href="/" className="text-white font-bold tracking-tighter text-base xl:block hidden uppercase hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               Weekend! <span className="text-weekend-neon">Huarmey</span>
             </a>
           </div>
@@ -865,7 +865,7 @@ export default function App() {
                 onClick={(e) => handleNavClick(e, link)}
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.94 }}
-                className="text-sm uppercase tracking-widest font-bold hover:text-weekend-neon transition-all duration-500"
+                className="text-sm uppercase tracking-widest font-bold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-all duration-300"
               >
                 {link.name}
               </motion.a>
@@ -877,7 +877,7 @@ export default function App() {
             <button
               type="button"
               data-action="open-cart"
-              className="relative text-black font-bold bg-weekend-neon hover:bg-weekend-purple hover:text-white transition-all active:scale-95 duration-150 px-3 py-2 rounded-full flex items-center gap-1.5 text-xs uppercase"
+              className="relative text-black font-extrabold bg-weekend-neon hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all active:scale-95 duration-200 px-3.5 py-2 rounded-full flex items-center gap-1.5 text-xs uppercase shadow-sm hover:shadow-[0_0_20px_rgba(201,0,255,0.75)]"
               title="Ver Carrito"
               aria-label="Ver Carrito"
             >
@@ -890,7 +890,7 @@ export default function App() {
             <button
               type="button"
               onClick={goToDashboard}
-              className="hidden sm:inline-flex items-center gap-2 bg-weekend-neon text-black font-extrabold uppercase tracking-widest text-xs px-5 py-2.5 rounded-full hover:bg-white transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)]"
+              className="hidden sm:inline-flex items-center gap-2 bg-weekend-neon text-black font-extrabold uppercase tracking-widest text-xs px-5 py-2.5 rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)] hover:shadow-[0_0_25px_rgba(201,0,255,0.8)]"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               aria-label="Ver menú virtual"
             >
@@ -898,7 +898,7 @@ export default function App() {
             </button>
 
             <button
-              className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-weekend-neon' : 'text-white'}`}
+              className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-[#C900FF]' : 'text-white'}`}
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Menú"
             >
@@ -924,9 +924,9 @@ export default function App() {
               <img
                 src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp"
                 alt="Fondo Menú"
-                className="w-full h-full object-cover opacity-30 grayscale contrast-125 brightness-75"
+                className="w-full h-full object-cover opacity-65 brightness-90 contrast-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/90 via-[#050505]/85 to-[#0A0A0F]/95" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/70 via-[#050505]/45 to-[#0A0A0F]/75" />
             </div>
 
             <div className="relative z-10 flex flex-col items-center gap-6 landscape:gap-3 py-10">
@@ -935,14 +935,14 @@ export default function App() {
                   key={link.name} href={link.href}
                   whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
                   onClick={(e) => handleNavClick(e, link)}
-                  className="text-xl landscape:text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300"
+                  className="text-xl landscape:text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300"
                 >
                   {link.name}
                 </motion.a>
               ))}
               <button
                 onClick={goToDashboard}
-                className="mt-4 px-8 py-3 bg-[#EA2A81] text-white font-extrabold uppercase tracking-widest rounded-full text-sm text-center shadow-[0_0_20px_rgba(234,42,129,0.4)] hover:bg-[#B11F9E] active:scale-95 transition-all"
+                className="mt-4 px-8 py-3 bg-[#EA2A81] text-white font-extrabold uppercase tracking-widest rounded-full text-sm text-center shadow-[0_0_20px_rgba(234,42,129,0.4)] hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:scale-95 transition-all hover:shadow-[0_0_25px_rgba(201,0,255,0.8)]"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
                 Ver Menú Virtual
@@ -965,9 +965,9 @@ export default function App() {
             <img
               src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
               alt="Fondo inicio móvil"
-              className="w-full h-full object-cover opacity-35 grayscale contrast-125 brightness-75"
+              className="w-full h-full object-cover opacity-75 brightness-95 contrast-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-[#050505]/65 to-[#050505]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/35 to-[#050505]/90" />
           </div>
 
           {/* Fondo Laptop y Desktop (pantallas lg y superiores) sin la imagen inicio.webp */}
@@ -977,6 +977,9 @@ export default function App() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[26rem] h-[26rem] rounded-full border border-weekend-neon/10 pointer-events-none" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[18rem] h-[18rem] rounded-full border border-weekend-neon/[0.07] pointer-events-none" />
           </div>
+
+          {/* Sombra / degradado suave inferior que se funde perfectamente con el resto de la página al hacer scroll */}
+          <div className="absolute bottom-0 inset-x-0 h-44 bg-gradient-to-t from-[#050505] via-[#050505]/95 via-50% to-transparent z-[2] pointer-events-none" />
         </div>
 
         {/* Capibara heroica — posición superior, parallax scroll-driven */}
@@ -1016,7 +1019,7 @@ export default function App() {
           >
             <button
               onClick={goToDashboard}
-              className="group inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full hover:bg-white transition-all duration-300 shadow-[0_0_30px_rgba(10,204,128,0.5)] active:scale-95 text-sm md:text-base text-center"
+              className="group inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-weekend-neon text-black font-extrabold uppercase tracking-widest rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 shadow-[0_0_30px_rgba(10,204,128,0.5)] hover:shadow-[0_0_35px_rgba(201,0,255,0.85)] active:scale-95 text-sm md:text-base text-center"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
               Ver menú virtual - Reservas &amp; Delivery
@@ -1147,7 +1150,7 @@ export default function App() {
                   </p>
                 </div>
 
-                <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs">
+                <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs hover:shadow-[0_0_25px_rgba(201,0,255,0.75)]">
                   Reservar por WhatsApp <Send size={16} />
                 </button>
               </form>

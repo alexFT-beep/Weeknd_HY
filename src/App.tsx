@@ -74,7 +74,7 @@ export default function App() {
               className="h-12 w-12 rounded-full object-cover border border-weekend-purple"
               referrerPolicy="no-referrer"
             />
-            <a href="/" className="text-white font-bold tracking-tighter text-lg uppercase hidden xl:block hover:text-weekend-neon transition-colors duration-500">
+            <a href="/" className="text-white font-bold tracking-tighter text-lg uppercase hidden xl:block hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300">
               Weekend! - huarmey
             </a>
           </div>
@@ -86,7 +86,7 @@ export default function App() {
                 href={link.href}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="text-sm uppercase tracking-widest font-bold hover:text-weekend-neon transition-all duration-500"
+                className="text-sm uppercase tracking-widest font-bold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-all duration-300"
               >
                 {link.name}
               </motion.a>
@@ -94,7 +94,7 @@ export default function App() {
           </nav>
 
           <button
-            className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-weekend-purple' : 'text-white'}`}
+            className={`lg:hidden p-2 transition-colors duration-500 z-50 ${isOpen ? 'text-[#C900FF]' : 'text-white'}`}
             onClick={() => setIsOpen(!isOpen)}
           >
             <motion.div
@@ -120,9 +120,9 @@ export default function App() {
               <img
                 src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp"
                 alt="Fondo Menú"
-                className="w-full h-full object-cover opacity-30 grayscale contrast-125 brightness-75"
+                className="w-full h-full object-cover opacity-65 brightness-90 contrast-110"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/90 via-[#050505]/85 to-[#0A0A0F]/95"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/70 via-[#050505]/45 to-[#0A0A0F]/75"></div>
             </div>
 
             <div className="relative z-10 flex flex-col items-center gap-6 landscape:gap-3 py-10">
@@ -133,7 +133,7 @@ export default function App() {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setIsOpen(false)}
-                  className="text-xl landscape:text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300"
+                  className="text-xl landscape:text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300"
                 >
                   {link.name}
                 </motion.a>
@@ -154,16 +154,19 @@ export default function App() {
             <img
               src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
               alt="Hero Inicio Móvil"
-              className="w-full h-full object-cover opacity-35 grayscale contrast-125 brightness-75"
+              className="w-full h-full object-cover opacity-75 brightness-95 contrast-105"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-[#050505]/65 to-[#050505]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/60 via-[#050505]/35 to-[#050505]/85" />
           </div>
 
           {/* Fondo Laptop y Desktop (pantallas lg y superiores) sin la imagen inicio.webp */}
           <div className="hidden lg:block absolute inset-0">
             <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black"></div>
           </div>
+
+          {/* Sombra / degradado suave inferior para fusión perfecta al scroll */}
+          <div className="absolute bottom-0 inset-x-0 h-44 bg-gradient-to-t from-[#050505] via-[#050505]/95 via-50% to-transparent z-[2] pointer-events-none" />
         </div>
 
         <div className="relative z-10 max-w-4xl px-4 text-center">
@@ -192,19 +195,19 @@ export default function App() {
           >
             <button
               onClick={() => document.getElementById('reserva')?.scrollIntoView({ behavior: 'smooth' })}
-              className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300 neon-glow"
+              className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-[#C900FF] hover:border-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 neon-glow hover:shadow-[0_0_25px_rgba(201,0,255,0.85)]"
             >
               Reservar Ahora
             </button>
             <button
               onClick={() => document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' })}
-              className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300"
+              className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-[#C900FF] hover:border-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 hover:shadow-[0_0_25px_rgba(201,0,255,0.8)]"
             >
               Ver Menú
             </button>
             <button
               onClick={handleDelivery}
-              className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-weekend-neon hover:text-black transition-all duration-300"
+              className="w-full sm:w-auto px-8 py-4 border-2 border-weekend-neon text-weekend-neon font-bold uppercase tracking-widest rounded-full hover:bg-[#C900FF] hover:border-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 hover:shadow-[0_0_25px_rgba(201,0,255,0.8)]"
             >
               Pedir Delivery
             </button>

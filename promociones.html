@@ -18,15 +18,15 @@
       <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" alt="Logo" class="h-12 w-12 rounded-full object-cover border border-[#00CFFF]" />
-          <a href="index.html" class="text-white font-bold tracking-tighter text-lg uppercase hidden xl:block hover:text-[#C900FF] transition-colors duration-500">
+          <a href="index.html" class="text-white font-bold tracking-tighter text-lg uppercase hidden xl:block hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300">
             Weekend! - huarmey
           </a>
         </div>
         <nav class="hidden lg:flex items-center gap-8">
-          <a href="index.html" class="text-sm uppercase tracking-widest font-bold hover:text-[#C900FF] transition-all duration-500">Inicio</a>
-          <a href="promociones.html" class="text-sm uppercase tracking-widest font-bold text-[#C900FF] transition-all duration-500" style="color: #C900FF; border-bottom: 2px solid #C900FF; padding-bottom: 2px;">Promociones</a>
-          <a href="index.html#carta-digital" class="text-sm uppercase tracking-widest font-bold hover:text-[#C900FF] transition-all duration-500">Carta</a>
-          <a href="index.html#reserva" class="text-sm uppercase tracking-widest font-bold hover:text-[#C900FF] transition-all duration-500">Reserva</a>
+          <a href="index.html" class="text-sm uppercase tracking-widest font-bold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-all duration-300">Inicio</a>
+          <a href="promociones.html" class="text-sm uppercase tracking-widest font-bold text-[#C900FF] transition-all duration-300" style="color: #C900FF; border-bottom: 2px solid #C900FF; padding-bottom: 2px;">Promociones</a>
+          <a href="index.html#carta-digital" class="text-sm uppercase tracking-widest font-bold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-all duration-300">Carta</a>
+          <a href="index.html#reserva" class="text-sm uppercase tracking-widest font-bold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-all duration-300">Reserva</a>
         </nav>
         <button class="lg:hidden p-2 text-white z-50 hover:text-[#C900FF] transition-colors" id="mobile-menu-btn">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
@@ -37,19 +37,19 @@
     <!-- Mobile Menu Overlay -->
     <div id="mobile-menu" class="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-6 hidden">
       <div class="absolute inset-0 z-0">
-        <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp" alt="Fondo Menú" class="w-full h-full object-cover opacity-30 grayscale contrast-125 brightness-75" />
-        <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/90 via-[#050505]/85 to-[#0A0A0F]/95"></div>
+        <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/menu.webp" alt="Fondo Menú" class="w-full h-full object-cover opacity-65 brightness-90 contrast-110" />
+        <div class="absolute inset-0 bg-gradient-to-b from-[#050505]/70 via-[#050505]/45 to-[#0A0A0F]/75"></div>
       </div>
       <div class="relative z-10 flex flex-col items-center gap-8 py-10">
-        <a href="index.html" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300">Inicio</a>
-        <a href="promociones.html" class="text-xl uppercase tracking-widest font-extrabold text-[#EA2A81] transition-colors duration-300">Promociones</a>
-        <a href="index.html#carta-digital" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300">Carta</a>
-        <a href="index.html#reserva" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#EA2A81] active:text-[#EA2A81] transition-colors duration-300">Reserva</a>
+        <a href="index.html" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300">Inicio</a>
+        <a href="promociones.html" class="text-xl uppercase tracking-widest font-extrabold text-[#C900FF] transition-colors duration-300">Promociones</a>
+        <a href="index.html#carta-digital" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300">Carta</a>
+        <a href="index.html#reserva" class="text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300">Reserva</a>
       </div>
       <div class="absolute bottom-8 left-0 w-full text-center z-10">
         <p class="text-white font-black text-xl uppercase tracking-[0.3em]">WEEKND!</p>
       </div>
-      <button class="absolute top-6 right-6 text-white p-2 hover:text-[#EA2A81] transition-colors z-20" id="close-menu-btn">
+      <button class="absolute top-6 right-6 text-white p-2 hover:text-[#C900FF] transition-colors z-20" id="close-menu-btn">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
     </div>

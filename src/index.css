@@ -139,9 +139,9 @@
 body.theme-premium-night header,
 body.theme-premium-night section:not(#carta-digital),
 body.theme-premium-night footer#contacto {
-  --color-weekend-neon: var(--color-primary-purple);
-  --color-weekend-purple: var(--color-accent-cyan);
-  --color-weekend-fuchsia: var(--color-secondary-magenta);
+  --color-weekend-neon: #C900FF;
+  --color-weekend-purple: #B11F9E;
+  --color-weekend-fuchsia: #EA2A81;
   --color-background: var(--color-background);
 }
 
