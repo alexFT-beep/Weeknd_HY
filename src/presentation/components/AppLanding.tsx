@@ -614,7 +614,7 @@ function SocialSection() {
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social'>('landing');
+  const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social' | 'reserva'>('landing');
   const [selectedPromoIndex, setSelectedPromoIndex] = useState<number | null>(null);
 
   const nextPromo = (e?: React.MouseEvent) => {
@@ -669,10 +669,17 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const goToReservation = () => {
+    setCurrentView('reserva');
+    window.location.hash = 'reserva';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
   useEffect(() => {
     (window as any).goToDashboard = goToDashboard;
     (window as any).goToLanding = goToLanding;
     (window as any).goToSocial = goToSocial;
+    (window as any).goToReservation = goToReservation;
 
     const handleCustomNav = (e: any) => {
       const view = e.detail?.view;
@@ -682,6 +689,8 @@ export default function App() {
         goToLanding();
       } else if (view === 'social' || view === 'redes') {
         goToSocial();
+      } else if (view === 'reserva' || view === 'reservas' || view === 'reservation') {
+        goToReservation();
       }
     };
 
@@ -699,6 +708,8 @@ export default function App() {
 
       if (hash.startsWith('#redes') || hash.startsWith('#social') || hash.startsWith('#gallery') || hash.startsWith('#videos')) {
         setCurrentView('social');
+      } else if (hash.startsWith('#reserva') || hash.startsWith('#reservacion') || hash.startsWith('#book')) {
+        setCurrentView('reserva');
       } else if (menuHashes.some(h => hash.startsWith(h))) {
         setCurrentView('dashboard');
       } else {
@@ -853,7 +864,191 @@ export default function App() {
         {/* Dashboard Footer */}
         <footer className="border-t border-white/10 py-8 bg-black text-center text-xs text-white/50">
           <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p>&copy; {new Date().getFullYear()} The Weekend Lounge &amp; Restaurant - Huarmey.</p>
+            <p>&copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant - Huarmey.</p>
+            <button
+              type="button"
+              onClick={goToLanding}
+              className="text-weekend-neon hover:underline font-bold uppercase tracking-wider"
+            >
+              Volver a la Página Principal
+            </button>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
+  // ----------------------------------------------------
+  // RESERVATION VIEW (Subpágina Dedicada a Reservas)
+  // ----------------------------------------------------
+  if (currentView === 'reserva') {
+    return (
+      <div className="min-h-screen bg-black text-white font-sans selection:bg-weekend-neon selection:text-black flex flex-col justify-between">
+        {/* Sleek Minimalist Top Navigation Row */}
+        <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-md py-3 px-4 border-b border-white/10">
+          <div className="max-w-6xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={goToLanding}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm"
+                title="Volver a la portada principal"
+              >
+                <ArrowLeft size={16} />
+                <span>Inicio</span>
+              </button>
+              <div className="flex items-center gap-2 cursor-pointer" onClick={goToLanding}>
+                <img
+                  src={LOGO_URL}
+                  alt="Logo Weeknd"
+                  className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
+                />
+                <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  WEEKND! <span className="text-weekend-neon">Huarmey</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                data-action="open-cart"
+                className="relative text-black font-bold bg-weekend-neon hover:bg-white transition-all active:scale-95 px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs uppercase"
+              >
+                <ShoppingCart size={15} />
+                <span className="hidden sm:inline">Carrito</span>
+              </button>
+              <button
+                type="button"
+                onClick={goToDashboard}
+                className="px-4 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white font-bold border border-white/20 rounded-full text-xs uppercase transition-all"
+              >
+                Ver Menú
+              </button>
+            </div>
+          </div>
+        </header>
+
+        {/* Main Reservation Section */}
+        <main className="flex-1 relative py-12 px-4 overflow-hidden flex items-center justify-center">
+          <div className="absolute inset-0 bg-radial-vignette opacity-70 pointer-events-none" />
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-weekend-neon/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-weekend-purple/10 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 max-w-6xl mx-auto w-full">
+            <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
+              {/* Capibara Izquierda (Kamehameha) */}
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mb-8 lg:mb-0 z-20 pointer-events-none"
+              >
+                <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
+                <img
+                  src={CAPY_KAME}
+                  alt="Capibara pose kamehameha"
+                  className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
+                />
+              </motion.div>
+
+              {/* Módulo de Reserva en el Centro */}
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                className="w-full max-w-xl bg-zinc-900/85 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-white/10 neon-glow-purple shadow-2xl relative z-10"
+              >
+                <div className="text-center mb-6">
+                  <h2 className="text-weekend-neon text-xs font-bold tracking-[0.3em] uppercase mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
+                  <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Reserva tu <span className="text-weekend-neon">Mesa</span></h3>
+                  <p className="text-white/50 text-xs sm:text-sm">Reserva con anticipación y déjanos encargarnos del resto.</p>
+                </div>
+
+                <form onSubmit={handleReserve} className="space-y-4 text-xs">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Nombre</label>
+                      <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Fecha</label>
+                      <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
+                    </div>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Personas</label>
+                      <input type="number" required placeholder="Cantidad" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
+                      <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
+                        {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Motivo</label>
+                    <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
+                      <option value="">Seleccionar</option>
+                      <option value="Cena Casual">Cena Casual</option>
+                      <option value="Cumpleaños">Cumpleaños</option>
+                      <option value="Aniversario">Aniversario</option>
+                      <option value="Evento Corporativo">Evento Corporativo</option>
+                      <option value="Otro">Otro</option>
+                    </select>
+                  </div>
+
+                  {/* NOTA DE AVISO PARA RESERVAS */}
+                  <div className="rounded-2xl border border-weekend-neon/40 bg-weekend-neon/10 p-4 space-y-2 text-zinc-200">
+                    <div className="flex items-center gap-2 text-weekend-neon font-black text-xs uppercase tracking-wide">
+                      <Info size={16} className="text-weekend-neon flex-shrink-0" />
+                      <span>📌 NOTA DE AVISO PARA RESERVAS:</span>
+                    </div>
+                    <p className="text-white/80 text-[11px] leading-relaxed">
+                      Al enviar tu solicitud por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en WEEKND! Huarmey.
+                    </p>
+                    <div className="pt-2 border-t border-weekend-neon/20 space-y-1.5 text-[11px] leading-relaxed text-zinc-200">
+                      <p className="flex items-start gap-1.5">
+                        <span className="text-weekend-neon font-bold mt-0.5">•</span>
+                        <span><span className="text-white font-bold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
+                      </p>
+                      <p className="flex items-start gap-1.5">
+                        <span className="text-weekend-neon font-bold mt-0.5">•</span>
+                        <span><span className="text-white font-bold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
+                      </p>
+                    </div>
+                  </div>
+
+                  <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs">
+                    Reservar por WhatsApp <Send size={16} />
+                  </button>
+                </form>
+              </motion.div>
+
+              {/* Capibara Derecha (Superhéroe) */}
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mt-8 lg:mt-0 z-20 pointer-events-none"
+              >
+                <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
+                <img
+                  src={CAPY_HERO}
+                  alt="Capibara superhéroe aterrizando"
+                  className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
+                />
+              </motion.div>
+            </div>
+          </div>
+        </main>
+
+        {/* Dedicated Reservation Footer */}
+        <footer className="border-t border-white/10 py-6 bg-black text-center text-xs text-white/50">
+          <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p>&copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant - Huarmey.</p>
             <button
               type="button"
               onClick={goToLanding}
@@ -885,6 +1080,12 @@ export default function App() {
       setIsOpen(false);
       return;
     }
+    if (link.name === 'Reserva') {
+      e.preventDefault();
+      goToReservation();
+      setIsOpen(false);
+      return;
+    }
     setIsOpen(false);
   };
 
@@ -913,7 +1114,7 @@ export default function App() {
               referrerPolicy="no-referrer"
             />
             <a href="#inicio" onClick={(e) => { e.preventDefault(); goToLanding(); }} className="text-white font-bold tracking-tighter text-base xl:block hidden uppercase hover:text-weekend-neon transition-colors duration-500 cursor-pointer" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              The Weekend! <span className="text-weekend-neon">Huarmey</span>
+              WEEKND! <span className="text-weekend-neon">Huarmey</span>
             </a>
           </div>
 
@@ -1123,123 +1324,6 @@ export default function App() {
                 </div>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ RESERVA + CAPIBARAS FLANQUEANDO (sin espacios, integrados) ============ */}
-      <section id="reserva" className="relative py-12 bg-black overflow-hidden border-t border-white/5">
-        <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-weekend-neon/30 to-transparent scan-line pointer-events-none" />
-
-        <div className="relative z-10 max-w-6xl mx-auto px-4">
-          <div className="relative flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-8">
-            {/* Capibara Izquierda (Kamehameha) */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mb-8 lg:mb-0 z-20 pointer-events-none"
-            >
-              <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
-              <img
-                src={CAPY_KAME}
-                alt="Capibara pose kamehameha"
-                className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
-              />
-            </motion.div>
-
-            {/* Módulo de Reserva en el Centro */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="w-full max-w-xl bg-zinc-900/80 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-white/10 neon-glow-purple shadow-2xl relative z-10"
-            >
-              <div className="text-center mb-6">
-                <h2 className="text-weekend-neon text-xs font-bold tracking-[0.3em] uppercase mb-2" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Planifica tu noche</h2>
-                <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Reserva tu <span className="text-weekend-neon">Mesa</span></h3>
-                <p className="text-white/50 text-xs sm:text-sm">Reserva con anticipación y déjanos encargarnos del resto.</p>
-              </div>
-
-              <form onSubmit={handleReserve} className="space-y-4 text-xs">
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Nombre</label>
-                    <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Fecha</label>
-                    <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
-                  </div>
-                </div>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Personas</label>
-                    <input type="number" required placeholder="Cantidad" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors text-white" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
-                    <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.hora} onChange={(e) => setForm({ ...form, hora: e.target.value })}>
-                      {TIME_SLOTS.map((t) => <option key={t} value={t}>{t}</option>)}
-                    </select>
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Motivo</label>
-                  <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-weekend-neon transition-colors appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
-                    <option value="">Seleccionar</option>
-                    <option value="Cena Casual">Cena Casual</option>
-                    <option value="Cumpleaños">Cumpleaños</option>
-                    <option value="Aniversario">Aniversario</option>
-                    <option value="Evento Corporativo">Evento Corporativo</option>
-                    <option value="Otro">Otro</option>
-                  </select>
-                </div>
-
-                {/* NOTA DE AVISO PARA RESERVAS */}
-                <div className="rounded-2xl border border-weekend-neon/40 bg-weekend-neon/10 p-4 space-y-2 text-zinc-200">
-                  <div className="flex items-center gap-2 text-weekend-neon font-black text-xs uppercase tracking-wide">
-                    <Info size={16} className="text-weekend-neon flex-shrink-0" />
-                    <span>📌 NOTA DE AVISO PARA RESERVAS:</span>
-                  </div>
-                  <p className="text-white/80 text-[11px] leading-relaxed">
-                    Al enviar tu solicitud por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en The Weekend Huarmey.
-                  </p>
-                  <div className="pt-2 border-t border-weekend-neon/20 space-y-1.5 text-[11px] leading-relaxed text-zinc-200">
-                    <p className="flex items-start gap-1.5">
-                      <span className="text-weekend-neon font-bold mt-0.5">•</span>
-                      <span><span className="text-white font-bold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
-                    </p>
-                    <p className="flex items-start gap-1.5">
-                      <span className="text-weekend-neon font-bold mt-0.5">•</span>
-                      <span><span className="text-white font-bold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
-                    </p>
-                  </div>
-                </div>
-
-                <button type="submit" className="w-full py-3.5 bg-weekend-neon text-black font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2 active:scale-95 text-xs">
-                  Reservar por WhatsApp <Send size={16} />
-                </button>
-              </form>
-            </motion.div>
-
-            {/* Capibara Derecha (Superhéroe) */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative w-48 sm:w-64 lg:w-72 flex-shrink-0 -mt-8 lg:mt-0 z-20 pointer-events-none"
-            >
-              <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-2xl pulse-glow" />
-              <img
-                src={CAPY_HERO}
-                alt="Capibara superhéroe aterrizando"
-                className="relative w-full drop-shadow-[0_0_35px_rgba(10,204,128,0.35)] float-anim"
-              />
-            </motion.div>
           </div>
         </div>
       </section>

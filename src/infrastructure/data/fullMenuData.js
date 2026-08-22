@@ -11,7 +11,6 @@ export const MENU_CATEGORIES = [
   { id: "salchipapas", name: "Salchipapas", emoji: "🍟", color: "#CCFF00", rgb: "204, 255, 0", description: "Salchipapas clásicas, rancheras, royal y especiales" },
   { id: "parrillas", name: "Parrillas & Combos", emoji: "🥩", color: "#FF0033", rgb: "255, 0, 51", description: "Cortes a la brasa, anticuchos y combos parrilleros" },
   { id: "piqueos", name: "Piqueos", emoji: "🍢", color: "#FF5722", rgb: "255, 87, 34", description: "Brochetas, tequeños x10 y nuggets" },
-  { id: "a-la-carta", name: "Platos a la Carta", emoji: "🥢", color: "#FF3D00", rgb: "255, 61, 0", description: "Chaufas, aeropuertos al wok y saltados criollos" },
   { id: "chifa", name: "Barrio Chino (Chifa)", emoji: "🥡", color: "#FF0055", rgb: "255, 0, 85", description: "Chi Jau Kay, Tipakay, Siu Pei, Kam Lu Wantan y tallarines" },
   { id: "pastas", name: "Pastas", emoji: "🍝", color: "#76FF03", rgb: "118, 255, 3", description: "Fetuccinis en salsas artesanales y acompañamientos" },
   { id: "ensaladas", name: "Ensaladas", emoji: "🥗", color: "#0ACC80", rgb: "10, 204, 128", description: "Ensaladas frescas de fruta, pollo y atún" },
@@ -19,8 +18,6 @@ export const MENU_CATEGORIES = [
   { id: "jugos", name: "Smoothies & Jugos", emoji: "🥤", color: "#FF007F", rgb: "255, 0, 127", description: "Smoothies 100% natural, jugos naturales y frappes" },
   { id: "bubble-tea", name: "Bubble Tea & Milkshakes", emoji: "🧋", color: "#D500F9", rgb: "213, 0, 249", description: "Bubble Tea con Popping Bobba y milkshakes cremosos" },
   { id: "refrescos", name: "Refrescos & Bebidas", emoji: "🧊", color: "#00E5FF", rgb: "0, 229, 255", description: "Jarras de refresco (1L y 1/2L), gaseosas y bebidas calientes" },
-  { id: "cocteles", name: "Cocteles & Licores", emoji: "🍸", color: "#2979FF", rgb: "41, 121, 255", description: "Chilcanos, Sours, Mojitos, Tragos de Autor y botellas" },
-  { id: "cervezas", name: "Cervezas", emoji: "🍺", color: "#FFD600", rgb: "255, 214, 0", description: "Cervezas nacionales e importadas bien heladas" },
   { id: "guarniciones", name: "Guarniciones & Extras", emoji: "🥔", color: "#A0AEC0", rgb: "160, 174, 192", description: "Porciones adicionales de papas, arroz, ensaladas y complementos" }
 ];
 
@@ -165,29 +162,7 @@ export const FULL_MENU_ITEMS = [
   { id: "nug-03", name: "Nuggets Three (10 Und)", price: 29, category: "piqueos", subcategory: "piqueos", description: "10 unidades + papas fritas + chorizo" },
   { id: "nug-04", name: "Nuggets Four (10 Und)", price: 30, category: "piqueos", subcategory: "piqueos", description: "10 unidades + papas fritas + salsa 04 quesos" },
 
-  // =================== 7. WEEKEND A LA CARTA ===================
-  { id: "carta-01", name: "Arroz a la Cubana", price: 18, category: "a-la-carta", subcategory: "a-la-carta", description: "Arroz + plátano frito + huevo frito" },
-  { id: "carta-02", name: "Chaufa D' Pollo", price: 25, category: "a-la-carta", subcategory: "a-la-carta", description: "Arroz chaufa al wok con trozos de pollo" },
-  { id: "carta-03", name: "Chaufa D' Chancho", price: 25, category: "a-la-carta", subcategory: "a-la-carta", description: "Arroz chaufa al wok con trozos de chancho" },
-  { id: "carta-04", name: "Aeropuerto D' Pollo", price: 27, category: "a-la-carta", subcategory: "a-la-carta", description: "Chaufa + tallarines + pollo salteado al wok" },
-  { id: "carta-05", name: "Aeropuerto D' Chancho", price: 27, category: "a-la-carta", subcategory: "a-la-carta", description: "Chaufa + tallarines + chancho salteado al wok" },
-  { id: "carta-06", name: "Pollo Saltado", price: 28, category: "a-la-carta", subcategory: "a-la-carta", description: "Trozos de pollo salteados al wok + papas + arroz" },
-  { id: "carta-07", name: "Milanesa", price: 28, category: "a-la-carta", subcategory: "a-la-carta", description: "Milanesa de pollo + arroz + papas fritas + ensalada" },
-  { id: "carta-08", name: "Pollo a la Plancha", price: 28, category: "a-la-carta", subcategory: "a-la-carta", description: "Pechuga a la plancha + arroz + papas + ensalada" },
-  { id: "carta-09", name: "Pollo Frito", price: 28, category: "a-la-carta", subcategory: "a-la-carta", description: "Pollo frito dorado + arroz + papas + ensalada" },
-  { id: "carta-10", name: "Chuleta Ahumada", price: 28, category: "a-la-carta", subcategory: "a-la-carta", description: "Chuleta ahumada + arroz + papas + ensalada" },
-  { id: "carta-11", name: "Churrasco Ahumado", price: 30, category: "a-la-carta", subcategory: "a-la-carta", description: "Churrasco ahumado + arroz + papas + ensalada" },
-  { id: "carta-12", name: "Chaufa D' Carne (Lomo Fino)", price: 33, category: "a-la-carta", subcategory: "a-la-carta", description: "Arroz chaufa con lomo fino al wok" },
-  { id: "carta-13", name: "Chaufa D' Langostinos", price: 33, category: "a-la-carta", subcategory: "a-la-carta", description: "Arroz chaufa con langostinos al wok" },
-  { id: "carta-14", name: "Aeropuerto D' Carne (Lomo Fino)", price: 34, category: "a-la-carta", subcategory: "a-la-carta", description: "Chaufa + tallarines + lomo fino al wok" },
-  { id: "carta-15", name: "Aeropuerto D' Langostinos", price: 34, category: "a-la-carta", subcategory: "a-la-carta", description: "Chaufa + tallarines + langostinos al wok" },
-  { id: "carta-16", name: "Alitas + Chaufa", price: 35, category: "a-la-carta", subcategory: "a-la-carta", description: "05 unidades + papas + arroz chaufa + 01 salsa a elección" },
-  { id: "carta-17", name: "Lomo Fino Saltado", price: 40, category: "a-la-carta", subcategory: "a-la-carta", description: "Lomo fino flameado al wok + papas fritas + arroz" },
-  { id: "carta-18", name: "Bisteck (Lomo Fino)", price: 40, category: "a-la-carta", subcategory: "a-la-carta", description: "Bisteck de lomo fino + arroz + papas + ensalada" },
-  { id: "carta-19", name: "Chaufa Especial Weekend", price: 40, category: "a-la-carta", subcategory: "a-la-carta", description: "Pollo, chancho, carne y langostinos" },
-  { id: "carta-20", name: "Aeropuerto Especial Weekend", price: 40, category: "a-la-carta", subcategory: "a-la-carta", description: "Pollo, chancho, carne y langostinos" },
-
-  // =================== 8. BARRIO CHINO WEEKEND (CHIFA) ===================
+  // =================== 7. BARRIO CHINO WEEKEND (CHIFA) ===================
   { id: "chifa-01", name: "Tallarín c/ Pollo", price: 28, category: "chifa", subcategory: "chifa", description: "Tallarín salteado estilo oriental con pollo" },
   { id: "chifa-02", name: "Pollo c/ Verduras", price: 28, category: "chifa", subcategory: "chifa", description: "Pechuga salteada con verduras orientales" },
   { id: "chifa-03", name: "Pollo Chi Jau Kay (Salado)", price: 28, category: "chifa", subcategory: "chifa", description: "Pollo crocante bañado en salsa salada de ostión" },
@@ -356,101 +331,7 @@ export const FULL_MENU_ITEMS = [
   { id: "cal-12", name: "Mocaccino", price: 16.00, category: "refrescos", subcategory: "refrescos", description: "Café, chocolate y crema de leche" },
   { id: "cal-13", name: "Dalgona", price: 17.50, category: "refrescos", subcategory: "refrescos", description: "Crema batida de café sobre leche" },
 
-  // =================== 18. COCTELES & TRAGOS (DRINKS) ===================
-  // Pisco
-  { id: "pisco-01", name: "Chilcanos Clásicos y Sabores", price: 20, category: "cocteles", subcategory: "drinks", description: "Limón, maracuyá, fresa, piña, arándanos, durazno, mango, frambuesa, manzana o tropical" },
-  { id: "pisco-02", name: "Pisco Sour (Limón, Maracuyá, Mango, Piña)", price: 25, category: "cocteles", subcategory: "drinks", description: "Pisco quebranta con jugo cítrico y espuma" },
-  { id: "pisco-03", name: "Primavera", price: 25, category: "cocteles", subcategory: "drinks", description: "Coctel frutal con pisco" },
-  { id: "pisco-04", name: "Pisco Punch", price: 25, category: "cocteles", subcategory: "drinks", description: "Pisco, piña macerada y jarabe" },
-  { id: "pisco-05", name: "Sacsay Huaman", price: 25, category: "cocteles", subcategory: "drinks", description: "Coctel de autor con pisco y toques dulces" },
-  { id: "pisco-06", name: "Pisco Sunrise", price: 25, category: "cocteles", subcategory: "drinks", description: "Pisco, jugo de naranja y granadina" },
-  { id: "pisco-07", name: "Perú Libre", price: 25, category: "cocteles", subcategory: "drinks", description: "Pisco con Coca Cola y limón" },
-  { id: "pisco-08", name: "Machu Picchu", price: 30, category: "cocteles", subcategory: "drinks", description: "Pisco, crema de menta, jugo de naranja y granadina" },
-
-  // Vodka
-  { id: "vodka-01", name: "Laguna Azul", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka, blue curacao y gaseosa blanca" },
-  { id: "vodka-02", name: "Sex on the Beach", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka, licor de durazno, jugo de naranja y arándano" },
-  { id: "vodka-03", name: "Semen de Pitufo", price: 30, category: "cocteles", subcategory: "drinks", description: "Coctel cremoso azul con vodka" },
-  { id: "vodka-04", name: "Destornillador", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka con jugo de naranja natural" },
-  { id: "vodka-05", name: "Coco Loco", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka, ron, crema de coco y jugo de piña" },
-  { id: "vodka-06", name: "Sub Marino", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka servido con cerveza" },
-  { id: "vodka-07", name: "Apple Martini", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka con licor de manzana verde" },
-  { id: "vodka-08", name: "Cosmopolita", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka, triple sec, jugo de arándano y limón" },
-  { id: "vodka-09", name: "Limonada Eléctrica", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka, blue curacao y limonada" },
-  { id: "vodka-10", name: "Caipiroska Clásica", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka, trozos de limón macerados y azúcar" },
-  { id: "vodka-11", name: "Caipiroska D' Maracuyá", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka con pulpa de maracuyá" },
-  { id: "vodka-12", name: "Caipiroska D' Fresa", price: 30, category: "cocteles", subcategory: "drinks", description: "Vodka con pulpa de fresa" },
-
-  // Ron
-  { id: "ron-01", name: "Mojitos Clásicos y Sabores", price: 20, category: "cocteles", subcategory: "drinks", description: "Limón, maracuyá, fresa, piña, arándanos, durazno, mango, frambuesa, manzana o tropical" },
-  { id: "ron-02", name: "Mojito Azul", price: 20, category: "cocteles", subcategory: "drinks", description: "Ron blanco, hierba buena, limón y blue curacao" },
-  { id: "ron-03", name: "Surf Blue", price: 25, category: "cocteles", subcategory: "drinks", description: "Ron, curacao azul y toques cítricos" },
-  { id: "ron-04", name: "Blue Huaman", price: 25, category: "cocteles", subcategory: "drinks", description: "Trago de la casa con ron y licor azul" },
-  { id: "ron-05", name: "Cuba Libre", price: 25, category: "cocteles", subcategory: "drinks", description: "Ron rubio, Coca Cola y limón" },
-  { id: "ron-06", name: "Pantera Rosa", price: 25, category: "cocteles", subcategory: "drinks", description: "Ron, leche condensada y granadina" },
-  { id: "ron-07", name: "Barbados Surprise", price: 25, category: "cocteles", subcategory: "drinks", description: "Ron, jugo de naranja y granadina" },
-  { id: "ron-08", name: "Piña Colada", price: 25, category: "cocteles", subcategory: "drinks", description: "Ron blanco, crema de coco y jugo de piña" },
-  { id: "ron-09", name: "Good Tropical", price: 25, category: "cocteles", subcategory: "drinks", description: "Ron y frutas tropicales" },
-  { id: "ron-10", name: "Café Cao", price: 25, category: "cocteles", subcategory: "drinks", description: "Ron, licor de café y cacao" },
-  { id: "ron-11", name: "Algarrobina", price: 25, category: "cocteles", subcategory: "drinks", description: "Ron o pisco con algarrobina y leche condensada" },
-  { id: "ron-12", name: "Daikiris (Variedad de Frutas)", price: 25, category: "cocteles", subcategory: "drinks", description: "Limón, maracuyá, fresa, piña, arándanos, durazno, mango o uva" },
-
-  // Tequila
-  { id: "teq-drk-01", name: "Margarita Clásica", price: 30, category: "cocteles", subcategory: "drinks", description: "Tequila, triple sec y zumo de limón con borde de sal" },
-  { id: "teq-drk-02", name: "Margarita D' Maracuyá", price: 30, category: "cocteles", subcategory: "drinks", description: "Tequila con maracuyá" },
-  { id: "teq-drk-03", name: "Tequila Sunrise", price: 30, category: "cocteles", subcategory: "drinks", description: "Tequila, jugo de naranja y granadina" },
-  { id: "teq-drk-04", name: "Charro Negro", price: 30, category: "cocteles", subcategory: "drinks", description: "Tequila con Coca Cola y limón" },
-  { id: "teq-drk-05", name: "Margarita Blue", price: 30, category: "cocteles", subcategory: "drinks", description: "Tequila, curacao azul y limón" },
-  { id: "teq-drk-06", name: "Margarita D' Durazno", price: 32, category: "cocteles", subcategory: "drinks", description: "Tequila con pulpa de durazno" },
-  { id: "teq-drk-07", name: "Margarita D' Mango", price: 35, category: "cocteles", subcategory: "drinks", description: "Tequila con pulpa de mango" },
-
-  // Whisky a las Rocas
-  { id: "whi-01", name: "Whisky Red Label a las Rocas", price: 28, category: "cocteles", subcategory: "drinks", description: "Vaso con hielo y whisky Johnnie Walker Red Label" },
-  { id: "whi-02", name: "Whisky Jogger Orange a las Rocas", price: 35, category: "cocteles", subcategory: "drinks", description: "Vaso con hielo y Jogger Orange" },
-  { id: "whi-03", name: "Whisky Jack Daniel's a las Rocas", price: 45, category: "cocteles", subcategory: "drinks", description: "Vaso con hielo y Jack Daniel's No. 7" },
-  { id: "whi-04", name: "Jhon Collins", price: 45, category: "cocteles", subcategory: "drinks", description: "Whisky con zumo de limón, azúcar y soda" },
-  { id: "whi-05", name: "Whisky Black Label a las Rocas", price: 55, category: "cocteles", subcategory: "drinks", description: "Vaso con hielo y Johnnie Walker Black Label" },
-
-  // Coctelería Internacional
-  { id: "inter-01", name: "Caipirinha Tradicional", price: 33, category: "cocteles", subcategory: "drinks", description: "Cachaça brasileña con limones y azúcar" },
-  { id: "inter-02", name: "Caipirinha Maracuyá", price: 33, category: "cocteles", subcategory: "drinks", description: "Cachaça brasileña con pulpa de maracuyá" },
-  { id: "inter-03", name: "Tom Collins", price: 35, category: "cocteles", subcategory: "drinks", description: "Gin con zumo de limón, azúcar y soda" },
-  { id: "inter-04", name: "Gin Tonic Clásico", price: 35, category: "cocteles", subcategory: "drinks", description: "Gin Bombay/Beefeater con agua tónica y botánicos" },
-  { id: "inter-05", name: "Gin Tonic Blue", price: 35, category: "cocteles", subcategory: "drinks", description: "Gin con agua tónica y blue curacao" },
-  { id: "inter-06", name: "Whisky Sour", price: 35, category: "cocteles", subcategory: "drinks", description: "Whisky con zumo de limón y jarabe" },
-  { id: "inter-07", name: "Negroni", price: 38, category: "cocteles", subcategory: "drinks", description: "Gin, vermouth rosso y campari" },
-  { id: "inter-08", name: "Long Island Ice Tea", price: 55, category: "cocteles", subcategory: "drinks", description: "Vodka, tequila, ron blanco, gin, triple sec y splash de cola" },
-
-  // =================== 19. BOTELLAS DE LICORES ===================
-  { id: "bot-01", name: "Vino Rosé (Botella)", price: 45, category: "cocteles", subcategory: "botellas", description: "Botella de vino rosé" },
-  { id: "bot-02", name: "Vino Borgoña (Botella)", price: 45, category: "cocteles", subcategory: "botellas", description: "Botella de vino borgoña" },
-  { id: "bot-03", name: "Vino Huarmeyano (Botella)", price: 45, category: "cocteles", subcategory: "botellas", description: "Vino artesanal huarmeyano" },
-  { id: "bot-04", name: "Something Special (Botella)", price: 120, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 3 guaraná + 1 cubeta de hielo" },
-  { id: "bot-05", name: "Jägermeister (Botella)", price: 140, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + jugo de naranja + 1 cubeta de hielo" },
-  { id: "bot-06", name: "Pisco Cuatro Gallos (Botella)", price: 140, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 1 ginger + 1 cubeta de hielo + limón" },
-  { id: "bot-07", name: "Whisky Red Label (Botella)", price: 140, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 3 guaraná + 1 cubeta de hielo" },
-  { id: "bot-08", name: "Whisky Ballantine's (Botella)", price: 140, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 3 guaraná + 1 cubeta de hielo" },
-  { id: "bot-09", name: "Tequila (Botella)", price: 150, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 1 porción limón + sal" },
-  { id: "bot-10", name: "Pisco Biondi (Botella)", price: 160, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 1 ginger + 1 cubeta de hielo + limón" },
-  { id: "bot-11", name: "Pisco Portón (Botella)", price: 170, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 1 ginger + 1 cubeta de hielo + limón" },
-  { id: "bot-12", name: "Whisky Chivas Regal 12 Años (Botella)", price: 200, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 3 guaraná + 1 hielo" },
-  { id: "bot-13", name: "Whisky Jack Daniel's (Botella)", price: 210, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 3 guaraná + 1 cubeta de hielo" },
-  { id: "bot-14", name: "Whisky Black Label (Botella)", price: 250, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 1 ginger + 1 cubeta de hielo" },
-  { id: "bot-15", name: "Whisky Jack Daniel's + Red Bull (Botella)", price: 340, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 2 Red Bull + 1 cubeta de hielo" },
-  { id: "bot-16", name: "Whisky Green Label + Red Bull (Botella)", price: 380, category: "cocteles", subcategory: "botellas", description: "Incluye: Botella + 2 Red Bull + 1 cubeta de hielo" },
-
-  // =================== 20. CERVEZAS ===================
-  { id: "cerv-01", name: "Pilsen Pequeña", price: 10, category: "cervezas", subcategory: "cervezas", description: "Botella personal 310ml" },
-  { id: "cerv-02", name: "Cusqueña Trigo Pequeña", price: 11, category: "cervezas", subcategory: "cervezas", description: "Botella personal 310ml" },
-  { id: "cerv-03", name: "Corona", price: 12, category: "cervezas", subcategory: "cervezas", description: "Botella 330ml con limón" },
-  { id: "cerv-04", name: "Stella Artois", price: 12, category: "cervezas", subcategory: "cervezas", description: "Botella 330ml" },
-  { id: "cerv-05", name: "Heineken", price: 12, category: "cervezas", subcategory: "cervezas", description: "Botella 330ml" },
-  { id: "cerv-06", name: "Pilsen Grande (630ml)", price: 12, category: "cervezas", subcategory: "cervezas", description: "Botella 630ml" },
-  { id: "cerv-07", name: "Cusqueña Trigo Grande (620ml)", price: 14, category: "cervezas", subcategory: "cervezas", description: "Botella 620ml" },
-  { id: "cerv-08", name: "Cusqueña Negra (620ml)", price: 14, category: "cervezas", subcategory: "cervezas", description: "Botella 620ml" },
-  { id: "cerv-09", name: "Cusqueña Weekend", price: 16, category: "cervezas", subcategory: "cervezas", description: "Cerveza especial de la casa" },
-
-  // =================== 21. GUARNICIONES & EXTRAS ===================
+  // =================== 18. GUARNICIONES & EXTRAS ===================
   { id: "guar-01", name: "Porción de Huevo", price: 2.50, category: "guarniciones", subcategory: "guarniciones", description: "Huevo frito montado" },
   { id: "guar-02", name: "Porción de Plátano", price: 3.00, category: "guarniciones", subcategory: "guarniciones", description: "Plátano frito" },
   { id: "guar-03", name: "Ensalada Clásica", price: 4.00, category: "guarniciones", subcategory: "guarniciones", description: "Porción de ensalada fresca" },

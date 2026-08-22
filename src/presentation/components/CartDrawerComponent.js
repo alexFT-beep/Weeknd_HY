@@ -85,31 +85,16 @@ export class CartDrawerComponent {
               </button>
             </div>
           ` : `
-            <!-- Order Type Selector (Delivery vs En Salón vs Reserva) -->
-            <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-2.5">
-              <label class="block text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-2">
-                📋 Modalidad de Atención
-              </label>
-              <div class="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  data-action="set-order-type"
-                  data-type="delivery"
-                  class="py-2.5 px-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase transition-all flex items-center justify-center gap-1 ${orderType === "delivery" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
-                  aria-label="Seleccionar Delivery"
-                >
-                  <span>🛵 Delivery</span>
-                </button>
-                <button
-                  type="button"
-                  data-action="set-order-type"
-                  data-type="reserva"
-                  class="py-2.5 px-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase transition-all flex items-center justify-center gap-1 ${orderType === "reserva" ? "bg-primary text-black font-extrabold shadow-sm" : "bg-zinc-900 text-zinc-300 hover:text-white border border-zinc-800"}"
-                  aria-label="Seleccionar Reserva"
-                >
-                  <span>🗓️ Reserva</span>
-                </button>
+            <!-- Delivery Info Badge -->
+            <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-3 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-base">🛵</span>
+                <div>
+                  <h4 class="text-xs font-bold text-white uppercase tracking-wide">Modalidad: Delivery</h4>
+                  <p class="text-[10px] text-zinc-400">Entrega rápida a todo Huarmey</p>
+                </div>
               </div>
+              <span class="text-[10px] bg-primary text-black font-black px-2 py-0.5 rounded-full">ACTIVO</span>
             </div>
 
             <!-- Items List -->
@@ -172,7 +157,7 @@ export class CartDrawerComponent {
                           type="button"
                           data-action="increase-qty"
                           data-cart-item-id="${ci.id}"
-                          class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-primary transition-colors"
+                          class="w-6 h-6 rounded flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
                           title="Aumentar"
                           aria-label="Aumentar cantidad"
                         >
@@ -185,33 +170,10 @@ export class CartDrawerComponent {
               </div>
             </div>
 
-            <!-- Nota de Aviso para Reservas -->
-            ${orderType === "reserva" ? `
-              <div class="bg-primary/10 border border-primary/40 rounded-xl p-3.5 space-y-2 text-zinc-200">
-                <div class="flex items-center gap-2 text-primary font-black text-xs uppercase tracking-wide">
-                  <span class="material-symbols-outlined text-base">info</span>
-                  <span>📌 NOTA DE AVISO PARA RESERVAS:</span>
-                </div>
-                <p class="text-[11px] text-zinc-300 leading-relaxed">
-                  Al enviar tu solicitud por WhatsApp, nuestro equipo verificará el motivo y cantidad de personas para confirmar la mejor ubicación en The Weekend Huarmey.
-                </p>
-                <div class="pt-2 border-t border-primary/20 space-y-1.5 text-[11px] leading-relaxed text-zinc-300">
-                  <p class="flex items-start gap-1.5">
-                    <span class="text-primary font-bold mt-0.5">•</span>
-                    <span><span class="text-white font-semibold">Tolerancia de reserva:</span> 10 a 15 minutos; transcurrido este tiempo, la mesa pasará a estar disponible.</span>
-                  </p>
-                  <p class="flex items-start gap-1.5">
-                    <span class="text-primary font-bold mt-0.5">•</span>
-                    <span><span class="text-white font-semibold">Restricción:</span> No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.</span>
-                  </p>
-                </div>
-              </div>
-            ` : ""}
-
             <!-- Customer Details Form (Clean Dark Inputs) -->
             <div class="bg-[#18181b] border border-zinc-800 rounded-xl p-3.5 space-y-2.5">
               <label class="block text-xs font-bold text-white uppercase tracking-wide">
-                ${orderType === "reserva" ? "🗓️ Datos para la Reserva" : "👤 Datos para el Pedido"}
+                👤 Datos para el Delivery
               </label>
               <div class="space-y-2 text-xs">
                 <div>
@@ -222,49 +184,22 @@ export class CartDrawerComponent {
                     class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
                   />
                 </div>
-                ${orderType === "delivery" ? `
-                  <div>
-                    <input 
-                      type="text" 
-                      id="order-address" 
-                      placeholder="Dirección exacta (Calle, Mz, Lt, Nro) *" 
-                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <input 
-                      type="text" 
-                      id="order-reference" 
-                      placeholder="Referencia de ubicación (ej: al frente de sanny)" 
-                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
-                    />
-                  </div>
-                ` : `
-                  <!-- Campos de Reserva -->
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    <input 
-                      type="text" 
-                      id="order-reservation-reason" 
-                      placeholder="Motivo (ej: Cumpleaños)" 
-                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
-                    />
-                    <input 
-                      type="number" 
-                      id="order-reservation-people" 
-                      placeholder="Cant. Personas *" 
-                      min="1"
-                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <input 
-                      type="text" 
-                      id="order-reservation-datetime" 
-                      placeholder="Fecha y Hora estimada (ej: Hoy 8:30 PM) *" 
-                      class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
-                    />
-                  </div>
-                `}
+                <div>
+                  <input 
+                    type="text" 
+                    id="order-address" 
+                    placeholder="Dirección exacta (Calle, Mz, Lt, Nro) *" 
+                    class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <input 
+                    type="text" 
+                    id="order-reference" 
+                    placeholder="Referencia de ubicación (ej: al frente de sanny)" 
+                    class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
+                  />
+                </div>
                 <div>
                   <label class="block text-[10px] font-semibold text-zinc-400 mb-1">Método de Pago Preferido</label>
                   <select 
@@ -281,7 +216,7 @@ export class CartDrawerComponent {
                   <textarea 
                     id="order-general-notes"
                     rows="2" 
-                    placeholder="Observaciones generales para cocina / reserva..." 
+                    placeholder="Observaciones generales para cocina / delivery..." 
                     class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none resize-none"
                   ></textarea>
                 </div>

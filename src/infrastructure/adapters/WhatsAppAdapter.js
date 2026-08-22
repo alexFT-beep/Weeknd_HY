@@ -41,7 +41,7 @@ export class WhatsAppAdapter {
     const effectiveReason = reservationReason || reservationMotive || '';
 
     if (orderType === 'reserva') {
-      text += `🍹 *¡SOLICITUD DE RESERVA - WEEKEND! Lounge & Restaurant* 🍗\n`;
+      text += `🍹 *¡SOLICITUD DE RESERVA - WEEKND! Lounge & Restaurant* 🍗\n`;
       text += `━━━━━━━━━━━━━━━━━━━━━\n`;
       text += `👤 *Cliente:* ${customerName}\n`;
       text += `📅 *Fecha y Hora:* ${reservationDateTime || 'Por confirmar'}\n`;
@@ -77,7 +77,7 @@ export class WhatsAppAdapter {
       text += `• *Restricción:* No se permite el ingreso de alimentos ni bebidas ajenos al establecimiento.\n\n`;
       text += `_¡Esperamos confirmar su mesa pronto!_ 🎉🥂🍽️`;
     } else {
-      text += `🍹 *¡NUEVO PEDIDO - WEEKEND! Lounge & Restaurant* 🍗\n`;
+      text += `🍹 *¡NUEVO PEDIDO - WEEKND! Lounge & Restaurant* 🍗\n`;
       text += `━━━━━━━━━━━━━━━━━━━━━\n`;
       text += `👤 *Cliente:* ${customerName}\n`;
       text += `📋 *Tipo:* ${orderType === 'delivery' ? '🛵 Delivery' : `🍽️ En Salón (Mesa ${tableNumber || 'N/A'})`}\n`;

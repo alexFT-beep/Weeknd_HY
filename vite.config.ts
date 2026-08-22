@@ -24,6 +24,7 @@ export default defineConfig(({ mode }) => {
         input: {
           main: fileURLToPath(new URL('./index.html', import.meta.url)),
           promociones: fileURLToPath(new URL('./promociones.html', import.meta.url)),
+          reserva: fileURLToPath(new URL('./reserva.html', import.meta.url)),
         },
       },
     },

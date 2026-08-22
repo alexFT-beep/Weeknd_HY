@@ -270,7 +270,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
           <div className="flex items-center gap-2 text-xs text-gray-300 bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl w-full md:w-auto justify-between md:justify-start">
             <span className="flex items-center gap-1.5">
               <ShieldCheck className="w-4 h-4 text-weekend-neon" />
-              <span>Sin cargos ocultos por empaque</span>
+              <span>Sin recargos por toppers</span>
             </span>
           </div>
         </div>
