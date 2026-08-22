@@ -1,7 +1,35 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { SECTION_THEMES } from './ProductCardComponent.js';
-import { Plus, ChevronDown, Sparkles, ShieldCheck, Truck, Check, Eye, EyeOff } from 'lucide-react';
+import { Plus, ChevronDown, Sparkles, ShieldCheck, Check, Eye, EyeOff } from 'lucide-react';
 import { MENU_CATEGORIES, FULL_MENU_ITEMS } from '../../infrastructure/data/fullMenuData.js';
+
+// Icono personalizado de Moto Delivery para la carta digital en estilo Lucide SVG
+const MotorcycleIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    {/* Caja de Delivery trasera */}
+    <rect x="2" y="5" width="5.5" height="5" rx="1" />
+    <path d="M4.75 10v4" />
+    {/* Rueda Trasera */}
+    <circle cx="5" cy="17" r="2.2" />
+    {/* Rueda Delantera */}
+    <circle cx="18" cy="17" r="2.2" />
+    {/* Chasis, asiento y cuerpo de la moto */}
+    <path d="M7.2 14h4l2.5-4.5H17.5" />
+    <path d="M11.2 14l2.5 3h4.3" />
+    {/* Horquilla delantera y manubrio */}
+    <path d="M17.8 17L16.2 5" />
+    <path d="M14.5 5.5h3.5" />
+  </svg>
+);
 
 interface Category {
   id: string;
@@ -400,8 +428,8 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
         <div className="absolute top-0 right-0 w-32 h-32 bg-weekend-neon/5 rounded-full blur-3xl pointer-events-none"></div>
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-weekend-neon/10 border border-weekend-neon/30 flex items-center justify-center shrink-0">
-              <Truck className="w-5 h-5 text-weekend-neon" />
+            <div className="w-10 h-10 rounded-full bg-weekend-neon/10 border border-weekend-neon/30 flex items-center justify-center shrink-0 shadow-[0_0_12px_rgba(0,255,163,0.2)]">
+              <MotorcycleIcon className="w-5 h-5 text-weekend-neon" />
             </div>
             <div>
               <h4 className="text-sm font-extrabold uppercase tracking-wide text-white flex items-center gap-2">

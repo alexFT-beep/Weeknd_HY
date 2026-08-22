@@ -795,6 +795,17 @@ export default function App() {
         <footer className="border-t border-white/10 py-8 bg-black text-center text-xs text-white/50">
           <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>&copy; {new Date().getFullYear()} Weekend Lounge &amp; Restaurant - Huarmey.</p>
+            <p className="text-white/60 text-xs font-medium tracking-wide">
+              Página web &amp; Carta digital hecha por{' '}
+              <a
+                href="https://www.instagram.com/mywebsite_____igsi=MWVpbGNpMWJsdzJkbw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-weekend-neon hover:underline font-bold transition-colors"
+              >
+                @MyWebsite
+              </a>
+            </p>
             <button
               type="button"
               onClick={goToLanding}
@@ -1205,8 +1216,8 @@ export default function App() {
       {/* ============ FOOTER ============ */}
       <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden border-t border-white/10">
         <div className="absolute inset-0 z-0">
-          <img src={FOOTER_IMG} alt="Footer Background" className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75" referrerPolicy="no-referrer" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-[#0A0A0F]/90" />
+          <img src={FOOTER_IMG} alt="Footer Background" className="w-full h-full object-cover opacity-60 brightness-100 contrast-110" referrerPolicy="no-referrer" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/50 to-[#050505]/60" />
         </div>
 
         <div className="relative z-10 max-w-6xl mx-auto px-4">
@@ -1276,9 +1287,20 @@ export default function App() {
             </div>
           </div>
 
-          <div className="pt-12 border-t border-white/10 text-center">
+          <div className="pt-12 border-t border-white/10 flex flex-col items-center justify-center gap-2 text-center">
             <p className="text-white/40 text-xs uppercase tracking-[0.3em]">
               &copy; {new Date().getFullYear()} WEEKEND! Lounge &amp; Restaurant.
+            </p>
+            <p className="text-white/60 text-xs font-medium tracking-wide">
+              Página web &amp; Carta digital hecha por{' '}
+              <a
+                href="https://www.instagram.com/mywebsite_____igsi=MWVpbGNpMWJsdzJkbw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-weekend-neon hover:underline font-bold transition-colors"
+              >
+                @MyWebsite
+              </a>
             </p>
           </div>
         </div>

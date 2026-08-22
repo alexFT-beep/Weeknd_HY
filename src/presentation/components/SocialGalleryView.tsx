@@ -456,9 +456,20 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
             </div>
           </div>
 
-          <div className="mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[#555] text-[10px] uppercase font-semibold">
-            <p>© 2026 THE WEEKEND LOUNGE & RESTAURANT.</p>
-            <div className="flex gap-4">
+          <div className="mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[#888] text-[11px] font-semibold">
+            <p>© 2026 THE WEEKEND LOUNGE &amp; RESTAURANT.</p>
+            <p className="text-white/60 font-medium tracking-wide">
+              Página web &amp; Carta digital hecha por{' '}
+              <a
+                href="https://www.instagram.com/mywebsite_____igsi=MWVpbGNpMWJsdzJkbw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#00ff88] hover:underline font-bold transition-colors"
+              >
+                @MyWebsite
+              </a>
+            </p>
+            <div className="flex gap-4 uppercase text-[10px] text-[#555]">
               <a href="#" className="hover:text-white transition-colors">Privacidad</a>
               <span>|</span>
               <a href="#" className="hover:text-white transition-colors">Términos</a>

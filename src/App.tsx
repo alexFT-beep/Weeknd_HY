@@ -455,10 +455,10 @@ export default function App() {
           <img
             src={FOOTER_IMG}
             alt="Footer Background"
-            className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75"
+            className="w-full h-full object-cover opacity-60 brightness-100 contrast-110"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-[#0A0A0F]/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/90 via-[#050505]/50 to-[#050505]/60"></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4">
@@ -530,9 +530,20 @@ export default function App() {
             </div>
           </div>
 
-          <div className="pt-12 border-t border-white/10 text-center">
+          <div className="pt-12 border-t border-white/10 flex flex-col items-center justify-center gap-2 text-center">
             <p className="text-white/40 text-xs uppercase tracking-[0.3em]">
               &copy; {new Date().getFullYear()} WEEKEND! Lounge &amp; Restaurant.
+            </p>
+            <p className="text-white/60 text-xs font-medium tracking-wide">
+              Página web &amp; Carta digital hecha por{' '}
+              <a
+                href="https://www.instagram.com/mywebsite_____igsi=MWVpbGNpMWJsdzJkbw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-weekend-neon hover:underline font-bold transition-colors"
+              >
+                @MyWebsite
+              </a>
             </p>
           </div>
         </div>
