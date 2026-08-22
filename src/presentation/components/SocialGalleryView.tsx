@@ -281,11 +281,8 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
         >
           <div className="space-y-1">
             <h3 className="text-lg sm:text-xl font-black uppercase text-white" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
-              ¿Tienes un evento o deseas reservar?
+              Contacto directo
             </h3>
-            <p className="text-xs sm:text-sm text-zinc-400">
-              Escríbenos directamente o consulta nuestra carta digital con delivery a todo Huarmey.
-            </p>
           </div>
           <a
             href="https://wa.me/51961336674?text=Hola%2C%20deseo%20hacer%20una%20reserva%20o%20pedido%20en%20Weekend!"

@@ -355,6 +355,11 @@ export class CartController {
         floatingBadge.classList.toggle('hidden', totals.itemCount === 0);
       }
 
+      const fabButton = document.getElementById('cart-floating-fab');
+      if (fabButton) {
+        fabButton.classList.toggle('hidden', totals.itemCount === 0);
+      }
+
       const floatingTotal = document.getElementById('floating-cart-total');
       if (floatingTotal) {
         floatingTotal.textContent = totals.formattedGrandTotal;

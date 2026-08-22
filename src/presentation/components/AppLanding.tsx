@@ -489,7 +489,7 @@ export default function App() {
     }
     if (link.name === 'DELIVERYS') {
       e.preventDefault();
-      handleDelivery();
+      goToDashboard();
       setIsOpen(false);
       return;
     }
