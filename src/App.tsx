@@ -391,7 +391,7 @@ export default function App() {
         </div>
       </section>
 
-      <section id="ubicacion" className="py-24 bg-black">
+      <section id="ubicacion" className="py-24 !bg-black">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-weekend-neon text-sm font-bold tracking-[0.3em] uppercase mb-4">Encuéntranos</h2>

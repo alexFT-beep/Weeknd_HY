@@ -701,7 +701,7 @@ export default function App() {
 
 
       {/* ============ UBICACIÓN ============ */}
-      <section id="ubicacion" className="py-20 bg-black">
+      <section id="ubicacion" className="py-20 !bg-black">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-weekend-neon text-sm font-bold tracking-[0.3em] uppercase mb-4" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Encuéntranos</h2>
