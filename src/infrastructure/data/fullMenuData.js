@@ -72,8 +72,8 @@ export const FULL_MENU_ITEMS = [
   { id: "ali-31", name: "Alitas en Salsa Naranja", price: 27, category: "alitas", subcategory: "alitas-individuales", description: "08 unidades + papas fritas + ensalada" },
 
   // --- RONDAS Y COMBOS DE ALITAS (Las más pedidas) ---
-  { id: "combo-duo", name: "Dúo de Alitas", price: 40, category: "alitas", subcategory: "rondas-alitas", description: "12 alitas + papas fritas + ensalada (02 sabores a elección)", badge: "RECOMENDADO", tapersCount: 2 },
-  { id: "combo-trio", name: "Trío de Alitas", price: 65, category: "alitas", subcategory: "rondas-alitas", description: "18 alitas + papas fritas + ensalada (03 sabores / 3 personas)", badge: "RECOMENDADO", tapersCount: 2 },
+  { id: "combo-duo", name: "Dúo de Alitas", price: 40, category: "alitas", subcategory: "rondas-alitas", description: "12 alitas + papas fritas + ensalada (02 sabores a elección)", badge: "RECOMENDADO" },
+  { id: "combo-trio", name: "Trío de Alitas", price: 65, category: "alitas", subcategory: "rondas-alitas", description: "18 alitas + papas fritas + ensalada (03 sabores / 3 personas)", badge: "RECOMENDADO" },
   { id: "combo-ruleta", name: "Ruleta Weekend", price: 80, category: "alitas", subcategory: "rondas-alitas", description: "20 alitas + papas fritas + ensalada (04 sabores a elección)", tapersCount: 2 },
   { id: "combo-carrusel", name: "Carrusel Weekend", price: 85, category: "alitas", subcategory: "rondas-alitas", description: "24 alitas + papas fritas + ensalada (04 sabores a elección)", tapersCount: 2 },
   { id: "combo-ronda", name: "Ronda Festival D' Sabores", price: 108, category: "alitas", subcategory: "rondas-alitas", description: "30 alitas + papas fritas + ensalada (05 sabores / 5 personas)", badge: "GRAN FESTIVAL", tapersCount: 2 },
@@ -133,12 +133,12 @@ export const FULL_MENU_ITEMS = [
   { id: "parr-08", name: "Carne a la Parrilla (Lomo Fino)", price: 40, category: "parrillas", subcategory: "parrillas", description: "Lomo fino a la parrilla + choclo + papas + ensalada" },
 
   // Combos Parrilleros
-  { id: "comb-parr-01", name: "Combo Weekend 01", price: 40, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + mollejas + papas + choclo + ensalada", tapersCount: 2 },
-  { id: "comb-parr-02", name: "Combo Weekend 02", price: 45, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + rachi + chorizo + papas + choclo", tapersCount: 2 },
-  { id: "comb-parr-03", name: "Combo Weekend 03", price: 48, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + rachi o molleja + 02 anticuchos", tapersCount: 2 },
-  { id: "comb-parr-04", name: "Combo Weekend 04", price: 69, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + cerdo + mollejas + 02 anticuchos", tapersCount: 2 },
-  { id: "comb-parr-05", name: "Combo Weekend 05", price: 95, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + cerdo + lomo fino + mollejas + 2 chorizos", tapersCount: 2 },
-  { id: "comb-parr-06", name: "Mega Combo Weekend", price: 199, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo pecho y pierna + 2 cerdos + 1 lomo fino + 3 chorizos + 3 anticuchos + rachi + 2 mollejas + 2 papas + ensalada", badge: "MEGA BANQUETE", tapersCount: 2 },
+  { id: "comb-parr-01", name: "Combo Weekend 01", price: 40, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + mollejas + papas + choclo + ensalada" },
+  { id: "comb-parr-02", name: "Combo Weekend 02", price: 45, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + rachi + chorizo + papas + choclo" },
+  { id: "comb-parr-03", name: "Combo Weekend 03", price: 48, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + rachi o molleja + 02 anticuchos" },
+  { id: "comb-parr-04", name: "Combo Weekend 04", price: 69, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + cerdo + mollejas + 02 anticuchos" },
+  { id: "comb-parr-05", name: "Combo Weekend 05", price: 95, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo 1/4 + cerdo + lomo fino + mollejas + 2 chorizos" },
+  { id: "comb-parr-06", name: "Mega Combo Weekend", price: 199, category: "parrillas", subcategory: "combos-parrilleros", description: "Pollo pecho y pierna + 2 cerdos + 1 lomo fino + 3 chorizos + 3 anticuchos + rachi + 2 mollejas + 2 papas + ensalada", badge: "MEGA BANQUETE" },
 
   // =================== 6. PIQUEOS (Brochetas, Tequeños, Nuggets) ===================
   // Brochetas
