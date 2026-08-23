@@ -1,5 +1,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, X, Plus, Check, Sparkles } from 'lucide-react';
 import { FULL_MENU_ITEMS, MENU_CATEGORIES } from '../../infrastructure/data/fullMenuData.js';
@@ -43,15 +44,21 @@ export const MenuSearchModal: React.FC<MenuSearchModalProps> = ({
   const [addedItemIds, setAddedItemIds] = useState<{ [id: string]: boolean }>({});
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Focus input when modal opens
+  // Lock body scroll and focus input when modal opens
   useEffect(() => {
     if (isOpen) {
-      setTimeout(() => {
+      document.body.style.overflow = 'hidden';
+      const timer = setTimeout(() => {
         if (inputRef.current) {
           inputRef.current.focus();
         }
-      }, 100);
+      }, 80);
+      return () => {
+        document.body.style.overflow = '';
+        clearTimeout(timer);
+      };
     } else {
+      document.body.style.overflow = '';
       setSearchTerm('');
       setSelectedCategory('all');
     }
@@ -131,12 +138,12 @@ export const MenuSearchModal: React.FC<MenuSearchModalProps> = ({
     }
   };
 
-  return (
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
         <div
           id="search-modal"
-          className="fixed inset-0 z-50 flex items-start justify-center p-3 sm:p-4 md:p-6 overflow-y-auto bg-black/85 backdrop-blur-md"
+          className="fixed inset-0 z-[9999] flex items-start justify-center p-3 sm:p-4 md:p-6 overflow-y-auto bg-black/85 backdrop-blur-md"
           onClick={(e) => {
             if (e.target === e.currentTarget) onClose();
           }}
@@ -417,4 +424,9 @@ export const MenuSearchModal: React.FC<MenuSearchModalProps> = ({
       )}
     </AnimatePresence>
   );
+
+  if (typeof document !== 'undefined') {
+    return createPortal(modalContent, document.body);
+  }
+  return modalContent;
 };

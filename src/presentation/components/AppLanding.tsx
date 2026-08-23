@@ -91,10 +91,14 @@ export default function App() {
     (window as any).goToLanding = goToLanding;
     (window as any).goToSocial = goToSocial;
     (window as any).goToReservation = goToReservation;
-    (window as any).openMenuSearch = () => setIsSearchOpen(true);
+    (window as any).openMenuSearch = () => {
+      goToDashboard();
+      setIsSearchOpen(true);
+    };
     (window as any).closeMenuSearch = () => setIsSearchOpen(false);
 
     const handleOpenSearchEvent = () => {
+      goToDashboard();
       setIsSearchOpen(true);
     };
 
@@ -102,12 +106,24 @@ export default function App() {
       const target = e.target as HTMLElement | null;
       if (target && target.closest('[data-action="open-search"]')) {
         e.preventDefault();
+        e.stopPropagation();
+        goToDashboard();
+        setIsSearchOpen(true);
+      }
+    };
+
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      const isInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName || '');
+      if (!isInput && (e.key === '/' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'))) {
+        e.preventDefault();
+        goToDashboard();
         setIsSearchOpen(true);
       }
     };
 
     window.addEventListener('menu:open-search', handleOpenSearchEvent);
     document.addEventListener('click', handleGlobalClick);
+    window.addEventListener('keydown', handleGlobalKeyDown);
 
     const handleCustomNav = (e: any) => {
       const view = e.detail?.view;
@@ -149,6 +165,7 @@ export default function App() {
     return () => {
       window.removeEventListener('menu:open-search', handleOpenSearchEvent);
       document.removeEventListener('click', handleGlobalClick);
+      window.removeEventListener('keydown', handleGlobalKeyDown);
       window.removeEventListener('app:navigate', handleCustomNav);
       window.removeEventListener('navigate-view', handleCustomNav);
       window.removeEventListener('hashchange', handleHash);
@@ -275,12 +292,16 @@ export default function App() {
               <button
                 type="button"
                 data-action="open-search"
-                onClick={() => setIsSearchOpen(true)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setIsSearchOpen(true);
+                }}
                 className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 p-1.5 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon shadow-sm cursor-pointer"
                 title="Buscar en la carta"
                 aria-label="Buscar en la carta"
               >
-                <Search size={18} />
+                <Search size={18} className="pointer-events-none" />
               </button>
             </div>
           </header>
@@ -847,6 +868,12 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Modal de Búsqueda Global */}
+      <MenuSearchModal 
+        isOpen={isSearchOpen} 
+        onClose={() => setIsSearchOpen(false)} 
+      />
     </div>
   );
 }
