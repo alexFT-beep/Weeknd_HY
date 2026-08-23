@@ -309,6 +309,19 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
             &copy; 2026 THE WEEKEND RESTOBAR &amp; LOUNGE. HUARMEY - ANCASH.
           </p>
         </div>
+        <div className="max-w-6xl mx-auto px-4 text-center mt-6 pt-4 border-t border-white/5">
+          <p className="text-[11px] sm:text-xs text-white/50 tracking-wider">
+            Página web &amp; Carta virtual hecha por{' '}
+            <a
+              href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-[#0acc80] hover:text-[#C900FF] transition-colors underline decoration-[#0acc80]/40 hover:decoration-[#C900FF] cursor-pointer"
+            >
+              @MyWebsite
+            </a>
+          </p>
+        </div>
       </footer>
     </div>
   );

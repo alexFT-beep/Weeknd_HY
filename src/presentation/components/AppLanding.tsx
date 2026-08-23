@@ -20,7 +20,7 @@ import CAPY_KAME from '../../assets/capybaras/capybara_kamehameha_pose_VECTOR.pn
 import CAPY_HERO from '../../assets/capybaras/superhero_capibara_landing_VECTOR.png';
 
 const NAV_LINKS = [
-  { name: 'Inicio', href: '#inicio', type: 'inicio' },
+  { name: 'Inicio', href: '#', type: 'inicio' },
   { name: 'Promociones', href: 'promociones.html', type: 'promociones' },
   { name: 'Carta', href: '#carta-digital', type: 'carta' },
   { name: 'Reserva', href: '#reserva', type: 'reserva' },
@@ -29,7 +29,7 @@ const NAV_LINKS = [
 ];
 
 const MOBILE_NAV_LINKS = [
-  { name: 'INICIO', href: '#inicio', type: 'inicio' },
+  { name: 'INICIO', href: '#', type: 'inicio' },
   { name: 'CARTA', href: '#carta-digital', type: 'carta', colorClass: 'text-[#C900FF] hover:text-white' },
   { name: 'RESERVA', href: '#reserva', type: 'reserva' },
   { name: 'DELIVERY', href: '#delivery', type: 'delivery', colorClass: 'text-[#0ACC80] hover:text-white' },
@@ -70,7 +70,9 @@ export default function App() {
 
   const goToLanding = () => {
     setCurrentView('landing');
-    window.location.hash = 'inicio';
+    if (window.location.hash) {
+      window.history.pushState(null, '', window.location.pathname + window.location.search);
+    }
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
@@ -157,6 +159,9 @@ export default function App() {
       } else if (menuHashes.some(h => hash.startsWith(h))) {
         setCurrentView('dashboard');
       } else {
+        if (window.location.hash) {
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
+        }
         setCurrentView('landing');
       }
     };
@@ -328,6 +333,17 @@ export default function App() {
               Volver a la Página Principal
             </button>
           </div>
+          <p className="mt-4 text-[11px] sm:text-xs text-white/50 tracking-wider">
+            Página web &amp; Carta virtual hecha por{' '}
+            <a
+              href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-weekend-neon hover:text-[#C900FF] transition-colors underline decoration-weekend-neon/40 hover:decoration-[#C900FF] cursor-pointer"
+            >
+              @MyWebsite
+            </a>
+          </p>
         </footer>
       </div>
     );
@@ -504,6 +520,17 @@ export default function App() {
               Volver a la Página Principal
             </button>
           </div>
+          <p className="mt-4 text-[11px] sm:text-xs text-white/50 tracking-wider">
+            Página web &amp; Carta virtual hecha por{' '}
+            <a
+              href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-bold text-weekend-neon hover:text-[#C900FF] transition-colors underline decoration-weekend-neon/40 hover:decoration-[#C900FF] cursor-pointer"
+            >
+              @MyWebsite
+            </a>
+          </p>
         </footer>
       </div>
     );
@@ -861,9 +888,20 @@ export default function App() {
             </div>
           </div>
 
-          <div className="pt-12 border-t border-white/10 text-center">
+          <div className="pt-12 border-t border-white/10 text-center flex flex-col items-center justify-center gap-2">
             <p className="text-white/40 text-xs uppercase tracking-[0.3em]">
               &copy; {new Date().getFullYear()} WEEKEND! Lounge &amp; Restaurant.
+            </p>
+            <p className="text-[11px] sm:text-xs text-white/50 tracking-wider">
+              Página web &amp; Carta virtual hecha por{' '}
+              <a
+                href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-weekend-neon hover:text-[#C900FF] transition-colors underline decoration-weekend-neon/40 hover:decoration-[#C900FF] cursor-pointer"
+              >
+                @MyWebsite
+              </a>
             </p>
           </div>
         </div>

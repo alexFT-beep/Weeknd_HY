@@ -95,7 +95,7 @@
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/65"></div>
       </div>
       <div class="relative z-10 flex flex-col items-center gap-3 py-6 w-full max-w-xs">
-        <a href="index.html#inicio" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">INICIO</a>
+        <a href="index.html" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">INICIO</a>
         <a href="index.html#carta-digital" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-[#C900FF] hover:text-white transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">CARTA</a>
         <a href="index.html#reserva" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">RESERVA</a>
         <a href="https://wa.me/51961336674?text=Hola%2C%20deseo%20hacer%20un%20pedido%20de%20delivery%20en%20Weekend!" target="_blank" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-[#0acc80] hover:text-white transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">DELIVERY</a>
@@ -149,16 +149,15 @@
     <!-- Lightbox Modal Fullscreen -->
     <div id="promo-lightbox" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md hidden items-center justify-center p-4 selection:bg-[#C900FF] selection:text-white">
       <button id="close-lightbox" aria-label="Cerrar modal" class="absolute top-5 right-5 text-white/80 hover:text-white bg-zinc-900/80 p-3 rounded-full border border-white/20 hover:border-[#C900FF] transition-colors z-30 shadow-2xl cursor-pointer">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
 
-      <!-- Left Arrow Button -->
       <button id="prev-promo-btn" aria-label="Promoción anterior" class="lightbox-nav-btn left-4 sm:left-8 cursor-pointer">
         <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
       </button>
 
-      <!-- Central Image & Counter Container -->
-      <div class="relative max-w-4xl max-h-[85vh] flex flex-col items-center justify-center">
+      <div class="max-w-4xl w-full flex flex-col items-center justify-center relative z-10" id="lightbox-content">
+        <!-- Contenido dinámico del lightbox -->
         <img id="lightbox-img" src="" alt="Promoción Weekend" class="max-h-[76vh] sm:max-h-[80vh] w-auto object-contain rounded-2xl border border-white/20 shadow-[0_0_40px_rgba(201,0,255,0.3)] transition-all duration-300 select-none">
         <div class="mt-3 flex items-center gap-3">
           <span id="promo-title" class="text-xs font-bold text-white uppercase tracking-wider bg-zinc-900/90 px-4 py-1.5 rounded-full border border-white/10"></span>
@@ -166,7 +165,6 @@
         </div>
       </div>
 
-      <!-- Right Arrow Button -->
       <button id="next-promo-btn" aria-label="Siguiente promoción" class="lightbox-nav-btn right-4 sm:right-8 cursor-pointer">
         <svg class="w-6 h-6 stroke-current" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
       </button>
@@ -186,6 +184,19 @@
           <span class="px-3 py-1 bg-[#00E968] text-black rounded-full text-[10px] uppercase font-extrabold tracking-widest border border-[#33ee86]">Efectivo</span>
         </div>
         <p class="text-white/40 text-xs uppercase tracking-[0.2em]">&copy; 2026 WEEKEND! Lounge &amp; Restaurant. Huarmey - Ancash.</p>
+      </div>
+      <div class="max-w-7xl mx-auto px-4 text-center mt-8 pt-4 border-t border-white/5 relative z-10">
+        <p class="text-[11px] sm:text-xs text-white/50 tracking-wider">
+          Página web &amp; Carta virtual hecha por 
+          <a
+            href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-bold text-[#0acc80] hover:text-[#C900FF] transition-colors underline decoration-[#0acc80]/40 hover:decoration-[#C900FF] cursor-pointer"
+          >
+            @MyWebsite
+          </a>
+        </p>
       </div>
     </footer>
 

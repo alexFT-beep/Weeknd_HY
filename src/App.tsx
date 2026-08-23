@@ -491,9 +491,20 @@ export default function App() {
             </div>
           </div>
 
-          <div className="pt-12 border-t border-white/10 text-center">
+          <div className="pt-12 border-t border-white/10 text-center flex flex-col items-center justify-center gap-2">
             <p className="text-white/40 text-xs uppercase tracking-[0.3em]">
               &copy; {new Date().getFullYear()} WEEKEND! Lounge &amp; Restaurant.
+            </p>
+            <p className="text-[11px] sm:text-xs text-white/50 tracking-wider">
+              Página web &amp; Carta virtual hecha por{' '}
+              <a
+                href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold text-weekend-neon hover:text-[#C900FF] transition-colors underline decoration-weekend-neon/40 hover:decoration-[#C900FF] cursor-pointer"
+              >
+                @MyWebsite
+              </a>
             </p>
           </div>
         </div>
