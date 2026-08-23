@@ -30,9 +30,9 @@ const NAV_LINKS = [
 
 const MOBILE_NAV_LINKS = [
   { name: 'INICIO', href: '#inicio', type: 'inicio' },
-  { name: 'CARTA', href: '#carta-digital', type: 'carta' },
+  { name: 'CARTA', href: '#carta-digital', type: 'carta', colorClass: 'text-[#C900FF] hover:text-white' },
   { name: 'RESERVA', href: '#reserva', type: 'reserva' },
-  { name: 'DELIVERYS', href: '#delivery', type: 'delivery' },
+  { name: 'DELIVERY', href: '#delivery', type: 'delivery', colorClass: 'text-[#0ACC80] hover:text-white' },
   { name: 'DESTACADOS', href: 'promociones.html', type: 'destacados' },
   { name: 'SÍGUENOS', href: '#redes', type: 'siguenos' },
 ];
@@ -487,7 +487,7 @@ export default function App() {
       setIsOpen(false);
       return;
     }
-    if (link.name === 'DELIVERYS') {
+    if (link.name === 'DELIVERY' || link.name === 'DELIVERYS') {
       e.preventDefault();
       goToDashboard();
       setIsOpen(false);
@@ -597,7 +597,16 @@ export default function App() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-5 landscape:gap-3 md:hidden overflow-y-auto"
           >
-
+            {/* Fondo con imagen living.webp */}
+            <div className="absolute inset-0 z-0">
+              <img
+                src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp"
+                alt="Fondo Menú Móvil"
+                className="w-full h-full object-cover opacity-40 brightness-75 contrast-125"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/80 to-black/95 backdrop-blur-[2px]" />
+            </div>
 
             <div className="relative z-10 flex flex-col items-center gap-4 landscape:gap-2 py-8 w-full max-w-xs px-4">
               {MOBILE_NAV_LINKS.map((link) => (
@@ -607,7 +616,9 @@ export default function App() {
                   whileHover={{ scale: 1.08 }} 
                   whileTap={{ scale: 0.92 }}
                   onClick={(e) => handleNavClick(e, link)}
-                  className="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300 border-b border-white/5 cursor-pointer"
+                  className={`w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold transition-colors duration-300 border-b border-white/5 cursor-pointer ${
+                    link.colorClass || 'text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF]'
+                  }`}
                   style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                 >
                   {link.name}
@@ -623,7 +634,7 @@ export default function App() {
             </div>
 
             <div className="absolute bottom-6 landscape:hidden left-0 w-full text-center z-10">
-              <p className="text-white/40 font-black text-sm uppercase tracking-[0.3em]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKND! - HUARMEY</p>
+              <p className="text-[#f59e0b] font-black text-sm uppercase tracking-[0.3em] drop-shadow-[0_0_12px_rgba(245,158,11,0.3)]" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>WEEKND! - HUARMEY</p>
             </div>
           </motion.div>
         )}
