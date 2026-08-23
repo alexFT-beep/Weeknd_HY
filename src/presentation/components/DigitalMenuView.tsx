@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { SECTION_THEMES } from './ProductCardComponent.js';
-import { Plus, ChevronDown, Sparkles, ShieldCheck, Check, Eye, EyeOff } from 'lucide-react';
+import { Plus, ChevronDown, Sparkles, ShieldCheck, Check, Eye, EyeOff, Search } from 'lucide-react';
 import { MENU_CATEGORIES, FULL_MENU_ITEMS } from '../../infrastructure/data/fullMenuData.js';
 
 interface Category {
@@ -343,6 +343,16 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
           </span>
 
           <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              data-action="open-search"
+              onClick={onSearchClick}
+              className="px-2.5 py-1.5 bg-weekend-neon/10 hover:bg-weekend-neon/20 border border-weekend-neon/40 text-weekend-neon rounded-xl text-[11px] font-extrabold uppercase transition-all flex items-center gap-1 active:scale-95 cursor-pointer shadow-sm"
+              title="Buscar platos o tragos en la carta"
+            >
+              <Search className="w-3.5 h-3.5 text-weekend-neon" />
+              <span className="hidden sm:inline">Buscar</span>
+            </button>
             <button
               type="button"
               onClick={() => setAllCategoriesExpanded(true)}

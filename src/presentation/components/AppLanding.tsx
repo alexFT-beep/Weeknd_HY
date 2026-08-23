@@ -1,11 +1,11 @@
-// @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, ArrowLeft, ShoppingCart
+  Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, ArrowLeft, ShoppingCart, Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DigitalMenuView } from './DigitalMenuView';
 import { SocialGalleryView } from './SocialGalleryView';
+import { MenuSearchModal } from './MenuSearchModal';
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
@@ -50,6 +50,7 @@ const TIKTOK_ICON = (cn = 'w-5 h-5') => (
 
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social' | 'reserva'>('landing');
 
@@ -90,6 +91,23 @@ export default function App() {
     (window as any).goToLanding = goToLanding;
     (window as any).goToSocial = goToSocial;
     (window as any).goToReservation = goToReservation;
+    (window as any).openMenuSearch = () => setIsSearchOpen(true);
+    (window as any).closeMenuSearch = () => setIsSearchOpen(false);
+
+    const handleOpenSearchEvent = () => {
+      setIsSearchOpen(true);
+    };
+
+    const handleGlobalClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest('[data-action="open-search"]')) {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+    };
+
+    window.addEventListener('menu:open-search', handleOpenSearchEvent);
+    document.addEventListener('click', handleGlobalClick);
 
     const handleCustomNav = (e: any) => {
       const view = e.detail?.view;
@@ -129,6 +147,8 @@ export default function App() {
     handleHash();
     window.addEventListener('hashchange', handleHash);
     return () => {
+      window.removeEventListener('menu:open-search', handleOpenSearchEvent);
+      document.removeEventListener('click', handleGlobalClick);
       window.removeEventListener('app:navigate', handleCustomNav);
       window.removeEventListener('navigate-view', handleCustomNav);
       window.removeEventListener('hashchange', handleHash);
@@ -255,20 +275,24 @@ export default function App() {
               <button
                 type="button"
                 data-action="open-search"
+                onClick={() => setIsSearchOpen(true)}
                 className="text-weekend-neon hover:opacity-80 transition-opacity active:scale-95 p-1.5 flex items-center justify-center rounded-xl bg-zinc-900 border border-white/10 hover:border-weekend-neon shadow-sm cursor-pointer"
                 title="Buscar en la carta"
                 aria-label="Buscar en la carta"
               >
-                <span className="material-symbols-outlined text-[20px]">search</span>
+                <Search size={18} />
               </button>
             </div>
           </header>
 
           {/* Componente Nativo React de la Carta Digital */}
-          <DigitalMenuView onSearchClick={() => {
-            const searchModal = document.getElementById('search-modal');
-            if (searchModal) searchModal.classList.remove('hidden');
-          }} />
+          <DigitalMenuView onSearchClick={() => setIsSearchOpen(true)} />
+
+          {/* Modal de Búsqueda Dinámica */}
+          <MenuSearchModal 
+            isOpen={isSearchOpen} 
+            onClose={() => setIsSearchOpen(false)} 
+          />
         </main>
 
         {/* Dashboard Footer */}

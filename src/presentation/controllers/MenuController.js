@@ -159,7 +159,11 @@ export class MenuController {
     const closeSearchBtn = document.getElementById("close-search-btn");
 
     openSearchBtns.forEach(btn => {
-      btn.onclick = () => {
+      btn.addEventListener('click', (e) => {
+        if (typeof window !== 'undefined' && typeof window.openMenuSearch === 'function') {
+          window.openMenuSearch();
+          return;
+        }
         if (searchModal) {
           searchModal.classList.remove("hidden");
           searchModal.classList.add("flex");
@@ -171,7 +175,7 @@ export class MenuController {
             searchResults.innerHTML = '<p class="text-center text-xs text-on-surface-variant py-8">🔍 Escribe el nombre de un plato o ingrediente...</p>';
           }
         }
-      };
+      });
     });
 
     if (searchModal) {
