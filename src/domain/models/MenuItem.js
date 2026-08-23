@@ -15,8 +15,9 @@ export class MenuItem {
    * @param {boolean} [params.isFeatured]
    * @param {string} [params.subcategory]
    * @param {string[]} [params.options]
+   * @param {number} [params.tapersCount]
    */
-  constructor({ id, name, price, category, subcategory = '', description = '', image = '', badge = '', isFeatured = false, options = [] }) {
+  constructor({ id, name, price, category, subcategory = '', description = '', image = '', badge = '', isFeatured = false, options = [], tapersCount = 1 }) {
     this.id = id;
     this.name = name;
     this.price = Number(price);
@@ -27,6 +28,7 @@ export class MenuItem {
     this.badge = badge;
     this.isFeatured = isFeatured;
     this.options = options;
+    this.tapersCount = Number(tapersCount) || 1;
   }
 
   get formattedPrice() {
