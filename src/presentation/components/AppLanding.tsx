@@ -642,15 +642,15 @@ export default function App() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-5 landscape:gap-3 md:hidden overflow-y-auto"
           >
-            {/* Fondo con imagen living.webp */}
+            {/* Fondo con imagen living.webp mucho más claro y visible */}
             <div className="absolute inset-0 z-0">
               <img
                 src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp"
                 alt="Fondo Menú Móvil"
-                className="w-full h-full object-cover opacity-40 brightness-75 contrast-125"
+                className="w-full h-full object-cover opacity-85 brightness-110 contrast-105 saturate-110"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/80 to-black/95 backdrop-blur-[2px]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/65" />
             </div>
 
             <div className="relative z-10 flex flex-col items-center gap-4 landscape:gap-2 py-8 w-full max-w-xs px-4">
@@ -661,7 +661,7 @@ export default function App() {
                   whileHover={{ scale: 1.08 }} 
                   whileTap={{ scale: 0.92 }}
                   onClick={(e) => handleNavClick(e, link)}
-                  className={`w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold transition-colors duration-300 border-b border-white/5 cursor-pointer ${
+                  className={`w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold transition-colors duration-300 border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer ${
                     link.colorClass || 'text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF]'
                   }`}
                   style={{ fontFamily: "'Space Grotesk', sans-serif" }}
