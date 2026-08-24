@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, Suspense, lazy } from 'react';
 import {
   Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, ArrowLeft, ShoppingCart, Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DigitalMenuView } from './DigitalMenuView';
-import { SocialGalleryView } from './SocialGalleryView';
-import { MenuSearchModal } from './MenuSearchModal';
-import { NosotrosSection } from './NosotrosSection';
-import { MomentosSection } from './MomentosSection';
+
+// Code Splitting & Dynamic Imports as per Vercel React Best Practices
+const SocialGalleryView = lazy(() => import('./SocialGalleryView').then(m => ({ default: m.SocialGalleryView })));
+const MenuSearchModal = lazy(() => import('./MenuSearchModal').then(m => ({ default: m.MenuSearchModal })));
+const NosotrosSection = lazy(() => import('./NosotrosSection').then(m => ({ default: m.NosotrosSection })));
+const MomentosSection = lazy(() => import('./MomentosSection').then(m => ({ default: m.MomentosSection })));
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
@@ -54,6 +56,13 @@ const TIKTOK_ICON = (cn = 'w-5 h-5') => (
   <svg viewBox="0 0 24 24" className={cn} fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.06 3.43-.3 6.83-1.62 10.12-1.14 2.81-3.38 5.08-6.23 5.87-2.04.56-4.2.42-6.17-.36-2.53-.99-4.51-3.18-5.19-5.77-.58-2.18-.44-4.52.35-6.65.95-2.58 3.11-4.61 5.73-5.28 1.15-.29 2.35-.39 3.53-.28V10.7c-.49-.17-1.02-.2-1.53-.13-.76.11-1.49.54-1.91 1.17-.45.68-.5 1.55-.3 2.32.25.86.96 1.53 1.82 1.73.66.16 1.38.07 1.98-.26.59-.34 1.01-.92 1.14-1.58.1-.47.12-.95.12-1.43V0z"/></svg>
 );
 
+// Fallback Spinner for Suspense boundaries
+const SectionLoadingFallback = () => (
+  <div className="min-h-[60vh] flex items-center justify-center bg-black">
+    <div className="w-8 h-8 rounded-full border-2 border-weekend-neon border-t-transparent animate-spin" />
+  </div>
+);
+
 export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -68,43 +77,43 @@ export default function App() {
     motivo: ''
   });
 
-  const goToDashboard = () => {
+  const goToDashboard = useCallback(() => {
     setCurrentView('dashboard');
     window.location.hash = 'carta-digital';
     window.scrollTo({ top: 0, behavior: 'instant' });
-  };
+  }, []);
 
-  const goToLanding = () => {
+  const goToLanding = useCallback(() => {
     setCurrentView('landing');
     if (window.location.hash) {
       window.history.pushState(null, '', window.location.pathname + window.location.search);
     }
     window.scrollTo({ top: 0, behavior: 'instant' });
-  };
+  }, []);
 
-  const goToSocial = () => {
+  const goToSocial = useCallback(() => {
     setCurrentView('social');
     window.location.hash = 'redes';
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, []);
 
-  const goToReservation = () => {
+  const goToReservation = useCallback(() => {
     setCurrentView('reserva');
     window.location.hash = 'reserva';
     window.scrollTo({ top: 0, behavior: 'instant' });
-  };
+  }, []);
 
-  const goToNosotros = () => {
+  const goToNosotros = useCallback(() => {
     setCurrentView('nosotros');
     window.location.hash = 'nosotros';
     window.scrollTo({ top: 0, behavior: 'instant' });
-  };
+  }, []);
 
-  const goToMomentos = () => {
+  const goToMomentos = useCallback(() => {
     setCurrentView('momentos');
     window.location.hash = 'momentos';
     window.scrollTo({ top: 0, behavior: 'instant' });
-  };
+  }, []);
 
   useEffect(() => {
     (window as any).goToDashboard = goToDashboard;
@@ -203,7 +212,7 @@ export default function App() {
       window.removeEventListener('navigate-view', handleCustomNav);
       window.removeEventListener('hashchange', handleHash);
     };
-  }, []);
+  }, [goToDashboard, goToLanding, goToMomentos, goToNosotros, goToReservation, goToSocial]);
 
   useEffect(() => {
     if (currentView === 'dashboard') {
@@ -243,7 +252,7 @@ export default function App() {
         document.body.classList.remove('animations-paused');
       }
     };
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -269,10 +278,12 @@ export default function App() {
   // ----------------------------------------------------
   if (currentView === 'social') {
     return (
-      <SocialGalleryView 
-        onBackToHome={goToLanding} 
-        onOpenMenu={goToDashboard} 
-      />
+      <Suspense fallback={<SectionLoadingFallback />}>
+        <SocialGalleryView 
+          onBackToHome={goToLanding} 
+          onOpenMenu={goToDashboard} 
+        />
+      </Suspense>
     );
   }
 
@@ -298,6 +309,10 @@ export default function App() {
                 <img
                   src={LOGO_URL}
                   alt="Logo Weeknd"
+                  width={28}
+                  height={28}
+                  loading="lazy"
+                  decoding="async"
                   className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
                 />
                 <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -326,10 +341,12 @@ export default function App() {
         </header>
 
         <main className="flex-1">
-          <NosotrosSection 
-            onOpenMenu={goToDashboard}
-            onOpenReserva={goToReservation}
-          />
+          <Suspense fallback={<SectionLoadingFallback />}>
+            <NosotrosSection 
+              onOpenMenu={goToDashboard}
+              onOpenReserva={goToReservation}
+            />
+          </Suspense>
         </main>
 
         <footer className="border-t border-white/10 py-6 bg-black text-center text-xs text-white/50">
@@ -370,6 +387,10 @@ export default function App() {
                 <img
                   src={LOGO_URL}
                   alt="Logo Weeknd"
+                  width={28}
+                  height={28}
+                  loading="lazy"
+                  decoding="async"
                   className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
                 />
                 <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -391,10 +412,12 @@ export default function App() {
         </header>
 
         <main className="flex-1">
-          <MomentosSection 
-            onOpenReserva={goToReservation}
-            onOpenSocial={goToSocial}
-          />
+          <Suspense fallback={<SectionLoadingFallback />}>
+            <MomentosSection 
+              onOpenReserva={goToReservation}
+              onOpenSocial={goToSocial}
+            />
+          </Suspense>
         </main>
 
         <footer className="border-t border-white/10 py-6 bg-black text-center text-xs text-white/50">
@@ -438,6 +461,10 @@ export default function App() {
               <img
                 src={LOGO_URL}
                 alt="Logo Weekend"
+                width={28}
+                height={28}
+                loading="lazy"
+                decoding="async"
                 className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
               />
               <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase font-display">
@@ -479,11 +506,15 @@ export default function App() {
           {/* Componente Nativo React de la Carta Digital */}
           <DigitalMenuView onSearchClick={() => setIsSearchOpen(true)} />
 
-          {/* Modal de Búsqueda Dinámica */}
-          <MenuSearchModal 
-            isOpen={isSearchOpen} 
-            onClose={() => setIsSearchOpen(false)} 
-          />
+          {/* Modal de Búsqueda Dinámica con Lazy Loading */}
+          <Suspense fallback={null}>
+            {isSearchOpen && (
+              <MenuSearchModal 
+                isOpen={isSearchOpen} 
+                onClose={() => setIsSearchOpen(false)} 
+              />
+            )}
+          </Suspense>
         </main>
 
         {/* Dashboard Footer */}
@@ -537,6 +568,10 @@ export default function App() {
                 <img
                   src={LOGO_URL}
                   alt="Logo Weeknd"
+                  width={28}
+                  height={28}
+                  loading="lazy"
+                  decoding="async"
                   className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
                 />
                 <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase font-display">
@@ -584,6 +619,8 @@ export default function App() {
                 <img
                   src={CAPY_KAME}
                   alt="Capibara pose kamehameha"
+                  loading="lazy"
+                  decoding="async"
                   className="relative w-full drop-shadow-[0_0_35px_rgba(201,0,255,0.45)] float-anim"
                 />
               </motion.div>
@@ -666,6 +703,8 @@ export default function App() {
                 <img
                   src={CAPY_HERO}
                   alt="Capibara superhéroe aterrizando"
+                  loading="lazy"
+                  decoding="async"
                   className="relative w-full drop-shadow-[0_0_35px_rgba(201,0,255,0.45)] float-anim"
                 />
               </motion.div>
@@ -778,6 +817,10 @@ export default function App() {
           >
             <img
               src={LOGO_URL} alt="Logo"
+              width={36}
+              height={36}
+              fetchPriority="high"
+              decoding="async"
               className="h-8 sm:h-9 w-8 sm:w-9 rounded-full object-cover border border-weekend-neon/70 group-hover:border-[#c900ff] transition-colors"
               referrerPolicy="no-referrer"
             />
@@ -858,6 +901,10 @@ export default function App() {
               <img
                 src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp"
                 alt="Fondo Menú Móvil"
+                width={800}
+                height={1200}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover opacity-85 brightness-110 contrast-105 saturate-110"
                 referrerPolicy="no-referrer"
               />
@@ -902,6 +949,10 @@ export default function App() {
             <img
               src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/inicio.webp"
               alt="Fondo Portada Móvil"
+              width={1080}
+              height={1920}
+              fetchPriority="high"
+              decoding="async"
               className="w-full h-full object-cover opacity-80 brightness-110 contrast-100"
               referrerPolicy="no-referrer"
             />
@@ -927,7 +978,15 @@ export default function App() {
           className="absolute right-0 lg:right-6 top-1/2 -translate-y-1/2 z-[5] pointer-events-none hidden md:block w-56 lg:w-80"
         >
           <div className="absolute -inset-4 rounded-full bg-weekend-neon/15 blur-3xl pulse-glow" />
-          <img src={CAPY_HEROIC} alt="Capibara heroica mascota" className="relative w-full drop-shadow-[0_0_50px_rgba(10,204,128,0.4)] float-anim" />
+          <img 
+            src={CAPY_HEROIC} 
+            alt="Capibara heroica mascota" 
+            width={480}
+            height={480}
+            fetchPriority="high"
+            decoding="async"
+            className="relative w-full drop-shadow-[0_0_50px_rgba(10,204,128,0.4)] float-anim" 
+          />
         </motion.div>
 
         <div className="relative z-10 max-w-3xl mx-auto px-4 text-center">
@@ -1003,7 +1062,7 @@ export default function App() {
           >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245.6409801721048!2d-78.15328299958676!3d-10.068675181619353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91aa17e1bee947c9%3A0xda6d1058bd817a98!2sWeekend%20Huarmey!5e0!3m2!1ses!2spe!4v1772137403381!5m2!1ses!2spe"
-              className="w-full h-full border-0 dark-map" allowFullScreen title="Maps"
+              className="w-full h-full border-0 dark-map" allowFullScreen title="Maps" loading="lazy"
             />
           </motion.div>
         </div>
@@ -1012,7 +1071,16 @@ export default function App() {
       {/* ============ FOOTER ============ */}
       <footer id="contacto" className="relative pt-16 pb-10 overflow-hidden border-t border-white/10">
         <div className="absolute inset-0 z-0">
-          <img src={FOOTER_IMG} alt="Footer Background" className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75" referrerPolicy="no-referrer" />
+          <img 
+            src={FOOTER_IMG} 
+            alt="Footer Background" 
+            width={1200}
+            height={600}
+            loading="lazy"
+            decoding="async"
+            className="w-full h-full object-cover opacity-25 grayscale contrast-125 brightness-75" 
+            referrerPolicy="no-referrer" 
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/85 to-[#0A0A0F]/90" />
         </div>
 
@@ -1020,7 +1088,16 @@ export default function App() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
             <div className="col-span-1 lg:col-span-1">
               <div className="flex items-center gap-3 mb-6">
-                <img src={LOGO_URL} alt="Logo" className="h-10 w-10 rounded-full object-cover border border-weekend-neon" referrerPolicy="no-referrer" />
+                <img 
+                  src={LOGO_URL} 
+                  alt="Logo" 
+                  width={40}
+                  height={40}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-10 w-10 rounded-full object-cover border border-weekend-neon" 
+                  referrerPolicy="no-referrer" 
+                />
                 <span className="text-white font-black tracking-tighter text-xl uppercase font-display">WEEKEND!</span>
               </div>
               <p className="text-white/60 text-sm leading-relaxed mb-6">
@@ -1102,11 +1179,15 @@ export default function App() {
         </div>
       </footer>
 
-      {/* Modal de Búsqueda Global */}
-      <MenuSearchModal 
-        isOpen={isSearchOpen} 
-        onClose={() => setIsSearchOpen(false)} 
-      />
+      {/* Modal de Búsqueda Global con Suspense */}
+      <Suspense fallback={null}>
+        {isSearchOpen && (
+          <MenuSearchModal 
+            isOpen={isSearchOpen} 
+            onClose={() => setIsSearchOpen(false)} 
+          />
+        )}
+      </Suspense>
     </div>
   );
 }
