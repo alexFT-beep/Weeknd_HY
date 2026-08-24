@@ -189,6 +189,15 @@ export class CartDrawerComponent {
                 </div>
                 <div>
                   <input 
+                    type="tel" 
+                    id="order-customer-phone" 
+                    placeholder="Número telefónico / WhatsApp *" 
+                    required
+                    class="w-full bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-white placeholder-zinc-500 focus:border-primary focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <input 
                     type="text" 
                     id="order-address" 
                     placeholder="Dirección exacta (Calle, Mz, Lt, Nro) *" 

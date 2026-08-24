@@ -11,7 +11,7 @@ export const MENU_CATEGORIES = [
   { id: "salchipapas", name: "Salchipapas", emoji: "🍟", color: "#CCFF00", rgb: "204, 255, 0", description: "Salchipapas clásicas, rancheras, royal y especiales" },
   { id: "parrillas", name: "Parrillas & Combos", emoji: "🥩", color: "#FF0033", rgb: "255, 0, 51", description: "Cortes a la brasa, anticuchos y combos parrilleros" },
   { id: "piqueos", name: "Piqueos", emoji: "🍢", color: "#FF5722", rgb: "255, 87, 34", description: "Brochetas, tequeños x10 y nuggets" },
-  { id: "chifa", name: "Barrio Chino (Chifa)", emoji: "🥡", color: "#FF0055", rgb: "255, 0, 85", description: "Chi Jau Kay, Tipakay, Siu Pei, Kam Lu Wantan y tallarines" },
+  { id: "chifa", name: "Chifa Tradicional", emoji: "🥡", color: "#FF0055", rgb: "255, 0, 85", description: "Chi Jau Kay, Tipakay, Siu Pei, Kam Lu Wantan y tallarines" },
   { id: "pastas", name: "Pastas", emoji: "🍝", color: "#76FF03", rgb: "118, 255, 3", description: "Fetuccinis en salsas artesanales y acompañamientos" },
   { id: "ensaladas", name: "Ensaladas", emoji: "🥗", color: "#0ACC80", rgb: "10, 204, 128", description: "Ensaladas frescas de fruta, pollo y atún" },
   { id: "makis", name: "Makis", emoji: "🍱", color: "#00FFA3", rgb: "0, 255, 163", description: "Makis acevichados, crispy, agridulces y lomo saltado" },
@@ -162,7 +162,7 @@ export const FULL_MENU_ITEMS = [
   { id: "nug-03", name: "Nuggets Three (10 Und)", price: 29, category: "piqueos", subcategory: "piqueos", description: "10 unidades + papas fritas + chorizo" },
   { id: "nug-04", name: "Nuggets Four (10 Und)", price: 30, category: "piqueos", subcategory: "piqueos", description: "10 unidades + papas fritas + salsa 04 quesos" },
 
-  // =================== 7. BARRIO CHINO WEEKEND (CHIFA) ===================
+  // =================== 7. CHIFA TRADICIONAL WEEKEND ===================
   { id: "chifa-01", name: "Tallarín c/ Pollo", price: 28, category: "chifa", subcategory: "chifa", description: "Tallarín salteado estilo oriental con pollo" },
   { id: "chifa-02", name: "Pollo c/ Verduras", price: 28, category: "chifa", subcategory: "chifa", description: "Pechuga salteada con verduras orientales" },
   { id: "chifa-03", name: "Pollo Chi Jau Kay (Salado)", price: 28, category: "chifa", subcategory: "chifa", description: "Pollo crocante bañado en salsa salada de ostión" },

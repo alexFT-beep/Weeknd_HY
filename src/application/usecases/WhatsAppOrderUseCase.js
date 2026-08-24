@@ -22,6 +22,7 @@ export class WhatsAppOrderUseCase {
 
     const payload = {
       customerName: orderInput.customerName,
+      customerPhone: orderInput.customerPhone || orderInput.phone || '',
       orderType: orderInput.orderType,
       tableNumber: orderInput.tableNumber,
       reservationMotive: orderInput.reservationMotive || orderInput.reservationReason || '',

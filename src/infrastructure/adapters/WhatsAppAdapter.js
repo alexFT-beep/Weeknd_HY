@@ -18,6 +18,7 @@ export class WhatsAppAdapter {
   generateWhatsAppLink(orderData) {
     const {
       customerName = 'Cliente',
+      customerPhone = '',
       orderType = 'delivery', // 'delivery', 'salon', or 'reserva'
       tableNumber = '',
       deliveryZoneName = '',
@@ -44,6 +45,9 @@ export class WhatsAppAdapter {
       text += `🍹 *¡SOLICITUD DE RESERVA - WEEKND! Lounge & Restaurant* 🍗\n`;
       text += `━━━━━━━━━━━━━━━━━━━━━\n`;
       text += `👤 *Cliente:* ${customerName}\n`;
+      if (customerPhone) {
+        text += `📱 *Teléfono:* ${customerPhone}\n`;
+      }
       text += `📅 *Fecha y Hora:* ${reservationDateTime || 'Por confirmar'}\n`;
       text += `👥 *Cant. Personas:* ${reservationPeople || 'N/A'}\n`;
       if (effectiveReason) {
@@ -80,6 +84,9 @@ export class WhatsAppAdapter {
       text += `🍹 *¡NUEVO PEDIDO - WEEKND! Lounge & Restaurant* 🍗\n`;
       text += `━━━━━━━━━━━━━━━━━━━━━\n`;
       text += `👤 *Cliente:* ${customerName}\n`;
+      if (orderType === 'delivery' && customerPhone) {
+        text += `📱 *Teléfono:* ${customerPhone}\n`;
+      }
       text += `📋 *Tipo:* ${orderType === 'delivery' ? '🛵 Delivery' : `🍽️ En Salón (Mesa ${tableNumber || 'N/A'})`}\n`;
       
       if (orderType === 'delivery') {

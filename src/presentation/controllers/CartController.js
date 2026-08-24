@@ -504,6 +504,7 @@ export class CartController {
 
     let address = '';
     let reference = '';
+    let customerPhone = '';
     let tableNumber = '';
     let reservationMotive = '';
     let reservationReason = '';
@@ -511,6 +512,14 @@ export class CartController {
     let reservationDateTime = '';
 
     if (this.orderType === 'delivery') {
+      const phoneInput = document.getElementById('order-customer-phone');
+      customerPhone = phoneInput ? phoneInput.value.trim() : '';
+      if (!customerPhone || customerPhone.length < 6) {
+        this.toast.show('Por favor ingresa tu número telefónico / WhatsApp para coordinar la entrega', 'warning');
+        if (phoneInput) phoneInput.focus();
+        return;
+      }
+
       const addressInput = document.getElementById('order-address');
       address = addressInput ? addressInput.value.trim() : '';
       if (!address) {
@@ -521,6 +530,9 @@ export class CartController {
       const refInput = document.getElementById('order-reference');
       reference = refInput ? refInput.value.trim() : '';
     } else if (this.orderType === 'reserva') {
+      const phoneInput = document.getElementById('order-customer-phone');
+      if (phoneInput) customerPhone = phoneInput.value.trim();
+
       const motiveInput = document.getElementById('order-reservation-reason') || document.getElementById('order-reservation-motive');
       reservationMotive = motiveInput ? motiveInput.value.trim() : (this.formData.reservationReason || this.formData.reservationMotive || '');
       reservationReason = reservationMotive;
@@ -558,6 +570,7 @@ export class CartController {
 
     const orderResult = await this.whatsAppOrderUseCase.execute({
       customerName,
+      customerPhone,
       orderType: this.orderType,
       tableNumber,
       reservationMotive,

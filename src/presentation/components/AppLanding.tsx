@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { DigitalMenuView } from './DigitalMenuView';
 import { SocialGalleryView } from './SocialGalleryView';
 import { MenuSearchModal } from './MenuSearchModal';
+import { NosotrosSection } from './NosotrosSection';
+import { MomentosSection } from './MomentosSection';
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
@@ -21,6 +23,8 @@ import CAPY_HERO from '../../assets/capybaras/superhero_capibara_landing_VECTOR.
 
 const NAV_LINKS = [
   { name: 'Inicio', href: '#', type: 'inicio' },
+  { name: 'Nosotros', href: '#nosotros', type: 'nosotros' },
+  { name: 'Momentos', href: '#momentos', type: 'momentos' },
   { name: 'Promociones', href: 'promociones.html', type: 'promociones' },
   { name: 'Carta', href: '#carta-digital', type: 'carta' },
   { name: 'Reserva', href: '#reserva', type: 'reserva' },
@@ -30,6 +34,8 @@ const NAV_LINKS = [
 
 const MOBILE_NAV_LINKS = [
   { name: 'INICIO', href: '#', type: 'inicio' },
+  { name: 'NOSOTROS', href: '#nosotros', type: 'nosotros', colorClass: 'text-[#FFA40B] hover:text-white' },
+  { name: 'MOMENTOS', href: '#momentos', type: 'momentos', colorClass: 'text-[#0ACC80] hover:text-white' },
   { name: 'CARTA', href: '#carta-digital', type: 'carta', colorClass: 'text-[#C900FF] hover:text-white' },
   { name: 'RESERVA', href: '#reserva', type: 'reserva' },
   { name: 'DELIVERY', href: '#delivery', type: 'delivery', colorClass: 'text-[#0ACC80] hover:text-white' },
@@ -547,6 +553,20 @@ export default function App() {
       setIsOpen(false);
       return;
     }
+    if (link.name === 'Nosotros' || link.name === 'NOSOTROS') {
+      e.preventDefault();
+      setIsOpen(false);
+      const el = document.getElementById('nosotros');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+    if (link.name === 'Momentos' || link.name === 'MOMENTOS') {
+      e.preventDefault();
+      setIsOpen(false);
+      const el = document.getElementById('momentos');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
     if (link.name === 'Redes' || link.name === 'SÍGUENOS') {
       e.preventDefault();
       goToSocial();
@@ -669,7 +689,7 @@ export default function App() {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-5 landscape:gap-3 md:hidden overflow-y-auto"
           >
-            {/* Fondo con imagen living.webp mucho más claro y visible */}
+            {/* Fondo con imagen living.webp */}
             <div className="absolute inset-0 z-0">
               <img
                 src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp"
@@ -712,7 +732,7 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      {/* ============ HERO COMPACTO ============ */}
+      {/* ============ HERO PRINCIPAL ============ */}
       <section id="inicio" className="relative min-h-[86vh] flex items-center justify-center overflow-hidden pt-28 pb-16">
         {/* Fondo adaptativo: Carbón mate, madera ahumada y degradados cálidos */}
         <div className="absolute inset-0 z-0 bg-black">
@@ -759,28 +779,43 @@ export default function App() {
             className="text-4xl md:text-7xl font-black uppercase tracking-tight text-white mb-5"
             style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
-            Donde la noche <span className="text-transparent bg-clip-text bg-gradient-to-r from-weekend-neon via-emerald-400 to-amber-300" style={{ textShadow: '0 0 35px rgba(10,204,128,0.4)' }}>cobra vida</span>
+            DONDE LA NOCHE <span className="text-transparent bg-clip-text bg-gradient-to-r from-weekend-neon via-emerald-400 to-amber-300" style={{ textShadow: '0 0 35px rgba(10,204,128,0.4)' }}>COBRA VIDA</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
             className="text-base md:text-lg text-white/80 mb-10 max-w-xl mx-auto font-medium leading-relaxed"
           >
-            Tu fin de semana empieza aquí: alitas en 31 salsas artesanales, hamburguesas gourmet a la parrilla, makis y coctelería con pura vibra fiesta.
+            Tu fin de semana empieza aquí: alitas en 31 salsas artesanales, hamburguesas artesanales a la parrilla, makis y coctelería con pura vibra fiesta.
           </motion.p>
 
-          {/* Botón Pide tu Weekend con brillo metálico y neón */}
+          {/* Botón CTA con animación continua (pulse / glow neón) */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.4 }}
+            initial={{ opacity: 0, scale: 0.9 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            transition={{ duration: 0.5, delay: 0.4 }}
             className="flex justify-center"
           >
-            <button
+            <motion.button
               onClick={goToDashboard}
-              className="group inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-weekend-neon to-emerald-400 text-black font-black uppercase tracking-widest rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 shadow-[0_0_35px_rgba(10,204,128,0.55)] hover:shadow-[0_0_40px_rgba(201,0,255,0.85)] active:scale-95 text-sm md:text-base text-center cursor-pointer border border-white/20"
+              animate={{ 
+                boxShadow: [
+                  "0 0 20px rgba(10,204,128,0.5)",
+                  "0 0 45px rgba(201,0,255,0.85)",
+                  "0 0 20px rgba(10,204,128,0.5)"
+                ],
+                scale: [1, 1.02, 1]
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="group inline-flex items-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-gradient-to-r from-weekend-neon via-emerald-400 to-amber-300 text-black font-black uppercase tracking-widest rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 active:scale-95 text-sm md:text-base text-center cursor-pointer border border-white/25"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              <span>🔥 Pide tu Weekend - Menú &amp; Delivery</span>
+              <span>🔥 PIDE TU WEEKEND - MENÚ &amp; DELIVERY</span>
               <ChevronRight className="group-hover:translate-x-1.5 transition-transform" />
-            </button>
+            </motion.button>
           </motion.div>
         </div>
 
@@ -789,6 +824,17 @@ export default function App() {
         </div>
       </section>
 
+      {/* ============ NUEVA SECCIÓN: NOSOTROS (HISTORIA & IDENTIDAD) ============ */}
+      <NosotrosSection 
+        onOpenMenu={goToDashboard} 
+        onOpenReserva={goToReservation} 
+      />
+
+      {/* ============ NUEVA SECCIÓN: MOMENTOS (CELEBRACIONES & BENEFICIOS) ============ */}
+      <MomentosSection 
+        onOpenReserva={goToReservation} 
+        onOpenSocial={goToSocial} 
+      />
 
       {/* ============ UBICACIÓN ============ */}
       <section id="ubicacion" className="py-20 !bg-black">
