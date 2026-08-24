@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SECTION_THEMES } from './ProductCardComponent.js';
 import { Plus, ChevronDown, Sparkles, ShieldCheck, Check, Eye, EyeOff, Search } from 'lucide-react';
 import { MENU_CATEGORIES, FULL_MENU_ITEMS } from '../../infrastructure/data/fullMenuData.js';
@@ -374,7 +375,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
           </div>
         </div>
 
-        {/* FILA DE CHIPS HORIZONTALES CON SCROLL SUAVE */}
+        {/* FILA DE CHIPS HORIZONTALES CON SCROLL SUAVE Y TRANSICIÓN RÚSTICA */}
         <div 
           id="category-chips-nav" 
           className="flex space-x-2 overflow-x-auto no-scrollbar py-1 scroll-smooth"
@@ -384,24 +385,26 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
             const isActive = activeCategory === cat.id;
 
             return (
-              <button
+              <motion.button
                 key={cat.id}
                 onClick={() => scrollToCategory(cat.id)}
-                className={`flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs font-extrabold uppercase whitespace-nowrap transition-all duration-200 shrink-0 border ${
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`relative flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase whitespace-nowrap transition-all duration-200 shrink-0 border cursor-pointer ${
                   isActive 
-                    ? 'scale-105 shadow-lg' 
+                    ? 'shadow-lg z-10' 
                     : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:border-white/20'
                 }`}
                 style={{
                   backgroundColor: isActive ? theme.hex : undefined,
                   borderColor: isActive ? theme.hex : undefined,
                   color: isActive ? '#000000' : undefined,
-                  boxShadow: isActive ? `0 0 15px rgba(${theme.rgb}, 0.5)` : undefined
+                  boxShadow: isActive ? `0 0 18px rgba(${theme.rgb}, 0.55)` : undefined
                 }}
               >
                 <span className="text-sm">{cat.emoji}</span>
                 <span>{cat.name}</span>
-              </button>
+              </motion.button>
             );
           })}
         </div>
