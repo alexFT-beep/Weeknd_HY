@@ -58,7 +58,7 @@ export default function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social' | 'reserva'>('landing');
+  const [currentView, setCurrentView] = useState<'landing' | 'dashboard' | 'social' | 'reserva' | 'nosotros' | 'momentos'>('landing');
 
   const [form, setForm] = useState({
     nombre: '',
@@ -94,11 +94,25 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
+  const goToNosotros = () => {
+    setCurrentView('nosotros');
+    window.location.hash = 'nosotros';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const goToMomentos = () => {
+    setCurrentView('momentos');
+    window.location.hash = 'momentos';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
   useEffect(() => {
     (window as any).goToDashboard = goToDashboard;
     (window as any).goToLanding = goToLanding;
     (window as any).goToSocial = goToSocial;
     (window as any).goToReservation = goToReservation;
+    (window as any).goToNosotros = goToNosotros;
+    (window as any).goToMomentos = goToMomentos;
     (window as any).openMenuSearch = () => {
       goToDashboard();
       setIsSearchOpen(true);
@@ -143,6 +157,10 @@ export default function App() {
         goToSocial();
       } else if (view === 'reserva' || view === 'reservas' || view === 'reservation') {
         goToReservation();
+      } else if (view === 'nosotros' || view === 'quienes-somos') {
+        goToNosotros();
+      } else if (view === 'momentos' || view === 'celebraciones') {
+        goToMomentos();
       }
     };
 
@@ -158,7 +176,11 @@ export default function App() {
         '#jugos', '#bubble-tea', '#refrescos', '#cocteles', '#cervezas', '#guarniciones'
       ];
 
-      if (hash.startsWith('#redes') || hash.startsWith('#social') || hash.startsWith('#gallery') || hash.startsWith('#videos')) {
+      if (hash.startsWith('#nosotros') || hash.startsWith('#quienes-somos')) {
+        setCurrentView('nosotros');
+      } else if (hash.startsWith('#momentos') || hash.startsWith('#celebraciones')) {
+        setCurrentView('momentos');
+      } else if (hash.startsWith('#redes') || hash.startsWith('#social') || hash.startsWith('#gallery') || hash.startsWith('#videos')) {
         setCurrentView('social');
       } else if (hash.startsWith('#reserva') || hash.startsWith('#reservacion') || hash.startsWith('#book')) {
         setCurrentView('reserva');
@@ -251,6 +273,143 @@ export default function App() {
         onBackToHome={goToLanding} 
         onOpenMenu={goToDashboard} 
       />
+    );
+  }
+
+  // ----------------------------------------------------
+  // NOSOTROS VIEW (Pestaña Dedicada a Historia e Identidad)
+  // ----------------------------------------------------
+  if (currentView === 'nosotros') {
+    return (
+      <div className="min-h-screen bg-[#050505] text-[#f5f5f5] font-sans selection:bg-[#c900ff] selection:text-white flex flex-col justify-between">
+        <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-md py-3 px-4 border-b border-white/10">
+          <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={goToLanding}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm cursor-pointer"
+                title="Volver a la portada principal"
+              >
+                <ArrowLeft size={16} />
+                <span>Inicio</span>
+              </button>
+              <div className="flex items-center gap-2 cursor-pointer" onClick={goToLanding}>
+                <img
+                  src={LOGO_URL}
+                  alt="Logo Weeknd"
+                  className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
+                />
+                <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  WEEKND! <span className="text-weekend-neon">Huarmey</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={goToReservation}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-zinc-900 border border-[#c900ff]/60 text-white font-bold text-xs uppercase hover:bg-[#c900ff] transition-all cursor-pointer"
+              >
+                <span>Reservar Mesa</span>
+              </button>
+              <button
+                type="button"
+                onClick={goToDashboard}
+                className="bg-weekend-neon text-black font-extrabold uppercase tracking-widest text-xs px-4 py-1.5 rounded-full hover:bg-white transition-all shadow-[0_0_15px_rgba(10,204,128,0.4)] cursor-pointer"
+              >
+                Ver Menú
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1">
+          <NosotrosSection 
+            onOpenMenu={goToDashboard}
+            onOpenReserva={goToReservation}
+          />
+        </main>
+
+        <footer className="border-t border-white/10 py-6 bg-black text-center text-xs text-white/50">
+          <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>&copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant - Huarmey.</p>
+            <button
+              type="button"
+              onClick={goToLanding}
+              className="text-weekend-neon hover:underline font-bold uppercase tracking-wider cursor-pointer"
+            >
+              Volver al Inicio
+            </button>
+          </div>
+        </footer>
+      </div>
+    );
+  }
+
+  // ----------------------------------------------------
+  // MOMENTOS VIEW (Pestaña Dedicada a Celebraciones y Beneficios)
+  // ----------------------------------------------------
+  if (currentView === 'momentos') {
+    return (
+      <div className="min-h-screen bg-[#08080c] text-[#f5f5f5] font-sans selection:bg-[#c900ff] selection:text-white flex flex-col justify-between">
+        <header className="sticky top-0 z-50 bg-black/90 backdrop-blur-md py-3 px-4 border-b border-white/10">
+          <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={goToLanding}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-zinc-900/90 hover:bg-zinc-800 text-weekend-neon border border-weekend-neon/40 rounded-xl text-xs font-bold uppercase tracking-wider transition-all active:scale-95 shadow-sm cursor-pointer"
+                title="Volver a la portada principal"
+              >
+                <ArrowLeft size={16} />
+                <span>Inicio</span>
+              </button>
+              <div className="flex items-center gap-2 cursor-pointer" onClick={goToLanding}>
+                <img
+                  src={LOGO_URL}
+                  alt="Logo Weeknd"
+                  className="h-7 w-7 rounded-full object-cover border border-weekend-neon"
+                />
+                <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+                  WEEKND! <span className="text-weekend-neon">Huarmey</span>
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={goToReservation}
+                className="px-4 py-1.5 rounded-full bg-[#c900ff] text-white font-extrabold text-xs uppercase hover:bg-white hover:text-[#c900ff] transition-all shadow-[0_0_15px_rgba(201,0,255,0.4)] cursor-pointer"
+              >
+                Reservar Mi Mesa
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1">
+          <MomentosSection 
+            onOpenReserva={goToReservation}
+            onOpenSocial={goToSocial}
+          />
+        </main>
+
+        <footer className="border-t border-white/10 py-6 bg-black text-center text-xs text-white/50">
+          <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>&copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant - Huarmey.</p>
+            <button
+              type="button"
+              onClick={goToLanding}
+              className="text-weekend-neon hover:underline font-bold uppercase tracking-wider cursor-pointer"
+            >
+              Volver al Inicio
+            </button>
+          </div>
+        </footer>
+      </div>
     );
   }
 
@@ -555,16 +714,14 @@ export default function App() {
     }
     if (link.name === 'Nosotros' || link.name === 'NOSOTROS') {
       e.preventDefault();
+      goToNosotros();
       setIsOpen(false);
-      const el = document.getElementById('nosotros');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
       return;
     }
     if (link.name === 'Momentos' || link.name === 'MOMENTOS') {
       e.preventDefault();
+      goToMomentos();
       setIsOpen(false);
-      const el = document.getElementById('momentos');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
       return;
     }
     if (link.name === 'Redes' || link.name === 'SÍGUENOS') {
@@ -610,47 +767,56 @@ export default function App() {
       {/* ============ HEADER ============ */}
       <header
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-black/90 backdrop-blur-md py-2 border-b border-white/10' : 'bg-transparent py-4'
+          isScrolled ? 'bg-black/95 backdrop-blur-md py-2.5 border-b border-white/10' : 'bg-transparent py-4'
         }`}
       >
-        <div className="max-w-6xl mx-auto px-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-3 sm:gap-4">
           {/* Branding a la izquierda */}
-          <div className="flex items-center gap-3 justify-self-start">
+          <div 
+            className="flex items-center gap-2.5 shrink-0 cursor-pointer group"
+            onClick={(e) => { e.preventDefault(); goToLanding(); }}
+          >
             <img
               src={LOGO_URL} alt="Logo"
-              className="h-9 w-9 rounded-full object-cover border border-weekend-neon/60"
+              className="h-8 sm:h-9 w-8 sm:w-9 rounded-full object-cover border border-weekend-neon/70 group-hover:border-[#c900ff] transition-colors"
               referrerPolicy="no-referrer"
             />
-            <a href="#inicio" onClick={(e) => { e.preventDefault(); goToLanding(); }} className="text-white font-bold tracking-tighter text-base xl:block hidden uppercase hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-colors duration-300 cursor-pointer" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+            <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase whitespace-nowrap group-hover:text-[#c900ff] transition-colors" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
               WEEKND! <span className="text-weekend-neon">Huarmey</span>
-            </a>
+            </span>
           </div>
 
           {/* Navegación centrada */}
-          <nav className="hidden lg:flex items-center gap-7 justify-self-center">
-            {NAV_LINKS.map((link) => (
-              <motion.a
-                key={link.name} href={link.href}
-                onClick={(e) => handleNavClick(e, link)}
-                whileHover={{ scale: 1.06 }}
-                whileTap={{ scale: 0.94 }}
-                className="text-sm uppercase tracking-widest font-bold text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF] transition-all duration-300 cursor-pointer"
-              >
-                {link.name}
-              </motion.a>
-            ))}
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6 justify-center">
+            {NAV_LINKS.map((link) => {
+              const isActive = (currentView === link.type);
+              return (
+                <motion.a
+                  key={link.name} href={link.href}
+                  onClick={(e) => handleNavClick(e, link)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap ${
+                    isActive ? 'text-[#0acc80]' : 'text-zinc-200 hover:text-[#c900ff]'
+                  }`}
+                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                >
+                  {link.name}
+                </motion.a>
+              );
+            })}
           </nav>
 
           {/* CTA + acciones a la derecha */}
-          <div className="flex items-center gap-2 sm:gap-3 justify-self-end">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             <button
               type="button"
               data-action="open-cart"
-              className="relative text-black font-extrabold bg-weekend-neon hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all active:scale-95 duration-200 px-3.5 py-2 rounded-full flex items-center gap-1.5 text-xs uppercase shadow-sm hover:shadow-[0_0_20px_rgba(201,0,255,0.75)] cursor-pointer"
+              className="relative text-black font-extrabold bg-weekend-neon hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all active:scale-95 duration-200 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full flex items-center gap-1.5 text-xs uppercase shadow-sm hover:shadow-[0_0_20px_rgba(201,0,255,0.75)] cursor-pointer"
               title="Ver Carrito"
               aria-label="Ver Carrito"
             >
-              <ShoppingCart size={16} />
+              <ShoppingCart size={15} />
               <span className="hidden sm:inline">Carrito</span>
               <span className="header-cart-badge min-w-[18px] h-[18px] px-1 bg-black text-weekend-neon font-extrabold text-[10px] rounded-full flex items-center justify-center hidden">0</span>
             </button>
@@ -659,7 +825,7 @@ export default function App() {
             <button
               type="button"
               onClick={goToDashboard}
-              className="hidden sm:inline-flex items-center gap-2 bg-weekend-neon text-black font-extrabold uppercase tracking-widest text-xs px-5 py-2.5 rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)] hover:shadow-[0_0_25px_rgba(201,0,255,0.8)] cursor-pointer"
+              className="hidden sm:inline-flex items-center gap-2 bg-weekend-neon text-black font-extrabold uppercase tracking-widest text-xs px-4 py-2 sm:px-5 sm:py-2.5 rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)] hover:shadow-[0_0_25px_rgba(201,0,255,0.8)] cursor-pointer"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               aria-label="Ver menú virtual"
             >
@@ -667,12 +833,12 @@ export default function App() {
             </button>
 
             <button
-              className={`lg:hidden p-2 transition-colors duration-500 z-50 cursor-pointer ${isOpen ? 'text-[#C900FF]' : 'text-white'}`}
+              className={`lg:hidden p-2 transition-colors duration-300 z-50 cursor-pointer ${isOpen ? 'text-[#c900ff]' : 'text-white'}`}
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Menú"
             >
               <motion.div animate={isOpen ? { rotate: 90 } : { rotate: 0 }} transition={{ duration: 0.3 }}>
-                {isOpen ? <X size={28} /> : <Menu size={28} />}
+                {isOpen ? <X size={26} /> : <Menu size={26} />}
               </motion.div>
             </button>
           </div>
@@ -823,18 +989,6 @@ export default function App() {
           <ChevronRight className="rotate-90 text-weekend-neon" size={28} />
         </div>
       </section>
-
-      {/* ============ NUEVA SECCIÓN: NOSOTROS (HISTORIA & IDENTIDAD) ============ */}
-      <NosotrosSection 
-        onOpenMenu={goToDashboard} 
-        onOpenReserva={goToReservation} 
-      />
-
-      {/* ============ NUEVA SECCIÓN: MOMENTOS (CELEBRACIONES & BENEFICIOS) ============ */}
-      <MomentosSection 
-        onOpenReserva={goToReservation} 
-        onOpenSocial={goToSocial} 
-      />
 
       {/* ============ UBICACIÓN ============ */}
       <section id="ubicacion" className="py-20 !bg-black">
