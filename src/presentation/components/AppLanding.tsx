@@ -68,6 +68,7 @@ export default function App() {
 
   const [form, setForm] = useState({
     nombre: '',
+    telefono: '',
     fecha: '',
     hora: '05:00 PM',
     personas: '',
@@ -260,8 +261,8 @@ export default function App() {
 
   const handleReserve = (e: React.FormEvent) => {
     e.preventDefault();
-    const { nombre, fecha, hora, personas, motivo } = form;
-    const message = `Hola Weekend! Deseo una reserva: Nombre: ${nombre}, Fecha: ${fecha}, Hora: ${hora}, Personas: ${personas}, Motivo: ${motivo}`;
+    const { nombre, telefono, fecha, hora, personas, motivo } = form;
+    const message = `Hola Weekend! Deseo una reserva:\n👤 Nombre: ${nombre}\n📱 Teléfono: ${telefono || 'No especificado'}\n📅 Fecha: ${fecha}\n⏰ Hora: ${hora}\n👥 Personas: ${personas}\n🎉 Motivo: ${motivo || 'General'}`;
     window.open(`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
@@ -679,18 +680,18 @@ export default function App() {
                   <form onSubmit={handleReserve} className="space-y-4 text-xs">
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Nombre</label>
-                        <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Nombre Completo</label>
+                        <input type="text" required placeholder="Tu nombre" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white placeholder:text-white/30" value={form.nombre} onChange={(e) => setForm({ ...form, nombre: e.target.value })} />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Fecha</label>
-                        <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Número de Teléfono</label>
+                        <input type="tel" required placeholder="Ej: 961 336 674" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white placeholder:text-white/30" value={form.telefono} onChange={(e) => setForm({ ...form, telefono: e.target.value })} />
                       </div>
                     </div>
                     <div className="grid sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Personas</label>
-                        <input type="number" required placeholder="Cantidad" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Fecha</label>
+                        <input type="date" required className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white" value={form.fecha} onChange={(e) => setForm({ ...form, fecha: e.target.value })} />
                       </div>
                       <div className="space-y-1.5">
                         <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Hora de llegada</label>
@@ -699,16 +700,23 @@ export default function App() {
                         </select>
                       </div>
                     </div>
-                    <div className="space-y-1.5">
-                      <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Motivo</label>
-                      <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
-                        <option value="">Seleccionar</option>
-                        <option value="Cena Casual">Cena Casual</option>
-                        <option value="Cumpleaños">Cumpleaños</option>
-                        <option value="Aniversario">Aniversario</option>
-                        <option value="Evento Corporativo">Evento Corporativo</option>
-                        <option value="Otro">Otro</option>
-                      </select>
+                    <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Cantidad de Personas</label>
+                        <input type="number" required min="1" placeholder="Ej: 4" className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all text-white placeholder:text-white/30" value={form.personas} onChange={(e) => setForm({ ...form, personas: e.target.value })} />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="text-[10px] uppercase tracking-widest text-white/40 font-bold">Motivo</label>
+                        <select className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] focus:ring-1 focus:ring-[#C900FF] transition-all appearance-none cursor-pointer text-white" value={form.motivo} onChange={(e) => setForm({ ...form, motivo: e.target.value })}>
+                          <option value="">Seleccionar motivo</option>
+                          <option value="Cena Casual">Cena Casual</option>
+                          <option value="Cumpleaños">Cumpleaños</option>
+                          <option value="Aniversario">Aniversario</option>
+                          <option value="Evento Corporativo">Evento Corporativo</option>
+                          <option value="Noche de Patas">Noche de Patas</option>
+                          <option value="Otro">Otro</option>
+                        </select>
+                      </div>
                     </div>
 
                     {/* Políticas del servicio */}
