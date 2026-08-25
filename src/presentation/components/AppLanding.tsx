@@ -361,7 +361,7 @@ export default function App() {
               referrerPolicy="no-referrer"
             />
             <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase whitespace-nowrap group-hover:text-[#c900ff] transition-colors font-display">
-              WEEKND! <span className="text-weekend-neon">Huarmey</span>
+              WEEKEND <span className="text-weekend-neon">Huarmey</span>
             </span>
           </div>
 
@@ -488,7 +488,7 @@ export default function App() {
             </div>
 
             <div className="absolute bottom-6 landscape:hidden left-0 w-full text-center z-10">
-              <p className="text-[#f59e0b] font-black text-sm uppercase tracking-[0.3em] drop-shadow-[0_0_12px_rgba(245,158,11,0.3)] font-display">WEEKND! - HUARMEY</p>
+              <p className="text-[#f59e0b] font-black text-sm uppercase tracking-[0.3em] drop-shadow-[0_0_12px_rgba(245,158,11,0.3)] font-display">WEEKEND - HUARMEY</p>
             </div>
           </motion.div>
         )}
@@ -523,7 +523,7 @@ export default function App() {
           </main>
           <footer className="border-t border-white/10 py-6 bg-black text-center text-xs text-white/50">
             <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <p>&copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant - Huarmey.</p>
+              <p>&copy; {new Date().getFullYear()} WEEKEND Lounge &amp; Restaurant - Huarmey.</p>
               <button
                 type="button"
                 onClick={goToLanding}
@@ -549,7 +549,7 @@ export default function App() {
           </main>
           <footer className="border-t border-white/10 py-6 bg-black text-center text-xs text-white/50">
             <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <p>&copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant - Huarmey.</p>
+              <p>&copy; {new Date().getFullYear()} WEEKEND Lounge &amp; Restaurant - Huarmey.</p>
               <button
                 type="button"
                 onClick={goToLanding}
@@ -608,7 +608,7 @@ export default function App() {
 
           <footer className="border-t border-white/10 py-8 bg-black text-center text-xs text-white/50">
             <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p>&copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant - Huarmey.</p>
+              <p>&copy; {new Date().getFullYear()} WEEKEND Lounge &amp; Restaurant - Huarmey.</p>
               <button
                 type="button"
                 onClick={goToLanding}
@@ -667,9 +667,13 @@ export default function App() {
                   className="w-full max-w-xl bg-zinc-900/85 backdrop-blur-xl p-6 sm:p-8 rounded-[32px] border border-[#C900FF]/40 shadow-[0_0_40px_rgba(201,0,255,0.35)] relative z-10"
                 >
                   <div className="text-center mb-6">
-                    <h2 className="text-[#C900FF] text-xs font-bold tracking-[0.3em] uppercase mb-2 font-display">Planifica tu noche</h2>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0acc80]/15 border border-[#0acc80]/40 text-[#0acc80] text-[11px] font-black uppercase tracking-widest mb-2">
+                      <Phone size={12} />
+                      <span>WhatsApp Directo: +51 961 336 674</span>
+                    </div>
+                    <h2 className="text-[#C900FF] text-xs font-bold tracking-[0.3em] uppercase mb-1 font-display">Planifica tu noche</h2>
                     <h3 className="text-2xl sm:text-4xl font-black uppercase mb-2 leading-tight font-display">Reserva tu <span className="text-[#C900FF] font-black">Mesa</span></h3>
-                    <p className="text-white/50 text-xs sm:text-sm">Reserva con anticipación y déjanos encargarnos del resto.</p>
+                    <p className="text-white/60 text-xs sm:text-sm">Completa tus datos o escríbenos directo a WhatsApp.</p>
                   </div>
 
                   <form onSubmit={handleReserve} className="space-y-4 text-xs">
@@ -721,7 +725,7 @@ export default function App() {
                     </div>
 
                     <button type="submit" className="w-full py-3.5 bg-[#C900FF] text-white font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white hover:text-[#C900FF] active:scale-95 transition-all flex items-center justify-center gap-2 text-xs shadow-[0_0_25px_rgba(201,0,255,0.5)] cursor-pointer">
-                      Reservar por WhatsApp <Send size={16} />
+                      <span>Enviar Reserva a WhatsApp (+51 961 336 674)</span> <Send size={16} />
                     </button>
                   </form>
                 </motion.div>
@@ -748,7 +752,7 @@ export default function App() {
 
           <footer className="border-t border-white/10 py-6 bg-black text-center text-xs text-white/50">
             <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p>&copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant - Huarmey.</p>
+              <p>&copy; {new Date().getFullYear()} WEEKEND Lounge &amp; Restaurant - Huarmey.</p>
               <button
                 type="button"
                 onClick={goToLanding}
@@ -1025,7 +1029,7 @@ export default function App() {
 
               <div className="pt-12 border-t border-white/10 text-center flex flex-col items-center justify-center gap-2">
                 <p className="text-white/40 text-xs uppercase tracking-[0.3em]">
-                  &copy; {new Date().getFullYear()} WEEKND! Lounge &amp; Restaurant.
+                  &copy; {new Date().getFullYear()} WEEKEND Lounge &amp; Restaurant.
                 </p>
                 <p className="text-[11px] sm:text-xs text-white/50 tracking-wider">
                   Página web &amp; Carta virtual hecha por{' '}

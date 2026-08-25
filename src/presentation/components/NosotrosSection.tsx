@@ -152,7 +152,7 @@ export function NosotrosSection({ onOpenMenu, onOpenReserva }: NosotrosSectionPr
 
               <div className="space-y-4 text-zinc-300 text-sm sm:text-base leading-relaxed">
                 <p>
-                  Somos <strong className="text-white font-black">Weekend</strong>, un restaurante y Lounge ubicado en el centro de Huarmey, fundado en el <strong className="text-[#ffa40b]">2021 por Ítalo Herrera</strong> y constituido con orgullo como empresa familiar <strong className="text-[#c900ff]">Grupo Weekend SA</strong>, dirigido hoy en día por los <strong className="text-white">Hermanos Herrera</strong>.
+                  Somos <strong className="text-white font-black">Weekend</strong>, un restaurante y Lounge ubicado en el centro de Huarmey, fundado en el <strong className="text-[#ffa40b]">2021 por Ítalo Herrera</strong> y constituido con orgullo como empresa familiar <strong className="text-[#c900ff]">Grupo Weekend SA</strong>, dirigido hoy en día por los <strong className="text-white">hnos Italo y Fiorella Herrera</strong>.
                 </p>
                 <p>
                   Somos una marca huarmeyana ya reconocida con calidad y prestigio, respaldada con el cariño de toda nuestra provincia.
