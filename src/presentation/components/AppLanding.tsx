@@ -733,7 +733,7 @@ export default function App() {
                     </div>
 
                     <button type="submit" className="w-full py-3.5 bg-[#C900FF] text-white font-black uppercase tracking-[0.2em] rounded-xl hover:bg-white hover:text-[#C900FF] active:scale-95 transition-all flex items-center justify-center gap-2 text-xs shadow-[0_0_25px_rgba(201,0,255,0.5)] cursor-pointer">
-                      <span>Enviar Reserva a WhatsApp (+51 961 336 674)</span> <Send size={16} />
+                      <span>Reservar por WhatsApp</span> <Send size={16} />
                     </button>
                   </form>
                 </motion.div>
