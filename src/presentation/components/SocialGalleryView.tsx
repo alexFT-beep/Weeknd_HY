@@ -135,6 +135,27 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
       <div className="fixed bottom-10 left-1/3 w-[600px] h-[450px] bg-[#ffa40b]/20 rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="fixed bottom-0 right-1/4 w-[450px] h-[450px] bg-[#00f2fe]/20 rounded-full blur-[120px] pointer-events-none -z-10" />
 
+      {/* Responsive Background Graphic (Mobile: capiparado.webp | Desktop: capihechado.webp) */}
+      <div className="fixed inset-0 pointer-events-none -z-10 opacity-20 overflow-hidden">
+        {/* Mobile & Tablet Background */}
+        <img 
+          src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/capiparado.webp"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className="block lg:hidden w-full h-full object-cover object-center filter saturate-150 contrast-110"
+        />
+        {/* Desktop & Laptop Background */}
+        <img 
+          src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/capihechado.webp"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className="hidden lg:block w-full h-full object-cover object-center filter saturate-150 contrast-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050508]/80 via-[#050508]/60 to-[#050508]/90" />
+      </div>
+
       {/* Main Content Wrap */}
       <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 pb-20 flex-grow relative z-10">
         
@@ -298,12 +319,12 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
         </div>
         <div className="max-w-6xl mx-auto px-4 text-center mt-6 pt-4 border-t border-white/5">
           <p className="text-[11px] sm:text-xs text-white/50 tracking-wider">
-            Página web &amp; Carta virtual hecha por{' '}
+            Web &amp; Carta virtual hecha por{' '}
             <a
-              href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+              href="https://www.instagram.com/mywebsitee/"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold text-[#0acc80] hover:text-[#C900FF] transition-colors underline decoration-[#0acc80]/40 hover:decoration-[#C900FF] cursor-pointer"
+              className="font-bold text-[#B026FF] hover:text-white transition-all underline decoration-[#B026FF]/50 hover:decoration-white drop-shadow-[0_0_10px_rgba(176,38,255,0.75)] cursor-pointer"
             >
               @MyWebsite
             </a>

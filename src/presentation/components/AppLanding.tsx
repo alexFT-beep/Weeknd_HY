@@ -619,12 +619,12 @@ export default function App() {
               </button>
             </div>
             <p className="mt-4 text-[11px] sm:text-xs text-white/50 tracking-wider">
-              Página web &amp; Carta virtual hecha por{' '}
+              Web &amp; Carta virtual hecha por{' '}
               <a
-                href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+                href="https://www.instagram.com/mywebsitee/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-bold text-weekend-neon hover:text-[#C900FF] transition-colors underline decoration-weekend-neon/40 hover:decoration-[#C900FF] cursor-pointer"
+                className="font-bold text-[#B026FF] hover:text-white transition-all underline decoration-[#B026FF]/50 hover:decoration-white drop-shadow-[0_0_10px_rgba(176,38,255,0.75)] cursor-pointer"
               >
                 @MyWebsite
               </a>
@@ -635,8 +635,20 @@ export default function App() {
 
       {/* --- E. PESTAÑA: RESERVA --- */}
       {currentView === 'reserva' && (
-        <div className="pt-16 sm:pt-20 min-h-screen bg-black text-white flex flex-col justify-between">
-          <main className="flex-1 relative py-12 px-4 overflow-hidden flex items-center justify-center">
+        <div className="pt-16 sm:pt-20 min-h-screen bg-black text-white flex flex-col justify-between relative overflow-hidden">
+          {/* Fondo Supabase fondoReservas.webp */}
+          <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
+            <img
+              src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/fondoReservas.webp"
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className="w-full h-full object-cover object-center filter saturate-150 brightness-90 contrast-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
+          </div>
+
+          <main className="flex-1 relative py-12 px-4 overflow-hidden flex items-center justify-center z-10">
             <div className="absolute inset-0 bg-radial-vignette opacity-70 pointer-events-none" />
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#C900FF]/15 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#C900FF]/15 rounded-full blur-3xl pointer-events-none" />
@@ -770,12 +782,12 @@ export default function App() {
               </button>
             </div>
             <p className="mt-4 text-[11px] sm:text-xs text-white/50 tracking-wider">
-              Página web &amp; Carta virtual hecha por{' '}
+              Web &amp; Carta virtual hecha por{' '}
               <a
-                href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+                href="https://www.instagram.com/mywebsitee/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-bold text-weekend-neon hover:text-[#C900FF] transition-colors underline decoration-weekend-neon/40 hover:decoration-[#C900FF] cursor-pointer"
+                className="font-bold text-[#B026FF] hover:text-white transition-all underline decoration-[#B026FF]/50 hover:decoration-white drop-shadow-[0_0_10px_rgba(176,38,255,0.75)] cursor-pointer"
               >
                 @MyWebsite
               </a>
@@ -890,23 +902,23 @@ export default function App() {
             </div>
           </section>
 
-          {/* ============ UBICACIÓN VIBRANTE & COLORIDA ============ */}
+          {/* ============ UBICACIÓN DARK CYBER / NEON ============ */}
           <section id="ubicacion" className="py-20 bg-[#050505] relative overflow-hidden">
             {/* Luces de ambiente Neón Multi-Color de fondo */}
-            <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[#0acc80]/15 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-[#c900ff]/20 rounded-full blur-[100px] pointer-events-none" />
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-40 bg-[#ffa40b]/15 rounded-full blur-[80px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-[#00FF66]/15 rounded-full blur-[110px] pointer-events-none" />
+            <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-96 h-96 bg-[#FF007F]/20 rounded-full blur-[110px] pointer-events-none" />
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-80 h-40 bg-[#B026FF]/15 rounded-full blur-[90px] pointer-events-none" />
 
             <div className="max-w-5xl mx-auto px-4 relative z-10">
               <div className="text-center mb-12">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-[#0acc80]/10 via-[#c900ff]/10 to-[#ffa40b]/10 border border-[#0acc80]/30 text-weekend-neon text-xs font-black uppercase tracking-[0.25em] mb-4">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gradient-to-r from-[#00FF66]/15 via-[#FF007F]/15 to-[#B026FF]/15 border border-[#00FF66]/40 text-[#00FF66] text-xs font-black uppercase tracking-[0.25em] mb-4 shadow-[0_0_20px_rgba(0,255,102,0.25)]">
                   <span>📍</span> Ubicación &amp; Punto de Encuentro <span>🍹</span>
                 </div>
                 <h3 className="text-3xl md:text-5xl font-black uppercase mb-4 font-display">
-                  ¿CÓMO <span className="text-transparent bg-clip-text bg-gradient-to-r from-weekend-neon via-[#c900ff] to-[#ffa40b]">LLEGAR?</span>
+                  ¿CÓMO <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00FF66] via-[#FF007F] to-[#B026FF]">LLEGAR?</span>
                 </h3>
                 <div className="flex items-center justify-center gap-2 text-white/80 font-medium">
-                  <MapPin size={20} className="text-weekend-neon shrink-0 animate-bounce" />
+                  <MapPin size={20} className="text-[#00FF66] shrink-0 animate-bounce" />
                   <p className="text-sm sm:text-base">Av. Cabo 140, Huarmey 02651 &bull; En pleno corazón de la ciudad</p>
                 </div>
               </div>
@@ -915,27 +927,49 @@ export default function App() {
                 initial={{ opacity: 0, y: 30 }} 
                 whileInView={{ opacity: 1, y: 0 }} 
                 viewport={{ once: true }}
-                className="relative p-[2px] rounded-[32px] bg-gradient-to-r from-[#0acc80] via-[#c900ff] to-[#ffa40b] shadow-[0_0_35px_rgba(201,0,255,0.4),0_0_60px_rgba(10,204,128,0.25)] overflow-hidden group"
+                className="relative p-[2px] rounded-[32px] bg-gradient-to-r from-[#00FF66] via-[#FF007F] to-[#B026FF] shadow-[0_0_40px_rgba(255,0,127,0.35),0_0_60px_rgba(0,255,102,0.25)] overflow-hidden group"
               >
-                <div className="relative rounded-[30px] overflow-hidden bg-zinc-950 h-[420px] sm:h-[460px]">
+                <div className="relative rounded-[30px] overflow-hidden bg-zinc-950 h-[440px] sm:h-[480px]">
+                  {/* Google Maps Iframe with Dark Cyber filter */}
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d245.6409801721048!2d-78.15328299958676!3d-10.068675181619353!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x91aa17e1bee947c9%3A0xda6d1058bd817a98!2sWeekend%20Huarmey!5e0!3m2!1ses!2spe!4v1772137403381!5m2!1ses!2spe"
-                    className="w-full h-full border-0 vibrant-map" 
+                    className="w-full h-full border-0 filter invert-[90%] hue-rotate-180 contrast-[125%] saturate-[140%]" 
                     allowFullScreen 
-                    title="Maps" 
+                    title="Maps Weekend Huarmey" 
                     loading="lazy"
                   />
 
-                  {/* Botón flotante para abrir en Google Maps app */}
+                  {/* Floating Cyberpunk Venue Card (Top Left) */}
+                  <div className="absolute top-4 left-4 z-20 max-w-xs sm:max-w-sm p-4 rounded-2xl bg-black/85 backdrop-blur-xl border border-white/20 shadow-[0_0_30px_rgba(0,255,102,0.3)] space-y-2">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-white font-black text-sm uppercase tracking-wide font-display">
+                        Weekend <span className="text-[#00FF66]">Huarmey</span>
+                      </span>
+                      <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ffa40b]/20 border border-[#ffa40b]/50 text-amber-300 text-[10px] font-black">
+                        <span>3.5</span>
+                        <span>⭐⭐⭐½</span>
+                      </div>
+                    </div>
+                    <p className="text-[11px] text-zinc-300 leading-snug flex items-start gap-1.5">
+                      <MapPin size={13} className="text-[#00FF66] shrink-0 mt-0.5" />
+                      <span>Av. Cabo 140, Huarmey 02651</span>
+                    </p>
+                    <div className="flex items-center gap-2 pt-1 border-t border-white/10 text-[10px] text-emerald-400 font-bold">
+                      <span className="w-2 h-2 rounded-full bg-[#00FF66] animate-ping" />
+                      <span>Abierto hoy: 5:00 PM - 3:00 AM</span>
+                    </div>
+                  </div>
+
+                  {/* Botón flotante para abrir en Google Maps (Bottom Right) */}
                   <div className="absolute bottom-4 right-4 z-20">
                     <a
                       href="https://maps.google.com/?q=Weekend+Huarmey+Av.+Cabo+140+Huarmey"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-black/90 backdrop-blur-md border border-weekend-neon/60 text-white font-extrabold text-xs uppercase hover:bg-weekend-neon hover:text-black transition-all shadow-[0_0_20px_rgba(10,204,128,0.5)] cursor-pointer"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-black/90 backdrop-blur-md border border-[#00FF66] text-white font-black text-xs uppercase hover:bg-[#00FF66] hover:text-black transition-all shadow-[0_0_30px_rgba(0,255,102,0.6)] cursor-pointer active:scale-95"
                     >
-                      <MapPin size={15} className="text-weekend-neon group-hover:text-black" />
-                      <span>Abrir en Google Maps</span>
+                      <MapPin size={16} className="text-[#00FF66] group-hover:text-black" />
+                      <span>ABRIR EN GOOGLE MAPS</span>
                     </a>
                   </div>
                 </div>
@@ -1040,12 +1074,12 @@ export default function App() {
                   &copy; {new Date().getFullYear()} WEEKEND Lounge &amp; Restaurant.
                 </p>
                 <p className="text-[11px] sm:text-xs text-white/50 tracking-wider">
-                  Página web &amp; Carta virtual hecha por{' '}
+                  Web &amp; Carta virtual hecha por{' '}
                   <a
-                    href="https://www.instagram.com/mywebsite_____?igsi=MWVpbGNpMWJsdzJkbw=="
+                    href="https://www.instagram.com/mywebsitee/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-bold text-weekend-neon hover:text-[#C900FF] transition-colors underline decoration-weekend-neon/40 hover:decoration-[#C900FF] cursor-pointer"
+                    className="font-bold text-[#B026FF] hover:text-white transition-all underline decoration-[#B026FF]/50 hover:decoration-white drop-shadow-[0_0_10px_rgba(176,38,255,0.75)] cursor-pointer"
                   >
                     @MyWebsite
                   </a>
