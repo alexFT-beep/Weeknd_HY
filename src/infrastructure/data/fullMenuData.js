@@ -11,11 +11,11 @@ export const MENU_CATEGORIES = [
   { id: "salchipapas", name: "Salchipapas", emoji: "🍟", color: "#CCFF00", rgb: "204, 255, 0", description: "Salchipapas clásicas, rancheras, royal y especiales" },
   { id: "parrillas", name: "Parrillas & Combos", emoji: "🥩", color: "#FF0033", rgb: "255, 0, 51", description: "Cortes a la brasa, anticuchos y combos parrilleros" },
   { id: "piqueos", name: "Piqueos", emoji: "🍢", color: "#FF5722", rgb: "255, 87, 34", description: "Brochetas, tequeños x10 y nuggets" },
-  { id: "chifa", name: "Chifa Tradicional", emoji: "🥡", color: "#FF0055", rgb: "255, 0, 85", description: "Chi Jau Kay, Tipakay, Siu Pei, Kam Lu Wantan y tallarines" },
+  { id: "marina", name: "Especialidad Marina", emoji: "🐟", color: "#00B4D8", rgb: "0, 180, 216", description: "Ceviches, tiraditos y especialidades marinas artesanales" },
   { id: "pastas", name: "Pastas", emoji: "🍝", color: "#76FF03", rgb: "118, 255, 3", description: "Fetuccinis en salsas artesanales y acompañamientos" },
   { id: "ensaladas", name: "Ensaladas", emoji: "🥗", color: "#0ACC80", rgb: "10, 204, 128", description: "Ensaladas frescas de fruta, pollo y atún" },
   { id: "makis", name: "Makis", emoji: "🍱", color: "#00FFA3", rgb: "0, 255, 163", description: "Makis acevichados, crispy, agridulces y lomo saltado" },
-  { id: "jugos", name: "Smoothies & Jugos", emoji: "🥤", color: "#FF007F", rgb: "255, 0, 127", description: "Smoothies 100% natural, jugos naturales y frappes" },
+  { id: "jugos", name: "FRAPPES & JUGOS", emoji: "🥤", color: "#FF007F", rgb: "255, 0, 127", description: "Frappes artesanales, jugos naturales y smoothies 100% fruta" },
   { id: "bubble-tea", name: "Bubble Tea & Milkshakes", emoji: "🧋", color: "#D500F9", rgb: "213, 0, 249", description: "Bubble Tea con Popping Bobba y milkshakes cremosos" },
   { id: "refrescos", name: "Refrescos & Bebidas", emoji: "🧊", color: "#00E5FF", rgb: "0, 229, 255", description: "Jarras de refresco (1L y 1/2L), gaseosas y bebidas calientes" },
   { id: "guarniciones", name: "Guarniciones & Extras", emoji: "🥔", color: "#A0AEC0", rgb: "160, 174, 192", description: "Porciones adicionales de papas, arroz, ensaladas y complementos" }
@@ -162,16 +162,9 @@ export const FULL_MENU_ITEMS = [
   { id: "nug-03", name: "Nuggets Three (10 Und)", price: 29, category: "piqueos", subcategory: "piqueos", description: "10 unidades + papas fritas + chorizo" },
   { id: "nug-04", name: "Nuggets Four (10 Und)", price: 30, category: "piqueos", subcategory: "piqueos", description: "10 unidades + papas fritas + salsa 04 quesos" },
 
-  // =================== 7. CHIFA TRADICIONAL WEEKEND ===================
-  { id: "chifa-01", name: "Tallarín c/ Pollo", price: 28, category: "chifa", subcategory: "chifa", description: "Tallarín salteado estilo oriental con pollo" },
-  { id: "chifa-02", name: "Pollo c/ Verduras", price: 28, category: "chifa", subcategory: "chifa", description: "Pechuga salteada con verduras orientales" },
-  { id: "chifa-03", name: "Pollo Chi Jau Kay (Salado)", price: 28, category: "chifa", subcategory: "chifa", description: "Pollo crocante bañado en salsa salada de ostión" },
-  { id: "chifa-04", name: "Pollo Tipakay (Agridulce)", price: 28, category: "chifa", subcategory: "chifa", description: "Pollo crocante bañado en salsa agridulce con piña" },
-  { id: "chifa-05", name: "Pollo Siu Pei con Piña y Durazno (Agridulce)", price: 28, category: "chifa", subcategory: "chifa", description: "Especialidad agridulce con piña y duraznos" },
-  { id: "chifa-06", name: "Pollo con Piña (Agridulce)", price: 28, category: "chifa", subcategory: "chifa", description: "Pollo salteado en salsa agridulce y piña" },
-  { id: "chifa-07", name: "Kam Lu Wantan", price: 30, category: "chifa", subcategory: "chifa", description: "Wantanes rellenos con salsa de tamarindo, pollo y verduras" },
-  { id: "chifa-08", name: "Tallarín c/ Carne (Lomo Fino)", price: 33, category: "chifa", subcategory: "chifa", description: "Tallarín salteado oriental con lomo fino" },
-  { id: "chifa-09", name: "Tallarín c/ Langostinos", price: 33, category: "chifa", subcategory: "chifa", description: "Tallarín salteado oriental con langostinos" },
+  // =================== 7. ESPECIALIDAD MARINA (PRÓXIMAMENTE) ===================
+  // (Actualmente vacía sin items)
+
 
   // =================== 9. PASTAS ===================
   { id: "past-01", name: "Fetuccini a la Huancaína", price: 22, category: "pastas", subcategory: "pastas", description: "Fetuccinis en salsa huancaína artesanal" },

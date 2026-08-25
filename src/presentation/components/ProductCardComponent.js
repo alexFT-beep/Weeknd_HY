@@ -6,7 +6,7 @@ export const SECTION_THEMES = {
   'parrillas': { hex: '#FF0033', rgb: '255, 0, 51' },
   'piqueos': { hex: '#FF5722', rgb: '255, 87, 34' },
   'a-la-carta': { hex: '#FF3D00', rgb: '255, 61, 0' },
-  'chifa': { hex: '#FF0055', rgb: '255, 0, 85' },
+  'marina': { hex: '#00B4D8', rgb: '0, 180, 216' },
   'pastas': { hex: '#76FF03', rgb: '118, 255, 3' },
   'ensaladas': { hex: '#0ACC80', rgb: '10, 204, 128' },
   'makis': { hex: '#00FFA3', rgb: '0, 255, 163' },

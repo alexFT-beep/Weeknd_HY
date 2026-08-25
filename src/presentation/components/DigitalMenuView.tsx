@@ -459,8 +459,6 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
           const theme = SECTION_THEMES[cat.id] || SECTION_THEMES['alitas'];
           const categoryItems = itemsByCategory[cat.id] || [];
 
-          if (categoryItems.length === 0) return null;
-
           const isExpanded = expandedCategories[cat.id] === true;
 
           const isAlitas = cat.id === 'alitas';
@@ -529,7 +527,7 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                       borderColor: `${theme.hex}50` 
                     }}
                   >
-                    {categoryItems.length} OPCIONES
+                    {categoryItems.length > 0 ? `${categoryItems.length} OPCIONES` : 'PRÓXIMAMENTE'}
                   </span>
 
                   <div 
@@ -549,13 +547,13 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
 
               {/* CONTENIDO DESPLEGABLE DE LA CATEGORÍA */}
               {isExpanded ? (
-                <div className="mt-6 pt-4 border-t border-white/10 transition-all duration-300 animate-fadeIn">
+                <div className="pt-4 border-t border-white/5 mt-4 animate-in fade-in duration-300">
                   {isAlitas ? (
                     <div className="space-y-8">
                       {rondasAlitas.length > 0 && (
                         <div>
                           <h3 className="text-xs font-black uppercase tracking-widest text-weekend-neon mb-3 flex items-center gap-2">
-                            <Sparkles className="w-3.5 h-3.5" /> RONDAS & COMBOS FESTÍN (RECOMENDADOS)
+                            <Sparkles className="w-3.5 h-3.5" /> RONDAS & COMBOS FESTIVALES PARA COMPARTIR
                           </h3>
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
                             {rondasAlitas.map((item) => (
@@ -566,9 +564,11 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                       )}
 
                       <div>
-                        <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
-                          ALITAS INDIVIDUALES (08 UNIDADES + PAPAS + ENSALADA)
-                        </h3>
+                        {rondasAlitas.length > 0 && (
+                          <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
+                            PORCIONES INDIVIDUALES (06, 12 Y 18 ALITAS)
+                          </h3>
+                        )}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
                           {regularAlitas.map((item) => (
                             <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
@@ -621,9 +621,6 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                   ) : isParrillas ? (
                     <div className="space-y-8">
                       <div>
-                        <h3 className="text-xs font-black uppercase tracking-widest text-gray-300 mb-3">
-                          CORTES A LA PARRILLA & ANTICUCHOS
-                        </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
                           {mainParrillas.map((item) => (
                             <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
@@ -666,12 +663,22 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                       )}
                     </div>
                   ) : (
-                    /* CATEGORÍAS GENERALES */
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
-                      {categoryItems.map((item) => (
-                        <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
-                      ))}
-                    </div>
+                    /* CATEGORÍAS GENERALES O VACÍAS */
+                    categoryItems.length === 0 ? (
+                      <div className="text-center py-8 px-4 border border-dashed border-cyan-500/30 rounded-2xl bg-cyan-500/5 my-2">
+                        <span className="text-3xl mb-2 block">🐟🌊</span>
+                        <h3 className="text-sm font-black uppercase text-cyan-400 tracking-wider">Especialidad Marina</h3>
+                        <p className="text-xs text-white/50 mt-1 max-w-sm mx-auto">
+                          Sección en preparación. Próximamente deliciosas recetas marinas artesanales.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                        {categoryItems.map((item) => (
+                          <MenuCardItem key={item.id} item={item} theme={theme} isAdded={!!addedItemIds[item.id]} onAdd={handleAddToCart} />
+                        ))}
+                      </div>
+                    )
                   )}
                 </div>
               ) : (
@@ -680,7 +687,9 @@ export const DigitalMenuView: React.FC<DigitalMenuViewProps> = ({ onSearchClick 
                   className="mt-2 text-center text-xs font-bold text-gray-400 py-1 cursor-pointer hover:text-white transition-colors"
                 >
                   <span className="underline">
-                    {categoryItems.length} platos en {cat.name} ocultos (Toca para desplegar)
+                    {categoryItems.length > 0 
+                      ? `${categoryItems.length} platos en ${cat.name} ocultos (Toca para desplegar)` 
+                      : `Sección ${cat.name} (Toca para desplegar)`}
                   </span>
                 </div>
               )}

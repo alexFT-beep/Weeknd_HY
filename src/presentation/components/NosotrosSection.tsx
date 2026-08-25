@@ -38,7 +38,7 @@ const VALORES_BADGES = [
     label: 'PLATOS EXQUISITOS',
     emoji: '🍗',
     icon: UtensilsCrossed,
-    desc: '31 salsas artesanales para alitas, parrillas al carbón, broasters y chifa gourmet.',
+    desc: '31 salsas artesanales para alitas, parrillas al carbón, broasters, makis y especialidades.',
     color: '#0acc80',
     bgGradient: 'from-[#0acc80]/20 via-[#0acc80]/10 to-transparent',
     border: 'border-[#0acc80]/50 hover:border-[#0acc80]',

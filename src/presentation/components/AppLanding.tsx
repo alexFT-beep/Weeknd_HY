@@ -181,7 +181,7 @@ export default function App() {
       const menuHashes = [
         '#carta-digital', '#menu-virtual', '#carta', '#menu',
         '#alitas', '#hamburguesas', '#broaster', '#salchipapas', '#parrillas',
-        '#piqueos', '#a-la-carta', '#chifa', '#pastas', '#ensaladas', '#makis',
+        '#piqueos', '#a-la-carta', '#marina', '#pastas', '#ensaladas', '#makis',
         '#jugos', '#bubble-tea', '#refrescos', '#cocteles', '#cervezas', '#guarniciones'
       ];
 
@@ -1101,7 +1101,7 @@ export default function App() {
                 <span className="text-white font-black tracking-tighter text-xl uppercase font-display">WEEKEND!</span>
               </div>
               <p className="text-white/60 text-sm leading-relaxed mb-6">
-                El espacio donde la alta cocina se encuentra con el ritmo más sofisticado de la ciudad.
+                El rincón rústico y nocturno donde la buena vibra, los sabores artesanales y la fiesta se juntan para hacer de cada noche algo inolvidable.
               </p>
               <div className="space-y-4">
                 <p className="text-weekend-neon font-bold uppercase tracking-widest text-xs font-display">¡Síguenos!</p>
