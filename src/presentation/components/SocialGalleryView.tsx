@@ -134,30 +134,7 @@ export function SocialGalleryView({ onBackToHome, onOpenMenu }: SocialGalleryVie
       <div className="fixed bottom-10 right-10 w-[500px] h-[500px] bg-rose-600/10 blur-3xl pointer-events-none -z-10" />
 
       {/* Main Content Wrap */}
-      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-8 pb-16 flex-grow relative z-10">
-        
-        {/* Top Navigation Bar */}
-        <div className="flex items-center justify-between mb-10 relative z-20">
-          <button 
-            type="button"
-            onClick={onBackToHome}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-bold text-white transition-all hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            <ChevronLeft className="w-4 h-4 text-[#0acc80]" />
-            <span>Volver al Inicio</span>
-          </button>
-
-          <div className="flex items-center gap-3">
-            <button 
-              type="button"
-              onClick={onOpenMenu}
-              className="px-5 py-2 rounded-full bg-[#0acc80] text-black font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all shadow-[0_0_20px_rgba(10,204,128,0.4)] active:scale-95 cursor-pointer"
-            >
-              📋 Ver Carta Digital
-            </button>
-          </div>
-        </div>
-
+      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-4 pb-16 flex-grow relative z-10">
         {/* HEADER SECTION */}
         <header className="text-center mb-12 space-y-4">
           <motion.div 
