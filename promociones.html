@@ -47,72 +47,113 @@
     <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
     <div class="fixed bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#C900FF]/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
 
-    <!-- Header / Navbar -->
-    <header class="fixed top-0 left-0 w-full z-50 bg-[#0e0e12]/90 backdrop-blur-md py-3.5 border-b border-white/10 transition-all duration-300 shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
-      <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <a href="index.html" class="flex items-center gap-3 group">
-            <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" alt="Logo Weekend" class="h-10 w-10 rounded-full object-cover border border-[#0acc80] group-hover:scale-105 transition-transform" />
-            <span class="text-white font-black tracking-tight text-base sm:text-lg uppercase" style="font-family: 'Space Grotesk', sans-serif;">
-              WEEKEND! <span class="text-[#0acc80]">Huarmey</span>
-            </span>
-          </a>
-        </div>
+    <!-- Header / Navbar Unificada -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-black/95 backdrop-blur-md py-2.5 border-b border-white/10 shadow-2xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-3 sm:gap-4">
+        
+        <!-- Logo y Branding -->
+        <a href="index.html" class="flex items-center gap-2.5 shrink-0 cursor-pointer group">
+          <img
+            src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" 
+            alt="Logo"
+            width="36"
+            height="36"
+            fetchpriority="high"
+            decoding="async"
+            class="h-8 sm:h-9 w-8 sm:w-9 rounded-full object-cover border border-weekend-neon/70 group-hover:border-[#c900ff] transition-colors"
+            referrerpolicy="no-referrer"
+          />
+          <span class="text-white font-black tracking-tight text-xs sm:text-sm uppercase whitespace-nowrap group-hover:text-[#c900ff] transition-colors font-display" style="font-family: 'Space Grotesk', sans-serif;">
+            WEEKND! <span class="text-[#0acc80]">Huarmey</span>
+          </span>
+        </a>
 
-        <nav class="hidden lg:flex items-center gap-7">
-          <a href="index.html" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#C900FF] active:text-[#EA2A81] transition-colors">Inicio</a>
-          <a href="promociones.html" class="text-sm uppercase tracking-widest font-black text-[#C900FF] border-b-2 border-[#C900FF] pb-0.5">Promociones</a>
-          <a href="index.html#carta-digital" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#C900FF] active:text-[#EA2A81] transition-colors">Carta</a>
-          <a href="index.html#reserva" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#C900FF] active:text-[#EA2A81] transition-colors">Reserva</a>
-          <a href="index.html#redes" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#C900FF] active:text-[#EA2A81] transition-colors">Redes</a>
-          <a href="index.html#ubicacion" class="text-sm uppercase tracking-widest font-bold text-white/80 hover:text-[#C900FF] active:text-[#EA2A81] transition-colors">Ubicación</a>
+        <!-- Links de Navegación de Escritorio -->
+        <nav class="hidden lg:flex items-center gap-4 xl:gap-6 justify-center">
+          <a href="index.html" class="text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap text-zinc-200 hover:text-[#c900ff]" style="font-family: 'Space Grotesk', sans-serif;">Inicio</a>
+          <a href="index.html#nosotros" class="text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap text-zinc-200 hover:text-[#c900ff]" style="font-family: 'Space Grotesk', sans-serif;">Nosotros</a>
+          <a href="index.html#momentos" class="text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap text-zinc-200 hover:text-[#c900ff]" style="font-family: 'Space Grotesk', sans-serif;">Momentos</a>
+          <a href="promociones.html" class="text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap text-[#0acc80] font-black drop-shadow-[0_0_10px_rgba(10,204,128,0.6)]" style="font-family: 'Space Grotesk', sans-serif;">Promociones</a>
+          <a href="index.html#carta-digital" class="text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap text-zinc-200 hover:text-[#c900ff]" style="font-family: 'Space Grotesk', sans-serif;">Carta</a>
+          <a href="index.html#reserva" class="text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap text-zinc-200 hover:text-[#c900ff]" style="font-family: 'Space Grotesk', sans-serif;">Reserva</a>
+          <a href="index.html#ubicacion" class="text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap text-zinc-200 hover:text-[#c900ff]" style="font-family: 'Space Grotesk', sans-serif;">Ubicación</a>
+          <a href="index.html#redes" class="text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap text-zinc-200 hover:text-[#c900ff]" style="font-family: 'Space Grotesk', sans-serif;">Redes</a>
         </nav>
 
-        <div class="flex items-center gap-3">
-          <a 
+        <!-- Acciones y Botones a la Derecha -->
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+          <!-- Botón Carrito -->
+          <a
             href="index.html#carta-digital"
-            class="hidden sm:inline-flex items-center gap-2 bg-[#0acc80] text-black font-extrabold uppercase tracking-widest text-xs px-5 py-2 rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 shadow-[0_0_20px_rgba(10,204,128,0.4)] hover:shadow-[0_0_25px_rgba(201,0,255,0.8)]"
-            style="font-family: 'Space Grotesk', sans-serif;"
+            class="relative text-black font-extrabold bg-[#0acc80] hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all active:scale-95 duration-200 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full flex items-center gap-1.5 text-xs uppercase shadow-sm hover:shadow-[0_0_20px_rgba(201,0,255,0.75)] cursor-pointer"
+            title="Ver Carrito"
+            aria-label="Ver Carrito"
           >
-            🔥 Ver Menú
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+            <span class="hidden sm:inline">Carrito</span>
           </a>
-          <button 
-            type="button" 
-            class="lg:hidden p-2 text-white hover:text-[#C900FF] transition-colors cursor-pointer" 
-            id="mobile-menu-btn"
-            aria-label="Abrir menú"
+
+          <!-- CTA Ver Menú -->
+          <a
+            href="index.html#carta-digital"
+            class="hidden sm:inline-flex items-center gap-2 bg-[#0acc80] text-black font-extrabold uppercase tracking-widest text-xs px-4 py-2 sm:px-5 sm:py-2.5 rounded-full hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all duration-300 active:scale-95 shadow-[0_0_20px_rgba(10,204,128,0.4)] hover:shadow-[0_0_25px_rgba(201,0,255,0.8)] cursor-pointer font-display"
+            style="font-family: 'Space Grotesk', sans-serif;"
+            aria-label="Ver menú virtual"
           >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+            Ver Menú
+          </a>
+
+          <!-- Botón Hamburguesa Móvil -->
+          <button
+            type="button"
+            class="lg:hidden p-1.5 sm:p-2 text-white hover:text-[#c900ff] transition-colors duration-300 z-50 cursor-pointer"
+            id="mobile-menu-btn"
+            aria-label="Menú"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" /><line x1="4" x2="20" y1="6" /><line x1="4" x2="20" y1="18" /></svg>
           </button>
         </div>
       </div>
     </header>
 
     <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 z-50 bg-[#08080a]/90 backdrop-blur-md flex flex-col items-center justify-center gap-4 hidden p-6 overflow-y-auto">
-      <div class="absolute inset-0 z-0 opacity-85">
-        <img src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp" alt="Fondo Menú" class="w-full h-full object-cover brightness-110 contrast-105 saturate-110" />
+    <div id="mobile-menu" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center gap-5 landscape:gap-3 md:hidden overflow-y-auto hidden">
+      <div class="absolute inset-0 z-0">
+        <img
+          src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/living.webp"
+          alt="Fondo Menú Móvil"
+          width="800"
+          height="1200"
+          loading="lazy"
+          decoding="async"
+          class="w-full h-full object-cover opacity-85 brightness-110 contrast-105 saturate-110"
+          referrerpolicy="no-referrer"
+        />
         <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/65"></div>
       </div>
-      <div class="relative z-10 flex flex-col items-center gap-3 py-6 w-full max-w-xs">
-        <a href="index.html" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">INICIO</a>
-        <a href="index.html#carta-digital" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-[#C900FF] hover:text-white transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">CARTA</a>
-        <a href="index.html#reserva" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">RESERVA</a>
-        <a href="https://wa.me/51961336674?text=Hola%2C%20deseo%20hacer%20un%20pedido%20de%20delivery%20en%20Weekend!" target="_blank" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-[#0acc80] hover:text-white transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">DELIVERY</a>
-        <a href="promociones.html" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">DESTACADOS</a>
-        <a href="index.html#redes" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">SÍGUENOS</a>
-        <a href="index.html#ubicacion" class="w-full text-center py-2 text-lg uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/5" style="font-family: 'Space Grotesk', sans-serif;">UBICACIÓN</a>
+
+      <button class="absolute top-4 right-4 text-white p-2 hover:text-[#C900FF] transition-colors z-20 cursor-pointer" id="close-menu-btn" aria-label="Cerrar menú">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+
+      <div class="relative z-10 flex flex-col items-center gap-4 landscape:gap-2 py-8 w-full max-w-xs px-4">
+        <a href="index.html" class="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer font-display" style="font-family: 'Space Grotesk', sans-serif;">INICIO</a>
+        <a href="index.html#nosotros" class="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-[#FFA40B] hover:text-white transition-colors border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer font-display" style="font-family: 'Space Grotesk', sans-serif;">NOSOTROS</a>
+        <a href="index.html#momentos" class="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-[#0ACC80] hover:text-white transition-colors border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer font-display" style="font-family: 'Space Grotesk', sans-serif;">MOMENTOS</a>
+        <a href="index.html#carta-digital" class="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-[#C900FF] hover:text-white transition-colors border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer font-display" style="font-family: 'Space Grotesk', sans-serif;">CARTA</a>
+        <a href="index.html#reserva" class="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer font-display" style="font-family: 'Space Grotesk', sans-serif;">RESERVA</a>
+        <a href="index.html#carta-digital" class="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-[#0ACC80] hover:text-white transition-colors border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer font-display" style="font-family: 'Space Grotesk', sans-serif;">DELIVERY</a>
+        <a href="promociones.html" class="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-[#0acc80] font-black border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer font-display" style="font-family: 'Space Grotesk', sans-serif;">DESTACADOS</a>
+        <a href="index.html#redes" class="w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold text-white hover:text-[#C900FF] transition-colors border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer font-display" style="font-family: 'Space Grotesk', sans-serif;">SÍGUENOS</a>
         
-        <a href="index.html#carta-digital" class="mt-4 w-full py-3.5 bg-[#0acc80] text-black font-black uppercase tracking-widest rounded-2xl text-xs text-center shadow-[0_0_20px_rgba(10,204,128,0.4)] hover:bg-[#C900FF] hover:text-white transition-all" style="font-family: 'Space Grotesk', sans-serif;">
+        <a href="index.html#carta-digital" class="mt-4 w-full px-8 py-3 bg-[#EA2A81] text-white font-extrabold uppercase tracking-widest rounded-full text-sm text-center shadow-[0_0_20px_rgba(234,42,129,0.4)] hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:scale-95 transition-all hover:shadow-[0_0_25px_rgba(201,0,255,0.8)] cursor-pointer font-display" style="font-family: 'Space Grotesk', sans-serif;">
           🔥 Pide tu Weekend (Carta Digital)
         </a>
       </div>
+
       <div class="absolute bottom-6 landscape:hidden left-0 w-full text-center z-10">
-        <p class="text-[#f59e0b] font-black text-sm uppercase tracking-[0.3em] drop-shadow-[0_0_12px_rgba(245,158,11,0.3)]" style="font-family: 'Space Grotesk', sans-serif;">WEEKND! - HUARMEY</p>
+        <p class="text-[#f59e0b] font-black text-sm uppercase tracking-[0.3em] drop-shadow-[0_0_12px_rgba(245,158,11,0.3)] font-display" style="font-family: 'Space Grotesk', sans-serif;">WEEKND! - HUARMEY</p>
       </div>
-      <button class="absolute top-6 right-6 text-white p-2 hover:text-[#C900FF] transition-colors z-20 cursor-pointer" id="close-menu-btn" aria-label="Cerrar menú">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-      </button>
     </div>
 
     <!-- Main Content -->
@@ -320,7 +361,7 @@
               </div>
               <div class="flex items-center gap-2">
                 <span class="text-[10px] font-black uppercase px-3 py-1 rounded-full border border-white/10 bg-white/5 text-zinc-300">
-                  ${sec.promos.length} Ofertas • Carrusel Infinito
+                  ${sec.promos.length} Ofertas
                 </span>
               </div>
             </div>
