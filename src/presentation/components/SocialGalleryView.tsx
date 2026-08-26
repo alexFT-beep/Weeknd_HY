@@ -1,9 +1,9 @@
 // @ts-nocheck
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { 
   Instagram, Facebook, MessageCircle, 
-  ExternalLink, Sparkles, Flame, CheckCircle2, ArrowRight, Music2
+  ExternalLink, Sparkles, Flame, CheckCircle2
 } from 'lucide-react';
 
 interface SocialGalleryViewProps {

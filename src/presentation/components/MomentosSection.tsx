@@ -2,10 +2,9 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Sparkles, PartyPopper, Gift, Camera, 
-  Wine, Users, Calendar, ArrowRight, Play, Pause,
+  Sparkles, PartyPopper, Gift, ArrowRight, Play, Pause,
   Volume2, VolumeX, Maximize2, X, MessageCircle, Phone,
-  Flame, CheckCircle2, Film, Star
+  CheckCircle2
 } from 'lucide-react';
 
 interface MomentosSectionProps {
@@ -16,47 +15,53 @@ interface MomentosSectionProps {
 const CONTACT_WA = "51961336674";
 const WA_RESERVA_URL = `https://wa.me/${CONTACT_WA}?text=${encodeURIComponent('¡Hola Weekend! Deseo reservar para mi cumpleaños / noche de patas y acceder a las cortesías.')}`;
 
-// Exactamente 3 Videos de Cumpleaños Funcionales y Destacados
-const FEATURED_BIRTHDAY_VIDEOS = [
+// 3 Videos de Cumpleaños Destacados (Sin tarjetas vacías ni pantallas negras)
+const FEATURED_VIDEOS = [
   {
     id: 'cumplepubertos',
     title: 'Cumpleaños Pubertos & Jóvenes',
     category: 'Vibra Juvenil & Amigos',
     badge: '🎉 CUMPLE JOVEN',
-    videoUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumplepubertos.webm',
+    webmUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumplepubertos.webm',
+    mp4Url: '',
     accentColor: '#0acc80',
+    glowColor: 'rgba(10, 204, 128, 0.35)',
     description: 'La energía más prendida de Huarmey celebrando con amigos, risas, bengalas y la mejor música.'
   },
   {
     id: 'cumpleviejo',
     title: 'Cumpleaños Familiar & Adulto Mayor',
-    category: 'Celebración de Oro',
+    category: 'Celebración Familiar',
     badge: '👑 CUMPLE DORADO',
-    videoUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumpleviejo.webm',
+    webmUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumpleviejo.webm',
+    mp4Url: '',
     accentColor: '#ffa40b',
+    glowColor: 'rgba(255, 164, 11, 0.35)',
     description: 'Celebraciones inolvidables para todas las generaciones con atención cálida, fotos y obsequios.'
   },
   {
     id: 'cumpleequipo',
     title: 'Celebración con Equipo Weekend',
-    category: 'Fiesta & Show en Vivo',
+    category: 'Show & Fiesta en Vivo',
     badge: '🎂 CUMPLEAÑOS EN VIVO',
-    videoUrl: '/videos/cumpleequipo.webm',
-    fallbackUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/CumpleAdoles2.webm',
+    webmUrl: '/videos/cumpleequipo.webm',
+    mp4Url: '/videos/cumpleequipo.mp4',
     accentColor: '#c900ff',
+    glowColor: 'rgba(201, 0, 255, 0.4)',
     description: 'Bengalas de fuego frío, cánticos en coro y los 5 obsequios sorpresa Weekend en tu mesa.'
   }
 ];
 
 interface VideoCardItemProps {
-  video: typeof FEATURED_BIRTHDAY_VIDEOS[number];
-  onOpenModal: (video: typeof FEATURED_BIRTHDAY_VIDEOS[number]) => void;
+  video: typeof FEATURED_VIDEOS[number];
+  onOpenModal: (video: typeof FEATURED_VIDEOS[number]) => void;
 }
 
 const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -81,27 +86,40 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
     <motion.div
       whileHover={{ y: -8, scale: 1.02 }}
       transition={{ duration: 0.3 }}
-      className="group relative rounded-[32px] overflow-hidden bg-zinc-950 border border-white/15 shadow-[0_0_40px_rgba(0,0,0,0.8)] flex flex-col justify-between aspect-[9/16] w-full cursor-pointer hover:border-[#c900ff]/70 transition-all duration-300"
+      className="group relative rounded-[32px] overflow-hidden bg-zinc-950 border border-white/15 shadow-2xl flex flex-col justify-between aspect-[9/16] w-full cursor-pointer hover:border-[#c900ff]/70 transition-all duration-300"
+      style={{ boxShadow: `0 0 35px ${video.glowColor}` }}
       onClick={() => onOpenModal(video)}
     >
-      {/* Video Background */}
+      {/* Background Animated Celebration Ambient (Prevents any black screen before video paints) */}
+      <div 
+        className="absolute inset-0 z-0 flex flex-col items-center justify-center p-6 text-center"
+        style={{
+          background: `radial-gradient(circle at center, ${video.accentColor}25 0%, #07070a 80%)`
+        }}
+      >
+        <Sparkles className="w-12 h-12 opacity-30 animate-pulse" style={{ color: video.accentColor }} />
+        <span className="text-xs font-bold text-zinc-400 mt-2 uppercase tracking-widest">{video.title}</span>
+      </div>
+
+      {/* HTML5 Native Video */}
       <video
         ref={videoRef}
         playsInline
         muted={isMuted}
         loop
         autoPlay
-        preload="metadata"
-        className="absolute inset-0 w-full h-full object-cover brightness-95 group-hover:brightness-105 group-hover:scale-105 transition-all duration-700"
+        preload="auto"
+        onLoadedData={() => setHasLoaded(true)}
+        className="absolute inset-0 w-full h-full object-cover brightness-95 group-hover:brightness-105 group-hover:scale-105 transition-all duration-700 z-[1]"
       >
-        <source src={video.videoUrl} type="video/webm" />
-        {video.fallbackUrl && <source src={video.fallbackUrl} type="video/webm" />}
+        <source src={video.webmUrl} type="video/webm" />
+        {video.mp4Url && <source src={video.mp4Url} type="video/mp4" />}
       </video>
 
-      {/* Dynamic Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-black/65 pointer-events-none" />
+      {/* Dynamic Overlays for Maximum Text Contrast */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-black/65 pointer-events-none z-[2]" />
 
-      {/* Top Bar: Badge and Audio/Play Action Buttons */}
+      {/* Top Header: Badge + Audio Controls */}
       <div className="relative z-10 p-5 flex items-center justify-between gap-2">
         <span 
           className="px-3.5 py-1 rounded-full text-[11px] font-black uppercase tracking-wider backdrop-blur-md shadow-md"
@@ -137,14 +155,14 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
         </div>
       </div>
 
-      {/* Center Play Pulse Hint on Hover */}
+      {/* Center Play Hint on Hover */}
       <div className="relative z-10 flex-1 flex items-center justify-center pointer-events-none">
         <div className="w-14 h-14 rounded-full bg-black/60 backdrop-blur-md border border-white/30 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 shadow-[0_0_30px_rgba(201,0,255,0.5)]">
           <Maximize2 size={20} className="text-white" />
         </div>
       </div>
 
-      {/* Bottom Information */}
+      {/* Bottom Metadata */}
       <div className="relative z-10 p-5 pt-2">
         <span className="text-[11px] font-bold text-zinc-300 uppercase tracking-wider block">
           {video.category}
@@ -159,7 +177,7 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
           {video.description}
         </p>
         <div className="mt-3 flex items-center gap-1.5 text-xs font-bold text-[#c900ff] group-hover:text-white transition-colors">
-          <span>Ver con audio en pantalla completa</span>
+          <span>Ver en pantalla completa con audio</span>
           <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
         </div>
       </div>
@@ -168,7 +186,7 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
 };
 
 export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSectionProps) {
-  const [selectedVideo, setSelectedVideo] = useState<typeof FEATURED_BIRTHDAY_VIDEOS[number] | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<typeof FEATURED_VIDEOS[number] | null>(null);
 
   return (
     <section id="momentos" className="relative py-20 sm:py-24 bg-[#08080c] text-[#f5f5f5] overflow-hidden border-t border-b border-white/10">
@@ -246,7 +264,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
 
           {/* Grid de 3 Tarjetas de Video Simétricas */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {FEATURED_BIRTHDAY_VIDEOS.map((video) => (
+            {FEATURED_VIDEOS.map((video) => (
               <VideoCardItem
                 key={video.id}
                 video={video}
@@ -495,15 +513,15 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
               {/* Video with Controls */}
               <div className="relative aspect-[9/16] bg-black">
                 <video
-                  src={selectedVideo.videoUrl}
+                  src={selectedVideo.webmUrl}
                   playsInline
                   autoPlay
                   controls
                   loop
                   className="w-full h-full object-contain"
                 >
-                  <source src={selectedVideo.videoUrl} type="video/webm" />
-                  {selectedVideo.fallbackUrl && <source src={selectedVideo.fallbackUrl} type="video/webm" />}
+                  <source src={selectedVideo.webmUrl} type="video/webm" />
+                  {selectedVideo.mp4Url && <source src={selectedVideo.mp4Url} type="video/mp4" />}
                 </video>
               </div>
 
