@@ -96,8 +96,8 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
       <div className="fixed bottom-10 left-1/3 w-[600px] h-[450px] bg-[#ffa40b]/20 rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="fixed bottom-0 right-1/4 w-[450px] h-[450px] bg-[#00f2fe]/20 rounded-full blur-[120px] pointer-events-none -z-10" />
 
-      {/* Responsive Background Graphic (Exclusively active on Mobile & Tablets < 1024px) */}
-      <div className="block lg:hidden fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+      {/* Official Background Graphic (capiparado.webp) */}
+      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
         <img 
           src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/capiparado.webp"
           alt=""
@@ -105,8 +105,8 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
           loading="lazy"
           className="w-full h-full object-cover object-center filter brightness-90 saturate-125 contrast-105"
         />
-        {/* Contrast Overlay to ensure high text legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/45 to-black/75" />
+        {/* Contrast Overlay to ensure high text and card legibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#050508]/80 via-[#050508]/60 to-[#050508]/90" />
       </div>
 
       {/* Main Content Wrap */}
