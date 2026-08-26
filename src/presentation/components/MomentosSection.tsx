@@ -5,7 +5,7 @@ import {
   Sparkles, PartyPopper, Gift, Camera, 
   Wine, Users, Calendar, ArrowRight, Play, Pause,
   Volume2, VolumeX, Maximize2, X, MessageCircle, Phone,
-  Flame, CheckCircle2, Film
+  Flame, CheckCircle2, Film, ChevronLeft, ChevronRight
 } from 'lucide-react';
 
 interface MomentosSectionProps {
@@ -16,23 +16,92 @@ interface MomentosSectionProps {
 const CONTACT_WA = "51961336674";
 const WA_RESERVA_URL = `https://wa.me/${CONTACT_WA}?text=${encodeURIComponent('¡Hola Weekend! Deseo reservar para mi cumpleaños / noche de patas y acceder a las cortesías.')}`;
 
-// Video Principal de Cumpleaños (cumpleequipo optimizado)
-const CUMPLE_FEATURED_VIDEO = {
-  id: 'cumpleequipo',
-  title: 'Celebración de Cumpleaños Weekend',
-  category: 'Fiesta & Equipo Weekend',
-  badge: '🎂 CUMPLEAÑOS EN VIVO',
-  webmUrl: '/videos/cumpleequipo.webm',
-  mp4Url: '/videos/cumpleequipo.mp4',
-  accentColor: '#c900ff',
-  description: 'Música, bengalas de fuego frío, rondas de celebración y los 5 obsequios de cumpleaños en nuestras mesas.'
-};
+// Lista completa de Videos de Cumpleaños para el Carrusel Horizontal
+const CUMPLE_VIDEOS_CAROUSEL = [
+  {
+    id: 'cumplepubertos',
+    title: 'Cumpleaños Pubertos & Jóvenes',
+    category: 'Vibra Juvenil & Amigos',
+    badge: '🎉 CUMPLE JOVEN',
+    videoUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumplepubertos.webm',
+    accentColor: '#0acc80',
+    description: 'La energía más prendida de Huarmey celebrando con amigos, risas y la mejor música.'
+  },
+  {
+    id: 'cumpleviejo',
+    title: 'Cumpleaños Familiar & Adulto Mayor',
+    category: 'Celebración de Oro',
+    badge: '👑 CUMPLE DORADO',
+    videoUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumpleviejo.webm',
+    accentColor: '#ffa40b',
+    description: 'Celebraciones inolvidables para todas las generaciones con atención cálida y personalizada.'
+  },
+  {
+    id: 'cumpleequipo',
+    title: 'Celebración con Equipo Weekend',
+    category: 'Fiesta & Show en Vivo',
+    badge: '🎂 CUMPLEAÑOS EN VIVO',
+    videoUrl: '/videos/cumpleequipo.webm',
+    fallbackUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/CumpleAdoles2.webm',
+    accentColor: '#c900ff',
+    description: 'Bengalas de fuego frío, cánticos de cumpleaños y los 5 obsequios sorpresa Weekend.'
+  },
+  {
+    id: 'cumple-adolescentes',
+    title: 'Fiesta de Cumpleaños Teens',
+    category: 'Amigos & Mancha',
+    badge: '🔥 CUMPLE TEENS',
+    videoUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/CumpleAdolescentes.webm',
+    accentColor: '#ff007f',
+    description: 'Torta, bebidas y el mejor ambiente nocturno para festejar tu fecha especial.'
+  },
+  {
+    id: 'cumple-adoles2',
+    title: 'Velas & Torta con Amigos',
+    category: 'Celebración en Mancha',
+    badge: '🎂 MOMENTO TARTA',
+    videoUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/CumpleAdoles2.webm',
+    accentColor: '#00f2fe',
+    description: 'El clásico apagón de velas rodeado de tu gente favorita y cócteles de autor.'
+  },
+  {
+    id: 'cumple-adulta',
+    title: 'Noche de Cumple & Brindis',
+    category: 'Fiesta & Cócteles',
+    badge: '🥂 BRINDIS NOCTURNO',
+    videoUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/CumpleAdulta.webm',
+    accentColor: '#ffa40b',
+    description: 'Brindis elegante con coctelería premium, piqueos artesanales y ambientación VIP.'
+  },
+  {
+    id: 'cumple-chica',
+    title: 'Cumpleaños Girls Party',
+    category: 'Salida VIP de Chicas',
+    badge: '👑 CUMPLEAÑERA VIP',
+    videoUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/CumpleChica.webm',
+    accentColor: '#e11d48',
+    description: 'Noche exclusiva para la reina de la mesa con fotos Polaroid de recuerdo.'
+  },
+  {
+    id: 'cumple-familiar',
+    title: 'Reencuentro Familiar Weekend',
+    category: 'Todas las Edades',
+    badge: '❤️ TODAS LAS EDADES',
+    videoUrl: 'https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/cumpleAnciano.webm',
+    accentColor: '#0acc80',
+    description: 'Momentos entrañables en familia con nuestra carta completa y boxes festivos.'
+  }
+];
 
-export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSectionProps) {
+interface VideoCardItemProps {
+  video: typeof CUMPLE_VIDEOS_CAROUSEL[number];
+  onOpenModal: (video: typeof CUMPLE_VIDEOS_CAROUSEL[number]) => void;
+}
+
+const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -53,14 +122,121 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
     setIsMuted(nextMuted);
   };
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
+  return (
+    <motion.div
+      whileHover={{ y: -6, scale: 1.02 }}
+      transition={{ duration: 0.3 }}
+      className="group relative rounded-[28px] overflow-hidden bg-zinc-950 border border-white/15 shadow-2xl flex flex-col justify-between aspect-[9/16] w-[260px] sm:w-[280px] md:w-[300px] shrink-0 snap-start cursor-pointer hover:border-[#c900ff]/60 transition-all duration-300"
+      onClick={() => onOpenModal(video)}
+    >
+      {/* Video Background */}
+      <video
+        ref={videoRef}
+        playsInline
+        muted={isMuted}
+        loop
+        autoPlay
+        preload="metadata"
+        className="absolute inset-0 w-full h-full object-cover brightness-95 group-hover:brightness-105 group-hover:scale-105 transition-all duration-700"
+      >
+        <source src={video.videoUrl} type="video/webm" />
+        {video.fallbackUrl && <source src={video.fallbackUrl} type="video/webm" />}
+      </video>
+
+      {/* Dynamic Gradient Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/25 to-black/65 pointer-events-none" />
+
+      {/* Top Bar: Badge and Action Buttons */}
+      <div className="relative z-10 p-4 flex items-center justify-between gap-2">
+        <span 
+          className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-md"
+          style={{ 
+            backgroundColor: `${video.accentColor}25`, 
+            color: video.accentColor,
+            border: `1px solid ${video.accentColor}60` 
+          }}
+        >
+          {video.badge}
+        </span>
+
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={toggleMute}
+            className="p-2 rounded-full bg-black/70 hover:bg-[#c900ff] text-white backdrop-blur-md transition-all active:scale-90 shadow-md"
+            title={isMuted ? "Activar audio" : "Silenciar"}
+            aria-label={isMuted ? "Activar audio" : "Silenciar"}
+          >
+            {isMuted ? <VolumeX size={14} className="text-rose-400" /> : <Volume2 size={14} className="text-[#0acc80]" />}
+          </button>
+          
+          <button
+            type="button"
+            onClick={togglePlay}
+            className="p-2 rounded-full bg-black/70 hover:bg-white text-white hover:text-black backdrop-blur-md transition-all active:scale-90 shadow-md"
+            title={isPlaying ? "Pausar" : "Reproducir"}
+            aria-label={isPlaying ? "Pausar" : "Reproducir"}
+          >
+            {isPlaying ? <Pause size={14} /> : <Play size={14} className="fill-current text-[#c900ff]" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Center Play Pulse Hint on Hover */}
+      <div className="relative z-10 flex-1 flex items-center justify-center pointer-events-none">
+        <div className="w-12 h-12 rounded-full bg-black/60 backdrop-blur-md border border-white/30 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 shadow-[0_0_25px_rgba(201,0,255,0.5)]">
+          <Maximize2 size={18} className="text-white" />
+        </div>
+      </div>
+
+      {/* Bottom Info */}
+      <div className="relative z-10 p-4 pt-2">
+        <span className="text-[10px] font-bold text-zinc-300 uppercase tracking-wider block">
+          {video.category}
+        </span>
+        <h4 
+          className="text-sm sm:text-base font-black uppercase text-white leading-tight mt-0.5"
+          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+        >
+          {video.title}
+        </h4>
+        <div className="mt-2.5 flex items-center gap-1.5 text-[10px] font-bold text-[#c900ff] group-hover:text-white transition-colors">
+          <span>Ver con audio en pantalla completa</span>
+          <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSectionProps) {
+  const [selectedVideo, setSelectedVideo] = useState<typeof CUMPLE_VIDEOS_CAROUSEL[number] | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    if (carouselRef.current) {
+      const scrollAmount = direction === 'left' ? -340 : 340;
+      carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
   };
 
   return (
     <section id="momentos" className="relative py-20 sm:py-24 bg-[#08080c] text-[#f5f5f5] overflow-hidden border-t border-b border-white/10">
+      
+      {/* Background Official Supabase Asset fondoPromociones.webp */}
+      <div className="fixed inset-0 pointer-events-none -z-10 opacity-25 overflow-hidden">
+        <img
+          src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/fondoPromociones.webp"
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          className="w-full h-full object-cover object-center filter saturate-125 contrast-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#08080c]/85 via-[#08080c]/60 to-[#08080c]/90" />
+      </div>
+
       {/* Ambient Lights */}
-      <div className="absolute inset-0 pointer-events-none opacity-25">
+      <div className="absolute inset-0 pointer-events-none opacity-30">
         <div className="absolute top-1/4 right-10 w-96 h-96 bg-[#c900ff]/25 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 left-10 w-96 h-96 bg-[#0acc80]/25 rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#ffa40b]/15 rounded-full blur-[140px]" />
@@ -97,160 +273,105 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
         </div>
 
         {/* ========================================================================= */}
-        {/* 1. APARTADO PRINCIPAL: CUMPLEAÑOS (VIDEO CUMPLEEQUIPO CON AUDIO)          */}
+        {/* 1. SECCIÓN VIDEOS DE CUMPLEAÑOS (CARRUSEL HORIZONTAL CON FLECHAS)         */}
         {/* ========================================================================= */}
-        <div className="bg-gradient-to-br from-zinc-950 via-[#12081c] to-zinc-950 border border-[#c900ff]/40 rounded-[36px] p-6 sm:p-8 lg:p-10 relative overflow-hidden mb-16 shadow-[0_0_50px_rgba(201,0,255,0.25)]">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            {/* Left Info Column */}
-            <div className="lg:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#c900ff]/20 border border-[#c900ff]/50 text-[#c900ff] text-xs font-black uppercase tracking-widest shadow-md">
+        <div className="bg-gradient-to-br from-zinc-950 via-[#130720] to-zinc-950 border border-[#c900ff]/40 rounded-[36px] p-6 sm:p-8 lg:p-10 relative overflow-hidden mb-16 shadow-[0_0_50px_rgba(201,0,255,0.25)]">
+          
+          {/* Header del Carrusel con Controles de Flechas */}
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#c900ff]/20 border border-[#c900ff]/50 text-[#c900ff] text-xs font-black uppercase tracking-widest mb-2 shadow-md">
                 <Gift className="w-3.5 h-3.5" />
-                <span>APARTADO PRINCIPAL: CUMPLEAÑOS</span>
+                <span>VIDEOS DE CUMPLEAÑOS &amp; CELEBRACIONES</span>
               </div>
-
               <h3 
-                className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase text-white tracking-tight leading-none"
+                className="text-2xl sm:text-4xl font-black uppercase text-white tracking-tight leading-none"
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
-                5 OBSEQUIOS <span className="text-[#c900ff]">WEEKEND</span>
+                ¡Así se Festeja en <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c900ff] via-[#ffa40b] to-[#0acc80]">Weekend!</span>
               </h3>
-
-              <div className="p-4 rounded-2xl bg-white/[0.04] border border-[#c900ff]/30 text-zinc-200 text-sm leading-relaxed space-y-2">
-                <p className="font-semibold text-white flex items-center gap-2">
-                  <span className="text-[#c900ff]">🎂</span>
-                  <span>En tu mes de cumpleaños:</span>
-                </p>
-                <p className="text-xs sm:text-sm text-zinc-300">
-                  <strong className="text-white font-bold">Reserva tu cumple previamente y recibe los 5 obsequios Weekend:</strong> bengala de celebración, brindis especial, cortesía de la casa, foto de recuerdo y la mejor vibra para tu mesa.
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-2 flex flex-wrap items-center gap-4">
-                <a
-                  href={WA_RESERVA_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-7 py-4 rounded-full bg-[#c900ff] text-white font-black uppercase tracking-widest text-xs hover:bg-white hover:text-black transition-all shadow-[0_0_30px_rgba(201,0,255,0.5)] active:scale-95 cursor-pointer flex items-center gap-2"
-                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  <span>Reservar Cumpleaños</span>
-                </a>
-
-                <button
-                  type="button"
-                  onClick={onOpenReserva}
-                  className="px-6 py-4 rounded-full bg-zinc-900 border border-white/20 text-white font-bold uppercase tracking-wider text-xs hover:border-[#c900ff] hover:text-[#c900ff] transition-all active:scale-95 cursor-pointer flex items-center gap-2"
-                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                >
-                  <Calendar className="w-4 h-4" />
-                  <span>Ver Formulario</span>
-                </button>
-              </div>
+              <p className="text-xs sm:text-sm text-zinc-300 mt-2 max-w-2xl">
+                Desliza horizontalmente para ver todos los reels de cumpleaños: música, bengalas, rondas de shots y los 5 obsequios exclusivos.
+              </p>
             </div>
 
-            {/* Right Video Player Column */}
-            <div className="lg:col-span-6 flex justify-center">
-              <motion.div 
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-                className="group relative w-full max-w-sm sm:max-w-md rounded-[32px] overflow-hidden bg-black border border-[#c900ff]/50 shadow-[0_0_40px_rgba(201,0,255,0.4)] aspect-[9/16] cursor-pointer"
-                onClick={handleOpenModal}
+            {/* Controles de Navegación por Flechas (< / >) */}
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                type="button"
+                onClick={() => scrollCarousel('left')}
+                className="p-3 rounded-full bg-black/70 hover:bg-[#c900ff] text-white border border-white/20 hover:border-[#c900ff] transition-all shadow-lg active:scale-90 cursor-pointer"
+                title="Desplazar hacia la izquierda"
+                aria-label="Desplazar hacia la izquierda"
               >
-                {/* HTML5 Video with Audio Support */}
-                <video
-                  ref={videoRef}
-                  playsInline
-                  muted={isMuted}
-                  loop
-                  autoPlay
-                  preload="metadata"
-                  className="absolute inset-0 w-full h-full object-cover brightness-95 group-hover:brightness-105 transition-all duration-500"
-                >
-                  <source src={CUMPLE_FEATURED_VIDEO.webmUrl} type="video/webm" />
-                  <source src={CUMPLE_FEATURED_VIDEO.mp4Url} type="video/mp4" />
-                  {/* Fallback CDN */}
-                  <source src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/CumpleAdoles2.webm" type="video/webm" />
-                </video>
+                <ChevronLeft size={20} />
+              </button>
 
-                {/* Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-transparent to-black/60 pointer-events-none" />
+              <button
+                type="button"
+                onClick={() => scrollCarousel('right')}
+                className="p-3 rounded-full bg-[#c900ff] hover:bg-white text-white hover:text-black border border-[#c900ff] transition-all shadow-[0_0_20px_rgba(201,0,255,0.6)] active:scale-90 cursor-pointer"
+                title="Desplazar hacia la derecha"
+                aria-label="Desplazar hacia la derecha"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
+          </div>
 
-                {/* Top Controls Bar */}
-                <div className="relative z-10 p-5 flex items-center justify-between gap-3">
-                  <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#c900ff]/30 text-[#c900ff] border border-[#c900ff]/60 backdrop-blur-md shadow-md">
-                    {CUMPLE_FEATURED_VIDEO.badge}
-                  </span>
+          {/* Contenedor del Slider / Carrusel Horizontal con Scroll Suave */}
+          <div className="relative group/slider">
+            
+            {/* Carrusel con Scroll Snap y scrollbar oculta */}
+            <div
+              ref={carouselRef}
+              className="flex items-center gap-5 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              {CUMPLE_VIDEOS_CAROUSEL.map((video) => (
+                <VideoCardItem
+                  key={video.id}
+                  video={video}
+                  onOpenModal={setSelectedVideo}
+                />
+              ))}
+            </div>
 
-                  <div className="flex items-center gap-2">
-                    {/* Audio Mute/Unmute Toggle */}
-                    <button
-                      type="button"
-                      onClick={toggleMute}
-                      className="px-3 py-1.5 rounded-full bg-black/70 hover:bg-[#c900ff] text-white border border-white/20 backdrop-blur-md transition-all active:scale-90 flex items-center gap-1.5 text-xs font-bold shadow-lg"
-                      title={isMuted ? "Activar Sonido" : "Silenciar"}
-                      aria-label={isMuted ? "Activar Sonido" : "Silenciar"}
-                    >
-                      {isMuted ? (
-                        <>
-                          <VolumeX size={14} className="text-rose-400" />
-                          <span className="text-[10px]">Activar Audio</span>
-                        </>
-                      ) : (
-                        <>
-                          <Volume2 size={14} className="text-[#0acc80]" />
-                          <span className="text-[10px] text-[#0acc80]">Sonido Activo</span>
-                        </>
-                      )}
-                    </button>
+            {/* Indicador de Desplazamiento Horizontal */}
+            <div className="mt-4 flex items-center justify-between text-xs text-zinc-400 font-bold border-t border-white/10 pt-4">
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#c900ff] animate-ping" />
+                <span>{CUMPLE_VIDEOS_CAROUSEL.length} videos en galería &bull; Desliza o usa las flechas</span>
+              </span>
 
-                    {/* Play/Pause */}
-                    <button
-                      type="button"
-                      onClick={togglePlay}
-                      className="p-2 rounded-full bg-black/70 hover:bg-white text-white hover:text-black border border-white/20 backdrop-blur-md transition-all active:scale-90"
-                      title={isPlaying ? "Pausar" : "Reproducir"}
-                      aria-label={isPlaying ? "Pausar" : "Reproducir"}
-                    >
-                      {isPlaying ? <Pause size={14} /> : <Play size={14} className="fill-current text-[#c900ff]" />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Center Hover Pulse */}
-                <div className="relative z-10 flex-1 flex items-center justify-center pointer-events-none">
-                  <div className="w-14 h-14 rounded-full bg-black/60 backdrop-blur-md border border-white/30 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300 shadow-[0_0_25px_rgba(201,0,255,0.5)]">
-                    <Maximize2 size={22} className="text-white" />
-                  </div>
-                </div>
-
-                {/* Bottom Video Metadata */}
-                <div className="relative z-10 p-5 pt-2">
-                  <span className="text-[11px] font-bold text-zinc-300 uppercase tracking-wider block">
-                    {CUMPLE_FEATURED_VIDEO.category}
-                  </span>
-                  <h4 
-                    className="text-lg font-black uppercase text-white leading-tight mt-0.5"
-                    style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                  >
-                    {CUMPLE_FEATURED_VIDEO.title}
-                  </h4>
-                  <p className="text-xs text-zinc-300 mt-1 line-clamp-2">
-                    {CUMPLE_FEATURED_VIDEO.description}
-                  </p>
-                  <div className="mt-3 flex items-center justify-between text-[11px] font-bold">
-                    <span className="text-[#c900ff] flex items-center gap-1.5">
-                      <span>Ver en pantalla completa con sonido</span>
-                      <ArrowRight size={13} />
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
+              <div className="flex items-center gap-2 text-[#c900ff]">
+                <span>Desplazar</span>
+                <ChevronRight size={14} className="animate-pulse" />
+              </div>
             </div>
 
           </div>
+
+          {/* Banner de Cortesía 5 Obsequios */}
+          <div className="mt-8 p-6 rounded-2xl bg-black/60 border border-[#c900ff]/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div className="space-y-1">
+              <span className="text-[#c900ff] text-xs font-black uppercase tracking-wider block">
+                🎁 CORTESÍA EXCLUSIVA DE CUMPLEAÑOS
+              </span>
+              <p className="text-xs sm:text-sm text-zinc-200">
+                <strong>Reserva tu cumple previamente y recibe los 5 obsequios Weekend:</strong> bengala de celebración, brindis especial, cortesía de la casa, foto Polaroid y mesa ambientada.
+              </p>
+            </div>
+            <a
+              href={WA_RESERVA_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3 rounded-full bg-[#c900ff] text-white font-black uppercase tracking-wider text-xs hover:bg-white hover:text-black transition-all shadow-[0_0_20px_rgba(201,0,255,0.5)] shrink-0 flex items-center gap-2"
+            >
+              <MessageCircle size={15} />
+              <span>Reservar Cumple</span>
+            </a>
+          </div>
+
         </div>
 
         {/* ========================================================================= */}
@@ -424,13 +545,13 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
 
       {/* Fullscreen Video Modal with Sound & Controls */}
       <AnimatePresence>
-        {isModalOpen && (
+        {selectedVideo && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
-            onClick={() => setIsModalOpen(false)}
+            onClick={() => setSelectedVideo(null)}
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
@@ -443,14 +564,14 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
               <div className="p-4 bg-zinc-900/90 border-b border-white/10 flex items-center justify-between">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-[#c900ff]">
-                    {CUMPLE_FEATURED_VIDEO.badge}
+                    {selectedVideo.badge}
                   </span>
-                  <h3 className="text-sm font-black uppercase text-white">{CUMPLE_FEATURED_VIDEO.title}</h3>
+                  <h3 className="text-sm font-black uppercase text-white">{selectedVideo.title}</h3>
                 </div>
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                  onClick={() => setSelectedVideo(null)}
+                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
                   aria-label="Cerrar reproductor"
                 >
                   <X size={18} />
@@ -460,15 +581,15 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
               {/* Video with Controls */}
               <div className="relative aspect-[9/16] bg-black">
                 <video
-                  src={CUMPLE_FEATURED_VIDEO.webmUrl}
+                  src={selectedVideo.videoUrl}
                   playsInline
                   autoPlay
                   controls
                   loop
                   className="w-full h-full object-contain"
                 >
-                  <source src={CUMPLE_FEATURED_VIDEO.webmUrl} type="video/webm" />
-                  <source src={CUMPLE_FEATURED_VIDEO.mp4Url} type="video/mp4" />
+                  <source src={selectedVideo.videoUrl} type="video/webm" />
+                  {selectedVideo.fallbackUrl && <source src={selectedVideo.fallbackUrl} type="video/webm" />}
                 </video>
               </div>
 

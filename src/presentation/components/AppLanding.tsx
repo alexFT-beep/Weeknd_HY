@@ -635,17 +635,18 @@ export default function App() {
 
       {/* --- E. PESTAÑA: RESERVA --- */}
       {currentView === 'reserva' && (
-        <div className="pt-16 sm:pt-20 min-h-screen bg-black text-white flex flex-col justify-between relative overflow-hidden">
-          {/* Fondo Supabase fondoReservas.webp */}
-          <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
+        <div className="pt-16 sm:pt-20 min-h-screen bg-[#07070a] text-white flex flex-col justify-between relative overflow-hidden">
+          {/* Fondo Supabase fondoReservas.webp Aclarado y Luminoso */}
+          <div className="absolute inset-0 z-0 pointer-events-none opacity-80 overflow-hidden">
             <img
               src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/fondoReservas.webp"
               alt=""
               aria-hidden="true"
               loading="lazy"
-              className="w-full h-full object-cover object-center filter saturate-150 brightness-90 contrast-110"
+              className="w-full h-full object-cover object-center filter brightness-[1.25] saturate-125 contrast-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
+            {/* Overlay sutil para mantener legibilidad sin oscurecer en exceso */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/20 to-black/50" />
           </div>
 
           <main className="flex-1 relative py-12 px-4 overflow-hidden flex items-center justify-center z-10">
