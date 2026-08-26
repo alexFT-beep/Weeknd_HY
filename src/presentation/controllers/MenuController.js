@@ -34,7 +34,7 @@ export class MenuController {
         setTimeout(() => this.init(), 100);
         return;
       }
-      console.warn("Category nav or menu sections container not found in DOM.");
+      // Quiet return if page is rendering React DigitalMenuView
       return;
     }
     this._retryCount = 0;

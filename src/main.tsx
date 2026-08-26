@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { Component, StrictMode } from 'react';
+import React, { Component, StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import AppLanding from './presentation/components/AppLanding.tsx';
 import './presentation/styles/main.css';
@@ -7,21 +6,32 @@ import './presentation/styles/animations.css';
 import './index.css';
 import './presentation/main.js';
 
-class ErrorBoundary extends Component {
-  constructor(props) {
+interface ErrorBoundaryProps {
+  children: React.ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: false }; // Mantener renderizado sin desmontar
+  static getDerivedStateFromError(): ErrorBoundaryState {
+    return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.warn('UI Runtime Warning caught safely:', error, errorInfo);
   }
 
   render() {
+    if (this.state.hasError) {
+      return this.props.children;
+    }
     return this.props.children;
   }
 }

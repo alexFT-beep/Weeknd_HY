@@ -1,25 +1,25 @@
-// @ts-nocheck
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Instagram, Facebook, MessageCircle, 
+import {
+  Instagram, Facebook, MessageCircle,
   ExternalLink, Sparkles, Flame, CheckCircle2
 } from 'lucide-react';
 
 interface SocialGalleryViewProps {
   onOpenReserva?: () => void;
   onOpenMenu?: () => void;
+  onBackToHome?: () => void;
 }
 
 // Icono personalizado de TikTok
 const TikTokIcon = ({ className = "w-6 h-6" }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    fill="currentColor" 
-    className={className} 
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
     aria-hidden="true"
   >
-    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
   </svg>
 );
 
@@ -86,10 +86,10 @@ const SOCIAL_CHANNELS = [
   }
 ];
 
-export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryViewProps) {
+export function SocialGalleryView({ onOpenReserva, onOpenMenu, onBackToHome }: SocialGalleryViewProps) {
   return (
     <div className="min-h-screen bg-[#050508] text-[#fcfcfc] flex flex-col relative overflow-x-hidden">
-      
+
       {/* Background Volcanic Multi-Color Neon Mesh */}
       <div className="fixed top-0 left-1/4 w-[600px] h-[500px] bg-[#0acc80]/20 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse" />
       <div className="fixed top-1/3 right-10 w-[550px] h-[550px] bg-[#c900ff]/25 rounded-full blur-[130px] pointer-events-none -z-10" />
@@ -98,7 +98,7 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
 
       {/* Official Background Graphic (capiparado.webp) */}
       <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
-        <img 
+        <img
           src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/capiparado.webp"
           alt=""
           aria-hidden="true"
@@ -111,10 +111,10 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
 
       {/* Main Content Wrap */}
       <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 pb-20 flex-grow relative z-10">
-        
+
         {/* HEADER SECTION */}
         <header className="text-center mb-14 space-y-4">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -125,7 +125,7 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
             <Flame className="w-4 h-4 text-amber-400" />
           </motion.div>
 
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.1 }}
@@ -135,7 +135,7 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
             ¡SÍGUENOS EN <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0acc80] via-[#ffa40b] via-[#fe0979] to-[#00f2fe]" style={{ textShadow: '0 0 45px rgba(10,204,128,0.45)' }}>REDES OFICIALES!</span>
           </motion.h1>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
@@ -160,20 +160,20 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
               className={`p-6 sm:p-8 rounded-[32px] bg-gradient-to-br ${channel.bgColor} border ${channel.borderColor} transition-all duration-300 shadow-2xl relative overflow-hidden group flex flex-col justify-between cursor-pointer`}
             >
               {/* Dynamic Glow Corner Accent */}
-              <div 
-                className="absolute top-0 right-0 w-36 h-36 rounded-full blur-2xl opacity-20 pointer-events-none transition-opacity duration-300 group-hover:opacity-40" 
+              <div
+                className="absolute top-0 right-0 w-36 h-36 rounded-full blur-2xl opacity-20 pointer-events-none transition-opacity duration-300 group-hover:opacity-40"
                 style={{ backgroundColor: channel.color }}
               />
 
               <div>
                 {/* Header of the Card */}
                 <div className="flex items-center justify-between gap-3 mb-6 relative z-10">
-                  <span 
+                  <span
                     className="px-3.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider backdrop-blur-md shadow-md"
-                    style={{ 
-                      backgroundColor: `${channel.color}25`, 
+                    style={{
+                      backgroundColor: `${channel.color}25`,
                       color: channel.color,
-                      border: `1px solid ${channel.color}50` 
+                      border: `1px solid ${channel.color}50`
                     }}
                   >
                     {channel.badge}
@@ -189,7 +189,7 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
                   <span className="text-xs font-bold uppercase tracking-widest text-zinc-400">
                     {channel.tag}
                   </span>
-                  <h3 
+                  <h3
                     className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tight group-hover:text-white transition-colors"
                     style={{ fontFamily: "'Space Grotesk', sans-serif" }}
                   >
@@ -213,9 +213,9 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
                   <span>Canal Verificado</span>
                 </span>
 
-                <div 
+                <div
                   className="px-5 py-2.5 rounded-full font-black uppercase text-xs tracking-wider flex items-center gap-1.5 transition-all shadow-lg group-hover:shadow-[0_0_25px_rgba(201,0,255,0.4)]"
-                  style={{ 
+                  style={{
                     backgroundColor: channel.color,
                     color: '#000000'
                   }}
@@ -229,7 +229,7 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
         </div>
 
         {/* BOTTOM QUICK ACTIONS BANNER */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
@@ -240,7 +240,7 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu }: SocialGalleryVi
               <Sparkles size={14} />
               <span>Experiencia Weekend Huarmey</span>
             </span>
-            <h3 
+            <h3
               className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >

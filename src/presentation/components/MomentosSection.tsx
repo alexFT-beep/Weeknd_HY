@@ -1,10 +1,9 @@
-// @ts-nocheck
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, PartyPopper, Gift, ArrowRight, Play, Pause,
   Volume2, VolumeX, Maximize2, X, MessageCircle, Phone,
-  CheckCircle2
+  CheckCircle2, Calendar
 } from 'lucide-react';
 
 interface MomentosSectionProps {
