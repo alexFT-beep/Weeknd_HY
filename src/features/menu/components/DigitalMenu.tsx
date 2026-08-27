@@ -105,8 +105,8 @@ export const DigitalMenu: React.FC<DigitalMenuProps> = ({ onOpenSearch }) => {
         </div>
 
         {/* Navigation Chips (Categorías Sticky Header) */}
-        <div className="sticky top-14 z-30 py-2.5 bg-[#050508]/95 backdrop-blur-md -mx-4 px-4 sm:-mx-6 sm:px-6 mb-6 border-y border-[#050508]">
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth py-1">
+        <div className="sticky top-14 z-30 bg-[#050508]/95 backdrop-blur-md -mx-4 sm:-mx-6 mb-6 border-y border-[#050508]">
+          <div className="flex items-center gap-2.5 overflow-x-auto no-scrollbar scroll-smooth py-3 px-4 sm:px-6">
             {categories.map(cat => {
               const isActive = cat.id === activeCategory;
               const theme = getThemeForCategory(cat.id);
