@@ -1,11 +1,19 @@
 /**
  * @file whatsappOrderService.ts
  * @description Servicio de construcción y despacho de mensajes con formato profesional para la API de WhatsApp,
- * detallando el desglose de productos, modalidades de envío, montos y datos del cliente.
+ * detallando el desglose de productos, modalidades de envío, montos y datos del cliente con sanitización de inputs.
  */
 
 import { OrderPayload } from '../types';
 import { PAYMENT_INFO } from '../../../data/fullMenuData';
+
+/** Sanitiza texto eliminando caracteres de control peligrosos */
+function sanitizeText(str: string | undefined): string {
+  if (!str) return '';
+  return str
+    .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F-\u009F]/g, '')
+    .trim();
+}
 
 export const whatsappOrderService = {
   /**
@@ -16,6 +24,14 @@ export const whatsappOrderService = {
   buildWhatsAppMessage(payload: OrderPayload): string {
     const { items, orderType, selectedZone, customerData, subtotal, totalTapers, taperFee, deliveryFee, total } = payload;
     const isDeliveryOrder = orderType === 'delivery';
+
+    const customerName = sanitizeText(customerData.customerName);
+    const phone = sanitizeText(customerData.phone);
+    const address = sanitizeText(customerData.address);
+    const reference = sanitizeText(customerData.reference);
+    const tableNumber = sanitizeText(customerData.tableNumber);
+    const paymentMethod = sanitizeText(customerData.paymentMethod);
+    const notes = sanitizeText(customerData.notes);
 
     let formattedMessageText = `*🍔 ¡NUEVO PEDIDO WEEKEND! 🍹*\n\n`;
     formattedMessageText += `*TIPO:* ${isDeliveryOrder ? '🚀 DELIVERY A DOMICILIO' : '🍽️ CONSUMO EN MESA / RESTAURANTE'}\n`;
@@ -47,21 +63,21 @@ export const whatsappOrderService = {
 
     formattedMessageText += `-------------------------------------------\n`;
     formattedMessageText += `*DATOS DEL CLIENTE:*\n`;
-    formattedMessageText += `👤 Nombre: ${customerData.customerName || 'No especificado'}\n`;
-    formattedMessageText += `📱 Teléfono / WhatsApp: ${customerData.phone || 'No especificado'}\n`;
+    formattedMessageText += `👤 Nombre: ${customerName || 'No especificado'}\n`;
+    formattedMessageText += `📱 Teléfono / WhatsApp: ${phone || 'No especificado'}\n`;
 
     if (isDeliveryOrder) {
-      formattedMessageText += `📍 Dirección: ${customerData.address || 'No especificada'}\n`;
-      formattedMessageText += `🏛️ Referencia: ${customerData.reference || 'Sin referencia'}\n`;
+      formattedMessageText += `📍 Dirección: ${address || 'No especificada'}\n`;
+      formattedMessageText += `🏛️ Referencia: ${reference || 'Sin referencia'}\n`;
       formattedMessageText += `🛵 Zona Delivery: ${selectedZone.name}\n`;
     } else {
-      formattedMessageText += `🪑 Número de Mesa: ${customerData.tableNumber || 'Por asignar en local'}\n`;
+      formattedMessageText += `🪑 Número de Mesa: ${tableNumber || 'Por asignar en local'}\n`;
     }
 
-    formattedMessageText += `💳 Método de Pago: ${customerData.paymentMethod}\n`;
+    formattedMessageText += `💳 Método de Pago: ${paymentMethod}\n`;
 
-    if (customerData.notes.trim()) {
-      formattedMessageText += `📝 Indicaciones Especiales: ${customerData.notes}\n`;
+    if (notes) {
+      formattedMessageText += `📝 Indicaciones Especiales: ${notes}\n`;
     }
 
     formattedMessageText += `\n¡Gracias por elegir WEEKEND! Lounge & Restaurant! ⚡`;
@@ -79,4 +95,3 @@ export const whatsappOrderService = {
     window.open(whatsappApiUrl, '_blank', 'noopener,noreferrer');
   }
 };
-

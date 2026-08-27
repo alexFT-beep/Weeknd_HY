@@ -9,8 +9,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Send, Calendar, Clock, Users, HeartHandshake, ShieldCheck } from 'lucide-react';
 import { PAYMENT_INFO } from '../data/fullMenuData';
-import capyKamehameha from '../assets/capybaras/capybara_kamehameha_pose_VECTOR.png';
-import capyHero from '../assets/capybaras/superhero_capibara_landing_VECTOR.png';
+import capyKamehameha from '../assets/capybaras/capybara_kamehameha_pose_VECTOR.webp';
+import capyHero from '../assets/capybaras/superhero_capibara_landing_VECTOR.webp';
 
 /** Horarios de atención disponibles para reservar */
 const TIME_SLOTS = [
