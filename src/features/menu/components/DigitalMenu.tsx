@@ -1,7 +1,8 @@
 /**
  * @file DigitalMenu.tsx
  * @description Vista principal del catálogo interactivo de la carta digital de Weekend.
- * Incluye cabecera sticky de navegación por categorías neón y grid dinámico de productos.
+ * Incluye cabecera sticky de navegación por categorías neón, acordeones contraídos por defecto
+ * y grid dinámico de productos.
  */
 
 import React, { useState, useCallback, useMemo } from 'react';
@@ -9,8 +10,8 @@ import { motion } from 'framer-motion';
 import { useMenu } from '../hooks/useMenu';
 import { ProductCard } from './ProductCard';
 import { useCart } from '../../cart/hooks/useCart';
-import { MenuItem } from '../../../data/fullMenuData';
-import { Search, Sparkles, ChevronDown } from 'lucide-react';
+import { MenuItem, MENU_CATEGORIES } from '../../../data/fullMenuData';
+import { Search, Sparkles, ChevronDown, ChevronsDownUp, ChevronsUpDown } from 'lucide-react';
 
 /** Propiedades para el componente de la Carta Digital */
 export interface DigitalMenuProps {
@@ -25,7 +26,15 @@ export const DigitalMenu: React.FC<DigitalMenuProps> = ({ onOpenSearch }) => {
 
   const { categories, activeCategory, setActiveCategory, itemsByCategory, getThemeForCategory } = useMenu();
   const { addItem, items: cartItems } = useCart();
-  const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>({});
+
+  // Iniciar todas las opciones de acordeón contraídas por defecto al ingresar a la carta
+  const [collapsedCategories, setCollapsedCategories] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    MENU_CATEGORIES.forEach(cat => {
+      initial[cat.id] = true;
+    });
+    return initial;
+  });
 
   const toggleCategoryCollapse = useCallback((catId: string) => {
     setCollapsedCategories(prev => ({
@@ -33,6 +42,26 @@ export const DigitalMenu: React.FC<DigitalMenuProps> = ({ onOpenSearch }) => {
       [catId]: !prev[catId]
     }));
   }, []);
+
+  const handleExpandAll = () => {
+    const next: Record<string, boolean> = {};
+    categories.forEach(cat => {
+      next[cat.id] = false;
+    });
+    setCollapsedCategories(next);
+  };
+
+  const handleCollapseAll = () => {
+    const next: Record<string, boolean> = {};
+    categories.forEach(cat => {
+      next[cat.id] = true;
+    });
+    setCollapsedCategories(next);
+  };
+
+  const areAllCollapsed = useMemo(() => {
+    return categories.every(cat => Boolean(collapsedCategories[cat.id]));
+  }, [categories, collapsedCategories]);
 
   const cartQuantities = useMemo(() => {
     const map: Record<string, number> = {};
@@ -49,7 +78,7 @@ export const DigitalMenu: React.FC<DigitalMenuProps> = ({ onOpenSearch }) => {
 
   const scrollToCategory = (catId: string) => {
     setActiveCategory(catId);
-    // Asegurar que la categoría no esté colapsada al navegar mediante los chips sticky
+    // Asegurar que la categoría se abra al seleccionarla desde los chips sticky
     setCollapsedCategories(prev => ({ ...prev, [catId]: false }));
     setTimeout(() => {
       if (catId === categories[0]?.id) {
@@ -87,7 +116,7 @@ export const DigitalMenu: React.FC<DigitalMenuProps> = ({ onOpenSearch }) => {
           </p>
 
           {/* Botón de Búsqueda Flotante / Acceso Rápido */}
-          <div className="mt-5 flex justify-center">
+          <div className="mt-5 flex items-center justify-center gap-3">
             <motion.button
               type="button"
               onClick={onOpenSearch}
@@ -100,6 +129,27 @@ export const DigitalMenu: React.FC<DigitalMenuProps> = ({ onOpenSearch }) => {
               <kbd className="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono bg-white/10 rounded text-gray-400">
                 ⌘K
               </kbd>
+            </motion.button>
+
+            <motion.button
+              type="button"
+              onClick={areAllCollapsed ? handleExpandAll : handleCollapseAll}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-3.5 py-2.5 rounded-2xl bg-neutral-900/90 border border-white/15 hover:border-[#c900ff] text-zinc-300 hover:text-white text-xs font-bold flex items-center gap-1.5 shadow-lg transition-all cursor-pointer"
+              title={areAllCollapsed ? "Desplegar todos los acordeones" : "Contraer todos los acordeones"}
+            >
+              {areAllCollapsed ? (
+                <>
+                  <ChevronsUpDown className="w-4 h-4 text-[#0acc80]" />
+                  <span className="hidden sm:inline">Desplegar Todo</span>
+                </>
+              ) : (
+                <>
+                  <ChevronsDownUp className="w-4 h-4 text-[#c900ff]" />
+                  <span className="hidden sm:inline">Contraer Todo</span>
+                </>
+              )}
             </motion.button>
           </div>
         </div>
@@ -217,3 +267,5 @@ export const DigitalMenu: React.FC<DigitalMenuProps> = ({ onOpenSearch }) => {
     </section>
   );
 };
+
+export default DigitalMenu;

@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, PartyPopper, Gift, ArrowRight, Play, Pause,
   Volume2, VolumeX, Maximize2, X, MessageCircle, Phone,
-  CheckCircle2, Calendar, Camera, Wine
+  CheckCircle2, Calendar, Camera, Wine, ChevronLeft, ChevronRight,
+  Image as ImageIcon, Film
 } from 'lucide-react';
 
 interface MomentosSectionProps {
@@ -62,6 +63,7 @@ export interface VideoData {
   glowColor: string;
   description: string;
   poster?: string;
+  type?: 'video' | 'image';
 }
 
 interface VideoCardItemProps {
@@ -192,6 +194,215 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
         </div>
       </div>
     </motion.div>
+  );
+};
+
+interface SwipeableExperienceMediaProps {
+  readonly videoData: VideoData;
+  readonly posterUrl: string;
+  readonly posterTitle: string;
+  readonly accentColor: string;
+  readonly onOpenModal: (media: VideoData) => void;
+}
+
+const SwipeableExperienceMedia: React.FC<SwipeableExperienceMediaProps> = ({
+  videoData,
+  posterUrl,
+  posterTitle,
+  accentColor,
+  onOpenModal
+}) => {
+  const [activeSlide, setActiveSlide] = useState<0 | 1>(0); // 0 = Video, 1 = Poster
+  const [isMuted, setIsMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  const toggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!videoRef.current) return;
+    const nextMuted = !videoRef.current.muted;
+    videoRef.current.muted = nextMuted;
+    setIsMuted(nextMuted);
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveSlide(prev => (prev === 0 ? 1 : 0));
+  };
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveSlide(prev => (prev === 1 ? 0 : 1));
+  };
+
+  return (
+    <div className="mb-6 space-y-2.5">
+      {/* Selector de Pestañas Deslizables */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="p-1 rounded-xl bg-black/70 border border-white/10 flex items-center gap-1">
+          <button
+            type="button"
+            onClick={() => setActiveSlide(0)}
+            className={`px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
+              activeSlide === 0
+                ? 'bg-white text-black shadow-md'
+                : 'text-zinc-400 hover:text-white'
+            }`}
+          >
+            <Film size={13} />
+            <span>Reel / Video</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveSlide(1)}
+            className={`px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer ${
+              activeSlide === 1
+                ? 'bg-white text-black shadow-md'
+                : 'text-zinc-400 hover:text-white'
+            }`}
+          >
+            <ImageIcon size={13} />
+            <span>Afiche Oficial</span>
+          </button>
+        </div>
+
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={handlePrev}
+            className="p-1.5 rounded-lg bg-black/60 hover:bg-white/20 text-white border border-white/10 transition-colors cursor-pointer"
+            aria-label="Deslizar anterior"
+          >
+            <ChevronLeft size={16} />
+          </button>
+          <button
+            type="button"
+            onClick={handleNext}
+            className="p-1.5 rounded-lg bg-black/60 hover:bg-white/20 text-white border border-white/10 transition-colors cursor-pointer"
+            aria-label="Deslizar siguiente"
+          >
+            <ChevronRight size={16} />
+          </button>
+        </div>
+      </div>
+
+      {/* Visor Deslizable Touch / Swipe Container */}
+      <div className="relative rounded-2xl overflow-hidden border border-white/15 bg-black shadow-xl aspect-[16/10] sm:aspect-[16/9] group/player">
+        <AnimatePresence mode="wait">
+          {activeSlide === 0 ? (
+            <motion.div
+              key="slide-video"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 30 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="absolute inset-0 cursor-pointer"
+              onClick={() => onOpenModal(videoData)}
+            >
+              <video
+                ref={videoRef}
+                playsInline
+                muted={isMuted}
+                loop
+                autoPlay
+                preload="metadata"
+                poster={posterUrl}
+                className="w-full h-full object-cover brightness-95 group-hover/player:scale-105 group-hover/player:brightness-105 transition-all duration-500"
+              >
+                <source src={videoData.webmUrl} type="video/webm" />
+                <source src={videoData.mp4Url} type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/40 pointer-events-none" />
+
+              {/* Botón de Sonido y Fullscreen */}
+              <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={toggleMute}
+                  className="p-2 rounded-full bg-black/80 hover:bg-white text-white hover:text-black backdrop-blur-md transition-all cursor-pointer shadow-md"
+                  aria-label={isMuted ? "Activar audio" : "Silenciar"}
+                >
+                  {isMuted ? <VolumeX size={14} className="text-rose-400" /> : <Volume2 size={14} className="text-[#0acc80]" />}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onOpenModal(videoData)}
+                  className="px-2.5 py-1.5 rounded-full bg-black/80 hover:bg-white text-white hover:text-black text-[10px] font-black uppercase tracking-wider backdrop-blur-md transition-all shadow-md flex items-center gap-1 cursor-pointer"
+                >
+                  <Maximize2 size={12} />
+                  <span>Pantalla Completa</span>
+                </button>
+              </div>
+
+              <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between text-white">
+                <span className="text-xs font-black uppercase font-display drop-shadow-md" style={{ color: accentColor }}>
+                  ⚡ Video Reel en Vivo
+                </span>
+                <span className="text-[10px] text-zinc-300 bg-black/70 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                  Toca para expandir
+                </span>
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="slide-poster"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -30 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              className="absolute inset-0 cursor-pointer overflow-hidden"
+              onClick={() => onOpenModal({
+                ...videoData,
+                id: `${videoData.id}-poster`,
+                type: 'image',
+                poster: posterUrl,
+                title: posterTitle
+              })}
+            >
+              <img
+                src={posterUrl}
+                alt={posterTitle}
+                className="w-full h-full object-cover object-top filter brightness-105 contrast-105 group-hover/player:scale-105 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+
+              <div className="absolute top-3 right-3 z-20">
+                <button
+                  type="button"
+                  className="px-3 py-1.5 rounded-full bg-black/80 hover:bg-white text-white hover:text-black text-[10px] font-black uppercase tracking-wider backdrop-blur-md transition-all shadow-md flex items-center gap-1 cursor-pointer"
+                >
+                  <Maximize2 size={12} />
+                  <span>Ver Afiche HD</span>
+                </button>
+              </div>
+
+              <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between text-white">
+                <span className="text-xs font-black uppercase font-display drop-shadow-md" style={{ color: accentColor }}>
+                  🖼️ Afiche Oficial Promocional
+                </span>
+                <span className="text-[10px] text-zinc-300 bg-black/70 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                  Toca para ver en detalle
+                </span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Indicador de Deslizamiento */}
+      <div className="flex items-center justify-center gap-1.5 pt-1">
+        <span 
+          onClick={() => setActiveSlide(0)}
+          className={`h-1.5 rounded-full transition-all cursor-pointer ${activeSlide === 0 ? 'w-6 bg-white' : 'w-2 bg-white/30'}`} 
+        />
+        <span 
+          onClick={() => setActiveSlide(1)}
+          className={`h-1.5 rounded-full transition-all cursor-pointer ${activeSlide === 1 ? 'w-6 bg-white' : 'w-2 bg-white/30'}`} 
+        />
+        <span className="text-[10px] text-zinc-400 font-bold ml-2">
+          (Desliza o presiona las pestañas para alternar)
+        </span>
+      </div>
+    </div>
   );
 };
 
@@ -336,7 +547,7 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           
-          {/* SUBSECCIÓN 1: SHOT DE AMIGOS (VIDEO INTEGRADO + AFICHE) */}
+          {/* SUBSECCIÓN 1: SHOT DE AMIGOS (SLIDER DE VIDEO + AFICHE DESLIZABLE) */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -346,7 +557,7 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
           >
             <div>
               {/* Header Badge */}
-              <div className="flex items-center justify-between gap-3 mb-5">
+              <div className="flex items-center justify-between gap-3 mb-4">
                 <span className="px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest bg-[#ffa40b]/20 text-[#ffa40b] border border-[#ffa40b]/50 shadow-md">
                   🥃 NOCHE DE PATAS
                 </span>
@@ -354,56 +565,26 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
               </div>
 
               <h3 
-                className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight leading-tight mb-3 font-display"
+                className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight leading-tight mb-2 font-display"
               >
                 RONDA DE SHOT <span className="text-[#ffa40b]">DESTORNILLADOR</span>
               </h3>
 
-              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6">
+              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-5">
                 <strong className="text-white font-bold">Reserva tu noche de patas a grupos de 6 a más y recibe una ronda de shots destornillador de cortesía.</strong> El ambiente perfecto para compartir piqueos, alitas, cervezas heladas y cócteles de autor.
               </p>
 
-              {/* Video Player Integrado de Shots */}
-              <div className="mb-6 rounded-2xl overflow-hidden border border-[#ffa40b]/30 bg-black shadow-lg relative aspect-[16/10] sm:aspect-[16/9] group/player">
-                <video
-                  playsInline
-                  muted
-                  loop
-                  autoPlay
-                  preload="metadata"
-                  poster={SHOTS_VIDEO.poster}
-                  onClick={() => setSelectedVideo(SHOTS_VIDEO)}
-                  className="w-full h-full object-cover cursor-pointer brightness-95 group-hover/player:scale-105 group-hover/player:brightness-105 transition-all duration-500"
-                >
-                  <source src={SHOTS_VIDEO.webmUrl} type="video/webm" />
-                  <source src={SHOTS_VIDEO.mp4Url} type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
-                
-                <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedVideo(SHOTS_VIDEO)}
-                    className="px-3 py-1.5 rounded-full bg-black/80 hover:bg-[#ffa40b] text-white hover:text-black text-[10px] font-black uppercase tracking-wider backdrop-blur-md transition-all shadow-md flex items-center gap-1 cursor-pointer"
-                  >
-                    <Maximize2 size={12} />
-                    <span>Ver Video Completo</span>
-                  </button>
-                </div>
-
-                <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between text-white">
-                  <div className="flex items-center gap-1.5 text-xs font-black uppercase font-display text-[#ffa40b] drop-shadow-md">
-                    <Wine size={14} />
-                    <span>Cortesía Weekend Huarmey</span>
-                  </div>
-                  <span className="text-[10px] text-zinc-300 bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                    Reel Oficial ⚡
-                  </span>
-                </div>
-              </div>
+              {/* Slider de Video y Afiche Oficial con Deslizamiento */}
+              <SwipeableExperienceMedia
+                videoData={SHOTS_VIDEO}
+                posterUrl="/videos/shots_entre_patas_poster.webp"
+                posterTitle="Afiche Oficial: Shots entre Patas - Cortesía Weekend"
+                accentColor="#ffa40b"
+                onOpenModal={setSelectedVideo}
+              />
 
               {/* Beneficios de la Experiencia */}
-              <div className="p-4 rounded-2xl bg-black/50 border border-[#ffa40b]/30 space-y-2.5">
+              <div className="p-4 rounded-2xl bg-black/50 border border-[#ffa40b]/30 space-y-2.5 mt-4">
                 <div className="flex items-center gap-2 text-xs text-zinc-200">
                   <CheckCircle2 size={16} className="text-[#ffa40b] shrink-0" />
                   <span>Ronda de bienvenida para grupos de 6 personas a más</span>
@@ -437,7 +618,7 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
             </div>
           </motion.div>
 
-          {/* SUBSECCIÓN 2: CÁMARA POLAROID (VIDEO INTEGRADO + AFICHE) */}
+          {/* SUBSECCIÓN 2: CÁMARA POLAROID (SLIDER DE VIDEO + AFICHE DESLIZABLE) */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -447,7 +628,7 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
           >
             <div>
               {/* Header Badge */}
-              <div className="flex items-center justify-between gap-3 mb-5">
+              <div className="flex items-center justify-between gap-3 mb-4">
                 <span className="px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest bg-[#0acc80]/20 text-[#0acc80] border border-[#0acc80]/50 shadow-md">
                   📸 FOTO INSTANTÁNEA
                 </span>
@@ -455,56 +636,26 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
               </div>
 
               <h3 
-                className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight leading-tight mb-3 font-display"
+                className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight leading-tight mb-2 font-display"
               >
                 FOTO POLAROID <span className="text-[#0acc80]">DE RECUERDO</span>
               </h3>
 
-              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6">
+              <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-5">
                 <strong className="text-white font-bold">Vive la experiencia y llévate una parte de ella con nuestras fotos instantáneas.</strong> Atesora tus momentos de familias, amigos o parejas con recuerdos Polaroid que valdrán oro.
               </p>
 
-              {/* Video Player Integrado de Polaroid */}
-              <div className="mb-6 rounded-2xl overflow-hidden border border-[#0acc80]/30 bg-black shadow-lg relative aspect-[16/10] sm:aspect-[16/9] group/player">
-                <video
-                  playsInline
-                  muted
-                  loop
-                  autoPlay
-                  preload="metadata"
-                  poster={POLAROID_VIDEO.poster}
-                  onClick={() => setSelectedVideo(POLAROID_VIDEO)}
-                  className="w-full h-full object-cover cursor-pointer brightness-95 group-hover/player:scale-105 group-hover/player:brightness-105 transition-all duration-500"
-                >
-                  <source src={POLAROID_VIDEO.webmUrl} type="video/webm" />
-                  <source src={POLAROID_VIDEO.mp4Url} type="video/mp4" />
-                </video>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
-                
-                <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setSelectedVideo(POLAROID_VIDEO)}
-                    className="px-3 py-1.5 rounded-full bg-black/80 hover:bg-[#0acc80] text-white hover:text-black text-[10px] font-black uppercase tracking-wider backdrop-blur-md transition-all shadow-md flex items-center gap-1 cursor-pointer"
-                  >
-                    <Maximize2 size={12} />
-                    <span>Ver Video Completo</span>
-                  </button>
-                </div>
-
-                <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between text-white">
-                  <div className="flex items-center gap-1.5 text-xs font-black uppercase font-display text-[#0acc80] drop-shadow-md">
-                    <Camera size={14} />
-                    <span>Recuerdo Físico Instantáneo</span>
-                  </div>
-                  <span className="text-[10px] text-zinc-300 bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm">
-                    Reel Oficial ⚡
-                  </span>
-                </div>
-              </div>
+              {/* Slider de Video y Afiche Oficial con Deslizamiento */}
+              <SwipeableExperienceMedia
+                videoData={POLAROID_VIDEO}
+                posterUrl="/videos/fotos_polaroid_poster.webp"
+                posterTitle="Afiche Oficial: Fotos Polaroid para el Recuerdo - Weekend"
+                accentColor="#0acc80"
+                onOpenModal={setSelectedVideo}
+              />
 
               {/* Beneficios de la Experiencia */}
-              <div className="p-4 rounded-2xl bg-black/50 border border-[#0acc80]/30 space-y-2.5">
+              <div className="p-4 rounded-2xl bg-black/50 border border-[#0acc80]/30 space-y-2.5 mt-4">
                 <div className="flex items-center gap-2 text-xs text-zinc-200">
                   <CheckCircle2 size={16} className="text-[#0acc80] shrink-0" />
                   <span>Foto física instantánea entregada directamente en tu mesa</span>
@@ -585,14 +736,14 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
 
       </div>
 
-      {/* Fullscreen Video Modal with Sound & Controls */}
+      {/* Fullscreen Modal: Video o Afiche HD con Sound & Controls */}
       <AnimatePresence>
         {selectedVideo && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-3 sm:p-4"
             onClick={() => setSelectedVideo(null)}
           >
             <motion.div
@@ -600,7 +751,7 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-sm sm:max-w-md bg-zinc-950 rounded-[32px] overflow-hidden border border-[#c900ff]/50 shadow-[0_0_60px_rgba(201,0,255,0.5)] flex flex-col"
+              className="relative w-full max-w-sm sm:max-w-md bg-zinc-950 rounded-[32px] overflow-hidden border border-[#c900ff]/50 shadow-[0_0_60px_rgba(201,0,255,0.5)] flex flex-col max-h-[90vh]"
             >
               {/* Modal Header */}
               <div className="p-4 bg-zinc-900/90 border-b border-white/10 flex items-center justify-between">
@@ -608,36 +759,44 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
                   <span className="text-[10px] font-black uppercase tracking-widest text-[#c900ff]">
                     {selectedVideo.badge}
                   </span>
-                  <h3 className="text-sm font-black uppercase text-white font-display">{selectedVideo.title}</h3>
+                  <h3 className="text-sm font-black uppercase text-white font-display line-clamp-1">{selectedVideo.title}</h3>
                 </div>
                 <button
                   type="button"
                   onClick={() => setSelectedVideo(null)}
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer shrink-0"
                   aria-label="Cerrar reproductor"
                 >
                   <X size={18} />
                 </button>
               </div>
 
-              {/* Video with Controls */}
-              <div className="relative aspect-[9/16] bg-black">
-                <video
-                  src={selectedVideo.webmUrl}
-                  playsInline
-                  autoPlay
-                  controls
-                  loop
-                  className="w-full h-full object-contain"
-                >
-                  <source src={selectedVideo.webmUrl} type="video/webm" />
-                  {selectedVideo.mp4Url && <source src={selectedVideo.mp4Url} type="video/mp4" />}
-                </video>
+              {/* Modal Body: Video o Imagen HD */}
+              <div className="relative aspect-[9/16] sm:aspect-[9/14] bg-black flex items-center justify-center overflow-hidden">
+                {selectedVideo.type === 'image' ? (
+                  <img
+                    src={selectedVideo.poster}
+                    alt={selectedVideo.title}
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <video
+                    src={selectedVideo.webmUrl}
+                    playsInline
+                    autoPlay
+                    controls
+                    loop
+                    className="w-full h-full object-contain"
+                  >
+                    <source src={selectedVideo.webmUrl} type="video/webm" />
+                    {selectedVideo.mp4Url && <source src={selectedVideo.mp4Url} type="video/mp4" />}
+                  </video>
+                )}
               </div>
 
               {/* Modal Footer CTA */}
               <div className="p-4 bg-zinc-900/90 border-t border-white/10 flex items-center justify-between gap-3">
-                <span className="text-xs text-zinc-300 font-bold">¡Vive tu momento en Weekend!</span>
+                <span className="text-xs text-zinc-300 font-bold line-clamp-1">¡Vive tu momento en Weekend!</span>
                 <a
                   href={`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(`¡Hola Weekend! Deseo consultar y reservar para la experiencia: ${selectedVideo.title}`)}`}
                   target="_blank"
