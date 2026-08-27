@@ -349,3 +349,6 @@ export function NosotrosSection({ onOpenMenu, onOpenReserva }: NosotrosSectionPr
     </section>
   );
 }
+
+export { NosotrosSection as AboutUsStorySection };
+
