@@ -96,21 +96,21 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu, onBackToHome }: S
       <div className="fixed bottom-10 left-1/3 w-[600px] h-[450px] bg-[#ffa40b]/20 rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="fixed bottom-0 right-1/4 w-[450px] h-[450px] bg-[#00f2fe]/20 rounded-full blur-[120px] pointer-events-none -z-10" />
 
-      {/* Official Background Graphic (capiparado.webp) */}
-      <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+      {/* Official Background Graphic (capiparado.webp) - Visible exclusively on Mobile & Tablet (< 1024px) */}
+      <div className="fixed inset-0 pointer-events-none z-[1] overflow-hidden block lg:hidden">
         <img
           src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/capiparado.webp"
-          alt=""
-          aria-hidden="true"
-          loading="lazy"
-          className="w-full h-full object-cover object-center filter brightness-90 saturate-125 contrast-105"
+          alt="Capibara Fondo Redes"
+          loading="eager"
+          decoding="sync"
+          className="w-full h-full object-cover object-center filter brightness-110 saturate-125 contrast-105 opacity-85"
         />
-        {/* Contrast Overlay to ensure high text and card legibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050508]/80 via-[#050508]/60 to-[#050508]/90" />
+        {/* Subtle Contrast Overlay for text legibility on mobile/tablet */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/60 pointer-events-none" />
       </div>
 
       {/* Main Content Wrap */}
-      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 pb-20 flex-grow relative z-10">
+      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-6 pb-20 flex-grow relative z-[10]">
 
         {/* HEADER SECTION */}
         <header className="text-center mb-14 space-y-4">
@@ -157,6 +157,7 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu, onBackToHome }: S
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               whileHover={{ scale: 1.025, y: -4 }}
+              whileTap={{ scale: 0.97 }}
               className={`p-6 sm:p-8 rounded-[32px] bg-gradient-to-br ${channel.bgColor} border ${channel.borderColor} transition-all duration-300 shadow-2xl relative overflow-hidden group flex flex-col justify-between cursor-pointer`}
             >
               {/* Dynamic Glow Corner Accent */}
@@ -300,3 +301,7 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu, onBackToHome }: S
     </div>
   );
 }
+
+export { SocialGalleryView as SocialCommunityGallery };
+export default SocialGalleryView;
+
