@@ -544,3 +544,6 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
     </section>
   );
 }
+
+export { MomentosSection as CelebrationMomentsSection };
+
