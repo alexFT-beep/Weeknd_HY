@@ -213,14 +213,34 @@ export const FULL_MENU_ITEMS: MenuItem[] = [
   { id: "alc-20", name: "Churrasco Ahumado", price: 30, category: "a-la-carta", subcategory: "a-la-carta", description: "Corte de churrasco ahumado a la parrilla con arroz blanco, papas fritas y ensalada", tapersCount: 1 },
 
   // =================== ESPECIALIDAD MARINA ===================
-  { id: "mar-01", name: "Ceviche Clásico de Pescado", price: 32, category: "marina", subcategory: "marina", description: "Pescado fresco marinado en limón sutil, ají limo, cebolla roja, camote y choclo", badge: "TOP VENTAS" },
-  { id: "mar-02", name: "Ceviche Mixto", price: 38, category: "marina", subcategory: "marina", description: "Pescado, calamar, langostinos y pulpo en leche de tigre de la casa", badge: "FAVORITO" },
-  { id: "mar-03", name: "Tiradito en Crema de Ají Amarillo", price: 34, category: "marina", subcategory: "marina", description: "Láminas finas de pesca del día marinadas en cremosa leche de tigre de ají amarillo" },
-  { id: "mar-04", name: "Chicharrón de Pescado & Calamar", price: 36, category: "marina", subcategory: "marina", description: "Trozos crocantes empanizados acompañados de yuca frita y tártara artesanal" },
-  { id: "mar-05", name: "Arroz con Mariscos Neón", price: 38, category: "marina", subcategory: "marina", description: "Arroz salteado al wok con langostinos, calamar y pulpo en aderezo de ají panca y vino blanco" },
-  { id: "mar-06", name: "Chaufa Marino Especial", price: 36, category: "marina", subcategory: "marina", description: "Arroz chaufa al wok estilo oriental con mixtura de mariscos frescos" },
-  { id: "mar-07", name: "Jalea Marina Familiar", price: 55, category: "marina", subcategory: "marina", description: "Generosa porción de mariscos crocantes sobre yucas, coronado con ceviche de pescado", badge: "PARA COMPARTIR" },
-  { id: "mar-08", name: "Leche de Tigre Especial Weekend", price: 22, category: "marina", subcategory: "marina", description: "Copa concentrada de leche de tigre con trozos de pescado y chicharrón de calamar" },
+  // --- CEVICHES ---
+  { id: "mar-cev-01", name: "Ceviche Mixto", price: 35, category: "marina", subcategory: "marina", description: "Fresca mixtura de mariscos y pescado del día marinados en limón sutil, ají limo, camote y choclo", tapersCount: 1, badge: "FAVORITO" },
+  { id: "mar-cev-02", name: "Ceviche de Pescado", price: 30, category: "marina", subcategory: "marina", description: "Clásico ceviche de pesca del día con leche de tigre artesanal, cebolla roja, camote y canchita", tapersCount: 1, badge: "CLÁSICO" },
+  { id: "mar-cev-03", name: "Ceviche Huarmeyano", price: 40, category: "marina", subcategory: "marina", description: "Especialidad huarmeyana con pesca fresca seleccionada, mariscos y el toque secreto Weekend", tapersCount: 1, badge: "ESPECIALIDAD" },
+
+  // --- ARROCES MARINOS ---
+  { id: "mar-arr-01", name: "Arroz c/ Mariscos", price: 32, category: "marina", subcategory: "marina", description: "Arroz criollo amelcochado salteado con mixtura de mariscos, ají amarillo y vino blanco", tapersCount: 1, badge: "POPULAR" },
+  { id: "mar-arr-02", name: "Chaufa d/ Mariscos", price: 30, category: "marina", subcategory: "marina", description: "Chaufa al wok al estilo oriental con mariscos frescos, sillao, huevo y cebollita china", tapersCount: 1 },
+
+  // --- CHICHARRONES ---
+  { id: "mar-chich-01", name: "Chicharrón Mixto", price: 35, category: "marina", subcategory: "marina", description: "Crocantes trozos de pescado y mariscos empanizados acompañados de yucas doradas y salsa tártara", tapersCount: 1, badge: "CRUJIENTE" },
+  { id: "mar-chich-02", name: "Chicharrón de Pescado", price: 32, category: "marina", subcategory: "marina", description: "Trozos de pescado frito crocante al punto con yucas fritas y zarza criolla", tapersCount: 1 },
+  { id: "mar-chich-03", name: "Chicharrón de Langostinos", price: 35, category: "marina", subcategory: "marina", description: "Langostinos seleccionados crocantes con yucas y crema tártara especial", tapersCount: 1, badge: "TOP" },
+  { id: "mar-chich-04", name: "Chicharrón de Mariscos", price: 38, category: "marina", subcategory: "marina", description: "Mixtura generosa de mariscos crocantes servidos con yucas doradas y salsas", tapersCount: 1 },
+
+  // --- DÚOS MARINOS ---
+  { id: "mar-duo-01", name: "Dúo Mixto", price: 38, category: "marina", subcategory: "marina", description: "Combinación marina de ceviche mixto con chicharrón mixto crocante", tapersCount: 1, badge: "MÁS PEDIDO" },
+  { id: "mar-duo-02", name: "Dúo de Pescado", price: 36, category: "marina", subcategory: "marina", description: "Ceviche de pescado fresco + Chicharrón de pescado con yucas y camote", tapersCount: 1 },
+  { id: "mar-duo-03", name: "Dúo El Marisco", price: 43, category: "marina", subcategory: "marina", description: "Dúo marino cargado con arroz con mariscos o chaufa + chicharrón de mariscos", tapersCount: 1, badge: "ESPECIAL" },
+
+  // --- TRÍOS MARINOS ---
+  { id: "mar-trio-01", name: "Trío Mixto", price: 45, category: "marina", subcategory: "marina", description: "Ceviche mixto + Arroz con mariscos + Chicharrón mixto crocante", tapersCount: 1, badge: "FESTÍN" },
+  { id: "mar-trio-02", name: "Trío de Pescado", price: 42, category: "marina", subcategory: "marina", description: "Ceviche de pescado + Arroz con mariscos + Chicharrón de pescado", tapersCount: 1 },
+  { id: "mar-trio-03", name: "Trío de Mariscos", price: 48, category: "marina", subcategory: "marina", description: "Ceviche mixto especial + Arroz con mariscos + Chicharrón de mariscos", tapersCount: 1, badge: "RECOMENDADO" },
+
+  // --- RONDAS MARINAS ---
+  { id: "mar-ronda-01", name: "Ronda Marina de Pescado", price: 90, category: "marina", subcategory: "marina", description: "Gran banquete: Ceviche de pescado + Chicharrón de pescado + Arroz c/ mariscos + Chaufa de marisco + Picante de mariscos", tapersCount: 2, badge: "BANQUETE FAMILIAR" },
+  { id: "mar-ronda-02", name: "Ronda Marina Mixta", price: 95, category: "marina", subcategory: "marina", description: "El festín marino definitivo: Ceviche mixto + Chicharrón mixto + Arroz c/ mariscos + Chaufa de marisco + Picante de mariscos", tapersCount: 2, badge: "MEGA RONDA" },
 
   // =================== 7. PASTAS ===================
   { id: "past-01", name: "Fetuccini a la Huancaína", price: 22, category: "pastas", subcategory: "pastas", description: "Fetuccinis en salsa huancaína artesanal" },

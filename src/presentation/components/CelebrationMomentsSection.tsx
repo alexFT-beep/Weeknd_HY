@@ -3,18 +3,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, PartyPopper, Gift, ArrowRight, Play, Pause,
   Volume2, VolumeX, Maximize2, X, MessageCircle, Phone,
-  CheckCircle2, Calendar
+  CheckCircle2, Calendar, Camera, Wine
 } from 'lucide-react';
 
 interface MomentosSectionProps {
-  onOpenReserva?: () => void;
-  onOpenSocial?: () => void;
+  readonly onOpenReserva?: () => void;
+  readonly onOpenSocial?: () => void;
 }
 
 const CONTACT_WA = "51961336674";
 const WA_RESERVA_URL = `https://wa.me/${CONTACT_WA}?text=${encodeURIComponent('¡Hola Weekend! Deseo reservar para mi cumpleaños / noche de patas y acceder a las cortesías.')}`;
 
-// 3 Videos de Cumpleaños Destacados (Sin tarjetas vacías ni pantallas negras)
+// 3 Videos de Cumpleaños Destacados
 const FEATURED_VIDEOS = [
   {
     id: 'cumplepubertos',
@@ -51,16 +51,28 @@ const FEATURED_VIDEOS = [
   }
 ];
 
+export interface VideoData {
+  id: string;
+  title: string;
+  category: string;
+  badge: string;
+  webmUrl: string;
+  mp4Url: string;
+  accentColor: string;
+  glowColor: string;
+  description: string;
+  poster?: string;
+}
+
 interface VideoCardItemProps {
-  video: typeof FEATURED_VIDEOS[number];
-  onOpenModal: (video: typeof FEATURED_VIDEOS[number]) => void;
+  readonly video: VideoData;
+  readonly onOpenModal: (video: VideoData) => void;
 }
 
 const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
-  const [hasLoaded, setHasLoaded] = useState(false);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -89,7 +101,7 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
       style={{ boxShadow: `0 0 35px ${video.glowColor}` }}
       onClick={() => onOpenModal(video)}
     >
-      {/* Background Animated Celebration Ambient (Prevents any black screen before video paints) */}
+      {/* Background Animated Ambient */}
       <div 
         className="absolute inset-0 z-0 flex flex-col items-center justify-center p-6 text-center"
         style={{
@@ -107,15 +119,15 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
         muted={isMuted}
         loop
         autoPlay
-        preload="auto"
-        onLoadedData={() => setHasLoaded(true)}
+        preload="metadata"
+        poster={video.poster}
         className="absolute inset-0 w-full h-full object-cover brightness-95 group-hover:brightness-105 group-hover:scale-105 transition-all duration-700 z-[1]"
       >
         <source src={video.webmUrl} type="video/webm" />
         {video.mp4Url && <source src={video.mp4Url} type="video/mp4" />}
       </video>
 
-      {/* Dynamic Overlays for Maximum Text Contrast */}
+      {/* Dynamic Overlays for Text Contrast */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-black/65 pointer-events-none z-[2]" />
 
       {/* Top Header: Badge + Audio Controls */}
@@ -167,8 +179,7 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
           {video.category}
         </span>
         <h4 
-          className="text-base sm:text-lg font-black uppercase text-white leading-tight mt-0.5"
-          style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+          className="text-base sm:text-lg font-black uppercase text-white leading-tight mt-0.5 font-display"
         >
           {video.title}
         </h4>
@@ -184,13 +195,40 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
   );
 };
 
-export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSectionProps) {
-  const [selectedVideo, setSelectedVideo] = useState<typeof FEATURED_VIDEOS[number] | null>(null);
+export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
+  const [selectedVideo, setSelectedVideo] = useState<VideoData | null>(null);
+
+  // Datos para los videos de las subsecciones
+  const SHOTS_VIDEO: VideoData = {
+    id: 'shots-patas',
+    title: 'Ronda de Shots Destornillador - Noche de Patas',
+    category: 'Cortesía de Weekend en Grupo',
+    badge: '🥃 NOCHE DE PATAS',
+    webmUrl: '/videos/video_shots_patas.webm',
+    mp4Url: '/videos/video_shots_patas.mp4',
+    poster: '/videos/shots_entre_patas_poster.webp',
+    accentColor: '#ffa40b',
+    glowColor: 'rgba(255, 164, 11, 0.4)',
+    description: 'Reserva para tu grupo de 6 a más y recibe una ronda completa de shots destornillador de cortesía para abrir la noche.'
+  };
+
+  const POLAROID_VIDEO: VideoData = {
+    id: 'fotos-polaroid',
+    title: 'Fotos Polaroid Instantáneas de Recuerdo',
+    category: 'Recuerdo Tangible para Familias, Parejas y Amigos',
+    badge: '📸 FOTO INSTANTÁNEA',
+    webmUrl: '/videos/video_fotos_polaroid.webm',
+    mp4Url: '/videos/video_fotos_polaroid.mp4',
+    poster: '/videos/fotos_polaroid_poster.webp',
+    accentColor: '#0acc80',
+    glowColor: 'rgba(10, 204, 128, 0.4)',
+    description: 'Nuestro staff captura el mejor momento de tu noche y te entrega una foto Polaroid física con marco exclusivo Weekend.'
+  };
 
   return (
     <section id="momentos" className="relative py-20 sm:py-24 bg-[#08080c] text-[#f5f5f5] overflow-hidden border-t border-b border-white/10">
       
-      {/* Background Official Supabase Asset fondoPromociones.webp */}
+      {/* Background Official Supabase Asset */}
       <div className="fixed inset-0 pointer-events-none -z-10 opacity-25 overflow-hidden">
         <img
           src="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/fondoPromociones.webp"
@@ -228,8 +266,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-white font-display"
           >
             VIVE TUS <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c900ff] via-[#ffa40b] to-[#0acc80]">MOMENTOS</span> EN WEEKEND
           </motion.h2>
@@ -240,7 +277,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
         </div>
 
         {/* ========================================================================= */}
-        {/* 1. SECCIÓN VIDEOS DE CUMPLEAÑOS (GRID SIMÉTRICO DE EXACTAMENTE 3 CARDS)    */}
+        {/* 1. SECCIÓN VIDEOS DE CUMPLEAÑOS (GRID SIMÉTRICO DE 3 CARDS)                */}
         {/* ========================================================================= */}
         <div className="bg-gradient-to-br from-zinc-950 via-[#130720] to-zinc-950 border border-[#c900ff]/40 rounded-[36px] p-6 sm:p-8 lg:p-10 relative overflow-hidden mb-16 shadow-[0_0_50px_rgba(201,0,255,0.25)]">
           
@@ -251,8 +288,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
               <span>VIDEOS DE CUMPLEAÑOS &amp; CELEBRACIONES</span>
             </div>
             <h3 
-              className="text-2xl sm:text-4xl font-black uppercase text-white tracking-tight leading-none"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              className="text-2xl sm:text-4xl font-black uppercase text-white tracking-tight leading-none font-display"
             >
               ¡Así se Festeja en <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c900ff] via-[#ffa40b] to-[#0acc80]">Weekend!</span>
             </h3>
@@ -296,11 +332,11 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
         </div>
 
         {/* ========================================================================= */}
-        {/* 2. SUBSECCIONES MODULARES: 'SHOT DE AMIGOS' & 'CÁMARA POLAROID'             */}
+        {/* 2. SUBSECCIONES MODULARES CON REEL & AFICHE: SHOTS & FOTO POLAROID         */}
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
           
-          {/* SUBSECCIÓN 1: SHOT DE AMIGOS */}
+          {/* SUBSECCIÓN 1: SHOT DE AMIGOS (VIDEO INTEGRADO + AFICHE) */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -310,29 +346,67 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
           >
             <div>
               {/* Header Badge */}
-              <div className="flex items-center justify-between gap-3 mb-6">
-                <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#ffa40b]/20 text-[#ffa40b] border border-[#ffa40b]/50 shadow-md">
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <span className="px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest bg-[#ffa40b]/20 text-[#ffa40b] border border-[#ffa40b]/50 shadow-md">
                   🥃 NOCHE DE PATAS
                 </span>
                 <span className="text-3xl">🥃</span>
               </div>
 
               <h3 
-                className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight leading-tight mb-3"
-                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight leading-tight mb-3 font-display"
               >
                 RONDA DE SHOT <span className="text-[#ffa40b]">DESTORNILLADOR</span>
               </h3>
 
               <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6">
-                <strong className="text-white font-bold">Reserva tu noche de patas y recibe una ronda de shot destornillador para abrir la noche.</strong> El ambiente perfecto para compartir piqueos, cervezas heladas y cócteles de autor.
+                <strong className="text-white font-bold">Reserva tu noche de patas a grupos de 6 a más y recibe una ronda de shots destornillador de cortesía.</strong> El ambiente perfecto para compartir piqueos, alitas, cervezas heladas y cócteles de autor.
               </p>
+
+              {/* Video Player Integrado de Shots */}
+              <div className="mb-6 rounded-2xl overflow-hidden border border-[#ffa40b]/30 bg-black shadow-lg relative aspect-[16/10] sm:aspect-[16/9] group/player">
+                <video
+                  playsInline
+                  muted
+                  loop
+                  autoPlay
+                  preload="metadata"
+                  poster={SHOTS_VIDEO.poster}
+                  onClick={() => setSelectedVideo(SHOTS_VIDEO)}
+                  className="w-full h-full object-cover cursor-pointer brightness-95 group-hover/player:scale-105 group-hover/player:brightness-105 transition-all duration-500"
+                >
+                  <source src={SHOTS_VIDEO.webmUrl} type="video/webm" />
+                  <source src={SHOTS_VIDEO.mp4Url} type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+                
+                <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedVideo(SHOTS_VIDEO)}
+                    className="px-3 py-1.5 rounded-full bg-black/80 hover:bg-[#ffa40b] text-white hover:text-black text-[10px] font-black uppercase tracking-wider backdrop-blur-md transition-all shadow-md flex items-center gap-1 cursor-pointer"
+                  >
+                    <Maximize2 size={12} />
+                    <span>Ver Video Completo</span>
+                  </button>
+                </div>
+
+                <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between text-white">
+                  <div className="flex items-center gap-1.5 text-xs font-black uppercase font-display text-[#ffa40b] drop-shadow-md">
+                    <Wine size={14} />
+                    <span>Cortesía Weekend Huarmey</span>
+                  </div>
+                  <span className="text-[10px] text-zinc-300 bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                    Reel Oficial ⚡
+                  </span>
+                </div>
+              </div>
 
               {/* Beneficios de la Experiencia */}
               <div className="p-4 rounded-2xl bg-black/50 border border-[#ffa40b]/30 space-y-2.5">
                 <div className="flex items-center gap-2 text-xs text-zinc-200">
                   <CheckCircle2 size={16} className="text-[#ffa40b] shrink-0" />
-                  <span>Ronda de bienvenida para toda tu mancha</span>
+                  <span>Ronda de bienvenida para grupos de 6 personas a más</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-zinc-200">
                   <CheckCircle2 size={16} className="text-[#ffa40b] shrink-0" />
@@ -340,7 +414,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
                 </div>
                 <div className="flex items-center gap-2 text-xs text-zinc-200">
                   <CheckCircle2 size={16} className="text-[#ffa40b] shrink-0" />
-                  <span>Música en vivo &amp; atención prioritaria</span>
+                  <span>Música en vivo &amp; atención prioritaria en barra</span>
                 </div>
               </div>
             </div>
@@ -349,20 +423,21 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
             <div className="mt-8 pt-4 border-t border-white/10 flex items-center justify-between">
               <span className="text-[11px] font-bold text-[#ffa40b] flex items-center gap-1">
                 <CheckCircle2 size={14} />
-                <span>Incluido en reservas de grupo</span>
+                <span>Incluido con previa reservación</span>
               </span>
               <a
-                href={WA_RESERVA_URL}
+                href={`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent('¡Hola Weekend! Deseo reservar mi mesa para Noche de Patas (grupo de 6+) y asegurar la ronda de shots de cortesía.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded-full bg-[#ffa40b] text-black font-black uppercase tracking-wider text-xs hover:bg-white transition-all shadow-[0_0_20px_rgba(255,164,11,0.4)] cursor-pointer"
+                className="px-5 py-2.5 rounded-full bg-[#ffa40b] text-black font-black uppercase tracking-wider text-xs hover:bg-white transition-all shadow-[0_0_20px_rgba(255,164,11,0.4)] cursor-pointer flex items-center gap-1.5 active:scale-95"
               >
-                Pedir Ronda
+                <MessageCircle size={14} />
+                <span>Pedir Ronda</span>
               </a>
             </div>
           </motion.div>
 
-          {/* SUBSECCIÓN 2: CÁMARA POLAROID */}
+          {/* SUBSECCIÓN 2: CÁMARA POLAROID (VIDEO INTEGRADO + AFICHE) */}
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -372,29 +447,67 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
           >
             <div>
               {/* Header Badge */}
-              <div className="flex items-center justify-between gap-3 mb-6">
-                <span className="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-[#0acc80]/20 text-[#0acc80] border border-[#0acc80]/50 shadow-md">
+              <div className="flex items-center justify-between gap-3 mb-5">
+                <span className="px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest bg-[#0acc80]/20 text-[#0acc80] border border-[#0acc80]/50 shadow-md">
                   📸 FOTO INSTANTÁNEA
                 </span>
                 <span className="text-3xl">📸</span>
               </div>
 
               <h3 
-                className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight leading-tight mb-3"
-                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                className="text-2xl sm:text-3xl font-black uppercase text-white tracking-tight leading-tight mb-3 font-display"
               >
                 FOTO POLAROID <span className="text-[#0acc80]">DE RECUERDO</span>
               </h3>
 
               <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed mb-6">
-                <strong className="text-white font-bold">Nuestro staff capturará el mejor momento de tu velada</strong> para que te lleves una fotografía Polaroid física de recuerdo a casa totalmente gratis en tu reserva especial.
+                <strong className="text-white font-bold">Vive la experiencia y llévate una parte de ella con nuestras fotos instantáneas.</strong> Atesora tus momentos de familias, amigos o parejas con recuerdos Polaroid que valdrán oro.
               </p>
+
+              {/* Video Player Integrado de Polaroid */}
+              <div className="mb-6 rounded-2xl overflow-hidden border border-[#0acc80]/30 bg-black shadow-lg relative aspect-[16/10] sm:aspect-[16/9] group/player">
+                <video
+                  playsInline
+                  muted
+                  loop
+                  autoPlay
+                  preload="metadata"
+                  poster={POLAROID_VIDEO.poster}
+                  onClick={() => setSelectedVideo(POLAROID_VIDEO)}
+                  className="w-full h-full object-cover cursor-pointer brightness-95 group-hover/player:scale-105 group-hover/player:brightness-105 transition-all duration-500"
+                >
+                  <source src={POLAROID_VIDEO.webmUrl} type="video/webm" />
+                  <source src={POLAROID_VIDEO.mp4Url} type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
+                
+                <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedVideo(POLAROID_VIDEO)}
+                    className="px-3 py-1.5 rounded-full bg-black/80 hover:bg-[#0acc80] text-white hover:text-black text-[10px] font-black uppercase tracking-wider backdrop-blur-md transition-all shadow-md flex items-center gap-1 cursor-pointer"
+                  >
+                    <Maximize2 size={12} />
+                    <span>Ver Video Completo</span>
+                  </button>
+                </div>
+
+                <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between text-white">
+                  <div className="flex items-center gap-1.5 text-xs font-black uppercase font-display text-[#0acc80] drop-shadow-md">
+                    <Camera size={14} />
+                    <span>Recuerdo Físico Instantáneo</span>
+                  </div>
+                  <span className="text-[10px] text-zinc-300 bg-black/60 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                    Reel Oficial ⚡
+                  </span>
+                </div>
+              </div>
 
               {/* Beneficios de la Experiencia */}
               <div className="p-4 rounded-2xl bg-black/50 border border-[#0acc80]/30 space-y-2.5">
                 <div className="flex items-center gap-2 text-xs text-zinc-200">
                   <CheckCircle2 size={16} className="text-[#0acc80] shrink-0" />
-                  <span>Foto física instantánea entregada en tu mesa</span>
+                  <span>Foto física instantánea entregada directamente en tu mesa</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-zinc-200">
                   <CheckCircle2 size={16} className="text-[#0acc80] shrink-0" />
@@ -402,7 +515,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
                 </div>
                 <div className="flex items-center gap-2 text-xs text-zinc-200">
                   <CheckCircle2 size={16} className="text-[#0acc80] shrink-0" />
-                  <span>El mejor recuerdo tangible de tu noche</span>
+                  <span>El mejor recuerdo tangible de tu velada para toda la vida</span>
                 </div>
               </div>
             </div>
@@ -414,12 +527,13 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
                 <span>Foto física de regalo</span>
               </span>
               <a
-                href={WA_RESERVA_URL}
+                href={`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent('¡Hola Weekend! Deseo reservar mi mesa y asegurar mi fotografía Polaroid física de recuerdo.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded-full bg-[#0acc80] text-black font-black uppercase tracking-wider text-xs hover:bg-white transition-all shadow-[0_0_20px_rgba(10,204,128,0.4)] cursor-pointer"
+                className="px-5 py-2.5 rounded-full bg-[#0acc80] text-black font-black uppercase tracking-wider text-xs hover:bg-white transition-all shadow-[0_0_20px_rgba(10,204,128,0.4)] cursor-pointer flex items-center gap-1.5 active:scale-95"
               >
-                Reservar Foto
+                <MessageCircle size={14} />
+                <span>Reservar Foto</span>
               </a>
             </div>
           </motion.div>
@@ -436,8 +550,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
               <span>Atención Directa: <strong>+51 961 336 674</strong></span>
             </div>
             <h4 
-              className="text-lg sm:text-xl font-black uppercase text-white"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              className="text-lg sm:text-xl font-black uppercase text-white font-display"
             >
               ¿Listo para armar tu velada en Weekend Huarmey?
             </h4>
@@ -451,8 +564,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
               href={WA_RESERVA_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3.5 rounded-full bg-[#0acc80] text-black font-black uppercase tracking-widest text-xs hover:bg-white transition-all shadow-[0_0_25px_rgba(10,204,128,0.45)] active:scale-95 cursor-pointer flex items-center gap-2"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              className="px-6 py-3.5 rounded-full bg-[#0acc80] text-black font-black uppercase tracking-widest text-xs hover:bg-white transition-all shadow-[0_0_25px_rgba(10,204,128,0.45)] active:scale-95 cursor-pointer flex items-center gap-2 font-display"
             >
               <MessageCircle className="w-4 h-4" />
               <span>Reservar por WhatsApp</span>
@@ -462,8 +574,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
               <button
                 type="button"
                 onClick={onOpenReserva}
-                className="px-6 py-3.5 rounded-full bg-zinc-900 border border-[#c900ff]/60 text-white font-black uppercase tracking-widest text-xs hover:bg-[#c900ff] hover:text-white transition-all shadow-[0_0_20px_rgba(201,0,255,0.35)] active:scale-95 cursor-pointer flex items-center gap-2"
-                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                className="px-6 py-3.5 rounded-full bg-zinc-900 border border-[#c900ff]/60 text-white font-black uppercase tracking-widest text-xs hover:bg-[#c900ff] hover:text-white transition-all shadow-[0_0_20px_rgba(201,0,255,0.35)] active:scale-95 cursor-pointer flex items-center gap-2 font-display"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Formulario de Mesa</span>
@@ -497,7 +608,7 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
                   <span className="text-[10px] font-black uppercase tracking-widest text-[#c900ff]">
                     {selectedVideo.badge}
                   </span>
-                  <h3 className="text-sm font-black uppercase text-white">{selectedVideo.title}</h3>
+                  <h3 className="text-sm font-black uppercase text-white font-display">{selectedVideo.title}</h3>
                 </div>
                 <button
                   type="button"
@@ -526,9 +637,9 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
 
               {/* Modal Footer CTA */}
               <div className="p-4 bg-zinc-900/90 border-t border-white/10 flex items-center justify-between gap-3">
-                <span className="text-xs text-zinc-300 font-bold">¡Celebra tu cumpleaños en Weekend!</span>
+                <span className="text-xs text-zinc-300 font-bold">¡Vive tu momento en Weekend!</span>
                 <a
-                  href={WA_RESERVA_URL}
+                  href={`https://wa.me/${CONTACT_WA}?text=${encodeURIComponent(`¡Hola Weekend! Deseo consultar y reservar para la experiencia: ${selectedVideo.title}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-4 py-2 rounded-full bg-[#0acc80] text-black font-black uppercase tracking-wider text-xs hover:bg-white transition-all shrink-0 flex items-center gap-1.5 cursor-pointer"
@@ -546,4 +657,4 @@ export function MomentosSection({ onOpenReserva, onOpenSocial }: MomentosSection
 }
 
 export { MomentosSection as CelebrationMomentsSection };
-
+export default MomentosSection;
