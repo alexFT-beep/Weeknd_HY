@@ -164,7 +164,7 @@ export const CartDrawer: React.FC = () => {
                     }`}
                   >
                     <Utensils className="w-3.5 h-3.5" />
-                    En Mesa
+                    Reserva
                   </button>
                 </div>
 
@@ -248,7 +248,7 @@ export const CartDrawer: React.FC = () => {
                     <div className="flex items-center gap-2 text-gray-300">
                       <User className="w-4 h-4 text-gray-300 stroke-[2.5]" />
                       <h3 className="text-xs uppercase tracking-wider font-black text-gray-300">
-                        {orderType === 'delivery' ? 'DATOS PARA EL DELIVERY' : 'DATOS PARA EL CONSUMO EN MESA'}
+                        {orderType === 'delivery' ? 'DATOS PARA EL DELIVERY' : 'DATOS PARA LA RESERVA'}
                       </h3>
                     </div>
 
@@ -297,7 +297,7 @@ export const CartDrawer: React.FC = () => {
                       ) : (
                         <input
                           type="text"
-                          placeholder="Número de Mesa o ubicación en local *"
+                          placeholder="Número de Mesa o detalle de reserva *"
                           value={customerData.tableNumber}
                           onChange={e => updateCustomerData({ tableNumber: e.target.value })}
                           className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"

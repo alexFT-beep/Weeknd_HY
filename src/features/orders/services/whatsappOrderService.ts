@@ -34,7 +34,7 @@ export const whatsappOrderService = {
     const notes = sanitizeText(customerData.notes);
 
     let formattedMessageText = `*🍔 ¡NUEVO PEDIDO WEEKEND! 🍹*\n\n`;
-    formattedMessageText += `*TIPO:* ${isDeliveryOrder ? '🚀 DELIVERY A DOMICILIO' : '🍽️ CONSUMO EN MESA / RESTAURANTE'}\n`;
+    formattedMessageText += `*TIPO:* ${isDeliveryOrder ? '🚀 DELIVERY A DOMICILIO' : '🍽️ RESERVA / ATENCIÓN EN LOCAL'}\n`;
     formattedMessageText += `-------------------------------------------\n`;
 
     items.forEach((item, index) => {
@@ -71,7 +71,7 @@ export const whatsappOrderService = {
       formattedMessageText += `🏛️ Referencia: ${reference || 'Sin referencia'}\n`;
       formattedMessageText += `🛵 Zona Delivery: ${selectedZone.name}\n`;
     } else {
-      formattedMessageText += `🪑 Número de Mesa: ${tableNumber || 'Por asignar en local'}\n`;
+      formattedMessageText += `🪑 Detalle de Reserva / Mesa: ${tableNumber || 'Por coordinar en local'}\n`;
     }
 
     formattedMessageText += `💳 Método de Pago: ${paymentMethod}\n`;

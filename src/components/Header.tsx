@@ -78,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onNavigate, onOpenSea
               className="h-8 sm:h-9 w-8 sm:w-9 rounded-full object-cover border border-[#c900ff]/70 group-hover:border-[#f000ff] transition-colors shadow-[0_0_10px_rgba(201,0,255,0.4)]"
             />
             <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase whitespace-nowrap group-hover:text-[#c900ff] transition-colors font-display">
-              WEEKND! <span className="text-[#c900ff] drop-shadow-[0_0_8px_rgba(201,0,255,0.6)]">Huarmey</span>
+              WEEKEND! <span className="text-[#c900ff] drop-shadow-[0_0_8px_rgba(201,0,255,0.6)]">Huarmey</span>
             </span>
           </motion.button>
 
@@ -242,7 +242,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, onNavigate, onOpenSea
 
             <div className="absolute bottom-6 left-0 w-full text-center z-10">
               <p className="text-[#c900ff] font-black text-xs uppercase tracking-[0.3em] font-display drop-shadow-[0_0_10px_rgba(201,0,255,0.8)]">
-                WEEKND! - HUARMEY
+                WEEKEND! - HUARMEY
               </p>
             </div>
           </motion.div>

@@ -80,7 +80,7 @@ export const DigitalMenu: React.FC<DigitalMenuProps> = ({ onOpenSearch }) => {
             Carta Virtual Oficial
           </div>
           <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-white mb-2 font-display">
-            Explora Nuestro <span className="text-[#c900ff] drop-shadow-[0_0_10px_rgba(201,0,255,0.7)]">Menú Neón</span>
+            Explora Nuestro <span className="text-[#c900ff] drop-shadow-[0_0_10px_rgba(201,0,255,0.7)]">Menú Weekend</span>
           </h2>
           <p className="text-gray-400 text-xs sm:text-sm max-w-xl mx-auto font-medium">
             Selecciona tus platillos favoritos y agrégalos a tu carrito para realizar tu pedido directo a cocina o delivery.
