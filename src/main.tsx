@@ -1,10 +1,7 @@
 import React, { Component, StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import AppLanding from './presentation/components/AppLanding.tsx';
-import './presentation/styles/main.css';
-import './presentation/styles/animations.css';
+import App from './App';
 import './index.css';
-import './presentation/main.js';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
@@ -42,12 +39,11 @@ if (rootElement) {
     createRoot(rootElement).render(
       <StrictMode>
         <ErrorBoundary>
-          <AppLanding />
+          <App />
         </ErrorBoundary>
       </StrictMode>,
     );
   } catch (err) {
-    console.error('Error mounting React AppLanding:', err);
+    console.error('Error mounting React App:', err);
   }
 }
-
