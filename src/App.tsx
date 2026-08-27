@@ -1,18 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CartProvider } from './features/cart/hooks/useCart';
 import { Header, ActiveTab } from './components/Header';
 import { Footer } from './components/Footer';
 import { CartDrawer } from './features/cart/components/CartDrawer';
 import { FloatingCartButton } from './features/cart/components/FloatingCartButton';
-import { DigitalMenu } from './features/menu/components/DigitalMenu';
-import { MenuSearchModal } from './features/menu/components/MenuSearchModal';
-import { PromocionesPage } from './pages/PromocionesPage';
-import { ReservaPage } from './pages/ReservaPage';
-import { AboutUsStorySection as NosotrosSection } from './presentation/components/AboutUsStorySection';
-import { CelebrationMomentsSection as MomentosSection } from './presentation/components/CelebrationMomentsSection';
-import { SocialCommunityGallery as SocialGalleryView } from './presentation/components/SocialFeedGallery';
 import AppLanding from './presentation/components/AppLandingHero';
+
+// React 2026 Route-level Code Splitting
+const DigitalMenu = lazy(() =>
+  import('./features/menu/components/DigitalMenu').then(m => ({ default: m.DigitalMenu }))
+);
+const MenuSearchModal = lazy(() =>
+  import('./features/menu/components/MenuSearchModal').then(m => ({ default: m.MenuSearchModal }))
+);
+const PromocionesPage = lazy(() =>
+  import('./pages/PromocionesPage').then(m => ({ default: m.PromocionesPage }))
+);
+const ReservaPage = lazy(() =>
+  import('./pages/ReservaPage').then(m => ({ default: m.ReservaPage }))
+);
+const NosotrosSection = lazy(() =>
+  import('./presentation/components/AboutUsStorySection').then(m => ({ default: m.NosotrosSection }))
+);
+const MomentosSection = lazy(() =>
+  import('./presentation/components/CelebrationMomentsSection').then(m => ({ default: m.MomentosSection }))
+);
+const SocialGalleryView = lazy(() =>
+  import('./presentation/components/SocialFeedGallery').then(m => ({ default: m.SocialGalleryView }))
+);
+
+const TabLoadingFallback: React.FC = () => (
+  <div className="min-h-[50vh] flex flex-col items-center justify-center gap-3 py-20">
+    <div className="w-8 h-8 rounded-full border-2 border-[#c900ff] border-t-transparent animate-spin" />
+    <span className="text-xs uppercase tracking-widest text-[#c900ff] font-extrabold font-display">
+      Cargando Weekend...
+    </span>
+  </div>
+);
 
 export const AppContent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('inicio');
@@ -21,15 +46,15 @@ export const AppContent: React.FC = () => {
   useEffect(() => {
     const handleHash = () => {
       const hash = (window.location.hash || '').toLowerCase();
-      if (hash.includes('promociones')) {
+      if (hash.includes('promociones') || hash.includes('destacados')) {
         setActiveTab('promociones');
       } else if (hash.includes('reserva')) {
         setActiveTab('reserva');
       } else if (hash.includes('carta') || hash.includes('menu')) {
         setActiveTab('carta');
-      } else if (hash.includes('nosotros')) {
+      } else if (hash.includes('nosotros') || hash.includes('quienes-somos')) {
         setActiveTab('nosotros');
-      } else if (hash.includes('momentos')) {
+      } else if (hash.includes('momentos') || hash.includes('celebraciones')) {
         setActiveTab('momentos');
       } else if (hash.includes('social') || hash.includes('redes')) {
         setActiveTab('social');
@@ -52,7 +77,6 @@ export const AppContent: React.FC = () => {
     };
   }, []);
 
-
   const handleNavigate = (tab: ActiveTab) => {
     setActiveTab(tab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -67,7 +91,7 @@ export const AppContent: React.FC = () => {
         onOpenSearch={() => setIsSearchOpen(true)}
       />
 
-      {/* Main View Router with Framer Motion Page Transitions */}
+      {/* Main View Router with Framer Motion Page Transitions & Suspense Code-Splitting */}
       <main className="flex-1 w-full relative">
         <AnimatePresence mode="wait">
           <motion.div
@@ -78,45 +102,47 @@ export const AppContent: React.FC = () => {
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="w-full flex-1"
           >
-            {activeTab === 'inicio' && (
-              <AppLanding
-                onNavigateTab={(tab: string) => handleNavigate(tab as ActiveTab)}
-              />
-            )}
-            {activeTab === 'nosotros' && (
-              <div className="pt-20">
-                <NosotrosSection
-                  onOpenMenu={() => handleNavigate('carta')}
-                  onOpenReserva={() => handleNavigate('reserva')}
+            <Suspense fallback={<TabLoadingFallback />}>
+              {activeTab === 'inicio' && (
+                <AppLanding
+                  onNavigateTab={(tab: string) => handleNavigate(tab as ActiveTab)}
                 />
-              </div>
-            )}
-            {activeTab === 'momentos' && (
-              <div className="pt-20">
-                <MomentosSection
-                  onOpenReserva={() => handleNavigate('reserva')}
-                  onOpenSocial={() => handleNavigate('social')}
-                />
-              </div>
-            )}
-            {activeTab === 'promociones' && (
-              <PromocionesPage />
-            )}
-            {activeTab === 'carta' && (
-              <DigitalMenu onOpenSearch={() => setIsSearchOpen(true)} />
-            )}
-            {activeTab === 'reserva' && (
-              <ReservaPage />
-            )}
-            {activeTab === 'social' && (
-              <div className="pt-20">
-                <SocialGalleryView
-                  onOpenReserva={() => handleNavigate('reserva')}
-                  onOpenMenu={() => handleNavigate('carta')}
-                  onBackToHome={() => handleNavigate('inicio')}
-                />
-              </div>
-            )}
+              )}
+              {activeTab === 'nosotros' && (
+                <div className="pt-20">
+                  <NosotrosSection
+                    onOpenMenu={() => handleNavigate('carta')}
+                    onOpenReserva={() => handleNavigate('reserva')}
+                  />
+                </div>
+              )}
+              {activeTab === 'momentos' && (
+                <div className="pt-20">
+                  <MomentosSection
+                    onOpenReserva={() => handleNavigate('reserva')}
+                    onOpenSocial={() => handleNavigate('social')}
+                  />
+                </div>
+              )}
+              {activeTab === 'promociones' && (
+                <PromocionesPage />
+              )}
+              {activeTab === 'carta' && (
+                <DigitalMenu onOpenSearch={() => setIsSearchOpen(true)} />
+              )}
+              {activeTab === 'reserva' && (
+                <ReservaPage />
+              )}
+              {activeTab === 'social' && (
+                <div className="pt-20">
+                  <SocialGalleryView
+                    onOpenReserva={() => handleNavigate('reserva')}
+                    onOpenMenu={() => handleNavigate('carta')}
+                    onBackToHome={() => handleNavigate('inicio')}
+                  />
+                </div>
+              )}
+            </Suspense>
           </motion.div>
         </AnimatePresence>
       </main>
@@ -130,11 +156,15 @@ export const AppContent: React.FC = () => {
       {/* Slide-over Cart Drawer */}
       <CartDrawer />
 
-      {/* Real-time Search Modal */}
-      <MenuSearchModal
-        isOpen={isSearchOpen}
-        onClose={() => setIsSearchOpen(false)}
-      />
+      {/* Real-time Search Modal with Lazy Loading */}
+      {isSearchOpen && (
+        <Suspense fallback={null}>
+          <MenuSearchModal
+            isOpen={isSearchOpen}
+            onClose={() => setIsSearchOpen(false)}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };

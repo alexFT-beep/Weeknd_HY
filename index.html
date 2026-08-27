@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google" content="notranslate" />
   <meta name="google-site-verification" content="QAHhxfz_zEf5BI70uxyBtlarH0Mc4VZmsSFX8_piEBg" />
+  
+  <!-- Security Headers & Directives (OWASP) -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data: blob:; media-src 'self' https: blob: data:; frame-src https://www.google.com https://maps.google.com; connect-src 'self' https: wss:;" />
+
   <!-- Primary SEO Meta Tags -->
   <title>Weekend - Huarmey | Carta Digital &amp; Delivery</title>
   <meta name="title" content="Weekend - Huarmey | Carta Digital &amp; Delivery" />
@@ -76,38 +82,24 @@
   }
   </script>
 
-  <!-- Preconnect & Fonts (Vercel Performance Optimization) -->
+  <!-- Preconnect & DNS-Prefetch for External CDNs -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
   <link rel="preconnect" href="https://wdirdbryxwtbnprbrkvh.supabase.co" crossorigin>
-  <link rel="dns-prefetch" href="https://res.cloudinary.com">
   <link rel="dns-prefetch" href="https://wdirdbryxwtbnprbrkvh.supabase.co">
+  
+  <!-- Optimized Google Fonts with font-display: swap -->
   <link rel="preload" as="style"
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@600;700;900&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@600;700;900&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <!-- Preload Critical Logo Asset -->
   <link rel="preload" as="image" fetchpriority="high"
     href="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp">
 </head>
 
 <body class="theme-premium-night">
   <div id="root"></div>
-
-  <!-- Circular Floating Cart Button -->
-  <button 
-    type="button"
-    id="cart-floating-fab"
-    data-action="open-cart"
-    class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#0acc80] hover:bg-white text-black flex items-center justify-center shadow-[0_4px_25px_rgba(10,204,128,0.45)] hover:scale-105 active:scale-95 transition-all duration-200 hidden cursor-pointer"
-    title="Ver Carrito de Compras"
-    aria-label="Ver Carrito de Compras"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-    <span id="floating-cart-badge" class="absolute -top-1 -right-1 min-w-[22px] h-[22px] px-1 bg-black text-[#0acc80] border-2 border-[#0acc80] font-black text-[11px] rounded-full flex items-center justify-center hidden">
-      0
-    </span>
-  </button>
 
   <script type="module" src="/src/main.tsx"></script>
 </body>
