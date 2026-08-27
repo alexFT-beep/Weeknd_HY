@@ -285,8 +285,8 @@ const SwipeableExperienceMedia: React.FC<SwipeableExperienceMediaProps> = ({
         </div>
       </div>
 
-      {/* Visor Deslizable Touch / Swipe Container */}
-      <div className="relative rounded-2xl overflow-hidden border border-white/15 bg-black shadow-xl aspect-[16/10] sm:aspect-[16/9] group/player">
+      {/* Visor Deslizable Touch / Swipe Container en Formato Vertical 9:16 */}
+      <div className="relative rounded-3xl overflow-hidden border border-white/15 bg-black shadow-2xl aspect-[9/16] w-full max-w-xs sm:max-w-sm mx-auto group/player">
         <AnimatePresence mode="wait">
           {activeSlide === 0 ? (
             <motion.div
@@ -771,8 +771,8 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
                 </button>
               </div>
 
-              {/* Modal Body: Video o Imagen HD */}
-              <div className="relative aspect-[9/16] sm:aspect-[9/14] bg-black flex items-center justify-center overflow-hidden">
+              {/* Modal Body: Video o Imagen HD en Formato Vertical 9:16 */}
+              <div className="relative aspect-[9/16] bg-black flex items-center justify-center overflow-hidden">
                 {selectedVideo.type === 'image' ? (
                   <img
                     src={selectedVideo.poster}
