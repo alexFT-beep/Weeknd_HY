@@ -192,8 +192,12 @@ body.theme-premium-night footer#contacto .bg-zinc-900\/50 {
   ::-webkit-scrollbar { width: 10px; }
   ::-webkit-scrollbar-track { background: #000000; }
   ::-webkit-scrollbar-thumb { background: #1a1a1a; border: 2px solid #000000; border-radius: 10px; }
-  ::-webkit-scrollbar-thumb:hover { background: #0acc80; }
+  ::-webkit-scrollbar-thumb:hover { background: #c900ff; }
 }
+
+/* Ocultar scrollbars en elementos con no-scrollbar */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 .vibrant-map { filter: contrast(1.08) saturate(1.25) brightness(1.03); }
 input[type="date"]::-webkit-calendar-picker-indicator { cursor: pointer; filter: invert(62%) sepia(81%) saturate(3942%) hue-rotate(122deg) brightness(103%) contrast(107%); opacity: 1; }
@@ -340,3 +344,70 @@ input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear
 .btn-metallic:hover::before {
   left: 150%;
 }
+
+/* === OPTIMIZED ANIMATIONS (60FPS) === */
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.35); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.25); }
+  70% { transform: scale(1); }
+}
+.animate-heartbeat { animation: heartbeat 0.85s cubic-bezier(0.25, 1, 0.5, 1); }
+
+@keyframes popClick {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.8); }
+  70% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.animate-pop { animation: popClick 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(10, 204, 128, 0.7); border-color: rgba(10, 204, 128, 1); }
+  70% { box-shadow: 0 0 25px 8px rgba(10, 204, 128, 0); border-color: rgba(10, 204, 128, 0.6); }
+  100% { box-shadow: 0 0 0 0 rgba(10, 204, 128, 0); }
+}
+.animate-pulse-glow { animation: pulseGlow 0.7s ease-out; }
+
+.organic-border {
+  border: 3px solid #0acc80;
+  border-radius: 4px 255px 3px 255px / 255px 4px 225px 3px;
+}
+
+/* Infinite Scroll Marquee Carousel */
+@keyframes infinite-scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-infinite-carousel {
+  display: flex;
+  width: max-content;
+  animation: infinite-scroll-left 35s linear infinite;
+  will-change: transform;
+}
+.animate-infinite-carousel:hover {
+  animation-play-state: paused;
+}
+
+/* === RECONSTRUCTED & ENHANCED INTERACTIVE KEYFRAMES === */
+@keyframes neon-glow-pulse {
+  0%, 100% { box-shadow: 0 0 10px var(--glow-color, rgba(201, 0, 255, 0.4)), 0 0 20px var(--glow-color, rgba(201, 0, 255, 0.4)); }
+  50% { box-shadow: 0 0 20px var(--glow-color, rgba(201, 0, 255, 0.8)), 0 0 35px var(--glow-color, rgba(201, 0, 255, 0.8)); }
+}
+
+@keyframes float-badge {
+  0% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-32px) scale(1.25); }
+}
+
+@keyframes cart-bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.28) rotate(-6deg); }
+}
+
+.animate-neon-pulse { animation: neon-glow-pulse 1s infinite ease-in-out; }
+.animate-float-up { animation: float-badge 0.6s ease-out forwards; }
+.animate-cart-bump { animation: cart-bounce 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+
