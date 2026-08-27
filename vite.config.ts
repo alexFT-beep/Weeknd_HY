@@ -1,4 +1,3 @@
-// @ts-nocheck
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { fileURLToPath, URL } from 'node:url';
@@ -30,11 +29,9 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         input: {
           main: fileURLToPath(new URL('./index.html', import.meta.url)),
-          promociones: fileURLToPath(new URL('./promociones.html', import.meta.url)),
-          reserva: fileURLToPath(new URL('./reserva.html', import.meta.url)),
         },
         output: {
-          manualChunks(id) {
+          manualChunks(id: string) {
             if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
               return 'vendor-react';
             }
