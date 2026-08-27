@@ -1,5 +1,11 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+/**
+ * @file App.tsx
+ * @description Punto de entrada principal con arquitectura React 2026,
+ * lazy-loading con Suspense y enrutamiento reactivo optimizado a 60 FPS.
+ */
 import { CartProvider } from './features/cart/hooks/useCart';
 import { Header, ActiveTab } from './components/Header';
 import { Footer } from './components/Footer';
