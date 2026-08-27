@@ -3,13 +3,13 @@ import {
   Menu, X, Instagram, Facebook, Phone, MapPin, Clock, CreditCard, ChevronRight, Send, Smartphone, ArrowLeft, ShoppingCart, Search
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { DigitalMenuView } from './DigitalMenuView';
+import { DigitalMenu } from '../../features/menu/components/DigitalMenu';
 
 // Code Splitting & Dynamic Imports as per Vercel React Best Practices
-const SocialGalleryView = lazy(() => import('./SocialGalleryView').then(m => ({ default: m.SocialGalleryView })));
-const MenuSearchModal = lazy(() => import('./MenuSearchModal').then(m => ({ default: m.MenuSearchModal })));
-const NosotrosSection = lazy(() => import('./NosotrosSection').then(m => ({ default: m.NosotrosSection })));
-const MomentosSection = lazy(() => import('./MomentosSection').then(m => ({ default: m.MomentosSection })));
+const SocialGalleryView = lazy(() => import('./SocialFeedGallery').then(m => ({ default: m.SocialGalleryView })));
+const MenuSearchModal = lazy(() => import('../../features/menu/components/MenuSearchModal').then(m => ({ default: m.MenuSearchModal })));
+const NosotrosSection = lazy(() => import('./AboutUsStorySection').then(m => ({ default: m.AboutUsStorySection })));
+const MomentosSection = lazy(() => import('./CelebrationMomentsSection').then(m => ({ default: m.CelebrationMomentsSection })));
 
 const CONTACT_WA = "51961336674";
 const LOGO_URL = "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp";
@@ -60,7 +60,11 @@ const SectionLoadingFallback = () => (
   </div>
 );
 
-export default function App() {
+interface AppLandingProps {
+  onNavigateTab?: (tab: string) => void;
+}
+
+export default function AppLanding({ onNavigateTab }: AppLandingProps = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -76,42 +80,63 @@ export default function App() {
   });
 
   const goToDashboard = useCallback(() => {
-    setCurrentView('dashboard');
-    window.location.hash = 'carta-digital';
-    window.scrollTo({ top: 0, behavior: 'instant' });
-  }, []);
-
-  const goToLanding = useCallback(() => {
-    setCurrentView('landing');
-    if (window.location.hash) {
-      window.history.pushState(null, '', window.location.pathname + window.location.search);
+    if (onNavigateTab) {
+      onNavigateTab('carta');
+    } else {
+      setCurrentView('dashboard');
+      window.location.hash = 'carta-digital';
     }
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, []);
+  }, [onNavigateTab]);
+
+  const goToLanding = useCallback(() => {
+    if (onNavigateTab) {
+      onNavigateTab('inicio');
+    } else {
+      setCurrentView('landing');
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [onNavigateTab]);
 
   const goToSocial = useCallback(() => {
-    setCurrentView('social');
-    window.location.hash = 'redes';
+    if (onNavigateTab) {
+      onNavigateTab('social');
+    } else {
+      setCurrentView('social');
+      window.location.hash = 'redes';
+    }
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, []);
+  }, [onNavigateTab]);
 
   const goToReservation = useCallback(() => {
-    setCurrentView('reserva');
-    window.location.hash = 'reserva';
+    if (onNavigateTab) {
+      onNavigateTab('reserva');
+    } else {
+      setCurrentView('reserva');
+      window.location.hash = 'reserva';
+    }
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, []);
+  }, [onNavigateTab]);
 
   const goToNosotros = useCallback(() => {
-    setCurrentView('nosotros');
-    window.location.hash = 'nosotros';
+    if (onNavigateTab) {
+      onNavigateTab('nosotros');
+    } else {
+      setCurrentView('nosotros');
+      window.location.hash = 'nosotros';
+    }
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, []);
+  }, [onNavigateTab]);
 
   const goToMomentos = useCallback(() => {
-    setCurrentView('momentos');
-    window.location.hash = 'momentos';
+    if (onNavigateTab) {
+      onNavigateTab('momentos');
+    } else {
+      setCurrentView('momentos');
+      window.location.hash = 'momentos';
+    }
     window.scrollTo({ top: 0, behavior: 'instant' });
-  }, []);
+  }, [onNavigateTab]);
 
   useEffect(() => {
     (window as any).goToDashboard = goToDashboard;
@@ -335,168 +360,7 @@ export default function App() {
     <div className="min-h-screen font-sans selection:bg-[#C900FF] selection:text-white home-page bg-[#050505] text-[#F5F5F5] relative">
       
       {/* ========================================================================= */}
-      {/* 1. BARRA DE NAVEGACIÓN UNIFICADA & PERSISTENTE EN TODAS LAS PESTAÑAS     */}
-      {/* ========================================================================= */}
-      <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          isScrolled || currentView !== 'landing' 
-            ? 'bg-black/95 backdrop-blur-md py-2.5 border-b border-white/10 shadow-2xl' 
-            : 'bg-transparent py-3 sm:py-4'
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-3 sm:gap-4">
-          
-          {/* Logo y Branding */}
-          <div 
-            className="flex items-center gap-2.5 shrink-0 cursor-pointer group"
-            onClick={(e) => { e.preventDefault(); goToLanding(); }}
-          >
-            <img
-              src={LOGO_URL} 
-              alt="Logo"
-              width={36}
-              height={36}
-              fetchPriority="high"
-              decoding="async"
-              className="h-8 sm:h-9 w-8 sm:w-9 rounded-full object-cover border border-weekend-neon/70 group-hover:border-[#c900ff] transition-colors"
-              referrerPolicy="no-referrer"
-            />
-            <span className="text-white font-black tracking-tight text-xs sm:text-sm uppercase whitespace-nowrap group-hover:text-[#c900ff] transition-colors font-display">
-              WEEKEND <span className="text-weekend-neon">Huarmey</span>
-            </span>
-          </div>
-
-          {/* Links de Navegación de Escritorio */}
-          <nav className="hidden lg:flex items-center gap-4 xl:gap-6 justify-center">
-            {NAV_LINKS.map((link) => {
-              const isActive = (
-                (currentView === 'landing' && link.type === 'inicio') ||
-                (currentView === 'nosotros' && link.type === 'nosotros') ||
-                (currentView === 'momentos' && link.type === 'momentos') ||
-                (currentView === 'dashboard' && link.type === 'carta') ||
-                (currentView === 'reserva' && link.type === 'reserva') ||
-                (currentView === 'social' && link.type === 'redes')
-              );
-
-              return (
-                <motion.a
-                  key={link.name} 
-                  href={link.href}
-                  onClick={(e) => handleNavClick(e, link)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`text-xs xl:text-sm uppercase tracking-wider font-extrabold transition-all duration-200 cursor-pointer whitespace-nowrap ${
-                    isActive 
-                      ? 'text-[#0acc80] font-black drop-shadow-[0_0_10px_rgba(10,204,128,0.6)]' 
-                      : 'text-zinc-200 hover:text-[#c900ff]'
-                  }`}
-                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                >
-                  {link.name}
-                </motion.a>
-              );
-            })}
-          </nav>
-
-          {/* Acciones y Botones a la Derecha */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            {/* Botón Carrito */}
-            <button
-              type="button"
-              data-action="open-cart"
-              className="relative text-black font-extrabold bg-weekend-neon hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:text-white transition-all active:scale-95 duration-200 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full flex items-center gap-1.5 text-xs uppercase shadow-sm hover:shadow-[0_0_20px_rgba(201,0,255,0.75)] cursor-pointer"
-              title="Ver Carrito"
-              aria-label="Ver Carrito"
-            >
-              <ShoppingCart size={15} />
-              <span className="hidden sm:inline">Carrito</span>
-              <span className="header-cart-badge min-w-[18px] h-[18px] px-1 bg-black text-weekend-neon font-extrabold text-[10px] rounded-full flex items-center justify-center hidden">0</span>
-            </button>
-
-            {/* CTA Ver Menú */}
-            <button
-              type="button"
-              onClick={goToDashboard}
-              className={`hidden sm:inline-flex items-center gap-2 font-extrabold uppercase tracking-widest text-xs px-4 py-2 sm:px-5 sm:py-2.5 rounded-full transition-all duration-300 active:scale-95 cursor-pointer font-display ${
-                currentView === 'dashboard'
-                  ? 'bg-[#c900ff] text-white shadow-[0_0_20px_rgba(201,0,255,0.6)]'
-                  : 'bg-weekend-neon text-black hover:bg-[#C900FF] hover:text-white shadow-[0_0_20px_rgba(10,204,128,0.4)] hover:shadow-[0_0_25px_rgba(201,0,255,0.8)]'
-              }`}
-              aria-label="Ver menú virtual"
-            >
-              Ver Menú
-            </button>
-
-            {/* Botón Hamburguesa Móvil */}
-            <button
-              className={`lg:hidden p-1.5 sm:p-2 transition-colors duration-300 z-50 cursor-pointer ${isOpen ? 'text-[#c900ff]' : 'text-white'}`}
-              onClick={() => setIsOpen(!isOpen)}
-              aria-label="Menú"
-            >
-              <motion.div animate={isOpen ? { rotate: 90 } : { rotate: 0 }} transition={{ duration: 0.3 }}>
-                {isOpen ? <X size={26} /> : <Menu size={26} />}
-              </motion.div>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Menú Móvil Persistente */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: '100%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-40 bg-black flex flex-col items-center justify-center gap-5 landscape:gap-3 md:hidden overflow-y-auto"
-          >
-            <div className="absolute inset-0 z-0">
-              <img
-                src={FOOTER_IMG}
-                alt="Fondo Menú Móvil"
-                width={800}
-                height={1200}
-                loading="lazy"
-                decoding="async"
-                className="w-full h-full object-cover opacity-85 brightness-110 contrast-105 saturate-110"
-                referrerPolicy="no-referrer"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/65" />
-            </div>
-
-            <div className="relative z-10 flex flex-col items-center gap-4 landscape:gap-2 py-8 w-full max-w-xs px-4">
-              {MOBILE_NAV_LINKS.map((link) => (
-                <motion.a
-                  key={link.name} 
-                  href={link.href}
-                  whileHover={{ scale: 1.08 }} 
-                  whileTap={{ scale: 0.92 }}
-                  onClick={(e) => handleNavClick(e, link)}
-                  className={`w-full text-center py-2 text-lg sm:text-xl uppercase tracking-widest font-extrabold transition-colors duration-300 border-b border-white/10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] cursor-pointer font-display ${
-                    link.colorClass || 'text-white hover:text-[#C900FF] active:text-[#EA2A81] focus:text-[#C900FF]'
-                  }`}
-                >
-                  {link.name}
-                </motion.a>
-              ))}
-              <button
-                onClick={goToDashboard}
-                className="mt-4 w-full px-8 py-3 bg-[#EA2A81] text-white font-extrabold uppercase tracking-widest rounded-full text-sm text-center shadow-[0_0_20px_rgba(234,42,129,0.4)] hover:bg-[#C900FF] hover:text-white active:bg-[#9011C5] active:scale-95 transition-all hover:shadow-[0_0_25px_rgba(201,0,255,0.8)] cursor-pointer font-display"
-              >
-                🔥 Pide tu Weekend (Carta Digital)
-              </button>
-            </div>
-
-            <div className="absolute bottom-6 landscape:hidden left-0 w-full text-center z-10">
-              <p className="text-[#f59e0b] font-black text-sm uppercase tracking-[0.3em] drop-shadow-[0_0_12px_rgba(245,158,11,0.3)] font-display">WEEKEND - HUARMEY</p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ========================================================================= */}
-      {/* 2. CONTENIDO PRINCIPAL SEGÚN LA PESTAÑA SELECCIONADA                     */}
+      {/* 1. CONTENIDO PRINCIPAL DE LA LANDING                                      */}
       {/* ========================================================================= */}
 
       {/* --- A. PESTAÑA: SOCIAL / REDES --- */}
@@ -594,7 +458,7 @@ export default function App() {
             </div>
 
             {/* Componente Nativo React de la Carta Digital */}
-            <DigitalMenuView onSearchClick={() => setIsSearchOpen(true)} />
+            <DigitalMenu onOpenSearch={() => setIsSearchOpen(true)} />
 
             {/* Modal de Búsqueda Dinámica con Lazy Loading */}
             <Suspense fallback={null}>
