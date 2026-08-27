@@ -61,13 +61,6 @@ export const CartDrawer: React.FC = () => {
     updateCustomerData
   } = useCart();
 
-  const deliveryZoneOptions: DropdownOption[] = DELIVERY_ZONES.map(zone => ({
-    id: zone.id,
-    label: `Zona Delivery: ${zone.name}`,
-    badge: `+S/ ${zone.fee.toFixed(2)}`,
-    sublabel: `Costo de envío S/ ${zone.fee.toFixed(2)}`
-  }));
-
   const handleSendWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -282,18 +275,6 @@ export const CartDrawer: React.FC = () => {
 
                       {orderType === 'delivery' ? (
                         <>
-                          {/* Selector compacto de Zona de Delivery justo antes o dentro de la dirección */}
-                          <CustomDropdown
-                            compact
-                            icon={<MapPin className="w-4 h-4 text-[#c900ff]" />}
-                            options={deliveryZoneOptions}
-                            value={selectedZone.id}
-                            onChange={zoneId => {
-                              const zone = DELIVERY_ZONES.find(z => z.id === zoneId);
-                              if (zone) setSelectedZone(zone);
-                            }}
-                          />
-
                           {/* Campo 3 (Texto): Dirección exacta (Calle, Mz, Lt, Nro) * */}
                           <input
                             type="text"
