@@ -10,6 +10,34 @@ import { X, ShoppingBag, Trash2, Plus, Minus, Send, MapPin, Utensils, CreditCard
 import { useCart } from '../hooks/useCart';
 import { DELIVERY_ZONES, PAYMENT_INFO } from '../../../data/fullMenuData';
 import { whatsappOrderService } from '../../orders/services/whatsappOrderService';
+import { CustomDropdown, DropdownOption } from './CustomDropdown';
+
+const PAYMENT_METHOD_OPTIONS: DropdownOption[] = [
+  {
+    id: 'Yape (QR / Billetera)',
+    label: 'Yape (QR / Billetera)',
+    badge: '📱',
+    sublabel: 'Sin comisión • Pago directo con QR'
+  },
+  {
+    id: 'Plin',
+    label: 'Plin',
+    badge: '⚡',
+    sublabel: 'Transferencia móvil rápida'
+  },
+  {
+    id: 'Efectivo contra entrega',
+    label: 'Efectivo contra entrega',
+    badge: '💵',
+    sublabel: 'Paga al recibir tu pedido'
+  },
+  {
+    id: 'Transferencia BCP/BBVA',
+    label: 'Transferencia BCP/BBVA',
+    badge: '🏦',
+    sublabel: 'BCP / Interbank / BBVA'
+  }
+];
 
 /**
  * Componente interactivo del panel lateral del carrito de compras.
@@ -32,6 +60,13 @@ export const CartDrawer: React.FC = () => {
     setSelectedZone,
     updateCustomerData
   } = useCart();
+
+  const deliveryZoneOptions: DropdownOption[] = DELIVERY_ZONES.map(zone => ({
+    id: zone.id,
+    label: `Zona Delivery: ${zone.name}`,
+    badge: `+S/ ${zone.fee.toFixed(2)}`,
+    sublabel: `Costo de envío S/ ${zone.fee.toFixed(2)}`
+  }));
 
   const handleSendWhatsApp = (e: React.FormEvent) => {
     e.preventDefault();
@@ -248,24 +283,16 @@ export const CartDrawer: React.FC = () => {
                       {orderType === 'delivery' ? (
                         <>
                           {/* Selector compacto de Zona de Delivery justo antes o dentro de la dirección */}
-                          <div className="relative flex items-center bg-zinc-900/90 border border-white/10 rounded-xl px-3 py-1.5 focus-within:border-[#c900ff] transition-all">
-                            <MapPin className="w-3.5 h-3.5 text-[#c900ff] shrink-0 mr-2" />
-                            <select
-                              value={selectedZone.id}
-                              onChange={e => {
-                                const zone = DELIVERY_ZONES.find(z => z.id === e.target.value);
-                                if (zone) setSelectedZone(zone);
-                              }}
-                              className="w-full bg-transparent text-xs text-white focus:outline-none cursor-pointer font-bold appearance-none py-1"
-                            >
-                              {DELIVERY_ZONES.map(zone => (
-                                <option key={zone.id} value={zone.id} className="bg-zinc-950 text-white">
-                                  Zona Delivery: {zone.name} (+S/ {zone.fee.toFixed(2)})
-                                </option>
-                              ))}
-                            </select>
-                            <span className="text-[10px] text-gray-400 pointer-events-none pr-1">▼</span>
-                          </div>
+                          <CustomDropdown
+                            compact
+                            icon={<MapPin className="w-4 h-4 text-[#c900ff]" />}
+                            options={deliveryZoneOptions}
+                            value={selectedZone.id}
+                            onChange={zoneId => {
+                              const zone = DELIVERY_ZONES.find(z => z.id === zoneId);
+                              if (zone) setSelectedZone(zone);
+                            }}
+                          />
 
                           {/* Campo 3 (Texto): Dirección exacta (Calle, Mz, Lt, Nro) * */}
                           <input
@@ -296,22 +323,14 @@ export const CartDrawer: React.FC = () => {
                         />
                       )}
 
-                      {/* Selector (Dropdown): Método de Pago Preferido */}
-                      <div>
-                        <label className="block text-[11px] uppercase tracking-wider font-extrabold text-gray-300 mb-1">
-                          Método de Pago Preferido
-                        </label>
-                        <select
-                          value={customerData.paymentMethod}
-                          onChange={e => updateCustomerData({ paymentMethod: e.target.value })}
-                          className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all cursor-pointer font-medium"
-                        >
-                          <option value="Yape (QR / Billetera)" className="bg-zinc-950 text-white">Yape (QR / Billetera)</option>
-                          <option value="Plin" className="bg-zinc-950 text-white">Plin</option>
-                          <option value="Efectivo contra entrega" className="bg-zinc-950 text-white">Efectivo contra entrega</option>
-                          <option value="Transferencia BCP/BBVA" className="bg-zinc-950 text-white">Transferencia BCP/BBVA</option>
-                        </select>
-                      </div>
+                      {/* Selector Custom Dropdown: Método de Pago Preferido */}
+                      <CustomDropdown
+                        label="Método de Pago Preferido"
+                        icon={<CreditCard className="w-4 h-4 text-[#c900ff]" />}
+                        options={PAYMENT_METHOD_OPTIONS}
+                        value={customerData.paymentMethod}
+                        onChange={paymentMethod => updateCustomerData({ paymentMethod })}
+                      />
 
                       {/* Campo 5 (Textarea/Input): Observaciones generales para cocina / delivery... */}
                       <textarea
