@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShoppingBag, Trash2, Plus, Minus, Send, MapPin, Utensils, CreditCard, Sparkles, User } from 'lucide-react';
+import { X, ShoppingBag, Trash2, Plus, Minus, Send, MapPin, CreditCard, Sparkles, User } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import { DELIVERY_ZONES, PAYMENT_INFO } from '../../../data/fullMenuData';
 import { whatsappOrderService } from '../../orders/services/whatsappOrderService';
@@ -140,32 +140,19 @@ export const CartDrawer: React.FC = () => {
 
               {/* Drawer Body */}
               <div className="flex-1 overflow-y-auto p-6 space-y-6">
-                {/* Selector tipo de orden */}
-                <div className="grid grid-cols-2 gap-2 bg-zinc-900/90 p-1.5 rounded-2xl border border-white/10">
-                  <button
-                    type="button"
-                    onClick={() => setOrderType('delivery')}
-                    className={`py-2 px-3 rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
-                      orderType === 'delivery'
-                        ? 'bg-[#c900ff] text-white shadow-[0_0_15px_rgba(201,0,255,0.5)]'
-                        : 'text-gray-400 hover:text-white'
-                    }`}
-                  >
-                    <MapPin className="w-3.5 h-3.5" />
-                    Delivery
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setOrderType('mesa')}
-                    className={`py-2 px-3 rounded-xl text-xs font-black uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
-                      orderType === 'mesa'
-                        ? 'bg-[#c900ff] text-white shadow-[0_0_15px_rgba(201,0,255,0.5)]'
-                        : 'text-gray-400 hover:text-white'
-                    }`}
-                  >
-                    <Utensils className="w-3.5 h-3.5" />
-                    Reserva
-                  </button>
+                {/* Badge Informativo de Delivery Exclusivo */}
+                <div className="flex items-center gap-2.5 bg-zinc-900/90 py-2.5 px-3.5 rounded-2xl border border-[#c900ff]/30 text-white shadow-sm">
+                  <div className="p-2 rounded-xl bg-[#c900ff]/20 text-[#c900ff] shrink-0">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-white block">
+                      🛵 PEDIDO CON DELIVERY A DOMICILIO
+                    </span>
+                    <span className="text-[10px] text-zinc-400">
+                      Entrega rápida en todo Huarmey directo a tu puerta
+                    </span>
+                  </div>
                 </div>
 
                 {/* Lista de productos */}
@@ -248,7 +235,7 @@ export const CartDrawer: React.FC = () => {
                     <div className="flex items-center gap-2 text-gray-300">
                       <User className="w-4 h-4 text-gray-300 stroke-[2.5]" />
                       <h3 className="text-xs uppercase tracking-wider font-black text-gray-300">
-                        {orderType === 'delivery' ? 'DATOS PARA EL DELIVERY' : 'DATOS PARA LA RESERVA'}
+                        DATOS PARA EL DELIVERY
                       </h3>
                     </div>
 
@@ -273,36 +260,24 @@ export const CartDrawer: React.FC = () => {
                         className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
                       />
 
-                      {orderType === 'delivery' ? (
-                        <>
-                          {/* Campo 3 (Texto): Dirección exacta (Calle, Mz, Lt, Nro) * */}
-                          <input
-                            type="text"
-                            required
-                            placeholder="Dirección exacta (Calle, Mz, Lt, Nro) *"
-                            value={customerData.address}
-                            onChange={e => updateCustomerData({ address: e.target.value })}
-                            className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
-                          />
+                      {/* Campo 3 (Texto): Dirección exacta (Calle, Mz, Lt, Nro) * */}
+                      <input
+                        type="text"
+                        required
+                        placeholder="Dirección exacta (Calle, Mz, Lt, Nro) *"
+                        value={customerData.address}
+                        onChange={e => updateCustomerData({ address: e.target.value })}
+                        className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
+                      />
 
-                          {/* Campo 4 (Texto): Referencia de ubicación (ej: al frente de sanny) */}
-                          <input
-                            type="text"
-                            placeholder="Referencia de ubicación (ej: al frente de sanny)"
-                            value={customerData.reference}
-                            onChange={e => updateCustomerData({ reference: e.target.value })}
-                            className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
-                          />
-                        </>
-                      ) : (
-                        <input
-                          type="text"
-                          placeholder="Número de Mesa o detalle de reserva *"
-                          value={customerData.tableNumber}
-                          onChange={e => updateCustomerData({ tableNumber: e.target.value })}
-                          className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
-                        />
-                      )}
+                      {/* Campo 4 (Texto): Referencia de ubicación (ej: al frente de sanny) */}
+                      <input
+                        type="text"
+                        placeholder="Referencia de ubicación (ej: al frente de sanny)"
+                        value={customerData.reference}
+                        onChange={e => updateCustomerData({ reference: e.target.value })}
+                        className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
+                      />
 
                       {/* Selector Custom Dropdown: Método de Pago Preferido */}
                       <CustomDropdown

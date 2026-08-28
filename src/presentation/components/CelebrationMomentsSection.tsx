@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Sparkles, PartyPopper, Gift, ArrowRight, Play, Pause,
@@ -68,13 +68,24 @@ export interface VideoData {
 
 interface VideoCardItemProps {
   readonly video: VideoData;
+  readonly isMuted: boolean;
+  readonly onToggleMute: () => void;
   readonly onOpenModal: (video: VideoData) => void;
 }
 
-const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => {
+const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, isMuted, onToggleMute, onOpenModal }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(true);
+
+  // Sincronizar el estado de mute coordinado globalmente
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+      if (!isMuted && videoRef.current.paused) {
+        videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
+      }
+    }
+  }, [isMuted]);
 
   const togglePlay = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -87,12 +98,9 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
     }
   };
 
-  const toggleMute = (e: React.MouseEvent) => {
+  const handleMuteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!videoRef.current) return;
-    const nextMuted = !videoRef.current.muted;
-    videoRef.current.muted = nextMuted;
-    setIsMuted(nextMuted);
+    onToggleMute();
   };
 
   return (
@@ -148,9 +156,9 @@ const VideoCardItem: React.FC<VideoCardItemProps> = ({ video, onOpenModal }) => 
         <div className="flex items-center gap-1.5">
           <button
             type="button"
-            onClick={toggleMute}
+            onClick={handleMuteClick}
             className="p-2.5 rounded-full bg-black/75 hover:bg-[#c900ff] text-white backdrop-blur-md transition-all active:scale-90 shadow-md cursor-pointer"
-            title={isMuted ? "Activar audio" : "Silenciar"}
+            title={isMuted ? "Activar audio (silencia los demás videos)" : "Silenciar"}
             aria-label={isMuted ? "Activar audio" : "Silenciar"}
           >
             {isMuted ? <VolumeX size={15} className="text-rose-400" /> : <Volume2 size={15} className="text-[#0acc80]" />}
@@ -202,6 +210,8 @@ interface SwipeableExperienceMediaProps {
   readonly posterUrl: string;
   readonly posterTitle: string;
   readonly accentColor: string;
+  readonly isMuted: boolean;
+  readonly onToggleMute: () => void;
   readonly onOpenModal: (media: VideoData) => void;
 }
 
@@ -210,18 +220,26 @@ const SwipeableExperienceMedia: React.FC<SwipeableExperienceMediaProps> = ({
   posterUrl,
   posterTitle,
   accentColor,
+  isMuted,
+  onToggleMute,
   onOpenModal
 }) => {
   const [activeSlide, setActiveSlide] = useState<0 | 1>(0); // 0 = Video, 1 = Poster
-  const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const toggleMute = (e: React.MouseEvent) => {
+  // Sincronizar el estado de mute coordinado
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+      if (!isMuted && videoRef.current.paused && activeSlide === 0) {
+        videoRef.current.play().catch(() => {});
+      }
+    }
+  }, [isMuted, activeSlide]);
+
+  const handleMuteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!videoRef.current) return;
-    const nextMuted = !videoRef.current.muted;
-    videoRef.current.muted = nextMuted;
-    setIsMuted(nextMuted);
+    onToggleMute();
   };
 
   const handleNext = (e: React.MouseEvent) => {
@@ -317,9 +335,9 @@ const SwipeableExperienceMedia: React.FC<SwipeableExperienceMediaProps> = ({
               <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5">
                 <button
                   type="button"
-                  onClick={toggleMute}
+                  onClick={handleMuteClick}
                   className="p-2 rounded-full bg-black/80 hover:bg-white text-white hover:text-black backdrop-blur-md transition-all cursor-pointer shadow-md"
-                  aria-label={isMuted ? "Activar audio" : "Silenciar"}
+                  aria-label={isMuted ? "Activar audio (silencia otros videos)" : "Silenciar"}
                 >
                   {isMuted ? <VolumeX size={14} className="text-rose-400" /> : <Volume2 size={14} className="text-[#0acc80]" />}
                 </button>
@@ -361,7 +379,7 @@ const SwipeableExperienceMedia: React.FC<SwipeableExperienceMediaProps> = ({
               <img
                 src={posterUrl}
                 alt={posterTitle}
-                className="w-full h-full object-cover object-top filter brightness-105 contrast-105 group-hover/player:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover object-center filter brightness-105 contrast-105 group-hover/player:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
@@ -408,6 +426,13 @@ const SwipeableExperienceMedia: React.FC<SwipeableExperienceMediaProps> = ({
 
 export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
   const [selectedVideo, setSelectedVideo] = useState<VideoData | null>(null);
+  
+  // Audio unificado: sólo un video puede sonar a la vez en toda la sección
+  const [activeAudioId, setActiveAudioId] = useState<string | null>(null);
+
+  const handleToggleAudio = useCallback((videoId: string) => {
+    setActiveAudioId(prev => (prev === videoId ? null : videoId));
+  }, []);
 
   // Datos para los videos de las subsecciones
   const SHOTS_VIDEO: VideoData = {
@@ -514,7 +539,12 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
               <VideoCardItem
                 key={video.id}
                 video={video}
-                onOpenModal={setSelectedVideo}
+                isMuted={activeAudioId !== video.id}
+                onToggleMute={() => handleToggleAudio(video.id)}
+                onOpenModal={(v) => {
+                  setActiveAudioId(null);
+                  setSelectedVideo(v);
+                }}
               />
             ))}
           </div>
@@ -580,7 +610,12 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
                 posterUrl="/videos/shots_entre_patas_poster.webp"
                 posterTitle="Afiche Oficial: Shots entre Patas - Cortesía Weekend"
                 accentColor="#ffa40b"
-                onOpenModal={setSelectedVideo}
+                isMuted={activeAudioId !== SHOTS_VIDEO.id}
+                onToggleMute={() => handleToggleAudio(SHOTS_VIDEO.id)}
+                onOpenModal={(v) => {
+                  setActiveAudioId(null);
+                  setSelectedVideo(v);
+                }}
               />
 
               {/* Beneficios de la Experiencia */}
@@ -651,7 +686,12 @@ export function MomentosSection({ onOpenReserva }: MomentosSectionProps) {
                 posterUrl="/videos/fotos_polaroid_poster.webp"
                 posterTitle="Afiche Oficial: Fotos Polaroid para el Recuerdo - Weekend"
                 accentColor="#0acc80"
-                onOpenModal={setSelectedVideo}
+                isMuted={activeAudioId !== POLAROID_VIDEO.id}
+                onToggleMute={() => handleToggleAudio(POLAROID_VIDEO.id)}
+                onOpenModal={(v) => {
+                  setActiveAudioId(null);
+                  setSelectedVideo(v);
+                }}
               />
 
               {/* Beneficios de la Experiencia */}
