@@ -244,9 +244,11 @@ export const CartDrawer: React.FC = () => {
                       <input
                         type="text"
                         required
+                        maxLength={60}
+                        autoComplete="name"
                         placeholder="Tu Nombre completo *"
                         value={customerData.customerName}
-                        onChange={e => updateCustomerData({ customerName: e.target.value })}
+                        onChange={e => updateCustomerData({ customerName: e.target.value.slice(0, 60) })}
                         className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
                       />
 
@@ -254,9 +256,12 @@ export const CartDrawer: React.FC = () => {
                       <input
                         type="tel"
                         required
+                        maxLength={15}
+                        pattern="[0-9+ ()-]{7,15}"
+                        autoComplete="tel"
                         placeholder="Número telefónico / WhatsApp *"
                         value={customerData.phone}
-                        onChange={e => updateCustomerData({ phone: e.target.value })}
+                        onChange={e => updateCustomerData({ phone: e.target.value.replace(/[^0-9+ ()-]/g, '').slice(0, 15) })}
                         className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
                       />
 
@@ -264,18 +269,21 @@ export const CartDrawer: React.FC = () => {
                       <input
                         type="text"
                         required
+                        maxLength={120}
+                        autoComplete="street-address"
                         placeholder="Dirección exacta (Calle, Mz, Lt, Nro) *"
                         value={customerData.address}
-                        onChange={e => updateCustomerData({ address: e.target.value })}
+                        onChange={e => updateCustomerData({ address: e.target.value.slice(0, 120) })}
                         className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
                       />
 
                       {/* Campo 4 (Texto): Referencia de ubicación (ej: al frente de sanny) */}
                       <input
                         type="text"
+                        maxLength={120}
                         placeholder="Referencia de ubicación (ej: al frente de sanny)"
                         value={customerData.reference}
-                        onChange={e => updateCustomerData({ reference: e.target.value })}
+                        onChange={e => updateCustomerData({ reference: e.target.value.slice(0, 120) })}
                         className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all"
                       />
 
@@ -291,9 +299,10 @@ export const CartDrawer: React.FC = () => {
                       {/* Campo 5 (Textarea/Input): Observaciones generales para cocina / delivery... */}
                       <textarea
                         rows={2}
+                        maxLength={250}
                         placeholder="Observaciones generales para cocina / delivery..."
                         value={customerData.notes}
-                        onChange={e => updateCustomerData({ notes: e.target.value })}
+                        onChange={e => updateCustomerData({ notes: e.target.value.slice(0, 250) })}
                         className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all resize-none"
                       />
 

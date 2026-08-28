@@ -7,12 +7,21 @@
 import { OrderPayload } from '../types';
 import { PAYMENT_INFO } from '../../../data/fullMenuData';
 
-/** Sanitiza texto eliminando caracteres de control peligrosos */
-function sanitizeText(str: string | undefined): string {
+/** 
+ * Sanitiza texto eliminando caracteres de control peligrosos, etiquetas HTML
+ * y neutralizando secuencias de inyección de formato Markdown.
+ */
+function sanitizeText(str: string | undefined, maxLen = 200): string {
   if (!str) return '';
   return str
+    // Eliminar caracteres de control invisibles y peligrosos
     .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F-\u009F]/g, '')
-    .trim();
+    // Eliminar etiquetas HTML completas (<...>)
+    .replace(/<[^>]*>/g, '')
+    // Escapar caracteres de formato Markdown de WhatsApp (*, _, ~, `) para prevenir distorsión de estructura
+    .replace(/[*_~`]/g, '')
+    .trim()
+    .slice(0, maxLen);
 }
 
 export const whatsappOrderService = {
