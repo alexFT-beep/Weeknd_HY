@@ -155,8 +155,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           countPerUnit = 3;
         } else if (lowerName.includes('dúo') || lowerName.includes('duo')) {
           countPerUnit = 2;
-        } else if (['refrescos', 'bubble-tea'].includes(item.product.category)) {
-          countPerUnit = 0;
         } else {
           countPerUnit = 1;
         }

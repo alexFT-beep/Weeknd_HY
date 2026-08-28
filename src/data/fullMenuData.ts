@@ -389,13 +389,13 @@ export const FULL_MENU_ITEMS: MenuItem[] = [
   { id: "cal-13", name: "Dalgona", price: 17.50, category: "refrescos", subcategory: "refrescos", description: "Crema batida de café sobre leche" },
 
   // =================== 14. GUARNICIONES & EXTRAS ===================
-  { id: "guar-01", name: "Porción de Huevo", price: 2.50, category: "guarniciones", subcategory: "guarniciones", description: "Huevo frito montado", tapersCount: 0 },
-  { id: "guar-02", name: "Porción de Plátano", price: 3.00, category: "guarniciones", subcategory: "guarniciones", description: "Plátano frito", tapersCount: 0 },
-  { id: "guar-03", name: "Ensalada Clásica", price: 4.00, category: "guarniciones", subcategory: "guarniciones", description: "Porción de ensalada fresca", tapersCount: 0 },
-  { id: "guar-04", name: "Porción de Chorizo", price: 4.00, category: "guarniciones", subcategory: "guarniciones", description: "Chorizo a la plancha", tapersCount: 0 },
-  { id: "guar-05", name: "Porción de Tocino", price: 5.00, category: "guarniciones", subcategory: "guarniciones", description: "Tocino crocante", tapersCount: 0 },
+  { id: "guar-01", name: "Porción de Huevo", price: 2.50, category: "guarniciones", subcategory: "guarniciones", description: "Huevo frito montado", tapersCount: 1 },
+  { id: "guar-02", name: "Porción de Plátano", price: 3.00, category: "guarniciones", subcategory: "guarniciones", description: "Plátano frito", tapersCount: 1 },
+  { id: "guar-03", name: "Ensalada Clásica", price: 4.00, category: "guarniciones", subcategory: "guarniciones", description: "Porción de ensalada fresca", tapersCount: 1 },
+  { id: "guar-04", name: "Porción de Chorizo", price: 4.00, category: "guarniciones", subcategory: "guarniciones", description: "Chorizo a la plancha", tapersCount: 1 },
+  { id: "guar-05", name: "Porción de Tocino", price: 5.00, category: "guarniciones", subcategory: "guarniciones", description: "Tocino crocante", tapersCount: 1 },
   { id: "guar-06", name: "Porción d' Arroz Blanco", price: 6.00, category: "guarniciones", subcategory: "guarniciones", description: "Porción de arroz blanco graneado", tapersCount: 1 },
-  { id: "guar-07", name: "Porción de Hotdog", price: 6.00, category: "guarniciones", subcategory: "guarniciones", description: "Hotdog frito", tapersCount: 0 },
+  { id: "guar-07", name: "Porción de Hotdog", price: 6.00, category: "guarniciones", subcategory: "guarniciones", description: "Hotdog frito", tapersCount: 1 },
   { id: "guar-08", name: "Porción d' Papas Fritas", price: 10.00, category: "guarniciones", subcategory: "guarniciones", description: "Papas fritas crocantes", tapersCount: 1 },
   { id: "guar-09", name: "Porción d' Arroz Chaufa", price: 15.00, category: "guarniciones", subcategory: "guarniciones", description: "Porción de arroz chaufa al wok", tapersCount: 1 }
 ];

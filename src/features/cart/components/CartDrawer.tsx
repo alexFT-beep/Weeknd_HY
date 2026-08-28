@@ -49,7 +49,6 @@ const getItemTapersCount = (item: CartItem): number => {
   if (lowerName.includes('ronda') || lowerName.includes('ruleta') || lowerName.includes('carrusel')) return 5;
   if (lowerName.includes('trío') || lowerName.includes('trio')) return 3;
   if (lowerName.includes('dúo') || lowerName.includes('duo')) return 2;
-  if (['refrescos', 'bubble-tea'].includes(item.product.category)) return 0;
   return 1;
 };
 
