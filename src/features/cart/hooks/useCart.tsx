@@ -146,9 +146,21 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const totals = useMemo<CartTotals>(() => {
     const subtotal = items.reduce((acc, item) => acc + (item.product.price * item.quantity), 0);
     const totalTapers = items.reduce((acc, item) => {
-      const countPerUnit = item.product.tapersCount !== undefined
-        ? item.product.tapersCount
-        : (['guarniciones', 'refrescos', 'bubble-tea'].includes(item.product.category) ? 0 : 1);
+      let countPerUnit = item.product.tapersCount;
+      if (countPerUnit === undefined) {
+        const lowerName = item.product.name.toLowerCase();
+        if (lowerName.includes('ronda') || lowerName.includes('ruleta') || lowerName.includes('carrusel')) {
+          countPerUnit = 5;
+        } else if (lowerName.includes('trío') || lowerName.includes('trio')) {
+          countPerUnit = 3;
+        } else if (lowerName.includes('dúo') || lowerName.includes('duo')) {
+          countPerUnit = 2;
+        } else if (['refrescos', 'bubble-tea'].includes(item.product.category)) {
+          countPerUnit = 0;
+        } else {
+          countPerUnit = 1;
+        }
+      }
       return acc + (countPerUnit * item.quantity);
     }, 0);
     const taperFee = totalTapers * 1.00;

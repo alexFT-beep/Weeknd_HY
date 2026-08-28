@@ -8,6 +8,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingBag, Trash2, Plus, Minus, Send, MapPin, CreditCard, Sparkles, User } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
+import { CartItem } from '../types';
 import { DELIVERY_ZONES, PAYMENT_INFO } from '../../../data/fullMenuData';
 import { whatsappOrderService } from '../../orders/services/whatsappOrderService';
 import { CustomDropdown, DropdownOption } from './CustomDropdown';
@@ -42,6 +43,16 @@ const PAYMENT_METHOD_OPTIONS: DropdownOption[] = [
 /**
  * Componente interactivo del panel lateral del carrito de compras.
  */
+const getItemTapersCount = (item: CartItem): number => {
+  if (item.product.tapersCount !== undefined) return item.product.tapersCount;
+  const lowerName = item.product.name.toLowerCase();
+  if (lowerName.includes('ronda') || lowerName.includes('ruleta') || lowerName.includes('carrusel')) return 5;
+  if (lowerName.includes('trío') || lowerName.includes('trio')) return 3;
+  if (lowerName.includes('dúo') || lowerName.includes('duo')) return 2;
+  if (['refrescos', 'bubble-tea'].includes(item.product.category)) return 0;
+  return 1;
+};
+
 export const CartDrawer: React.FC = () => {
 
   const {
@@ -188,9 +199,16 @@ export const CartDrawer: React.FC = () => {
                           <h4 className="font-extrabold text-xs text-white uppercase truncate">
                             {item.product.name}
                           </h4>
-                          <p className="text-[11px] text-[#c900ff] font-bold mt-0.5">
-                            S/ {item.product.price.toFixed(2)} c/u
-                          </p>
+                          <div className="flex items-center gap-1.5 flex-wrap mt-0.5">
+                            <span className="text-[11px] text-[#c900ff] font-bold">
+                              S/ {item.product.price.toFixed(2)} c/u
+                            </span>
+                            {getItemTapersCount(item) > 0 && (
+                              <span className="text-[10px] text-amber-300 font-semibold bg-amber-400/10 px-1.5 py-0.5 rounded border border-amber-400/25">
+                                📦 {getItemTapersCount(item) * item.quantity} {getItemTapersCount(item) * item.quantity === 1 ? 'táper' : 'táperes'} (+S/ {(getItemTapersCount(item) * item.quantity).toFixed(2)})
+                              </span>
+                            )}
+                          </div>
                         </div>
 
                         <div className="flex items-center gap-2">

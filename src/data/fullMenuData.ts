@@ -111,11 +111,11 @@ export const FULL_MENU_ITEMS: MenuItem[] = [
   { id: "ali-29", name: "Alitas en Salsa Ranch", price: 27, category: "alitas", subcategory: "alitas-individuales", description: "08 unidades + papas fritas + ensalada" },
   { id: "ali-30", name: "Alitas en Salsa Maracumango", price: 27, category: "alitas", subcategory: "alitas-individuales", description: "08 unidades + papas fritas + ensalada" },
   { id: "ali-31", name: "Alitas en Salsa Naranja", price: 27, category: "alitas", subcategory: "alitas-individuales", description: "08 unidades + papas fritas + ensalada" },
-  { id: "combo-duo", name: "Dúo de Alitas", price: 40, category: "alitas", subcategory: "rondas-alitas", description: "12 alitas + papas fritas + ensalada (02 sabores a elección)", badge: "RECOMENDADO" },
-  { id: "combo-trio", name: "Trío de Alitas", price: 65, category: "alitas", subcategory: "rondas-alitas", description: "18 alitas + papas fritas + ensalada (03 sabores / 3 personas)", badge: "RECOMENDADO" },
-  { id: "combo-ruleta", name: "Ruleta Weekend", price: 80, category: "alitas", subcategory: "rondas-alitas", description: "20 alitas + papas fritas + ensalada (04 sabores a elección)", tapersCount: 2 },
-  { id: "combo-carrusel", name: "Carrusel Weekend", price: 85, category: "alitas", subcategory: "rondas-alitas", description: "24 alitas + papas fritas + ensalada (04 sabores a elección)", tapersCount: 2 },
-  { id: "combo-ronda", name: "Ronda Festival D' Sabores", price: 108, category: "alitas", subcategory: "rondas-alitas", description: "30 alitas + papas fritas + ensalada (05 sabores / 5 personas)", badge: "GRAN FESTIVAL", tapersCount: 2 },
+  { id: "combo-duo", name: "Dúo de Alitas", price: 40, category: "alitas", subcategory: "rondas-alitas", description: "12 alitas + papas fritas + ensalada (02 sabores a elección)", tapersCount: 2, badge: "RECOMENDADO" },
+  { id: "combo-trio", name: "Trío de Alitas", price: 65, category: "alitas", subcategory: "rondas-alitas", description: "18 alitas + papas fritas + ensalada (03 sabores / 3 personas)", tapersCount: 3, badge: "RECOMENDADO" },
+  { id: "combo-ruleta", name: "Ruleta Weekend", price: 80, category: "alitas", subcategory: "rondas-alitas", description: "20 alitas + papas fritas + ensalada (04 sabores a elección)", tapersCount: 5 },
+  { id: "combo-carrusel", name: "Carrusel Weekend", price: 85, category: "alitas", subcategory: "rondas-alitas", description: "24 alitas + papas fritas + ensalada (04 sabores a elección)", tapersCount: 5 },
+  { id: "combo-ronda", name: "Ronda Festival D' Sabores", price: 108, category: "alitas", subcategory: "rondas-alitas", description: "30 alitas + papas fritas + ensalada (05 sabores / 5 personas)", tapersCount: 5, badge: "GRAN FESTIVAL" },
   { id: "salsa-extra", name: "Salsa Aparte (Pote adicional)", price: 6, category: "alitas", subcategory: "rondas-alitas", description: "Pote adicional de cualquiera de nuestras 31 salsas artesanales" },
 
   // =================== 2. HAMBURGUESAS ===================
@@ -229,18 +229,18 @@ export const FULL_MENU_ITEMS: MenuItem[] = [
   { id: "mar-chich-04", name: "Chicharrón de Mariscos", price: 38, category: "marina", subcategory: "marina", description: "Mixtura generosa de mariscos crocantes servidos con yucas doradas y salsas", tapersCount: 1 },
 
   // --- DÚOS MARINOS ---
-  { id: "mar-duo-01", name: "Dúo Mixto", price: 38, category: "marina", subcategory: "marina", description: "Combinación marina de ceviche mixto con chicharrón mixto crocante", tapersCount: 1, badge: "MÁS PEDIDO" },
-  { id: "mar-duo-02", name: "Dúo de Pescado", price: 36, category: "marina", subcategory: "marina", description: "Ceviche de pescado fresco + Chicharrón de pescado con yucas y camote", tapersCount: 1 },
-  { id: "mar-duo-03", name: "Dúo El Marisco", price: 43, category: "marina", subcategory: "marina", description: "Dúo marino cargado con arroz con mariscos o chaufa + chicharrón de mariscos", tapersCount: 1, badge: "ESPECIAL" },
+  { id: "mar-duo-01", name: "Dúo Mixto", price: 38, category: "marina", subcategory: "marina", description: "Combinación marina de ceviche mixto con chicharrón mixto crocante", tapersCount: 2, badge: "MÁS PEDIDO" },
+  { id: "mar-duo-02", name: "Dúo de Pescado", price: 36, category: "marina", subcategory: "marina", description: "Ceviche de pescado fresco + Chicharrón de pescado con yucas y camote", tapersCount: 2 },
+  { id: "mar-duo-03", name: "Dúo El Marisco", price: 43, category: "marina", subcategory: "marina", description: "Dúo marino cargado con arroz con mariscos o chaufa + chicharrón de mariscos", tapersCount: 2, badge: "ESPECIAL" },
 
   // --- TRÍOS MARINOS ---
-  { id: "mar-trio-01", name: "Trío Mixto", price: 45, category: "marina", subcategory: "marina", description: "Ceviche mixto + Arroz con mariscos + Chicharrón mixto crocante", tapersCount: 1, badge: "FESTÍN" },
-  { id: "mar-trio-02", name: "Trío de Pescado", price: 42, category: "marina", subcategory: "marina", description: "Ceviche de pescado + Arroz con mariscos + Chicharrón de pescado", tapersCount: 1 },
-  { id: "mar-trio-03", name: "Trío de Mariscos", price: 48, category: "marina", subcategory: "marina", description: "Ceviche mixto especial + Arroz con mariscos + Chicharrón de mariscos", tapersCount: 1, badge: "RECOMENDADO" },
+  { id: "mar-trio-01", name: "Trío Mixto", price: 45, category: "marina", subcategory: "marina", description: "Ceviche mixto + Arroz con mariscos + Chicharrón mixto crocante", tapersCount: 3, badge: "FESTÍN" },
+  { id: "mar-trio-02", name: "Trío de Pescado", price: 42, category: "marina", subcategory: "marina", description: "Ceviche de pescado + Arroz con mariscos + Chicharrón de pescado", tapersCount: 3 },
+  { id: "mar-trio-03", name: "Trío de Mariscos", price: 48, category: "marina", subcategory: "marina", description: "Ceviche mixto especial + Arroz con mariscos + Chicharrón de mariscos", tapersCount: 3, badge: "RECOMENDADO" },
 
   // --- RONDAS MARINAS ---
-  { id: "mar-ronda-01", name: "Ronda Marina de Pescado", price: 90, category: "marina", subcategory: "marina", description: "Gran banquete: Ceviche de pescado + Chicharrón de pescado + Arroz c/ mariscos + Chaufa de marisco + Picante de mariscos", tapersCount: 2, badge: "BANQUETE FAMILIAR" },
-  { id: "mar-ronda-02", name: "Ronda Marina Mixta", price: 95, category: "marina", subcategory: "marina", description: "El festín marino definitivo: Ceviche mixto + Chicharrón mixto + Arroz c/ mariscos + Chaufa de marisco + Picante de mariscos", tapersCount: 2, badge: "MEGA RONDA" },
+  { id: "mar-ronda-01", name: "Ronda Marina de Pescado", price: 90, category: "marina", subcategory: "marina", description: "Gran banquete: Ceviche de pescado + Chicharrón de pescado + Arroz c/ mariscos + Chaufa de marisco + Picante de mariscos", tapersCount: 5, badge: "BANQUETE FAMILIAR" },
+  { id: "mar-ronda-02", name: "Ronda Marina Mixta", price: 95, category: "marina", subcategory: "marina", description: "El festín marino definitivo: Ceviche mixto + Chicharrón mixto + Arroz c/ mariscos + Chaufa de marisco + Picante de mariscos", tapersCount: 5, badge: "MEGA RONDA" },
 
   // =================== 7. PASTAS ===================
   { id: "past-01", name: "Fetuccini a la Huancaína", price: 22, category: "pastas", subcategory: "pastas", description: "Fetuccinis en salsa huancaína artesanal" },
