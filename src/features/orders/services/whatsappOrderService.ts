@@ -78,7 +78,6 @@ export const whatsappOrderService = {
     if (isDeliveryOrder) {
       formattedMessageText += `📍 Dirección: ${address || 'No especificada'}\n`;
       formattedMessageText += `🏛️ Referencia: ${reference || 'Sin referencia'}\n`;
-      formattedMessageText += `🛵 Zona Delivery: ${selectedZone.name}\n`;
     } else {
       formattedMessageText += `🪑 Detalle de Reserva / Mesa: ${tableNumber || 'Por coordinar en local'}\n`;
     }
