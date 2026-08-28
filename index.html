@@ -15,29 +15,36 @@
   <!-- Primary SEO Meta Tags -->
   <title>Weekend - Huarmey | Carta Digital &amp; Delivery</title>
   <meta name="title" content="Weekend - Huarmey | Carta Digital &amp; Delivery" />
-  <meta name="description" content="Carta digital interactiva de Weekend - Huarmey. Alitas en 31 salsas artesanales, hamburguesas gourmet, parrillas, chifa, pastas y pedidos directos por WhatsApp." />
+  <meta name="description" content="Carta digital interactiva de Weekend - Huarmey. Alitas en 31 salsas artesanales, hamburguesas gourmet, parrillas, ceviches, makis y pedidos directos por WhatsApp." />
   <meta name="keywords" content="Weekend Huarmey, weeknd huarmey, carta digital huarmey, delivery huarmey, alitas huarmey, restaurante huarmey, lounge huarmey, hamburguesas huarmey, comida huarmey" />
   <meta name="author" content="Weekend Restaurant &amp; Lounge S.A.C." />
   <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#0acc80" />
-  <link rel="canonical" href="https://theweekendhuarmey.com/" />
-  <link rel="icon" type="image/webp" href="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" />
+  <meta name="theme-color" content="#c900ff" />
+  <link rel="canonical" href="https://weeknd-huarmey.vercel.app/" />
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="restaurant.restaurant" />
-  <meta property="og:url" content="https://theweekendhuarmey.com/" />
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://weeknd-huarmey.vercel.app/" />
   <meta property="og:title" content="Weekend - Huarmey | Carta Digital &amp; Delivery" />
-  <meta property="og:description" content="Pide alitas en 31 salsas, hamburguesas, parrillas, pastas con delivery rápido en todo Huarmey." />
-  <meta property="og:image" content="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" />
+  <meta property="og:description" content="Pide alitas en 31 salsas, hamburguesas, parrillas, ceviches, makis y bebidas con delivery rápido en todo Huarmey." />
+  <meta property="og:image" content="https://weeknd-huarmey.vercel.app/og-image.jpg" />
+  <meta property="og:image:secure_url" content="https://weeknd-huarmey.vercel.app/og-image.jpg" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Weekend Huarmey - Lounge &amp; Restaurant" />
   <meta property="og:site_name" content="Weekend - Huarmey" />
   <meta property="og:locale" content="es_PE" />
 
   <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://theweekendhuarmey.com/" />
+  <meta name="twitter:url" content="https://weeknd-huarmey.vercel.app/" />
   <meta name="twitter:title" content="Weekend - Huarmey | Carta Digital &amp; Delivery" />
-  <meta name="twitter:description" content="Pide alitas en 31 salsas, hamburguesas, parrillas, pastas con delivery rápido en todo Huarmey." />
-  <meta name="twitter:image" content="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp" />
+  <meta name="twitter:description" content="Pide alitas en 31 salsas, hamburguesas, parrillas, ceviches, makis y bebidas con delivery rápido en todo Huarmey." />
+  <meta name="twitter:image" content="https://weeknd-huarmey.vercel.app/og-image.jpg" />
 
   <!-- Geo Meta Tags (Huarmey, Ancash, Perú) -->
   <meta name="geo.region" content="PE-ANC" />
@@ -51,12 +58,12 @@
     "@context": "https://schema.org",
     "@type": "Restaurant",
     "name": "Weekend - Huarmey",
-    "image": "https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp",
-    "@id": "https://theweekendhuarmey.com",
-    "url": "https://theweekendhuarmey.com",
+    "image": "https://weeknd-huarmey.vercel.app/og-image.jpg",
+    "@id": "https://weeknd-huarmey.vercel.app",
+    "url": "https://weeknd-huarmey.vercel.app",
     "telephone": "+51961336674",
     "priceRange": "S/ 15.00 - S/ 108.00",
-    "menu": "https://theweekendhuarmey.com/#alitas",
+    "menu": "https://weeknd-huarmey.vercel.app/#carta",
     "servesCuisine": ["Peruvian", "Wings", "Fast Food", "Burgers", "Grill", "Chifa", "Cocktails"],
     "address": {
       "@type": "PostalAddress",
@@ -96,6 +103,23 @@
   <!-- Preload Critical Logo Asset -->
   <link rel="preload" as="image" fetchpriority="high"
     href="https://wdirdbryxwtbnprbrkvh.supabase.co/storage/v1/object/public/The_Weeknd/logo_weeknd.webp">
+
+  <!-- Dynamic Metadata Sync for Native Browser Share & Preview -->
+  <script>
+    (function() {
+      try {
+        var origin = window.location.origin;
+        if (origin && origin.indexOf('http') === 0) {
+          var canonical = document.querySelector('link[rel="canonical"]');
+          if (canonical) canonical.href = origin + window.location.pathname;
+          var ogUrl = document.querySelector('meta[property="og:url"]');
+          if (ogUrl) ogUrl.content = origin + window.location.pathname;
+          var twUrl = document.querySelector('meta[name="twitter:url"]');
+          if (twUrl) twUrl.content = origin + window.location.pathname;
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 
 <body class="theme-premium-night">

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://theweekendhuarmey.com/sitemap.xml
+Sitemap: https://weeknd-huarmey.vercel.app/sitemap.xml

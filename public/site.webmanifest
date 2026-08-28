@@ -1,0 +1,27 @@
+{
+  "name": "Weekend - Huarmey | Carta Digital & Delivery",
+  "short_name": "Weekend",
+  "description": "Carta digital interactiva y pedidos delivery de Weekend Lounge & Restaurant en Huarmey.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#c900ff",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
