@@ -296,6 +296,14 @@ export const CartDrawer: React.FC = () => {
                         onChange={e => updateCustomerData({ notes: e.target.value })}
                         className="w-full bg-zinc-900/90 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-gray-500 focus:outline-none focus:border-[#c900ff] focus:ring-1 focus:ring-[#c900ff] transition-all resize-none"
                       />
+
+                      {/* NOTA Informativa del Costo de Delivery */}
+                      <div className="flex items-start gap-2.5 p-3 rounded-xl bg-[#c900ff]/10 border border-[#c900ff]/30 text-zinc-300 text-xs">
+                        <Sparkles className="w-4 h-4 text-[#c900ff] shrink-0 mt-0.5" />
+                        <p className="leading-snug">
+                          <strong className="text-white font-bold">Nota:</strong> El costo por Delivery se confirmará por WhatsApp según distancia.
+                        </p>
+                      </div>
                     </div>
                   </form>
                 )}
@@ -314,13 +322,6 @@ export const CartDrawer: React.FC = () => {
                       <div className="flex justify-between text-amber-300/90">
                         <span>📦 Envases / Táperes ({totals.totalTapers} und):</span>
                         <span className="font-bold">+S/ {totals.taperFee.toFixed(2)}</span>
-                      </div>
-                    )}
-
-                    {orderType === 'delivery' && (
-                      <div className="flex justify-between">
-                        <span>Delivery ({selectedZone.name}):</span>
-                        <span className="font-bold text-[#c900ff]">+S/ {totals.deliveryFee.toFixed(2)}</span>
                       </div>
                     )}
 

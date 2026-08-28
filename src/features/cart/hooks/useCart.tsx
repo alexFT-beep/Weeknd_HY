@@ -148,15 +148,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const totalTapers = items.reduce((acc, item) => {
       const countPerUnit = item.product.tapersCount !== undefined
         ? item.product.tapersCount
-        : (['guarniciones', 'refrescos', 'jugos', 'bubble-tea'].includes(item.product.category) ? 0 : 1);
+        : (['guarniciones', 'refrescos', 'bubble-tea'].includes(item.product.category) ? 0 : 1);
       return acc + (countPerUnit * item.quantity);
     }, 0);
     const taperFee = totalTapers * 1.00;
-    const deliveryFee = orderType === 'delivery' ? selectedZone.fee : 0;
-    const total = subtotal + taperFee + deliveryFee;
+    const deliveryFee = 0; // Costo por delivery se confirma por WhatsApp según distancia
+    const total = subtotal + taperFee;
 
     return { subtotal, totalTapers, taperFee, deliveryFee, total };
-  }, [items, orderType, selectedZone]);
+  }, [items]);
 
   const contextValue = useMemo<CartContextValue>(
     () => ({

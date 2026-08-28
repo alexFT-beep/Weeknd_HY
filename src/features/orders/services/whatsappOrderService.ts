@@ -56,7 +56,7 @@ export const whatsappOrderService = {
     }
 
     if (isDeliveryOrder) {
-      formattedMessageText += `• Costo Delivery (${selectedZone.name}): S/ ${deliveryFee.toFixed(2)}\n`;
+      formattedMessageText += `• Delivery: Se confirmará por WhatsApp según distancia\n`;
     }
 
     formattedMessageText += `*• TOTAL A PAGAR: S/ ${total.toFixed(2)}*\n\n`;
