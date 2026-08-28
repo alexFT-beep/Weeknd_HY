@@ -278,26 +278,6 @@ export function SocialGalleryView({ onOpenReserva, onOpenMenu, onBackToHome }: S
         </motion.div>
 
       </div>
-
-      {/* FOOTER */}
-      <footer className="border-t border-white/10 py-10 bg-[#040406] text-center text-xs text-zinc-400 relative z-10">
-        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="font-medium tracking-wide">
-            &copy; {new Date().getFullYear()} WEEKEND Huarmey &bull; Av. Cabo 140, Huarmey 02651
-          </p>
-          <p className="tracking-wider">
-            Web &amp; Carta virtual hecha por{' '}
-            <a
-              href="https://www.instagram.com/mywebsitee/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold text-[#B026FF] hover:text-white transition-all underline decoration-[#B026FF]/50 hover:decoration-white drop-shadow-[0_0_10px_rgba(176,38,255,0.75)] cursor-pointer"
-            >
-              @MyWebsite
-            </a>
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
