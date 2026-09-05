@@ -257,6 +257,7 @@ export const CartDrawer: React.FC = () => {
                       <input
                         type="text"
                         required
+                        maxLength={80}
                         placeholder="Tu Nombre completo *"
                         value={customerData.customerName}
                         onChange={e => updateCustomerData({ customerName: e.target.value })}
@@ -267,6 +268,7 @@ export const CartDrawer: React.FC = () => {
                       <input
                         type="tel"
                         required
+                        maxLength={20}
                         placeholder="Número telefónico / WhatsApp *"
                         value={customerData.phone}
                         onChange={e => updateCustomerData({ phone: e.target.value })}
@@ -279,6 +281,7 @@ export const CartDrawer: React.FC = () => {
                           <input
                             type="text"
                             required
+                            maxLength={150}
                             placeholder="Dirección exacta (Calle, Mz, Lt, Nro) *"
                             value={customerData.address}
                             onChange={e => updateCustomerData({ address: e.target.value })}
@@ -288,6 +291,7 @@ export const CartDrawer: React.FC = () => {
                           {/* Campo 4 (Texto): Referencia de ubicación (ej: al frente de sanny) */}
                           <input
                             type="text"
+                            maxLength={150}
                             placeholder="Referencia de ubicación (ej: al frente de sanny)"
                             value={customerData.reference}
                             onChange={e => updateCustomerData({ reference: e.target.value })}
@@ -297,6 +301,7 @@ export const CartDrawer: React.FC = () => {
                       ) : (
                         <input
                           type="text"
+                          maxLength={30}
                           placeholder="Número de Mesa o ubicación en local *"
                           value={customerData.tableNumber}
                           onChange={e => updateCustomerData({ tableNumber: e.target.value })}
@@ -316,6 +321,7 @@ export const CartDrawer: React.FC = () => {
                       {/* Campo 5 (Textarea/Input): Observaciones generales para cocina / delivery... */}
                       <textarea
                         rows={2}
+                        maxLength={300}
                         placeholder="Observaciones generales para cocina / delivery..."
                         value={customerData.notes}
                         onChange={e => updateCustomerData({ notes: e.target.value })}

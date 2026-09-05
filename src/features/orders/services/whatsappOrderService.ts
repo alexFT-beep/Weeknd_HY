@@ -7,12 +7,13 @@
 import { OrderPayload } from '../types';
 import { PAYMENT_INFO } from '../../../data/fullMenuData';
 
-/** Sanitiza texto eliminando caracteres de control peligrosos */
-function sanitizeText(str: string | undefined): string {
+/** Sanitiza texto eliminando caracteres de control peligrosos y limitando su longitud máxima */
+function sanitizeText(str: string | undefined, maxLength = 200): string {
   if (!str) return '';
   return str
     .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F-\u009F]/g, '')
-    .trim();
+    .trim()
+    .slice(0, maxLength);
 }
 
 export const whatsappOrderService = {
@@ -25,19 +26,20 @@ export const whatsappOrderService = {
     const { items, orderType, selectedZone, customerData, subtotal, totalTapers, taperFee, deliveryFee, total } = payload;
     const isDeliveryOrder = orderType === 'delivery';
 
-    const customerName = sanitizeText(customerData.customerName);
-    const phone = sanitizeText(customerData.phone);
-    const address = sanitizeText(customerData.address);
-    const reference = sanitizeText(customerData.reference);
-    const tableNumber = sanitizeText(customerData.tableNumber);
-    const paymentMethod = sanitizeText(customerData.paymentMethod);
-    const notes = sanitizeText(customerData.notes);
+    const customerName = sanitizeText(customerData.customerName, 80);
+    const phone = sanitizeText(customerData.phone, 20);
+    const address = sanitizeText(customerData.address, 150);
+    const reference = sanitizeText(customerData.reference, 150);
+    const tableNumber = sanitizeText(customerData.tableNumber, 30);
+    const paymentMethod = sanitizeText(customerData.paymentMethod, 50);
+    const notes = sanitizeText(customerData.notes, 300);
 
     let formattedMessageText = `*🍔 ¡NUEVO PEDIDO WEEKEND! 🍹*\n\n`;
     formattedMessageText += `*TIPO:* ${isDeliveryOrder ? '🚀 DELIVERY A DOMICILIO' : '🍽️ CONSUMO EN MESA / RESTAURANTE'}\n`;
     formattedMessageText += `-------------------------------------------\n`;
 
-    items.forEach((item, index) => {
+    const safeItems = items.slice(0, 50);
+    safeItems.forEach((item, index) => {
       const itemTotalFormatted = (item.product.price * item.quantity).toFixed(2);
       formattedMessageText += `*${index + 1}. ${item.product.name}*\n`;
       formattedMessageText += `   Cantidad: x${item.quantity}  |  Precio: S/ ${itemTotalFormatted}\n`;
@@ -89,7 +91,10 @@ export const whatsappOrderService = {
    * @param payload Datos del pedido a convertir en mensaje de WhatsApp.
    */
   sendOrderViaWhatsApp(payload: OrderPayload): void {
-    const rawMessageText = this.buildWhatsAppMessage(payload);
+    let rawMessageText = this.buildWhatsAppMessage(payload);
+    if (rawMessageText.length > 3500) {
+      rawMessageText = rawMessageText.slice(0, 3450) + '\n... [Texto acotado por seguridad]';
+    }
     const encodedMessageText = encodeURIComponent(rawMessageText);
     const whatsappApiUrl = `https://api.whatsapp.com/send?phone=${PAYMENT_INFO.whatsappNumber}&text=${encodedMessageText}`;
     window.open(whatsappApiUrl, '_blank', 'noopener,noreferrer');

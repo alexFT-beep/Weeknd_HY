@@ -90,9 +90,10 @@ export const MenuSearchModal: React.FC<MenuSearchModalProps> = ({ isOpen, onClos
             <input
               type="text"
               autoFocus
+              maxLength={80}
               placeholder="Buscar por alitas, hamburguesas, bebidas, salsas..."
               value={query}
-              onChange={e => setQuery(e.target.value)}
+              onChange={e => setQuery(e.target.value.slice(0, 80))}
               className="flex-1 bg-transparent border-none outline-none text-white placeholder-gray-500 text-sm font-medium"
             />
             {query && (

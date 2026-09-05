@@ -33,12 +33,17 @@ export const ReservaPage: React.FC = () => {
 
   const handleReserve = (e: React.FormEvent) => {
     e.preventDefault();
+    const sanitize = (text: string) => text.replace(/[\u0000-\u001F\u007F-\u009F]/g, '').trim();
+    const safeNombre = sanitize(form.nombre).slice(0, 80);
+    const safeTelefono = sanitize(form.telefono).slice(0, 20);
+    const safePersonas = Math.min(Math.max(1, parseInt(form.personas, 10) || 1), 50);
+
     let msg = `*🪑 ¡NUEVA RESERVA DE MESA EN WEEKEND!*\n\n`;
-    msg += `👤 *Nombre:* ${form.nombre}\n`;
-    msg += `📱 *Teléfono:* ${form.telefono}\n`;
+    msg += `👤 *Nombre:* ${safeNombre}\n`;
+    msg += `📱 *Teléfono:* ${safeTelefono}\n`;
     msg += `📅 *Fecha:* ${form.fecha}\n`;
     msg += `⏰ *Hora:* ${form.hora}\n`;
-    msg += `👥 *Personas:* ${form.personas} persona(s)\n`;
+    msg += `👥 *Personas:* ${safePersonas} persona(s)\n`;
     msg += `🎉 *Motivo:* ${form.motivo}\n\n`;
     msg += `Por favor, confirmen disponibilidad. ¡Muchas gracias!`;
 
@@ -112,6 +117,7 @@ export const ReservaPage: React.FC = () => {
                     <input
                       type="text"
                       required
+                      maxLength={80}
                       placeholder="Tu nombre"
                       className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] transition-all text-white"
                       value={form.nombre}
@@ -125,6 +131,7 @@ export const ReservaPage: React.FC = () => {
                     <input
                       type="tel"
                       required
+                      maxLength={20}
                       placeholder="Ej: 961 336 674"
                       className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] transition-all text-white"
                       value={form.telefono}
@@ -171,6 +178,7 @@ export const ReservaPage: React.FC = () => {
                       type="number"
                       required
                       min="1"
+                      max="50"
                       placeholder="Ej: 4"
                       className="w-full bg-black/60 border border-white/10 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#C900FF] transition-all text-white"
                       value={form.personas}

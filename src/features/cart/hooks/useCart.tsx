@@ -86,15 +86,21 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const handleCloseCartDrawer = useCallback(() => setIsOpen(false), []);
   const handleToggleCartDrawer = useCallback(() => setIsOpen(prev => !prev), []);
 
+  const MAX_CART_ITEMS = 50;
+  const MAX_ITEM_QUANTITY = 99;
+
   const handleAddItemToCart = useCallback((product: MenuItem) => {
     setItems(prevItems => {
       const existingProduct = prevItems.find(item => item.product.id === product.id);
       if (existingProduct) {
         return prevItems.map(item =>
           item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: Math.min(item.quantity + 1, MAX_ITEM_QUANTITY) }
             : item
         );
+      }
+      if (prevItems.length >= MAX_CART_ITEMS) {
+        return prevItems;
       }
       return [...prevItems, { product, quantity: 1 }];
     });
@@ -110,7 +116,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .map(item => {
           if (item.product.id === productId) {
             const calculatedQuantity = item.quantity + delta;
-            return calculatedQuantity > 0 ? { ...item, quantity: calculatedQuantity } : null;
+            if (calculatedQuantity <= 0) return null;
+            return { ...item, quantity: Math.min(calculatedQuantity, MAX_ITEM_QUANTITY) };
           }
           return item;
         })
@@ -123,9 +130,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       handleRemoveItemFromCart(productId);
       return;
     }
+    const boundedQuantity = Math.min(Math.floor(quantity), MAX_ITEM_QUANTITY);
     setItems(prevItems =>
       prevItems.map(item =>
-        item.product.id === productId ? { ...item, quantity } : item
+        item.product.id === productId ? { ...item, quantity: boundedQuantity } : item
       )
     );
   }, [handleRemoveItemFromCart]);
@@ -136,7 +144,18 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const handleUpdateCustomerFormData = useCallback((data: Partial<CustomerFormData>) => {
-    setCustomerData(prev => ({ ...prev, ...data }));
+    setCustomerData(prev => {
+      const updated = { ...prev, ...data };
+      return {
+        customerName: (updated.customerName || '').slice(0, 80),
+        phone: (updated.phone || '').slice(0, 20),
+        address: (updated.address || '').slice(0, 150),
+        reference: (updated.reference || '').slice(0, 150),
+        tableNumber: (updated.tableNumber || '').slice(0, 30),
+        paymentMethod: updated.paymentMethod || 'Yape (QR / Billetera)',
+        notes: (updated.notes || '').slice(0, 300)
+      };
+    });
   }, []);
 
   const totalQuantity = useMemo(() => {

@@ -33,7 +33,7 @@ export const menuService = {
    * @param searchQueryText Consulta de búsqueda en texto plano.
    */
   searchItems(searchQueryText: string): MenuItem[] {
-    const normalizedQuery = searchQueryText.trim().toLowerCase();
+    const normalizedQuery = searchQueryText.trim().toLowerCase().slice(0, 80);
     if (!normalizedQuery) return FULL_MENU_ITEMS;
 
     return FULL_MENU_ITEMS.filter(
